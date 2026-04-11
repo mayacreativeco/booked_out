@@ -23,10 +23,12 @@ if (!name) {
   process.exit(1);
 }
 
-const { token, url } = await createClient(name, {});
+(async () => {
+  const { token, url } = await createClient(name, {});
 
-console.log('\n✓ Client created successfully\n');
-console.log(`  Name   : ${name}`);
-console.log(`  Token  : ${token}`);
-console.log(`  URL    : ${url}`);
-console.log('\nSend the URL above to your client.\n');
+  console.log('\n✓ Client created successfully\n');
+  console.log(`  Name   : ${name}`);
+  console.log(`  Token  : ${token}`);
+  console.log(`  URL    : ${url}`);
+  console.log('\nSend the URL above to your client.\n');
+})();
