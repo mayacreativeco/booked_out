@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>03 · Scripts — Command Center</title>
+<meta name="robots" content="noindex, nofollow" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = { theme: { extend: {
+    fontFamily: {
+      display: ['Space Grotesk', 'system-ui', 'sans-serif'],
+      sans: ['Inter', 'system-ui', 'sans-serif'],
+      mono: ['JetBrains Mono', 'monospace'],
+    },
+    colors: {
+      cream: '#F5F0E4', creamDeep: '#EDE5D2',
+      forest: '#1B3A2F', forestDeep: '#0F2620', forestLight: '#2D5742',
+      moss: '#4A7C59', ink: '#0A1A12', ash: '#4A5C50', line: '#D8D0BE',
+    },
+  }}}
+</script>
+
+<style>
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', system-ui, sans-serif; background-color: #F5F0E4; color: #0A1A12; }
+  .font-display { font-family: 'Space Grotesk', system-ui, sans-serif; letter-spacing: -0.02em; }
+  .font-mono { font-family: 'JetBrains Mono', monospace; }
+  .display-balance { text-wrap: balance; }
+
+  .checkerboard-mini {
+    background-image:
+      linear-gradient(45deg, #1B3A2F 25%, transparent 25%),
+      linear-gradient(-45deg, #1B3A2F 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #1B3A2F 75%),
+      linear-gradient(-45deg, transparent 75%, #1B3A2F 75%);
+    background-size: 8px 8px;
+    background-position: 0 0, 0 4px, 4px -4px, -4px 0;
+  }
+  .checkerboard-cream {
+    background-image:
+      linear-gradient(45deg, #F5F0E4 25%, transparent 25%),
+      linear-gradient(-45deg, #F5F0E4 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #F5F0E4 75%),
+      linear-gradient(-45deg, transparent 75%, #F5F0E4 75%);
+    background-size: 12px 12px;
+    background-position: 0 0, 0 6px, 6px -6px, -6px 0;
+  }
+
+  .rounded-sharp { border-radius: 4px; }
+  .tile-hover { transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s; }
+  .tile-hover:hover { transform: translateY(-2px); border-color: #1B3A2F; box-shadow: 6px 6px 0 #1B3A2F; }
+
+  .script-block {
+    background: #0F2620; color: #F5F0E4; border-radius: 4px;
+    padding: 20px; font-family: 'Inter', sans-serif; font-size: 14px; line-height: 1.65;
+    border-left: 4px solid #4A7C59;
+  }
+  .script-block .placeholder {
+    background: rgba(74,124,89,0.25); color: #F5F0E4;
+    padding: 1px 6px; border-radius: 3px;
+    font-family: 'JetBrains Mono', monospace; font-size: 12px;
+  }
+  .btn-copy {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: transparent; color: #1B3A2F; padding: 8px 14px;
+    border: 1px solid #1B3A2F; border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    cursor: pointer; transition: all 0.15s;
+  }
+  .btn-copy:hover { background: #1B3A2F; color: #F5F0E4; }
+
+  .tab-btn {
+    display: inline-block; padding: 10px 18px; border: 1px solid #D8D0BE;
+    background: #fff; color: #4A5C50; border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace; font-size: 12px; cursor: pointer;
+    transition: all 0.15s;
+  }
+  .tab-btn:hover { border-color: #1B3A2F; color: #1B3A2F; }
+  .tab-btn.active { background: #1B3A2F; color: #F5F0E4; border-color: #1B3A2F; }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; animation: fadeIn 0.3s ease-out; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+</head>
+<body class="bg-cream text-ink">
+
+<!-- Operator bar -->
+<div class="bg-forestDeep text-cream border-b border-forest">
+  <div class="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between text-xs font-mono">
+    <div class="flex items-center gap-4">
+      <span class="text-moss">●</span>
+      <span>Maya_Creative_Co / command_center.v1</span>
+    </div>
+    <div class="hidden sm:flex items-center gap-4 text-cream/60">
+      <span>section: 03_scripts</span>
+      <span>access: lifetime</span>
+    </div>
+  </div>
+</div>
+
+<!-- Top nav -->
+<header class="border-b border-line bg-cream sticky top-0 z-40">
+  <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="index.html" class="flex items-center gap-3">
+      <div class="w-8 h-8 checkerboard-mini rounded-sharp"></div>
+      <div class="leading-tight">
+        <div class="font-display font-bold text-forest text-base">Command Center</div>
+        <div class="font-mono text-[10px] text-ash">booked_out.v1</div>
+      </div>
+    </a>
+    <nav class="hidden lg:flex items-center gap-1 font-mono text-xs">
+      <a href="index.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">hub</a>
+      <a href="01_tools.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">01_tools</a>
+      <a href="02_templates.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">02_templates</a>
+      <a href="03_scripts.html" class="px-3 py-1.5 rounded-sharp bg-forest text-cream">03_scripts</a>
+      <a href="04_videos.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">04_videos</a>
+      <a href="05_vault.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">05_vault</a>
+      <a href="06_bonus.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">06_bonus</a>
+    </nav>
+    <a href="mailto:hello@collegarestudio.com" class="hidden sm:inline-block text-xs font-mono text-forest border border-forest px-3 py-1.5 rounded-sharp hover:bg-forest hover:text-cream transition">support</a>
+  </div>
+</header>
+
+<!-- Section header -->
+<section class="border-b border-line bg-cream">
+  <div class="max-w-6xl mx-auto px-6 py-14">
+    <div class="flex items-center gap-3 mb-5 font-mono text-xs text-ash">
+      <a href="index.html" class="hover:text-forest">hub</a>
+      <span>/</span>
+      <span class="text-moss">03_scripts</span>
+    </div>
+    <p class="font-mono text-xs text-moss mb-4">// section_03</p>
+    <h1 class="font-display text-4xl lg:text-6xl font-bold text-forest mb-5 display-balance">The exact words for the moments that cost you money.</h1>
+    <p class="text-lg text-ash max-w-2xl">Four script categories. Every one is battle-tested on real brand deals. Copy the variant that fits your situation, swap the placeholders, hit send.</p>
+  </div>
+</section>
+
+<!-- Tabs -->
+<section class="bg-creamDeep border-b border-line">
+  <div class="max-w-6xl mx-auto px-6 py-10">
+    <div class="flex flex-wrap gap-3" id="scriptTabs">
+      <button class="tab-btn active" data-tab="cold">01 · cold_outbound</button>
+      <button class="tab-btn" data-tab="warm">02 · warm_followup</button>
+      <button class="tab-btn" data-tab="follow-up">03 · follow_up</button>
+      <button class="tab-btn" data-tab="recovery">04 · recovery</button>
+    </div>
+  </div>
+</section>
+
+<section class="bg-cream">
+  <div class="max-w-5xl mx-auto px-6 py-16">
+
+    <!-- ============ TAB 01 · COLD ============ -->
+    <div class="tab-panel active" id="tab-cold">
+      <div class="mb-8">
+        <p class="font-mono text-xs text-moss mb-2">// scripts_01 · cold_outbound</p>
+        <h2 class="font-display text-3xl font-bold text-forest mb-3">Cold outbound scripts.</h2>
+        <p class="text-ash max-w-2xl">The 3 variants I use for brands that have never heard of me. Pick based on what kind of proof you can lead with.</p>
+      </div>
+
+      <div class="space-y-6">
+        <!-- Cold 01 -->
+        <div class="bg-creamDeep border border-line rounded-sharp p-6">
+          <div class="flex items-center justify-between mb-4">
+            <span class="font-mono text-xs text-forest font-bold">cold_01 · the_product_lead</span>
+            <span class="font-mono text-[11px] text-ash">when: you've used the product</span>
+          </div>
+          <div class="script-block" id="cold-01">Hi <span class="placeholder">[FIRST NAME]</span>,<br/><br/>I'm a UGC creator in the <span class="placeholder">[NICHE]</span> space, and I've been using <span class="placeholder">[PRODUCT]</span> for the last few weeks. The <span class="placeholder">[1 SPECIFIC DETAIL YOU ACTUALLY NOTICED]</span> is unreal — and I already know the exact hook I'd build around it.<br/><br/>I've worked with brands like <span class="placeholder">[2-3 BRANDS, OR "similar DTC brands"]</span>, and my content typically drives <span class="placeholder">[ONE METRIC: engagement rate, CPA, click-through]</span>.<br/><br/>Would you be open to seeing a 2-concept mood-board for <span class="placeholder">[BRAND]</span>? I can have it to you inside 48 hours. Starting rate is $<span class="placeholder">[RATE]</span> for 3 × 30-second verticals with 30 days paid usage.<br/><br/>Either way, big fan of what you're building.<br/><br/>— <span class="placeholder">[YOUR NAME]</span></div>
+          <div class="mt-4"><button class="btn-copy" data-copy="cold-01">Copy script</button></div>
+        </div>
+
+        <!-- Cold 02 -->
+        <div class="bg-creamDeep border border-line rounded-sharp p-6">
+          <div class="flex items-center justify-between mb-4">
+            <span class="font-mono text-xs text-forest font-bold">cold_02 · the_specificity_lead</span>
+            <span class="font-mono text-[11px] text-ash">when: you spotted an opportunity in their ads</span>
+          </div>
+          <div class="script-block" id="cold-02">Hey <span class="placeholder">[FIRST NAME]</span>,<br/><br/>Saw your <span class="placeholder">[SPECIFIC AD / LAUNCH / CAMPAIGN]</span> running on <span class="placeholder">[PLATFORM]</span> — the <span class="placeholder">[WHAT'S WORKING]</span> angle is smart. I've been thinking about how a creator-led version would hit on TikTok, and I think there's a GRWM hook in here that would print.<br/><br/>I'm a UGC creator who's shot for <span class="placeholder">[2-3 SIMILAR BRANDS]</span>. Would you want me to send over 2 concept directions for free? No commitment — just a quick gut-check on whether it's worth building.<br/><br/>If you like what you see, my package starts at $<span class="placeholder">[RATE]</span> for a 3-video drop with 30 days paid usage.<br/><br/>— <span class="placeholder">[YOUR NAME]</span></div>
+          <div class="mt-4"><button class="btn-copy" data-copy="cold-02">Copy script</button></div>
+        </div>
+
+        <!-- Cold 03 -->
+        <div class="bg-creamDeep border border-line rounded-sharp p-6">
+          <div class="flex items-center justify-between mb-4">
+            <span class="font-mono text-xs text-forest font-bold">cold_03 · the_results_lead</span>
+            <span class="font-mono text-[11px] text-ash">when: you have real numbers to show</span>
+          </div>
+          <div class="script-block" id="cold-03">Hi <span class="placeholder">[FIRST NAME]</span>,<br/><br/>Quick pitch — my recent UGC piece for <span class="placeholder">[COMPARABLE BRAND]</span> drove <span class="placeholder">[METRIC: e.g. 3.2x ROAS at $8 CPA / 2.4M organic views / 62% watch-through]</span>, and I think the same framework would land for <span class="placeholder">[BRAND]</span>, specifically for <span class="placeholder">[PRODUCT / LAUNCH]</span>.<br/><br/>I'd love to send you a 2-minute Loom breaking down the 3 concept directions I'd build. Takes 0 of your time to watch, and you'll know inside 2 minutes whether it's a fit.<br/><br/>If it lands, package starts at $<span class="placeholder">[RATE]</span>.<br/><br/>— <span class="placeholder">[YOUR NAME]</span></div>
+          <div class="mt-4"><button class="btn-copy" data-copy="cold-03">Copy script</button></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ TAB 02 · WARM ============ -->
+    <div class="tab-panel" id="tab-warm">
+      <div class="mb-8">
+        <p class="font-mono text-xs text-moss mb-2">// scripts_02 · warm_followup</p>
+        <h2 class="font-display text-3xl font-bold text-forest mb-3">Warm re-engagement scripts.</h2>
+        <p class="text-ash max-w-2xl">For brands that have worked with you before or already know who you are. The goal: open the door to a second project.</p>
+      </div>
+
+      <div class="space-y-6">
+        <div class="bg-creamDeep border border-line rounded-sharp p-6">
+          <div class="flex items-center justify-between mb-4">
+            <span class="font-mono text-xs text-forest font-bold">warm_01 · past_client_reactivation</span>
+            <span class="font-mono text-[11px] text-ash">when: 60+ days since the last project</span>
+          </div>
+          <div class="script-block" id="warm-01">Hey <span class="placeholder">[FIRST NAME]</span>,<br/><br/>Circling back because I've been sitting on a concept I think would be perfect for <span class="placeholder">[BRAND]</span> — especially after how well the <span class="placeholder">[PREVIOUS PROJECT]</span> performed.<br/><br/>Idea in one line: <span class="placeholder">[YOUR ONE-LINE CONCEPT]</span>.<br/><br/>I'm holding capacity for one more project in <span class="placeholder">[MONTH]</span> and wanted to offer you first look. Same package structure as last time ($<span class="placeholder">[RATE]</span>), same turnaround.<br/><br/>Want me to send a full brief?<br/><br/>— <span class="placeholder">[YOUR NAME]</span></div>
+          <div class="mt-4"><button class="btn-copy" data-copy="warm-01">Copy script</button></div>
+        </div>
+
+        <div class="bg-creamDeep border border-line rounded-sharp p-6">
+          <div class="flex items-center justify-between mb-4">
+            <span class="font-mono text-xs text-forest font-bold">warm_02 · usage_expiring</span>
+            <span class="font-mono text-[11px] text-ash">when: their paid-usage window is about to close</span>
+          </div>
+          <div class="script-block" id="warm-02">Hi <span class="placeholder">[FIRST NAME]</span>,<br/><br/>Heads up — the usage window on the <span class="placeholder">[PROJECT NAME]</span> content expires on <span class="placeholder">[DATE]</span>. If those pieces are still performing for you, we have a few options:<br/><br/>→ Extend usage for another 90 days at $<span class="placeholder">[EXTENSION RATE]</span><br/>→ Extend for 12 months at $<span class="placeholder">[ANNUAL RATE]</span><br/>→ Refresh the set with 2 new videos + roll prior usage for another 30 days at $<span class="placeholder">[REFRESH RATE]</span><br/><br/>Happy to run the numbers on which option gives you the best CAC.<br/><br/>— <span class="placeholder">[YOUR NAME]</span></div>
+          <div class="mt-4"><button class="btn-copy" data-copy="warm-02">Copy script</button></div>
+        </div>
+
+        <div class="bg-creamDeep border border-line rounded-sharp p-6">
+          <div class="flex items-center justify-between mb-4">
+            <span class="font-mono text-xs text-forest font-bold">warm_03 · referral_request</span>
+            <span class="font-mono text-[11px] text-ash">when: a project just wrapped and went well</span>
+          </div>
+          <div class="script-block" id="warm-03">Hey <span class="placeholder">[FIRST NAME]</span>,<br/><br/>Loved working on <span class="placeholder">[PROJECT]</span> with you. I'm opening two creator slots for <span class="placeholder">[NEXT MONTH]</span> and wanted to ask: is there a brand in your network you think I should know? Ideally <span class="placeholder">[YOUR IDEAL CUSTOMER: e.g. early-stage DTC, beauty/wellness, active on TikTok]</span>.<br/><br/>If yes, a one-sentence intro is all I need. And if you wouldn't mind dropping a quick testimonial about our project — even a few lines — I'll send you a $50 gift card to say thank you.<br/><br/>— <span class="placeholder">[YOUR NAME]</span></div>
+          <div class="mt-4"><button class="btn-copy" data-copy="warm-03">Copy script</button></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ TAB 03 · FOLLOW-UP ============ -->
+    <div class="tab-panel" id="tab-follow-up">
+      <div class="mb-8">
+        <p class="font-mono text-xs text-moss mb-2">// scripts_03 · follow_up</p>
+        <h2 class="font-display text-3xl font-bold text-forest mb-3">Follow-up scripts.</h2>
+        <p class="text-ash max-w-2xl">The 3-touch sequence for leads that went quiet after the initial pitch. Most deals close on touch 2 or 3, not touch 1.</p>
+      </div>
+
+      <div class="space-y-6">
+        <div class="bg-creamDeep border border-line rounded-sharp p-6">
+          <div class="flex items-center justify-between mb-4">
+            <span class="font-mono text-xs text-forest font-bold">follow_up_01 · day_4</span>
+            <span class="font-mono text-[11px] text-ash">touch 2 · short & low-pressure</span>
+          </div>
+          <div class="script-block" id="follow-up-01">Hey <span class="placeholder">[FIRST NAME]</span>,<br/><br/>Floating this back to the top of your inbox in case it got buried. No pressure — just wanted to make sure you saw the concept.<br/><br/>If it's a "not right now", totally fine, just let me know and I'll stop bugging you.<br/><br/>— <span class="placeholder">[YOUR NAME]</span></div>
+          <div class="mt-4"><button class="btn-copy" data-copy="follow-up-01">Copy script</button></div>
+        </div>
+
+        <div class="bg-creamDeep border border-line rounded-sharp p-6">
+          <div class="flex items-center justify-between mb-4">
+            <span class="font-mono text-xs text-forest font-bold">follow_up_02 · day_10</span>
+            <span class="font-mono text-[11px] text-ash">touch 3 · add new value</span>
+          </div>
+          <div class="script-block" id="follow-up-02">Hi <span class="placeholder">[FIRST NAME]</span>,<br/><br/>One more from me. Since I sent the original pitch, I actually shot a spec concept for <span class="placeholder">[BRAND]</span> — you can see it here: <span class="placeholder">[LOOM / DRIVE LINK]</span>.<br/><br/>It's 40 seconds. If you love it, let's talk. If not, I'll go quiet.<br/><br/>— <span class="placeholder">[YOUR NAME]</span></div>
+          <div class="mt-4"><button class="btn-copy" data-copy="follow-up-02">Copy script</button></div>
+        </div>
+
+        <div class="bg-creamDeep border border-line rounded-sharp p-6">
+          <div class="flex items-center justify-between mb-4">
+            <span class="font-mono text-xs text-forest font-bold">follow_up_03 · day_21 · the_breakup</span>
+            <span class="font-mono text-[11px] text-ash">touch 4 · final · works ~30% of the time</span>
+          </div>
+          <div class="script-block" id="follow-up-03">Hey <span class="placeholder">[FIRST NAME]</span>,<br/><br/>Since I haven't heard back, I'm going to assume the timing's not right and close the loop on my end. Totally understand.<br/><br/>If things shift, or if you'd rather I check back in <span class="placeholder">[Q2 / next quarter / after launch]</span>, just reply "later" and I'll queue it for then.<br/><br/>Either way, big fan of what <span class="placeholder">[BRAND]</span> is doing. Go build cool stuff.<br/><br/>— <span class="placeholder">[YOUR NAME]</span></div>
+          <div class="mt-4"><button class="btn-copy" data-copy="follow-up-03">Copy script</button></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ TAB 04 · RECOVERY ============ -->
+    <div class="tab-panel" id="tab-recovery">
+      <div class="mb-8">
+        <p class="font-mono text-xs text-moss mb-2">// scripts_04 · recovery</p>
+        <h2 class="font-display text-3xl font-bold text-forest mb-3">Recovery scripts.</h2>
+        <p class="text-ash max-w-2xl">When a deal goes sideways — missed deadline, bad review, ghosted brand. These scripts bring the project back without sounding defensive.</p>
+      </div>
+
+      <div class="space-y-6">
+        <div class="bg-creamDeep border border-line rounded-sharp p-6">
+          <div class="flex items-center justify-between mb-4">
+            <span class="font-mono text-xs text-forest font-bold">recovery_01 · missed_deadline</span>
+            <span class="font-mono text-[11px] text-ash">when: you're behind because of something on your side</span>
+          </div>
+          <div class="script-block" id="recovery-01">Hey <span class="placeholder">[FIRST NAME]</span>,<br/><br/>Straight talk — I'm not going to hit the <span class="placeholder">[DATE]</span> delivery. <span class="placeholder">[1-LINE REAL REASON, NO EXCUSES]</span>. The new delivery date will be <span class="placeholder">[NEW DATE]</span>, and I'm giving you a 10% discount on this invoice as a gesture for the delay.<br/><br/>Here's what I've done to make sure it doesn't happen again: <span class="placeholder">[ONE CONCRETE CHANGE]</span>.<br/><br/>If this doesn't work for your timeline, let me know and we can walk through options.<br/><br/>— <span class="placeholder">[YOUR NAME]</span></div>
+          <div class="mt-4"><button class="btn-copy" data-copy="recovery-01">Copy script</button></div>
+        </div>
+
+        <div class="bg-creamDeep border border-line rounded-sharp p-6">
+          <div class="flex items-center justify-between mb-4">
+            <span class="font-mono text-xs text-forest font-bold">recovery_02 · critical_feedback</span>
+            <span class="font-mono text-[11px] text-ash">when: the first cut wasn't what they wanted</span>
+          </div>
+          <div class="script-block" id="recovery-02">Hi <span class="placeholder">[FIRST NAME]</span>,<br/><br/>Thanks for the honest feedback on Round 1. I hear you on <span class="placeholder">[THE SPECIFIC POINT]</span> — that's on me for not catching it in the brief.<br/><br/>Here's my plan for Round 2:<br/>→ <span class="placeholder">[SPECIFIC CHANGE 1]</span><br/>→ <span class="placeholder">[SPECIFIC CHANGE 2]</span><br/>→ <span class="placeholder">[SPECIFIC CHANGE 3]</span><br/><br/>I'll have revised cuts to you by <span class="placeholder">[DATE]</span>. Before I start, quick gut-check: does this direction match what you had in mind, or do you want me to send a new concept board first?<br/><br/>— <span class="placeholder">[YOUR NAME]</span></div>
+          <div class="mt-4"><button class="btn-copy" data-copy="recovery-02">Copy script</button></div>
+        </div>
+
+        <div class="bg-creamDeep border border-line rounded-sharp p-6">
+          <div class="flex items-center justify-between mb-4">
+            <span class="font-mono text-xs text-forest font-bold">recovery_03 · ghosted_mid_project</span>
+            <span class="font-mono text-[11px] text-ash">when: the brand stopped replying after concepts</span>
+          </div>
+          <div class="script-block" id="recovery-03">Hi <span class="placeholder">[FIRST NAME]</span>,<br/><br/>Haven't heard back on the concept board I sent on <span class="placeholder">[DATE]</span>. I know launches get chaotic — so a quick call:<br/><br/>→ If you want to move ahead, I need the concept approval by <span class="placeholder">[DATE + 3 DAYS]</span> to hit the original delivery date.<br/>→ If priorities have shifted, reply "pause" and I'll hold the deposit and pick this back up whenever you're ready (within 90 days).<br/>→ If it's a hard no, reply "cancel" and we'll close it out per the SOW terms.<br/><br/>No wrong answer — just need a direction.<br/><br/>— <span class="placeholder">[YOUR NAME]</span></div>
+          <div class="mt-4"><button class="btn-copy" data-copy="recovery-03">Copy script</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Bottom nav -->
+<section class="bg-creamDeep">
+  <div class="max-w-6xl mx-auto px-6 py-14">
+    <div class="grid md:grid-cols-2 gap-6">
+      <a href="02_templates.html" class="bg-cream border border-line rounded-sharp p-6 tile-hover">
+        <p class="font-mono text-xs text-moss mb-2">// prev_section</p>
+        <div class="font-display text-xl font-bold text-forest">← Section 02 · Templates</div>
+      </a>
+      <a href="04_videos.html" class="bg-cream border border-line rounded-sharp p-6 tile-hover">
+        <p class="font-mono text-xs text-moss mb-2">// next_section</p>
+        <div class="font-display text-xl font-bold text-forest">Section 04 · Videos →</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-forestDeep text-cream border-t border-forest">
+  <div class="max-w-6xl mx-auto px-6 py-10">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-6 h-6 checkerboard-cream rounded-sharp"></div>
+        <span class="font-mono text-xs text-cream/70">maya_creative_co / command_center.v1</span>
+      </div>
+      <div class="font-mono text-[11px] text-cream/50">
+        © 2026 Maya Creative Co · section_03 · lifetime access
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Tab switcher
+  const tabs = document.querySelectorAll('#scriptTabs .tab-btn');
+  const panels = document.querySelectorAll('.tab-panel');
+  tabs.forEach(btn => {
+    btn.addEventListener('click', () => {
+      tabs.forEach(b => b.classList.remove('active'));
+      panels.forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    });
+  });
+
+  // Copy buttons
+  document.querySelectorAll('.btn-copy').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const target = document.getElementById(this.dataset.copy);
+      // Strip HTML to get clean text with placeholders preserved as text
+      const clone = target.cloneNode(true);
+      // Replace <br/> with newlines for proper line breaks
+      clone.querySelectorAll('br').forEach(br => br.replaceWith('\n'));
+      const text = clone.innerText || clone.textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const original = this.textContent;
+        this.textContent = 'Copied ✓';
+        setTimeout(() => { this.textContent = original; }, 2000);
+      });
+    });
+  });
+</script>
+
+</body>
+</html>

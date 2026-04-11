@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>05 · Resource Vault — Command Center</title>
+<meta name="robots" content="noindex, nofollow" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = { theme: { extend: {
+    fontFamily: {
+      display: ['Space Grotesk', 'system-ui', 'sans-serif'],
+      sans: ['Inter', 'system-ui', 'sans-serif'],
+      mono: ['JetBrains Mono', 'monospace'],
+    },
+    colors: {
+      cream: '#F5F0E4', creamDeep: '#EDE5D2',
+      forest: '#1B3A2F', forestDeep: '#0F2620', forestLight: '#2D5742',
+      moss: '#4A7C59', ink: '#0A1A12', ash: '#4A5C50', line: '#D8D0BE',
+    },
+  }}}
+</script>
+
+<style>
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', system-ui, sans-serif; background-color: #F5F0E4; color: #0A1A12; }
+  .font-display { font-family: 'Space Grotesk', system-ui, sans-serif; letter-spacing: -0.02em; }
+  .font-mono { font-family: 'JetBrains Mono', monospace; }
+  .display-balance { text-wrap: balance; }
+
+  .checkerboard-mini {
+    background-image:
+      linear-gradient(45deg, #1B3A2F 25%, transparent 25%),
+      linear-gradient(-45deg, #1B3A2F 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #1B3A2F 75%),
+      linear-gradient(-45deg, transparent 75%, #1B3A2F 75%);
+    background-size: 8px 8px;
+    background-position: 0 0, 0 4px, 4px -4px, -4px 0;
+  }
+  .checkerboard-cream {
+    background-image:
+      linear-gradient(45deg, #F5F0E4 25%, transparent 25%),
+      linear-gradient(-45deg, #F5F0E4 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #F5F0E4 75%),
+      linear-gradient(-45deg, transparent 75%, #F5F0E4 75%);
+    background-size: 12px 12px;
+    background-position: 0 0, 0 6px, 6px -6px, -6px 0;
+  }
+
+  .rounded-sharp { border-radius: 4px; }
+  .tile-hover { transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s; }
+  .tile-hover:hover { transform: translateY(-2px); border-color: #1B3A2F; box-shadow: 6px 6px 0 #1B3A2F; }
+
+  details.vault-item > summary { list-style: none; cursor: pointer; }
+  details.vault-item > summary::-webkit-details-marker { display: none; }
+  details.vault-item[open] > summary .toggle-icon { transform: rotate(45deg); }
+  .toggle-icon { transition: transform 0.2s; display: inline-block; }
+</style>
+</head>
+<body class="bg-cream text-ink">
+
+<!-- Operator bar -->
+<div class="bg-forestDeep text-cream border-b border-forest">
+  <div class="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between text-xs font-mono">
+    <div class="flex items-center gap-4">
+      <span class="text-moss">●</span>
+      <span>Maya_Creative_Co / command_center.v1</span>
+    </div>
+    <div class="hidden sm:flex items-center gap-4 text-cream/60">
+      <span>section: 05_vault</span>
+      <span>access: lifetime</span>
+    </div>
+  </div>
+</div>
+
+<!-- Top nav -->
+<header class="border-b border-line bg-cream sticky top-0 z-40">
+  <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="index.html" class="flex items-center gap-3">
+      <div class="w-8 h-8 checkerboard-mini rounded-sharp"></div>
+      <div class="leading-tight">
+        <div class="font-display font-bold text-forest text-base">Command Center</div>
+        <div class="font-mono text-[10px] text-ash">booked_out.v1</div>
+      </div>
+    </a>
+    <nav class="hidden lg:flex items-center gap-1 font-mono text-xs">
+      <a href="index.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">hub</a>
+      <a href="01_tools.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">01_tools</a>
+      <a href="02_templates.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">02_templates</a>
+      <a href="03_scripts.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">03_scripts</a>
+      <a href="04_videos.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">04_videos</a>
+      <a href="05_vault.html" class="px-3 py-1.5 rounded-sharp bg-forest text-cream">05_vault</a>
+      <a href="06_bonus.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">06_bonus</a>
+    </nav>
+    <a href="mailto:hello@collegarestudio.com" class="hidden sm:inline-block text-xs font-mono text-forest border border-forest px-3 py-1.5 rounded-sharp hover:bg-forest hover:text-cream transition">support</a>
+  </div>
+</header>
+
+<!-- Section header -->
+<section class="border-b border-line bg-cream">
+  <div class="max-w-6xl mx-auto px-6 py-14">
+    <div class="flex items-center gap-3 mb-5 font-mono text-xs text-ash">
+      <a href="index.html" class="hover:text-forest">hub</a>
+      <span>/</span>
+      <span class="text-moss">05_vault</span>
+    </div>
+    <p class="font-mono text-xs text-moss mb-4">// section_05</p>
+    <h1 class="font-display text-4xl lg:text-6xl font-bold text-forest mb-5 display-balance">The vault. The stuff you'd pay a coach to hand you.</h1>
+    <p class="text-lg text-ash max-w-2xl">Four files I actually reference when I'm running a project. Brand contacts, real rate benchmarks, a swipe file of pitches that closed, and an operator FAQ for the weird questions.</p>
+  </div>
+</section>
+
+<!-- ============ 01 · BRAND LIST ============ -->
+<section id="brand-list" class="border-b border-line bg-creamDeep">
+  <div class="max-w-5xl mx-auto px-6 py-16">
+    <div class="mb-8">
+      <p class="font-mono text-xs text-moss mb-2">// vault_01 · brand_contact_list</p>
+      <h2 class="font-display text-3xl font-bold text-forest mb-3">Brand contact list.</h2>
+      <p class="text-ash max-w-2xl">A starter list of 50 DTC brands across beauty, wellness, food/bev, and lifestyle that actively book UGC creators — with the exact role you should be pitching at each.</p>
+    </div>
+
+    <div class="bg-cream border-2 border-forest rounded-sharp p-6 md:p-8">
+      <div class="flex items-center justify-between mb-5 pb-4 border-b border-line">
+        <span class="font-mono text-xs text-moss">brand_contact_list.csv</span>
+        <span class="font-mono text-xs text-ash">50_rows</span>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-4 text-sm text-ink">
+        <div>
+          <p class="font-mono text-[11px] text-moss mb-2">// columns</p>
+          <ul class="space-y-1 text-ash">
+            <li>→ <strong class="text-forest">brand_name</strong></li>
+            <li>→ <strong class="text-forest">niche</strong> (beauty / wellness / food / lifestyle)</li>
+            <li>→ <strong class="text-forest">size_tier</strong> (indie / growing / established / enterprise)</li>
+            <li>→ <strong class="text-forest">ideal_role_to_pitch</strong></li>
+            <li>→ <strong class="text-forest">preferred_channel</strong> (email / IG DM / LinkedIn)</li>
+            <li>→ <strong class="text-forest">known_to_book_ugc</strong> (yes/no)</li>
+            <li>→ <strong class="text-forest">typical_rate_tier</strong></li>
+          </ul>
+        </div>
+        <div>
+          <p class="font-mono text-[11px] text-moss mb-2">// how_to_use</p>
+          <ol class="space-y-2 text-ash list-decimal ml-4">
+            <li>Pick 5 brands that fit your niche.</li>
+            <li>Find the person in the <code class="bg-creamDeep px-1 rounded">ideal_role_to_pitch</code> column via LinkedIn.</li>
+            <li>Use a script from <a href="03_scripts.html#cold" class="underline text-forest">section_03</a>.</li>
+            <li>Log them in your <a href="02_templates.html#client-tracker" class="underline text-forest">client_tracker</a> and follow up twice.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="mt-6 bg-creamDeep border border-line rounded-sharp p-4 text-sm text-ash">
+        <p class="font-mono text-[11px] text-moss mb-2">// hosting</p>
+        <p>Full list will live as a Google Sheet (view-only link) and as a downloadable CSV. Drops as soon as the command center launches — the structure above is locked.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 02 · BENCHMARKS ============ -->
+<section id="benchmarks" class="border-b border-line bg-cream">
+  <div class="max-w-5xl mx-auto px-6 py-16">
+    <div class="mb-8">
+      <p class="font-mono text-xs text-moss mb-2">// vault_02 · rate_benchmarks</p>
+      <h2 class="font-display text-3xl font-bold text-forest mb-3">Real-world rate benchmarks.</h2>
+      <p class="text-ash max-w-2xl">What brands are actually paying right now. These are the numbers my network reports back, bucketed by deliverable and experience level. Updated quarterly.</p>
+    </div>
+
+    <div class="bg-creamDeep border-2 border-forest rounded-sharp p-6 md:p-8">
+      <div class="flex items-center justify-between mb-5 pb-4 border-b border-line">
+        <span class="font-mono text-xs text-moss">benchmarks.q2_2026</span>
+        <span class="font-mono text-xs text-ash">4_tiers · 5_deliverables</span>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse">
+          <thead>
+            <tr class="bg-cream border-b border-forest">
+              <th class="text-left p-3 font-mono text-[11px] text-forest">deliverable</th>
+              <th class="text-left p-3 font-mono text-[11px] text-forest">new</th>
+              <th class="text-left p-3 font-mono text-[11px] text-forest">growing</th>
+              <th class="text-left p-3 font-mono text-[11px] text-forest">established</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-line"><td class="p-3 font-mono text-xs text-forest">30-sec vertical video</td><td class="p-3 text-ash">$250 – $400</td><td class="p-3 text-ash">$400 – $750</td><td class="p-3 text-ash">$750 – $1,500</td></tr>
+            <tr class="border-b border-line bg-cream/60"><td class="p-3 font-mono text-xs text-forest">60-sec vertical video</td><td class="p-3 text-ash">$400 – $600</td><td class="p-3 text-ash">$600 – $1,000</td><td class="p-3 text-ash">$1,000 – $2,200</td></tr>
+            <tr class="border-b border-line"><td class="p-3 font-mono text-xs text-forest">3-piece GRWM package</td><td class="p-3 text-ash">$800 – $1,200</td><td class="p-3 text-ash">$1,500 – $2,500</td><td class="p-3 text-ash">$2,500 – $4,500</td></tr>
+            <tr class="border-b border-line bg-cream/60"><td class="p-3 font-mono text-xs text-forest">5-photo lifestyle set</td><td class="p-3 text-ash">$300 – $500</td><td class="p-3 text-ash">$500 – $900</td><td class="p-3 text-ash">$900 – $1,800</td></tr>
+            <tr><td class="p-3 font-mono text-xs text-forest">Unboxing + testimonial</td><td class="p-3 text-ash">$350 – $550</td><td class="p-3 text-ash">$550 – $950</td><td class="p-3 text-ash">$950 – $2,000</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="mt-5 bg-cream border border-line rounded-sharp p-4">
+        <p class="font-mono text-[11px] text-moss mb-2">// important_context</p>
+        <p class="text-sm text-ash">These are <strong class="text-forest">base rates</strong> for organic-only usage. Every number in this table gets multiplied by the usage window (1.4x for 30-day paid, up to 3.5x for full buyout). Use the <a href="01_tools.html#rate-calculator" class="underline text-forest">Rate Calculator</a> to get your real number.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 03 · SWIPE FILE ============ -->
+<section id="swipe-file" class="border-b border-line bg-creamDeep">
+  <div class="max-w-5xl mx-auto px-6 py-16">
+    <div class="mb-8">
+      <p class="font-mono text-xs text-moss mb-2">// vault_03 · swipe_file</p>
+      <h2 class="font-display text-3xl font-bold text-forest mb-3">Swipe file: pitches that closed.</h2>
+      <p class="text-ash max-w-2xl">Real outbound emails I've sent that closed deals between $1,800 and $6,500. Names redacted. Everything else is verbatim.</p>
+    </div>
+
+    <div class="space-y-3">
+
+      <details class="vault-item bg-cream border border-line rounded-sharp">
+        <summary class="p-5 flex justify-between items-center">
+          <div>
+            <div class="font-mono text-[11px] text-moss mb-1">swipe_01 · closed_$2400</div>
+            <div class="font-display font-bold text-forest">The one-line hook opener.</div>
+          </div>
+          <span class="toggle-icon font-mono text-xl text-forest">+</span>
+        </summary>
+        <div class="px-5 pb-5 border-t border-line pt-5 space-y-4">
+          <div class="bg-forestDeep text-cream p-4 rounded-sharp text-sm leading-relaxed">
+            <strong>Subject:</strong> quick idea for your [launch] campaign<br/><br/>
+            Hi [Name],<br/><br/>
+            Saw your [launch] go live on Instagram last week — the positioning around [specific thing] is the strongest I've seen in the [niche] category this quarter.<br/><br/>
+            Quick idea: a 3-piece GRWM package, each with a different "first 30 seconds" hook, aimed at your top-of-funnel TikTok audience. I can have a concept deck to you inside 48 hours if you're interested.<br/><br/>
+            Starting at $1,800 for the package with 30 days paid usage.<br/><br/>
+            — [Your name]
+          </div>
+          <div class="text-sm text-ash">
+            <p class="font-mono text-[11px] text-moss mb-2">// why_it_worked</p>
+            <p>Specific compliment anchored to something recent. Clear deliverable. Real number. Concept deck as the CTA (low-pressure for them, high-value for me). Closed in 3 emails over 8 days.</p>
+          </div>
+        </div>
+      </details>
+
+      <details class="vault-item bg-cream border border-line rounded-sharp">
+        <summary class="p-5 flex justify-between items-center">
+          <div>
+            <div class="font-mono text-[11px] text-moss mb-1">swipe_02 · closed_$4100</div>
+            <div class="font-display font-bold text-forest">The results-led pitch.</div>
+          </div>
+          <span class="toggle-icon font-mono text-xl text-forest">+</span>
+        </summary>
+        <div class="px-5 pb-5 border-t border-line pt-5 space-y-4">
+          <div class="bg-forestDeep text-cream p-4 rounded-sharp text-sm leading-relaxed">
+            <strong>Subject:</strong> a creator who hit 3.2 ROAS for [comparable brand]<br/><br/>
+            Hey [Name],<br/><br/>
+            My UGC work for [redacted wellness brand] hit a 3.2x ROAS at an $8 CPA running on Meta + TikTok through Q1. I think the same framework would land for [their brand], specifically for [a product line].<br/><br/>
+            Quick Loom here — it's 2 minutes and walks through the 3 concepts I'd build: [Loom link]<br/><br/>
+            If it's interesting, my starting package is $3,900 for 3 × 30-second verticals with 30 days paid usage. Happy to scope up or down.<br/><br/>
+            — [Your name]
+          </div>
+          <div class="text-sm text-ash">
+            <p class="font-mono text-[11px] text-moss mb-2">// why_it_worked</p>
+            <p>Lead with the number. Subject line is doing all the work — they had to click. Loom link made the follow-up asynchronous. They upgraded to 4 videos on the reply, which pushed it from $3,900 to $4,100.</p>
+          </div>
+        </div>
+      </details>
+
+      <details class="vault-item bg-cream border border-line rounded-sharp">
+        <summary class="p-5 flex justify-between items-center">
+          <div>
+            <div class="font-mono text-[11px] text-moss mb-1">swipe_03 · closed_$6500</div>
+            <div class="font-display font-bold text-forest">The referral-adjacent pitch.</div>
+          </div>
+          <span class="toggle-icon font-mono text-xl text-forest">+</span>
+        </summary>
+        <div class="px-5 pb-5 border-t border-line pt-5 space-y-4">
+          <div class="bg-forestDeep text-cream p-4 rounded-sharp text-sm leading-relaxed">
+            <strong>Subject:</strong> [Mutual] mentioned you're thinking about creator content<br/><br/>
+            Hi [Name],<br/><br/>
+            [Mutual's first name] at [previous brand] mentioned you're actively spinning up creator content for Q2. She hired me for the [previous project] and said I should reach out directly.<br/><br/>
+            I put together a quick brief based on what I saw in your last 3 launches — specifically, a 5-piece package (2 hero videos, 2 photo sets, 1 testimonial) built for paid social. Happy to walk you through it on a 15-min call this week.<br/><br/>
+            Package as scoped runs $6,500 with 90 days paid usage. Let me know what works.<br/><br/>
+            — [Your name]
+          </div>
+          <div class="text-sm text-ash">
+            <p class="font-mono text-[11px] text-moss mb-2">// why_it_worked</p>
+            <p>Warm intro beats cold outbound 9 times out of 10. The brief was pre-built, so I was pitching a specific thing, not asking "are you interested in creator content". Referral gave me permission to quote higher. Closed on the first reply.</p>
+          </div>
+        </div>
+      </details>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ 04 · FAQ ============ -->
+<section id="faq" class="border-b border-line bg-cream">
+  <div class="max-w-5xl mx-auto px-6 py-16">
+    <div class="mb-8">
+      <p class="font-mono text-xs text-moss mb-2">// vault_04 · operator_faq</p>
+      <h2 class="font-display text-3xl font-bold text-forest mb-3">Operator FAQ.</h2>
+      <p class="text-ash max-w-2xl">The weird questions I get asked most — the ones that don't fit anywhere else but matter when you're running the business.</p>
+    </div>
+
+    <div class="space-y-3">
+      <details class="vault-item bg-creamDeep border border-line rounded-sharp">
+        <summary class="p-5 flex justify-between items-center">
+          <span class="font-display font-bold text-forest">Should I form an LLC before I start charging?</span>
+          <span class="toggle-icon font-mono text-xl text-forest">+</span>
+        </summary>
+        <div class="px-5 pb-5 border-t border-line pt-5 text-sm text-ash leading-relaxed">Short answer: not immediately. Operate as a sole proprietor under your own name until you're consistently clearing ~$30K/year from UGC work. At that point, an LLC (with an S-corp election in the US) starts saving you meaningful tax dollars. Before that, the paperwork and state fees aren't worth it. Disclaimer: I'm not an accountant — this is just what I did. Talk to one before you file anything.</div>
+      </details>
+
+      <details class="vault-item bg-creamDeep border border-line rounded-sharp">
+        <summary class="p-5 flex justify-between items-center">
+          <span class="font-display font-bold text-forest">Do I need a contract for every deal?</span>
+          <span class="toggle-icon font-mono text-xl text-forest">+</span>
+        </summary>
+        <div class="px-5 pb-5 border-t border-line pt-5 text-sm text-ash leading-relaxed">Yes. Every single one. Even the $500 ones. The <a href="02_templates.html#proposal" class="underline text-forest">proposal template</a> in section_02 can double as a lightweight SOW when signed. Use a tool like HelloSign or PandaDoc to make it one-click on their side.</div>
+      </details>
+
+      <details class="vault-item bg-creamDeep border border-line rounded-sharp">
+        <summary class="p-5 flex justify-between items-center">
+          <span class="font-display font-bold text-forest">How do I handle taxes as a creator?</span>
+          <span class="toggle-icon font-mono text-xl text-forest">+</span>
+        </summary>
+        <div class="px-5 pb-5 border-t border-line pt-5 text-sm text-ash leading-relaxed">Set aside 25-30% of every deposit into a separate high-yield savings account labeled "taxes" and don't touch it. File quarterly estimated taxes if you're in the US and earning more than $1K/quarter from UGC. Hire an accountant who has at least 3 other creator clients — it's worth the $400-800/year.</div>
+      </details>
+
+      <details class="vault-item bg-creamDeep border border-line rounded-sharp">
+        <summary class="p-5 flex justify-between items-center">
+          <span class="font-display font-bold text-forest">What if a brand wants me to use their product in a way I don't believe in?</span>
+          <span class="toggle-icon font-mono text-xl text-forest">+</span>
+        </summary>
+        <div class="px-5 pb-5 border-t border-line pt-5 text-sm text-ash leading-relaxed">Walk. Every single time. The content won't perform (because your delivery will be off), the brand will blame you, and your audience will sniff it out. Your portfolio is worth more than any one deal. The <a href="03_scripts.html#recovery" class="underline text-forest">recovery scripts</a> include a polite exit note you can send.</div>
+      </details>
+
+      <details class="vault-item bg-creamDeep border border-line rounded-sharp">
+        <summary class="p-5 flex justify-between items-center">
+          <span class="font-display font-bold text-forest">How do I handle a brand that keeps scope-creeping after signing?</span>
+          <span class="toggle-icon font-mono text-xl text-forest">+</span>
+        </summary>
+        <div class="px-5 pb-5 border-t border-line pt-5 text-sm text-ash leading-relaxed">Use the <a href="01_tools.html#negotiation-playbook" class="underline text-forest">scope-creep script</a> in the Negotiation Playbook (scenario 03). Frame every new request as an add-on or a swap — never as "free extra work". One warning then the add-on invoice goes out regardless. Brands respect clear boundaries.</div>
+      </details>
+
+      <details class="vault-item bg-creamDeep border border-line rounded-sharp">
+        <summary class="p-5 flex justify-between items-center">
+          <span class="font-display font-bold text-forest">When should I raise my rates?</span>
+          <span class="toggle-icon font-mono text-xl text-forest">+</span>
+        </summary>
+        <div class="px-5 pb-5 border-t border-line pt-5 text-sm text-ash leading-relaxed">When more than 70% of your pitches are converting, it's time to raise. High conversion = you're under-priced. Raise the floor by 20-25% and watch what happens. You'll lose the cheapest deals and keep the ones that actually move the business. Re-run the <a href="01_tools.html#rate-calculator" class="underline text-forest">rate calculator</a> under "established" to see your new numbers.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- Bottom nav -->
+<section class="bg-creamDeep">
+  <div class="max-w-6xl mx-auto px-6 py-14">
+    <div class="grid md:grid-cols-2 gap-6">
+      <a href="04_videos.html" class="bg-cream border border-line rounded-sharp p-6 tile-hover">
+        <p class="font-mono text-xs text-moss mb-2">// prev_section</p>
+        <div class="font-display text-xl font-bold text-forest">← Section 04 · Videos</div>
+      </a>
+      <a href="06_bonus.html" class="bg-cream border border-line rounded-sharp p-6 tile-hover">
+        <p class="font-mono text-xs text-moss mb-2">// next_section</p>
+        <div class="font-display text-xl font-bold text-forest">Section 06 · Bonus Workshop →</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-forestDeep text-cream border-t border-forest">
+  <div class="max-w-6xl mx-auto px-6 py-10">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-6 h-6 checkerboard-cream rounded-sharp"></div>
+        <span class="font-mono text-xs text-cream/70">maya_creative_co / command_center.v1</span>
+      </div>
+      <div class="font-mono text-[11px] text-cream/50">
+        © 2026 Maya Creative Co · section_05 · lifetime access
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

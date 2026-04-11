@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>04 · Mini Implementation Videos — Command Center</title>
+<meta name="robots" content="noindex, nofollow" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = { theme: { extend: {
+    fontFamily: {
+      display: ['Space Grotesk', 'system-ui', 'sans-serif'],
+      sans: ['Inter', 'system-ui', 'sans-serif'],
+      mono: ['JetBrains Mono', 'monospace'],
+    },
+    colors: {
+      cream: '#F5F0E4', creamDeep: '#EDE5D2',
+      forest: '#1B3A2F', forestDeep: '#0F2620', forestLight: '#2D5742',
+      moss: '#4A7C59', ink: '#0A1A12', ash: '#4A5C50', line: '#D8D0BE',
+    },
+  }}}
+</script>
+
+<style>
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', system-ui, sans-serif; background-color: #F5F0E4; color: #0A1A12; }
+  .font-display { font-family: 'Space Grotesk', system-ui, sans-serif; letter-spacing: -0.02em; }
+  .font-mono { font-family: 'JetBrains Mono', monospace; }
+  .display-balance { text-wrap: balance; }
+
+  .checkerboard-mini {
+    background-image:
+      linear-gradient(45deg, #1B3A2F 25%, transparent 25%),
+      linear-gradient(-45deg, #1B3A2F 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #1B3A2F 75%),
+      linear-gradient(-45deg, transparent 75%, #1B3A2F 75%);
+    background-size: 8px 8px;
+    background-position: 0 0, 0 4px, 4px -4px, -4px 0;
+  }
+  .checkerboard-cream {
+    background-image:
+      linear-gradient(45deg, #F5F0E4 25%, transparent 25%),
+      linear-gradient(-45deg, #F5F0E4 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #F5F0E4 75%),
+      linear-gradient(-45deg, transparent 75%, #F5F0E4 75%);
+    background-size: 12px 12px;
+    background-position: 0 0, 0 6px, 6px -6px, -6px 0;
+  }
+
+  .rounded-sharp { border-radius: 4px; }
+  .tile-hover { transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s; }
+  .tile-hover:hover { transform: translateY(-2px); border-color: #1B3A2F; box-shadow: 6px 6px 0 #1B3A2F; }
+
+  .video-card { transition: border-color 0.15s; }
+  .video-card:hover { border-color: #1B3A2F; }
+
+  .thumbnail {
+    aspect-ratio: 16 / 9;
+    background: #0F2620;
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+    border-radius: 4px 4px 0 0;
+  }
+  .thumbnail::before {
+    content: ''; position: absolute; inset: 0;
+    background-image:
+      linear-gradient(45deg, rgba(74,124,89,0.15) 25%, transparent 25%),
+      linear-gradient(-45deg, rgba(74,124,89,0.15) 25%, transparent 25%);
+    background-size: 24px 24px;
+  }
+  .thumbnail .label { position: relative; color: #4A7C59; font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+  .thumbnail .play {
+    position: relative;
+    width: 48px; height: 48px; border-radius: 50%;
+    background: rgba(245,240,228,0.08); border: 1px solid rgba(245,240,228,0.25);
+    display: flex; align-items: center; justify-content: center;
+    color: #F5F0E4; font-family: 'JetBrains Mono', monospace; font-size: 18px;
+  }
+
+  .status-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    padding: 3px 8px; border-radius: 999px;
+  }
+  .status-live { background: rgba(74,124,89,0.15); color: #4A7C59; }
+  .status-soon { background: rgba(200,155,60,0.15); color: #8a6d2a; }
+  .status-dot { width: 6px; height: 6px; border-radius: 50%; }
+  .status-dot.live { background: #4A7C59; }
+  .status-dot.soon { background: #C89B3C; }
+</style>
+</head>
+<body class="bg-cream text-ink">
+
+<!-- Operator bar -->
+<div class="bg-forestDeep text-cream border-b border-forest">
+  <div class="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between text-xs font-mono">
+    <div class="flex items-center gap-4">
+      <span class="text-moss">●</span>
+      <span>Maya_Creative_Co / command_center.v1</span>
+    </div>
+    <div class="hidden sm:flex items-center gap-4 text-cream/60">
+      <span>section: 04_videos</span>
+      <span>access: lifetime</span>
+    </div>
+  </div>
+</div>
+
+<!-- Top nav -->
+<header class="border-b border-line bg-cream sticky top-0 z-40">
+  <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="index.html" class="flex items-center gap-3">
+      <div class="w-8 h-8 checkerboard-mini rounded-sharp"></div>
+      <div class="leading-tight">
+        <div class="font-display font-bold text-forest text-base">Command Center</div>
+        <div class="font-mono text-[10px] text-ash">booked_out.v1</div>
+      </div>
+    </a>
+    <nav class="hidden lg:flex items-center gap-1 font-mono text-xs">
+      <a href="index.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">hub</a>
+      <a href="01_tools.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">01_tools</a>
+      <a href="02_templates.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">02_templates</a>
+      <a href="03_scripts.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">03_scripts</a>
+      <a href="04_videos.html" class="px-3 py-1.5 rounded-sharp bg-forest text-cream">04_videos</a>
+      <a href="05_vault.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">05_vault</a>
+      <a href="06_bonus.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">06_bonus</a>
+    </nav>
+    <a href="mailto:hello@collegarestudio.com" class="hidden sm:inline-block text-xs font-mono text-forest border border-forest px-3 py-1.5 rounded-sharp hover:bg-forest hover:text-cream transition">support</a>
+  </div>
+</header>
+
+<!-- Section header -->
+<section class="border-b border-line bg-cream">
+  <div class="max-w-6xl mx-auto px-6 py-14">
+    <div class="flex items-center gap-3 mb-5 font-mono text-xs text-ash">
+      <a href="index.html" class="hover:text-forest">hub</a>
+      <span>/</span>
+      <span class="text-moss">04_videos</span>
+    </div>
+    <p class="font-mono text-xs text-moss mb-4">// section_04</p>
+    <h1 class="font-display text-4xl lg:text-6xl font-bold text-forest mb-5 display-balance">Mini implementation videos. Watch once. Ship today.</h1>
+    <p class="text-lg text-ash max-w-2xl">Every video is under 5 minutes. No intros, no fluff, no selling you the next thing. Just me walking you through one specific thing from the command center with the screen recording and my face in the corner.</p>
+  </div>
+</section>
+
+<!-- Rolling out notice -->
+<section class="bg-creamDeep border-b border-line">
+  <div class="max-w-5xl mx-auto px-6 py-8">
+    <div class="bg-cream border border-line rounded-sharp p-5 flex flex-col sm:flex-row sm:items-center gap-4">
+      <div class="flex-shrink-0 w-10 h-10 checkerboard-mini rounded-sharp"></div>
+      <div class="flex-1">
+        <div class="font-display font-bold text-forest text-base mb-1">Rolling out weekly.</div>
+        <p class="text-sm text-ash">The first 3 videos are live. The rest drop every Monday through May 2026. You'll get a note from me the morning each one goes up — no extra charge, no new purchase, just in your inbox.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Video grid -->
+<section class="bg-cream">
+  <div class="max-w-6xl mx-auto px-6 py-16">
+    <div class="flex items-end justify-between mb-8">
+      <div>
+        <p class="font-mono text-xs text-moss mb-2">// library</p>
+        <h2 class="font-display text-3xl font-bold text-forest">The video library.</h2>
+      </div>
+      <span class="font-mono text-[11px] text-ash">3_live · 5_coming</span>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <!-- Video 01 -->
+      <div class="video-card bg-cream border-2 border-line rounded-sharp overflow-hidden">
+        <div class="thumbnail">
+          <div class="flex flex-col items-center gap-3 relative z-10">
+            <div class="play">▶</div>
+            <div class="label">[ thumbnail ]</div>
+          </div>
+        </div>
+        <div class="p-5">
+          <div class="flex items-center justify-between mb-3">
+            <span class="font-mono text-xs text-ash">vid_01 · 4:12</span>
+            <span class="status-pill status-live"><span class="status-dot live"></span>live</span>
+          </div>
+          <h3 class="font-display font-bold text-forest mb-2">Run your first Rate Calculator pass.</h3>
+          <p class="text-sm text-ash mb-4">I walk through a real $2,400 deal I quoted last month — every lever I pulled and why.</p>
+          <button class="w-full text-left font-mono text-xs text-forest border border-forest px-3 py-2 rounded-sharp hover:bg-forest hover:text-cream transition">watch →</button>
+        </div>
+      </div>
+
+      <!-- Video 02 -->
+      <div class="video-card bg-cream border-2 border-line rounded-sharp overflow-hidden">
+        <div class="thumbnail">
+          <div class="flex flex-col items-center gap-3 relative z-10">
+            <div class="play">▶</div>
+            <div class="label">[ thumbnail ]</div>
+          </div>
+        </div>
+        <div class="p-5">
+          <div class="flex items-center justify-between mb-3">
+            <span class="font-mono text-xs text-ash">vid_02 · 3:47</span>
+            <span class="status-pill status-live"><span class="status-dot live"></span>live</span>
+          </div>
+          <h3 class="font-display font-bold text-forest mb-2">Write your first pitch in 3 minutes.</h3>
+          <p class="text-sm text-ash mb-4">Using the Pitch Generator live — I fill it in for a real brand, then walk through what I'd change before sending.</p>
+          <button class="w-full text-left font-mono text-xs text-forest border border-forest px-3 py-2 rounded-sharp hover:bg-forest hover:text-cream transition">watch →</button>
+        </div>
+      </div>
+
+      <!-- Video 03 -->
+      <div class="video-card bg-cream border-2 border-line rounded-sharp overflow-hidden">
+        <div class="thumbnail">
+          <div class="flex flex-col items-center gap-3 relative z-10">
+            <div class="play">▶</div>
+            <div class="label">[ thumbnail ]</div>
+          </div>
+        </div>
+        <div class="p-5">
+          <div class="flex items-center justify-between mb-3">
+            <span class="font-mono text-xs text-ash">vid_03 · 4:55</span>
+            <span class="status-pill status-live"><span class="status-dot live"></span>live</span>
+          </div>
+          <h3 class="font-display font-bold text-forest mb-2">Set up the Client Tracker in Notion.</h3>
+          <p class="text-sm text-ash mb-4">Screen recording: I build the tracker from scratch in Notion in under 5 minutes. Copy-paste along with me.</p>
+          <button class="w-full text-left font-mono text-xs text-forest border border-forest px-3 py-2 rounded-sharp hover:bg-forest hover:text-cream transition">watch →</button>
+        </div>
+      </div>
+
+      <!-- Video 04 -->
+      <div class="video-card bg-cream border-2 border-line rounded-sharp overflow-hidden opacity-70">
+        <div class="thumbnail">
+          <div class="flex flex-col items-center gap-3 relative z-10">
+            <div class="play">▶</div>
+            <div class="label">[ coming soon ]</div>
+          </div>
+        </div>
+        <div class="p-5">
+          <div class="flex items-center justify-between mb-3">
+            <span class="font-mono text-xs text-ash">vid_04 · ~4 min</span>
+            <span class="status-pill status-soon"><span class="status-dot soon"></span>coming</span>
+          </div>
+          <h3 class="font-display font-bold text-forest mb-2">Defending your rate when they lowball.</h3>
+          <p class="text-sm text-ash mb-4">Live roleplay of the lowball scenario — the exact words and the pause that closes the deal.</p>
+          <button disabled class="w-full text-left font-mono text-xs text-ash border border-line px-3 py-2 rounded-sharp">drops_apr_20</button>
+        </div>
+      </div>
+
+      <!-- Video 05 -->
+      <div class="video-card bg-cream border-2 border-line rounded-sharp overflow-hidden opacity-70">
+        <div class="thumbnail">
+          <div class="flex flex-col items-center gap-3 relative z-10">
+            <div class="play">▶</div>
+            <div class="label">[ coming soon ]</div>
+          </div>
+        </div>
+        <div class="p-5">
+          <div class="flex items-center justify-between mb-3">
+            <span class="font-mono text-xs text-ash">vid_05 · ~3 min</span>
+            <span class="status-pill status-soon"><span class="status-dot soon"></span>coming</span>
+          </div>
+          <h3 class="font-display font-bold text-forest mb-2">Sending the proposal without second-guessing.</h3>
+          <p class="text-sm text-ash mb-4">How I open the proposal template, fill in 5 fields, and send — with a 30-second sanity check at the end.</p>
+          <button disabled class="w-full text-left font-mono text-xs text-ash border border-line px-3 py-2 rounded-sharp">drops_apr_27</button>
+        </div>
+      </div>
+
+      <!-- Video 06 -->
+      <div class="video-card bg-cream border-2 border-line rounded-sharp overflow-hidden opacity-70">
+        <div class="thumbnail">
+          <div class="flex flex-col items-center gap-3 relative z-10">
+            <div class="play">▶</div>
+            <div class="label">[ coming soon ]</div>
+          </div>
+        </div>
+        <div class="p-5">
+          <div class="flex items-center justify-between mb-3">
+            <span class="font-mono text-xs text-ash">vid_06 · ~4 min</span>
+            <span class="status-pill status-soon"><span class="status-dot soon"></span>coming</span>
+          </div>
+          <h3 class="font-display font-bold text-forest mb-2">The onboarding workflow in real time.</h3>
+          <p class="text-sm text-ash mb-4">First 72 hours of a real project. Every message, every folder, every send.</p>
+          <button disabled class="w-full text-left font-mono text-xs text-ash border border-line px-3 py-2 rounded-sharp">drops_may_04</button>
+        </div>
+      </div>
+
+      <!-- Video 07 -->
+      <div class="video-card bg-cream border-2 border-line rounded-sharp overflow-hidden opacity-70">
+        <div class="thumbnail">
+          <div class="flex flex-col items-center gap-3 relative z-10">
+            <div class="play">▶</div>
+            <div class="label">[ coming soon ]</div>
+          </div>
+        </div>
+        <div class="p-5">
+          <div class="flex items-center justify-between mb-3">
+            <span class="font-mono text-xs text-ash">vid_07 · ~5 min</span>
+            <span class="status-pill status-soon"><span class="status-dot soon"></span>coming</span>
+          </div>
+          <h3 class="font-display font-bold text-forest mb-2">Chasing a late payment, calmly.</h3>
+          <p class="text-sm text-ash mb-4">The day-3 and day-10 script played out in real client threads (names blurred) — what worked, what I'd change.</p>
+          <button disabled class="w-full text-left font-mono text-xs text-ash border border-line px-3 py-2 rounded-sharp">drops_may_11</button>
+        </div>
+      </div>
+
+      <!-- Video 08 -->
+      <div class="video-card bg-cream border-2 border-line rounded-sharp overflow-hidden opacity-70">
+        <div class="thumbnail">
+          <div class="flex flex-col items-center gap-3 relative z-10">
+            <div class="play">▶</div>
+            <div class="label">[ coming soon ]</div>
+          </div>
+        </div>
+        <div class="p-5">
+          <div class="flex items-center justify-between mb-3">
+            <span class="font-mono text-xs text-ash">vid_08 · ~4 min</span>
+            <span class="status-pill status-soon"><span class="status-dot soon"></span>coming</span>
+          </div>
+          <h3 class="font-display font-bold text-forest mb-2">Building a portfolio that books $4K deals.</h3>
+          <p class="text-sm text-ash mb-4">I tear down my own portfolio and show you exactly why it converts, piece by piece.</p>
+          <button disabled class="w-full text-left font-mono text-xs text-ash border border-line px-3 py-2 rounded-sharp">drops_may_18</button>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="mt-10 bg-creamDeep border border-line rounded-sharp p-5 text-center">
+      <p class="font-mono text-[11px] text-ash mb-1">// video_hosting</p>
+      <p class="text-sm text-ash">Once recorded, videos will be embedded here as private unlisted players (Vimeo or Mux). The layout is ready to drop in.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Bottom nav -->
+<section class="bg-creamDeep">
+  <div class="max-w-6xl mx-auto px-6 py-14">
+    <div class="grid md:grid-cols-2 gap-6">
+      <a href="03_scripts.html" class="bg-cream border border-line rounded-sharp p-6 tile-hover">
+        <p class="font-mono text-xs text-moss mb-2">// prev_section</p>
+        <div class="font-display text-xl font-bold text-forest">← Section 03 · Scripts</div>
+      </a>
+      <a href="05_vault.html" class="bg-cream border border-line rounded-sharp p-6 tile-hover">
+        <p class="font-mono text-xs text-moss mb-2">// next_section</p>
+        <div class="font-display text-xl font-bold text-forest">Section 05 · Resource Vault →</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-forestDeep text-cream border-t border-forest">
+  <div class="max-w-6xl mx-auto px-6 py-10">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-6 h-6 checkerboard-cream rounded-sharp"></div>
+        <span class="font-mono text-xs text-cream/70">maya_creative_co / command_center.v1</span>
+      </div>
+      <div class="font-mono text-[11px] text-cream/50">
+        © 2026 Maya Creative Co · section_04 · lifetime access
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

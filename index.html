@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Command Center — Booked Out UGC Kit</title>
+<meta name="description" content="Your UGC business command center. Interactive tools, templates, scripts, videos, vault, and bonus workshop replay." />
+<meta name="robots" content="noindex, nofollow" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          display: ['Space Grotesk', 'system-ui', 'sans-serif'],
+          sans: ['Inter', 'system-ui', 'sans-serif'],
+          mono: ['JetBrains Mono', 'monospace'],
+        },
+        colors: {
+          cream: '#F5F0E4',
+          creamDeep: '#EDE5D2',
+          forest: '#1B3A2F',
+          forestDeep: '#0F2620',
+          forestLight: '#2D5742',
+          moss: '#4A7C59',
+          ink: '#0A1A12',
+          ash: '#4A5C50',
+          line: '#D8D0BE',
+        },
+      },
+    },
+  }
+</script>
+
+<style>
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', system-ui, sans-serif; background-color: #F5F0E4; color: #0A1A12; }
+  .font-display { font-family: 'Space Grotesk', system-ui, sans-serif; letter-spacing: -0.02em; }
+  .font-mono { font-family: 'JetBrains Mono', monospace; }
+  .display-balance { text-wrap: balance; }
+
+  .checkerboard-mini {
+    background-image:
+      linear-gradient(45deg, #1B3A2F 25%, transparent 25%),
+      linear-gradient(-45deg, #1B3A2F 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #1B3A2F 75%),
+      linear-gradient(-45deg, transparent 75%, #1B3A2F 75%);
+    background-size: 8px 8px;
+    background-position: 0 0, 0 4px, 4px -4px, -4px 0;
+  }
+  .checkerboard-cream {
+    background-image:
+      linear-gradient(45deg, #F5F0E4 25%, transparent 25%),
+      linear-gradient(-45deg, #F5F0E4 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #F5F0E4 75%),
+      linear-gradient(-45deg, transparent 75%, #F5F0E4 75%);
+    background-size: 12px 12px;
+    background-position: 0 0, 0 6px, 6px -6px, -6px 0;
+  }
+
+  .tile {
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+  }
+  .tile:hover {
+    transform: translateY(-2px);
+    border-color: #1B3A2F;
+    box-shadow: 6px 6px 0 #1B3A2F;
+  }
+  .status-dot {
+    display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+  }
+  .status-ready { background-color: #4A7C59; box-shadow: 0 0 0 3px rgba(74,124,89,0.2); }
+  .status-building { background-color: #C89B3C; box-shadow: 0 0 0 3px rgba(200,155,60,0.2); }
+
+  /* Sharp corners */
+  .rounded-sharp { border-radius: 4px; }
+</style>
+</head>
+<body class="bg-cream text-ink">
+
+<!-- Operator bar -->
+<div class="bg-forestDeep text-cream border-b border-forest">
+  <div class="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between text-xs font-mono">
+    <div class="flex items-center gap-4">
+      <span class="text-moss">●</span>
+      <span>Maya_Creative_Co / command_center.v1</span>
+    </div>
+    <div class="hidden sm:flex items-center gap-4 text-cream/60">
+      <span>session: active</span>
+      <span>access: lifetime</span>
+    </div>
+  </div>
+</div>
+
+<!-- Top nav -->
+<header class="border-b border-line bg-cream sticky top-0 z-40">
+  <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="index.html" class="flex items-center gap-3">
+      <div class="w-8 h-8 checkerboard-mini rounded-sharp"></div>
+      <div class="leading-tight">
+        <div class="font-display font-bold text-forest text-base">Command Center</div>
+        <div class="font-mono text-[10px] text-ash">booked_out.v1</div>
+      </div>
+    </a>
+    <nav class="hidden lg:flex items-center gap-1 font-mono text-xs">
+      <a href="index.html" class="px-3 py-1.5 rounded-sharp bg-forest text-cream">hub</a>
+      <a href="01_tools.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">01_tools</a>
+      <a href="02_templates.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">02_templates</a>
+      <a href="03_scripts.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">03_scripts</a>
+      <a href="04_videos.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">04_videos</a>
+      <a href="05_vault.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">05_vault</a>
+      <a href="06_bonus.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">06_bonus</a>
+    </nav>
+    <a href="mailto:hello@collegarestudio.com" class="hidden sm:inline-block text-xs font-mono text-forest border border-forest px-3 py-1.5 rounded-sharp hover:bg-forest hover:text-cream transition">support</a>
+  </div>
+</header>
+
+<!-- Hero / welcome block -->
+<section class="border-b border-line bg-cream">
+  <div class="max-w-6xl mx-auto px-6 py-16 lg:py-24 grid lg:grid-cols-12 gap-10 items-end">
+    <div class="lg:col-span-8">
+      <p class="font-mono text-xs text-moss mb-5 tracking-wide">// welcome_back, operator</p>
+      <h1 class="font-display text-5xl lg:text-7xl font-bold text-forest leading-[0.95] display-balance">
+        You're logged into<br />your UGC business.
+      </h1>
+      <p class="mt-6 text-lg text-ash max-w-xl">
+        Six sections. One place to run from. Open any tile below to start — the tools are live, the templates are yours to copy, and every file here is unlocked for life.
+      </p>
+    </div>
+    <div class="lg:col-span-4">
+      <div class="bg-forestDeep text-cream rounded-sharp p-5 font-mono text-xs border-2 border-forest">
+        <div class="flex items-center justify-between mb-3 pb-3 border-b border-forest">
+          <span class="text-moss">●</span>
+          <span class="text-cream/60">session</span>
+        </div>
+        <div class="space-y-2">
+          <div class="flex justify-between"><span class="text-cream/60">operator</span><span>you</span></div>
+          <div class="flex justify-between"><span class="text-cream/60">product</span><span>booked_out</span></div>
+          <div class="flex justify-between"><span class="text-cream/60">version</span><span>v1.0</span></div>
+          <div class="flex justify-between"><span class="text-cream/60">access</span><span class="text-moss">lifetime</span></div>
+          <div class="flex justify-between"><span class="text-cream/60">updates</span><span class="text-moss">included</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Quick start -->
+<section class="border-b border-line bg-creamDeep">
+  <div class="max-w-6xl mx-auto px-6 py-10">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+      <div>
+        <p class="font-mono text-xs text-moss mb-2">// start_here</p>
+        <h2 class="font-display text-2xl font-bold text-forest">New here? Run this first.</h2>
+      </div>
+      <span class="font-mono text-[11px] text-ash">~15 min · one pass through the essentials</span>
+    </div>
+    <ol class="grid md:grid-cols-3 gap-4">
+      <li class="bg-cream border border-line rounded-sharp p-5">
+        <div class="flex items-center justify-between mb-3">
+          <span class="font-mono text-xs text-ash">step_01</span>
+          <span class="font-mono text-[10px] text-moss">~5 min</span>
+        </div>
+        <div class="font-display font-bold text-forest mb-1">Set your rate floor.</div>
+        <p class="text-sm text-ash mb-4">Run the Rate Calculator once. Save the number. That's your new "no" line.</p>
+        <a href="01_tools.html#rate-calculator" class="font-mono text-xs text-forest underline underline-offset-4 decoration-moss">open rate_calculator →</a>
+      </li>
+      <li class="bg-cream border border-line rounded-sharp p-5">
+        <div class="flex items-center justify-between mb-3">
+          <span class="font-mono text-xs text-ash">step_02</span>
+          <span class="font-mono text-[10px] text-moss">~5 min</span>
+        </div>
+        <div class="font-display font-bold text-forest mb-1">Grab your first pitch.</div>
+        <p class="text-sm text-ash mb-4">Use the Pitch Generator to build one outbound email. Send it today, not Monday.</p>
+        <a href="01_tools.html#pitch-generator" class="font-mono text-xs text-forest underline underline-offset-4 decoration-moss">open pitch_generator →</a>
+      </li>
+      <li class="bg-cream border border-line rounded-sharp p-5">
+        <div class="flex items-center justify-between mb-3">
+          <span class="font-mono text-xs text-ash">step_03</span>
+          <span class="font-mono text-[10px] text-moss">~5 min</span>
+        </div>
+        <div class="font-display font-bold text-forest mb-1">Copy the tracker.</div>
+        <p class="text-sm text-ash mb-4">Duplicate the Client Tracker template so you have one place for every deal.</p>
+        <a href="02_templates.html#client-tracker" class="font-mono text-xs text-forest underline underline-offset-4 decoration-moss">open client_tracker →</a>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- Section tiles -->
+<section class="bg-cream">
+  <div class="max-w-6xl mx-auto px-6 py-16 lg:py-20">
+    <div class="flex items-end justify-between mb-10">
+      <div>
+        <p class="font-mono text-xs text-moss mb-2">// sections</p>
+        <h2 class="font-display text-3xl lg:text-4xl font-bold text-forest">The six sections.</h2>
+      </div>
+      <span class="font-mono text-[11px] text-ash hidden sm:inline">tap any tile to open</span>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+
+      <!-- 01 Tools -->
+      <a href="01_tools.html" class="tile block bg-cream border-2 border-line rounded-sharp p-6">
+        <div class="flex items-center justify-between mb-5">
+          <span class="font-mono text-xs text-ash">section_01</span>
+          <span class="flex items-center gap-2 font-mono text-[10px] text-moss"><span class="status-dot status-ready"></span>ready</span>
+        </div>
+        <div class="w-12 h-12 checkerboard-mini rounded-sharp mb-5"></div>
+        <h3 class="font-display text-xl font-bold text-forest mb-2">Interactive Tools</h3>
+        <p class="text-sm text-ash mb-5">Rate calculator, negotiation playbook, and pitch generator. Three working tools that do the thinking with you.</p>
+        <div class="flex items-center justify-between pt-4 border-t border-line">
+          <span class="font-mono text-[11px] text-ash">3_tools</span>
+          <span class="font-mono text-xs text-forest">open →</span>
+        </div>
+      </a>
+
+      <!-- 02 Templates -->
+      <a href="02_templates.html" class="tile block bg-cream border-2 border-line rounded-sharp p-6">
+        <div class="flex items-center justify-between mb-5">
+          <span class="font-mono text-xs text-ash">section_02</span>
+          <span class="flex items-center gap-2 font-mono text-[10px] text-moss"><span class="status-dot status-ready"></span>ready</span>
+        </div>
+        <div class="w-12 h-12 checkerboard-mini rounded-sharp mb-5"></div>
+        <h3 class="font-display text-xl font-bold text-forest mb-2">Templates</h3>
+        <p class="text-sm text-ash mb-5">Proposal, client tracker, onboarding workflow, portfolio checklist. Copy once, reuse forever.</p>
+        <div class="flex items-center justify-between pt-4 border-t border-line">
+          <span class="font-mono text-[11px] text-ash">4_templates</span>
+          <span class="font-mono text-xs text-forest">open →</span>
+        </div>
+      </a>
+
+      <!-- 03 Scripts -->
+      <a href="03_scripts.html" class="tile block bg-cream border-2 border-line rounded-sharp p-6">
+        <div class="flex items-center justify-between mb-5">
+          <span class="font-mono text-xs text-ash">section_03</span>
+          <span class="flex items-center gap-2 font-mono text-[10px] text-moss"><span class="status-dot status-ready"></span>ready</span>
+        </div>
+        <div class="w-12 h-12 checkerboard-mini rounded-sharp mb-5"></div>
+        <h3 class="font-display text-xl font-bold text-forest mb-2">Scripts</h3>
+        <p class="text-sm text-ash mb-5">Cold, warm, follow-up, recovery. The exact words to say in the moments that normally cost you money.</p>
+        <div class="flex items-center justify-between pt-4 border-t border-line">
+          <span class="font-mono text-[11px] text-ash">4_scripts</span>
+          <span class="font-mono text-xs text-forest">open →</span>
+        </div>
+      </a>
+
+      <!-- 04 Videos -->
+      <a href="04_videos.html" class="tile block bg-cream border-2 border-line rounded-sharp p-6">
+        <div class="flex items-center justify-between mb-5">
+          <span class="font-mono text-xs text-ash">section_04</span>
+          <span class="flex items-center gap-2 font-mono text-[10px] text-ash"><span class="status-dot status-building"></span>recording</span>
+        </div>
+        <div class="w-12 h-12 checkerboard-mini rounded-sharp mb-5"></div>
+        <h3 class="font-display text-xl font-bold text-forest mb-2">Mini Implementation Videos</h3>
+        <p class="text-sm text-ash mb-5">Under-5-minute walkthroughs of every tool and template. Watch once, implement, move on.</p>
+        <div class="flex items-center justify-between pt-4 border-t border-line">
+          <span class="font-mono text-[11px] text-ash">8_videos · drops_weekly</span>
+          <span class="font-mono text-xs text-forest">open →</span>
+        </div>
+      </a>
+
+      <!-- 05 Vault -->
+      <a href="05_vault.html" class="tile block bg-cream border-2 border-line rounded-sharp p-6">
+        <div class="flex items-center justify-between mb-5">
+          <span class="font-mono text-xs text-ash">section_05</span>
+          <span class="flex items-center gap-2 font-mono text-[10px] text-moss"><span class="status-dot status-ready"></span>ready</span>
+        </div>
+        <div class="w-12 h-12 checkerboard-mini rounded-sharp mb-5"></div>
+        <h3 class="font-display text-xl font-bold text-forest mb-2">Resource Vault</h3>
+        <p class="text-sm text-ash mb-5">Brand contact list, rate benchmarks, swipe file, and an operator FAQ. The stuff you'd usually pay a coach to hand you.</p>
+        <div class="flex items-center justify-between pt-4 border-t border-line">
+          <span class="font-mono text-[11px] text-ash">4_resources</span>
+          <span class="font-mono text-xs text-forest">open →</span>
+        </div>
+      </a>
+
+      <!-- 06 Bonus -->
+      <a href="06_bonus.html" class="tile block bg-cream border-2 border-line rounded-sharp p-6">
+        <div class="flex items-center justify-between mb-5">
+          <span class="font-mono text-xs text-ash">section_06</span>
+          <span class="flex items-center gap-2 font-mono text-[10px] text-moss"><span class="status-dot status-ready"></span>bonus</span>
+        </div>
+        <div class="w-12 h-12 checkerboard-mini rounded-sharp mb-5"></div>
+        <h3 class="font-display text-xl font-bold text-forest mb-2">Bonus · Workshop Replay</h3>
+        <p class="text-sm text-ash mb-5">90-minute workshop replay walking through a full $4K deal end-to-end. Included with your purchase.</p>
+        <div class="flex items-center justify-between pt-4 border-t border-line">
+          <span class="font-mono text-[11px] text-ash">1_replay · 90_min</span>
+          <span class="font-mono text-xs text-forest">open →</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- Terminal progress block -->
+<section class="border-y border-line bg-forestDeep text-cream">
+  <div class="max-w-6xl mx-auto px-6 py-14">
+    <div class="grid lg:grid-cols-12 gap-10 items-center">
+      <div class="lg:col-span-7">
+        <p class="font-mono text-xs text-moss mb-4">// operator_note</p>
+        <h2 class="font-display text-3xl lg:text-4xl font-bold mb-5 display-balance">Use it like a business, not a course.</h2>
+        <p class="text-cream/80 mb-3">The command center isn't designed to be binged. It's designed to be opened whenever you have a deal to run, a pitch to write, or a rate to defend.</p>
+        <p class="text-cream/80">Bookmark this page. Come back tomorrow. Come back in six months. Everything will still be here, and you'll still own it.</p>
+      </div>
+      <div class="lg:col-span-5">
+        <div class="bg-ink rounded-sharp p-5 font-mono text-xs border border-forestLight">
+          <div class="text-moss mb-3">$ ./status --operator you</div>
+          <div class="space-y-1.5 text-cream/80">
+            <div>→ sections_unlocked ... <span class="text-moss">6/6</span></div>
+            <div>→ tools_live ............ <span class="text-moss">3/3</span></div>
+            <div>→ templates_live ........ <span class="text-moss">4/4</span></div>
+            <div>→ scripts_live .......... <span class="text-moss">4/4</span></div>
+            <div>→ videos ................ <span class="text-cream/50">rolling_out</span></div>
+            <div>→ vault_open ............ <span class="text-moss">true</span></div>
+            <div>→ bonus_workshop ........ <span class="text-moss">available</span></div>
+            <div class="pt-2 mt-2 border-t border-forestLight">
+              access ................. <span class="text-moss">lifetime</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Support block -->
+<section class="bg-cream">
+  <div class="max-w-6xl mx-auto px-6 py-14">
+    <div class="grid md:grid-cols-2 gap-6">
+      <div class="bg-creamDeep border border-line rounded-sharp p-6">
+        <p class="font-mono text-xs text-moss mb-2">// stuck?</p>
+        <h3 class="font-display text-xl font-bold text-forest mb-2">Ask me directly.</h3>
+        <p class="text-sm text-ash mb-4">Hit a wall with a tool or a template? Email me and I'll help you unstick it. Same inbox I use for my own deals.</p>
+        <a href="mailto:hello@collegarestudio.com" class="inline-block font-mono text-xs text-forest border border-forest px-4 py-2 rounded-sharp hover:bg-forest hover:text-cream transition">hello@collegarestudio.com</a>
+      </div>
+      <div class="bg-creamDeep border border-line rounded-sharp p-6">
+        <p class="font-mono text-xs text-moss mb-2">// want_more?</p>
+        <h3 class="font-display text-xl font-bold text-forest mb-2">When a kit isn't enough.</h3>
+        <p class="text-sm text-ash mb-4">If you want me inside your business, the Strategy Intensive and the 4-Week Advisory are where we go deeper together.</p>
+        <div class="flex flex-wrap gap-2">
+          <a href="../intensive.html" class="font-mono text-xs text-forest border border-forest px-3 py-2 rounded-sharp hover:bg-forest hover:text-cream transition">intensive_$750</a>
+          <a href="../advisory.html" class="font-mono text-xs text-forest border border-forest px-3 py-2 rounded-sharp hover:bg-forest hover:text-cream transition">advisory_$3500</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-forestDeep text-cream border-t border-forest">
+  <div class="max-w-6xl mx-auto px-6 py-10">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-6 h-6 checkerboard-cream rounded-sharp"></div>
+        <span class="font-mono text-xs text-cream/70">maya_creative_co / command_center.v1</span>
+      </div>
+      <div class="font-mono text-[11px] text-cream/50">
+        © 2026 Maya Creative Co · lifetime access · built for operators
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

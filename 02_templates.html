@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>02 · Templates — Command Center</title>
+<meta name="robots" content="noindex, nofollow" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: { extend: {
+      fontFamily: {
+        display: ['Space Grotesk', 'system-ui', 'sans-serif'],
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+        mono: ['JetBrains Mono', 'monospace'],
+      },
+      colors: {
+        cream: '#F5F0E4', creamDeep: '#EDE5D2',
+        forest: '#1B3A2F', forestDeep: '#0F2620', forestLight: '#2D5742',
+        moss: '#4A7C59', ink: '#0A1A12', ash: '#4A5C50', line: '#D8D0BE',
+      },
+    }},
+  }
+</script>
+
+<style>
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', system-ui, sans-serif; background-color: #F5F0E4; color: #0A1A12; }
+  .font-display { font-family: 'Space Grotesk', system-ui, sans-serif; letter-spacing: -0.02em; }
+  .font-mono { font-family: 'JetBrains Mono', monospace; }
+  .display-balance { text-wrap: balance; }
+
+  .checkerboard-mini {
+    background-image:
+      linear-gradient(45deg, #1B3A2F 25%, transparent 25%),
+      linear-gradient(-45deg, #1B3A2F 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #1B3A2F 75%),
+      linear-gradient(-45deg, transparent 75%, #1B3A2F 75%);
+    background-size: 8px 8px;
+    background-position: 0 0, 0 4px, 4px -4px, -4px 0;
+  }
+  .checkerboard-cream {
+    background-image:
+      linear-gradient(45deg, #F5F0E4 25%, transparent 25%),
+      linear-gradient(-45deg, #F5F0E4 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #F5F0E4 75%),
+      linear-gradient(-45deg, transparent 75%, #F5F0E4 75%);
+    background-size: 12px 12px;
+    background-position: 0 0, 0 6px, 6px -6px, -6px 0;
+  }
+
+  .rounded-sharp { border-radius: 4px; }
+  .tile-hover { transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s; }
+  .tile-hover:hover { transform: translateY(-2px); border-color: #1B3A2F; box-shadow: 6px 6px 0 #1B3A2F; }
+
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: #1B3A2F; color: #F5F0E4; padding: 10px 20px; border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600;
+    transition: background 0.15s;
+  }
+  .btn-primary:hover { background: #0F2620; }
+  .btn-ghost {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: transparent; color: #1B3A2F; padding: 10px 18px; border: 1px solid #1B3A2F; border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace; font-size: 12px;
+    transition: all 0.15s; cursor: pointer;
+  }
+  .btn-ghost:hover { background: #1B3A2F; color: #F5F0E4; }
+
+  .template-body { background: #fff; border: 1px solid #D8D0BE; border-radius: 4px; padding: 24px; font-family: 'Inter', sans-serif; font-size: 14px; line-height: 1.65; color: #0A1A12; }
+  .template-body h4 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; color: #1B3A2F; margin-top: 20px; margin-bottom: 6px; font-size: 15px; }
+  .template-body h4:first-child { margin-top: 0; }
+  .template-body ul { margin: 8px 0 8px 18px; }
+  .template-body li { margin-bottom: 4px; }
+  .template-body .placeholder { background: #EDE5D2; padding: 1px 6px; border-radius: 3px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #1B3A2F; }
+
+  details.template-accordion > summary { list-style: none; cursor: pointer; }
+  details.template-accordion > summary::-webkit-details-marker { display: none; }
+  details.template-accordion[open] > summary .toggle-icon { transform: rotate(45deg); }
+  .toggle-icon { transition: transform 0.2s; display: inline-block; }
+</style>
+</head>
+<body class="bg-cream text-ink">
+
+<!-- Operator bar -->
+<div class="bg-forestDeep text-cream border-b border-forest">
+  <div class="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between text-xs font-mono">
+    <div class="flex items-center gap-4">
+      <span class="text-moss">●</span>
+      <span>Maya_Creative_Co / command_center.v1</span>
+    </div>
+    <div class="hidden sm:flex items-center gap-4 text-cream/60">
+      <span>section: 02_templates</span>
+      <span>access: lifetime</span>
+    </div>
+  </div>
+</div>
+
+<!-- Top nav -->
+<header class="border-b border-line bg-cream sticky top-0 z-40">
+  <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="index.html" class="flex items-center gap-3">
+      <div class="w-8 h-8 checkerboard-mini rounded-sharp"></div>
+      <div class="leading-tight">
+        <div class="font-display font-bold text-forest text-base">Command Center</div>
+        <div class="font-mono text-[10px] text-ash">booked_out.v1</div>
+      </div>
+    </a>
+    <nav class="hidden lg:flex items-center gap-1 font-mono text-xs">
+      <a href="index.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">hub</a>
+      <a href="01_tools.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">01_tools</a>
+      <a href="02_templates.html" class="px-3 py-1.5 rounded-sharp bg-forest text-cream">02_templates</a>
+      <a href="03_scripts.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">03_scripts</a>
+      <a href="04_videos.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">04_videos</a>
+      <a href="05_vault.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">05_vault</a>
+      <a href="06_bonus.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">06_bonus</a>
+    </nav>
+    <a href="mailto:hello@collegarestudio.com" class="hidden sm:inline-block text-xs font-mono text-forest border border-forest px-3 py-1.5 rounded-sharp hover:bg-forest hover:text-cream transition">support</a>
+  </div>
+</header>
+
+<!-- Section header -->
+<section class="border-b border-line bg-cream">
+  <div class="max-w-6xl mx-auto px-6 py-14">
+    <div class="flex items-center gap-3 mb-5 font-mono text-xs text-ash">
+      <a href="index.html" class="hover:text-forest">hub</a>
+      <span>/</span>
+      <span class="text-moss">02_templates</span>
+    </div>
+    <p class="font-mono text-xs text-moss mb-4">// section_02</p>
+    <h1 class="font-display text-4xl lg:text-6xl font-bold text-forest mb-5 display-balance">Four templates. Copy once, reuse forever.</h1>
+    <p class="text-lg text-ash max-w-2xl">Every template below is built for copy-paste into your tool of choice — Notion, Google Docs, Airtable, whatever. The language is already tight. The structure is already tested on real brand deals.</p>
+
+    <!-- Sub-nav -->
+    <div class="mt-10 flex flex-wrap gap-2">
+      <a href="#proposal" class="px-4 py-2 border border-line rounded-sharp font-mono text-xs text-forest hover:border-forest">→ proposal_template</a>
+      <a href="#client-tracker" class="px-4 py-2 border border-line rounded-sharp font-mono text-xs text-forest hover:border-forest">→ client_tracker</a>
+      <a href="#onboarding" class="px-4 py-2 border border-line rounded-sharp font-mono text-xs text-forest hover:border-forest">→ onboarding_workflow</a>
+      <a href="#portfolio-checklist" class="px-4 py-2 border border-line rounded-sharp font-mono text-xs text-forest hover:border-forest">→ portfolio_checklist</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 01 · PROPOSAL TEMPLATE ============ -->
+<section id="proposal" class="border-b border-line bg-creamDeep">
+  <div class="max-w-5xl mx-auto px-6 py-16">
+    <div class="mb-8">
+      <p class="font-mono text-xs text-moss mb-2">// template_01 · proposal</p>
+      <h2 class="font-display text-3xl font-bold text-forest mb-3">The Proposal Template.</h2>
+      <p class="text-ash max-w-2xl">The exact structure I send after a pitch lands. Short, scannable, and scoped so nothing creeps later.</p>
+    </div>
+
+    <details class="template-accordion bg-cream border border-line rounded-sharp">
+      <summary class="p-5 flex justify-between items-center">
+        <span class="font-mono text-xs text-moss">expand proposal.md</span>
+        <span class="toggle-icon font-mono text-xl text-forest">+</span>
+      </summary>
+      <div class="p-6 border-t border-line">
+        <div id="proposalTemplate" class="template-body">
+          <h4>1. Project Summary</h4>
+          <p><span class="placeholder">[YOUR NAME]</span> × <span class="placeholder">[BRAND NAME]</span> — UGC content for <span class="placeholder">[PRODUCT / LAUNCH]</span>. <span class="placeholder">[1-line on the objective: drive paid performance, seed a launch, refresh organic, etc.]</span></p>
+
+          <h4>2. Deliverables</h4>
+          <ul>
+            <li><strong>Format:</strong> <span class="placeholder">[e.g. 3 × 30-second vertical videos, 2 concepts each]</span></li>
+            <li><strong>Concepts:</strong> 2 unique hooks per video. A-roll + B-roll, edited and captioned.</li>
+            <li><strong>Revisions:</strong> 2 rounds of revisions included per deliverable. Additional rounds billed at $50/round.</li>
+            <li><strong>Raw footage:</strong> Delivered alongside final cuts via Google Drive or Dropbox.</li>
+          </ul>
+
+          <h4>3. Usage Rights</h4>
+          <ul>
+            <li><strong>Organic:</strong> Unlimited organic use on <span class="placeholder">[brand's owned channels]</span>.</li>
+            <li><strong>Paid social:</strong> 30 days across Meta + TikTok, from delivery date.</li>
+            <li><strong>Exclusions:</strong> Out-of-home, TV, print, paid YouTube, and whitelisting are not included in this scope and are quoted separately.</li>
+          </ul>
+
+          <h4>4. Timeline</h4>
+          <ul>
+            <li>Day 0: Contract signed, 50% deposit paid.</li>
+            <li>Day 3: Brief + product received. Concepts locked.</li>
+            <li>Day 10: First drafts delivered.</li>
+            <li>Day 14: Final cuts delivered after revisions.</li>
+          </ul>
+
+          <h4>5. Investment</h4>
+          <ul>
+            <li><strong>Total:</strong> $<span class="placeholder">[TOTAL RATE]</span> USD.</li>
+            <li><strong>Structure:</strong> 50% deposit to begin, 50% on final delivery.</li>
+            <li><strong>Late fee:</strong> Invoices more than 10 days past due accrue a 5% late fee per the terms of this SOW.</li>
+            <li><strong>Kill fee:</strong> If the project is cancelled after concepts are approved, 50% of the project fee is retained.</li>
+          </ul>
+
+          <h4>6. Scope Changes</h4>
+          <p>Any requests outside the scope above will be quoted as an add-on before work begins. I'll always confirm scope changes in writing before invoicing for them.</p>
+
+          <h4>7. What I'll Need From You</h4>
+          <ul>
+            <li>Product(s) shipped by <span class="placeholder">[DATE]</span></li>
+            <li>Brand brief with any must-hit talking points and any "no-go" language</li>
+            <li>A single point of contact for feedback and approvals</li>
+          </ul>
+
+          <h4>8. Next Step</h4>
+          <p>If this works, reply with a "yes" and I'll send the contract and invoice for the 50% deposit. Excited to build this with you.</p>
+          <p><span class="placeholder">[YOUR NAME]</span><br/><span class="placeholder">[YOUR EMAIL]</span></p>
+        </div>
+        <div class="mt-5 flex flex-wrap gap-3">
+          <button class="btn-primary" data-copy-target="proposalTemplate">Copy template</button>
+          <a href="01_tools.html#rate-calculator" class="btn-ghost">→ Get my rate first</a>
+        </div>
+        <p class="mt-3 font-mono text-[11px] text-ash">// tip: paste into Notion, Docs, or your email client and replace the bracketed placeholders before sending.</p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ 02 · CLIENT TRACKER ============ -->
+<section id="client-tracker" class="border-b border-line bg-cream">
+  <div class="max-w-5xl mx-auto px-6 py-16">
+    <div class="mb-8">
+      <p class="font-mono text-xs text-moss mb-2">// template_02 · client_tracker</p>
+      <h2 class="font-display text-3xl font-bold text-forest mb-3">The Client Tracker.</h2>
+      <p class="text-ash max-w-2xl">One table to track every deal in your pipeline: where it is, what's owed, what's next. Drop this into Notion, Airtable, or a Google Sheet.</p>
+    </div>
+
+    <div class="bg-creamDeep border-2 border-forest rounded-sharp p-6 md:p-8">
+      <div class="flex items-center justify-between mb-5 pb-4 border-b border-line">
+        <span class="font-mono text-xs text-moss">client_tracker.schema</span>
+        <span class="font-mono text-xs text-ash">12_columns</span>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse">
+          <thead>
+            <tr class="bg-cream border-b border-forest">
+              <th class="text-left p-3 font-mono text-[11px] text-forest">column</th>
+              <th class="text-left p-3 font-mono text-[11px] text-forest">type</th>
+              <th class="text-left p-3 font-mono text-[11px] text-forest">what_it_tracks</th>
+            </tr>
+          </thead>
+          <tbody class="text-ink">
+            <tr class="border-b border-line"><td class="p-3 font-mono text-xs">brand_name</td><td class="p-3 text-ash text-xs">text</td><td class="p-3">Name of the brand/company.</td></tr>
+            <tr class="border-b border-line bg-cream/60"><td class="p-3 font-mono text-xs">contact_name</td><td class="p-3 text-ash text-xs">text</td><td class="p-3">Primary contact + email.</td></tr>
+            <tr class="border-b border-line"><td class="p-3 font-mono text-xs">stage</td><td class="p-3 text-ash text-xs">select</td><td class="p-3">cold → pitched → in_talks → proposal_sent → signed → in_production → delivered → invoiced → paid</td></tr>
+            <tr class="border-b border-line bg-cream/60"><td class="p-3 font-mono text-xs">deal_value</td><td class="p-3 text-ash text-xs">currency</td><td class="p-3">Total dollar value of the deal.</td></tr>
+            <tr class="border-b border-line"><td class="p-3 font-mono text-xs">deposit_received</td><td class="p-3 text-ash text-xs">boolean</td><td class="p-3">Is the 50% deposit in?</td></tr>
+            <tr class="border-b border-line bg-cream/60"><td class="p-3 font-mono text-xs">deliverables</td><td class="p-3 text-ash text-xs">text</td><td class="p-3">One-line scope summary.</td></tr>
+            <tr class="border-b border-line"><td class="p-3 font-mono text-xs">usage_window</td><td class="p-3 text-ash text-xs">select</td><td class="p-3">organic / paid_30 / paid_90 / paid_180 / paid_365 / buyout</td></tr>
+            <tr class="border-b border-line bg-cream/60"><td class="p-3 font-mono text-xs">usage_expires</td><td class="p-3 text-ash text-xs">date</td><td class="p-3">Calculated from delivery date — important for follow-ups.</td></tr>
+            <tr class="border-b border-line"><td class="p-3 font-mono text-xs">due_date</td><td class="p-3 text-ash text-xs">date</td><td class="p-3">Final delivery date.</td></tr>
+            <tr class="border-b border-line bg-cream/60"><td class="p-3 font-mono text-xs">invoice_status</td><td class="p-3 text-ash text-xs">select</td><td class="p-3">not_sent / sent / past_due / paid</td></tr>
+            <tr class="border-b border-line"><td class="p-3 font-mono text-xs">next_action</td><td class="p-3 text-ash text-xs">text</td><td class="p-3">One-line: "send invoice", "follow up Tues", "deliver round 2".</td></tr>
+            <tr><td class="p-3 font-mono text-xs">notes</td><td class="p-3 text-ash text-xs">text</td><td class="p-3">Anything else: rapport, prior projects, preferences.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="mt-6 bg-cream border border-line rounded-sharp p-5">
+        <p class="font-mono text-xs text-moss mb-3">// how_to_use</p>
+        <ol class="text-sm text-ash space-y-2 list-decimal ml-5">
+          <li>Set it up once in Notion / Airtable / Sheets using the column names above.</li>
+          <li>Every time you send an outbound pitch, add a row. Stage: <code class="bg-creamDeep px-1 rounded">pitched</code>.</li>
+          <li>Review the tracker every Monday for 15 minutes. Update the <code class="bg-creamDeep px-1 rounded">next_action</code> column for every active row.</li>
+          <li>Filter on <code class="bg-creamDeep px-1 rounded">stage = invoiced</code> every Friday to check for late payments.</li>
+        </ol>
+      </div>
+
+      <div class="mt-5 flex flex-wrap gap-3">
+        <button class="btn-primary" id="copyTrackerSchema">Copy schema as CSV</button>
+        <a href="03_scripts.html#follow-up" class="btn-ghost">→ Follow-up scripts</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 03 · ONBOARDING WORKFLOW ============ -->
+<section id="onboarding" class="border-b border-line bg-creamDeep">
+  <div class="max-w-5xl mx-auto px-6 py-16">
+    <div class="mb-8">
+      <p class="font-mono text-xs text-moss mb-2">// template_03 · onboarding_workflow</p>
+      <h2 class="font-display text-3xl font-bold text-forest mb-3">The Onboarding Workflow.</h2>
+      <p class="text-ash max-w-2xl">A 7-step checklist for the first 72 hours of every signed deal. Run it every time — it's the difference between a messy project and a tight one.</p>
+    </div>
+
+    <div class="bg-cream border-2 border-forest rounded-sharp p-6 md:p-10">
+      <div class="flex items-center justify-between mb-6 pb-4 border-b border-line">
+        <span class="font-mono text-xs text-moss">onboarding.run()</span>
+        <span class="font-mono text-xs text-ash">7_steps · 72_hrs</span>
+      </div>
+
+      <ol class="space-y-4">
+        <li class="flex gap-4">
+          <span class="flex-shrink-0 w-10 h-10 bg-forest text-cream font-mono text-sm flex items-center justify-center rounded-sharp">01</span>
+          <div>
+            <div class="font-display font-bold text-forest mb-1">Send contract + invoice within 2 hours of verbal yes.</div>
+            <p class="text-sm text-ash">Momentum dies in the gap between "yes" and paperwork. Use a pre-built contract (HelloSign, PandaDoc) and a pre-built invoice (Stan, Wave, Stripe). Both should be warm-ready before the call.</p>
+          </div>
+        </li>
+        <li class="flex gap-4">
+          <span class="flex-shrink-0 w-10 h-10 bg-forest text-cream font-mono text-sm flex items-center justify-center rounded-sharp">02</span>
+          <div>
+            <div class="font-display font-bold text-forest mb-1">Confirm deposit before any work begins.</div>
+            <p class="text-sm text-ash">No deposit, no concepts, no shoot date. This is not negotiable. If the brand balks, you've caught a red flag early and saved yourself a problem.</p>
+          </div>
+        </li>
+        <li class="flex gap-4">
+          <span class="flex-shrink-0 w-10 h-10 bg-forest text-cream font-mono text-sm flex items-center justify-center rounded-sharp">03</span>
+          <div>
+            <div class="font-display font-bold text-forest mb-1">Send the creative brief form.</div>
+            <p class="text-sm text-ash">One form (Google Form or Typeform) that asks: target audience, top 3 messages, brand voice do's and don'ts, references they like, references they hate, any compliance/legal constraints.</p>
+          </div>
+        </li>
+        <li class="flex gap-4">
+          <span class="flex-shrink-0 w-10 h-10 bg-forest text-cream font-mono text-sm flex items-center justify-center rounded-sharp">04</span>
+          <div>
+            <div class="font-display font-bold text-forest mb-1">Confirm product shipping details in writing.</div>
+            <p class="text-sm text-ash">Address, ETA, tracking. Add the ETA to your calendar as a hard milestone. No product, no concepts — you'll push delivery accordingly.</p>
+          </div>
+        </li>
+        <li class="flex gap-4">
+          <span class="flex-shrink-0 w-10 h-10 bg-forest text-cream font-mono text-sm flex items-center justify-center rounded-sharp">05</span>
+          <div>
+            <div class="font-display font-bold text-forest mb-1">Set up a shared delivery folder.</div>
+            <p class="text-sm text-ash">Google Drive or Dropbox. Name it <code class="bg-creamDeep px-1 rounded">[BRAND] × [YOUR NAME] — [MONTH YEAR]</code>. Pre-create sub-folders: <code class="bg-creamDeep px-1 rounded">01_brief</code>, <code class="bg-creamDeep px-1 rounded">02_concepts</code>, <code class="bg-creamDeep px-1 rounded">03_drafts</code>, <code class="bg-creamDeep px-1 rounded">04_final</code>, <code class="bg-creamDeep px-1 rounded">05_raw</code>.</p>
+          </div>
+        </li>
+        <li class="flex gap-4">
+          <span class="flex-shrink-0 w-10 h-10 bg-forest text-cream font-mono text-sm flex items-center justify-center rounded-sharp">06</span>
+          <div>
+            <div class="font-display font-bold text-forest mb-1">Identify the single point of contact.</div>
+            <p class="text-sm text-ash">One person on the brand side owns feedback and approvals. If you're getting conflicting notes from three stakeholders, pause and politely ask who the final decision-maker is. Put their name in your tracker.</p>
+          </div>
+        </li>
+        <li class="flex gap-4">
+          <span class="flex-shrink-0 w-10 h-10 bg-forest text-cream font-mono text-sm flex items-center justify-center rounded-sharp">07</span>
+          <div>
+            <div class="font-display font-bold text-forest mb-1">Block the shoot + delivery dates on your calendar today.</div>
+            <p class="text-sm text-ash">Before you take another inbound inquiry. Treat your production days like any other booked client — overbooking is the fastest way to miss a deadline.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 04 · PORTFOLIO CHECKLIST ============ -->
+<section id="portfolio-checklist" class="border-b border-line bg-cream">
+  <div class="max-w-5xl mx-auto px-6 py-16">
+    <div class="mb-8">
+      <p class="font-mono text-xs text-moss mb-2">// template_04 · portfolio_checklist</p>
+      <h2 class="font-display text-3xl font-bold text-forest mb-3">The Portfolio Checklist.</h2>
+      <p class="text-ash max-w-2xl">What your portfolio actually needs to book higher-ticket deals. Score yours out of 12. If you're under 8, that's the first thing to fix.</p>
+    </div>
+
+    <div class="bg-creamDeep border-2 border-forest rounded-sharp p-6 md:p-10">
+      <div class="flex items-center justify-between mb-6 pb-4 border-b border-line">
+        <span class="font-mono text-xs text-moss">portfolio.audit()</span>
+        <span id="portfolioScore" class="font-mono text-sm text-forest font-bold">score: 0 / 12</span>
+      </div>
+
+      <div id="portfolioChecklist" class="space-y-3">
+        <!-- 12 checklist items will render here -->
+      </div>
+
+      <div class="mt-6 bg-cream border border-line rounded-sharp p-5">
+        <p class="font-mono text-xs text-moss mb-3">// scoring</p>
+        <ul class="text-sm text-ash space-y-1">
+          <li><strong>10–12:</strong> Book with confidence. Your floor should go up.</li>
+          <li><strong>7–9:</strong> Solid. Fix the gaps and your close rate jumps.</li>
+          <li><strong>4–6:</strong> You're leaving money on the table. Prioritize the unchecked items this month.</li>
+          <li><strong>0–3:</strong> Start here before any more outbound. Watch the portfolio video in section 04.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Bottom nav -->
+<section class="bg-cream">
+  <div class="max-w-6xl mx-auto px-6 py-14">
+    <div class="grid md:grid-cols-2 gap-6">
+      <a href="01_tools.html" class="bg-creamDeep border border-line rounded-sharp p-6 tile-hover">
+        <p class="font-mono text-xs text-moss mb-2">// prev_section</p>
+        <div class="font-display text-xl font-bold text-forest">← Section 01 · Interactive Tools</div>
+      </a>
+      <a href="03_scripts.html" class="bg-creamDeep border border-line rounded-sharp p-6 tile-hover">
+        <p class="font-mono text-xs text-moss mb-2">// next_section</p>
+        <div class="font-display text-xl font-bold text-forest">Section 03 · Scripts →</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-forestDeep text-cream border-t border-forest">
+  <div class="max-w-6xl mx-auto px-6 py-10">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-6 h-6 checkerboard-cream rounded-sharp"></div>
+        <span class="font-mono text-xs text-cream/70">maya_creative_co / command_center.v1</span>
+      </div>
+      <div class="font-mono text-[11px] text-cream/50">
+        © 2026 Maya Creative Co · section_02 · lifetime access
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Copy proposal template
+  document.querySelectorAll('[data-copy-target]').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const target = document.getElementById(this.dataset.copyTarget);
+      const text = target.innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        const original = this.textContent;
+        this.textContent = 'Copied ✓';
+        setTimeout(() => { this.textContent = original; }, 2000);
+      });
+    });
+  });
+
+  // Copy tracker schema as CSV
+  document.getElementById('copyTrackerSchema').addEventListener('click', function() {
+    const csv = `brand_name,contact_name,stage,deal_value,deposit_received,deliverables,usage_window,usage_expires,due_date,invoice_status,next_action,notes`;
+    navigator.clipboard.writeText(csv).then(() => {
+      const original = this.textContent;
+      this.textContent = 'Copied ✓';
+      setTimeout(() => { this.textContent = original; }, 2000);
+    });
+  });
+
+  // Portfolio checklist
+  const CHECKLIST = [
+    { id: 'hero_reel', label: '60-90 second hero reel at the top of the page', hint: 'Your 3 best clips, cut together, no intro card.' },
+    { id: 'niche_focus', label: '3+ pieces in one specific niche (beauty, wellness, food, etc.)', hint: 'Brands book specialists, not generalists.' },
+    { id: 'brand_named', label: 'Each piece is labeled with the brand name', hint: 'Even if you credit "shot for" — name the brand.' },
+    { id: 'outcome_metric', label: 'At least 2 pieces include a results line', hint: '"Drove 2.4M views" or "became the top-performing ad for Q2".' },
+    { id: 'vertical_format', label: 'Vertical 9:16 format showcased alongside horizontal', hint: 'Most UGC buyers spec vertical first.' },
+    { id: 'hook_variety', label: 'Visible variety of hooks across 3+ clips', hint: 'POV, talking-head, problem-solution, GRWM, testimonial.' },
+    { id: 'one_click_contact', label: 'One-click contact — not a form', hint: 'Direct email or Calendly link, visible on first scroll.' },
+    { id: 'clear_rate_hint', label: 'A rate floor or "starting at" signal', hint: 'Filters time-wasters before they book a discovery call.' },
+    { id: 'social_proof', label: 'At least one brand logo or testimonial quote', hint: 'Real name, real company, ideally with title.' },
+    { id: 'mobile_optimized', label: 'Loads cleanly on mobile in under 3 seconds', hint: '70%+ of brand contacts open portfolios on phone.' },
+    { id: 'current_work', label: 'Most recent piece is from the last 60 days', hint: 'Stale portfolios signal stale creators.' },
+    { id: 'clear_cta', label: 'One clear CTA: "Pitch me a project"', hint: 'Not 3 buttons. Not a contact form. One action.' },
+  ];
+
+  const list = document.getElementById('portfolioChecklist');
+  CHECKLIST.forEach(item => {
+    const wrap = document.createElement('label');
+    wrap.className = 'flex items-start gap-4 p-4 bg-cream border border-line rounded-sharp cursor-pointer hover:border-forest transition';
+    wrap.innerHTML = `
+      <input type="checkbox" data-id="${item.id}" class="mt-1 w-4 h-4 accent-forest cursor-pointer" />
+      <div class="flex-1">
+        <div class="font-display font-bold text-forest text-sm">${item.label}</div>
+        <div class="font-mono text-[11px] text-ash mt-1">// ${item.hint}</div>
+      </div>
+    `;
+    list.appendChild(wrap);
+  });
+
+  const score = document.getElementById('portfolioScore');
+  list.addEventListener('change', () => {
+    const n = list.querySelectorAll('input:checked').length;
+    score.textContent = `score: ${n} / 12`;
+  });
+</script>
+
+</body>
+</html>

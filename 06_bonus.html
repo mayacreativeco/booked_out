@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>06 · Bonus · Workshop Replay — Command Center</title>
+<meta name="robots" content="noindex, nofollow" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = { theme: { extend: {
+    fontFamily: {
+      display: ['Space Grotesk', 'system-ui', 'sans-serif'],
+      sans: ['Inter', 'system-ui', 'sans-serif'],
+      mono: ['JetBrains Mono', 'monospace'],
+    },
+    colors: {
+      cream: '#F5F0E4', creamDeep: '#EDE5D2',
+      forest: '#1B3A2F', forestDeep: '#0F2620', forestLight: '#2D5742',
+      moss: '#4A7C59', ink: '#0A1A12', ash: '#4A5C50', line: '#D8D0BE',
+    },
+  }}}
+</script>
+
+<style>
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', system-ui, sans-serif; background-color: #F5F0E4; color: #0A1A12; }
+  .font-display { font-family: 'Space Grotesk', system-ui, sans-serif; letter-spacing: -0.02em; }
+  .font-mono { font-family: 'JetBrains Mono', monospace; }
+  .display-balance { text-wrap: balance; }
+
+  .checkerboard-mini {
+    background-image:
+      linear-gradient(45deg, #1B3A2F 25%, transparent 25%),
+      linear-gradient(-45deg, #1B3A2F 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #1B3A2F 75%),
+      linear-gradient(-45deg, transparent 75%, #1B3A2F 75%);
+    background-size: 8px 8px;
+    background-position: 0 0, 0 4px, 4px -4px, -4px 0;
+  }
+  .checkerboard-cream {
+    background-image:
+      linear-gradient(45deg, #F5F0E4 25%, transparent 25%),
+      linear-gradient(-45deg, #F5F0E4 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #F5F0E4 75%),
+      linear-gradient(-45deg, transparent 75%, #F5F0E4 75%);
+    background-size: 12px 12px;
+    background-position: 0 0, 0 6px, 6px -6px, -6px 0;
+  }
+
+  .rounded-sharp { border-radius: 4px; }
+  .tile-hover { transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s; }
+  .tile-hover:hover { transform: translateY(-2px); border-color: #1B3A2F; box-shadow: 6px 6px 0 #1B3A2F; }
+
+  .video-hero {
+    aspect-ratio: 16 / 9;
+    background: #0F2620;
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+    border: 2px solid #1B3A2F;
+  }
+  .video-hero::before {
+    content: ''; position: absolute; inset: 0;
+    background-image:
+      linear-gradient(45deg, rgba(74,124,89,0.1) 25%, transparent 25%),
+      linear-gradient(-45deg, rgba(74,124,89,0.1) 25%, transparent 25%);
+    background-size: 48px 48px;
+  }
+  .play-btn {
+    width: 84px; height: 84px; border-radius: 50%;
+    background: rgba(245,240,228,0.1);
+    border: 2px solid rgba(245,240,228,0.35);
+    display: flex; align-items: center; justify-content: center;
+    color: #F5F0E4; font-size: 32px;
+  }
+</style>
+</head>
+<body class="bg-cream text-ink">
+
+<!-- Operator bar -->
+<div class="bg-forestDeep text-cream border-b border-forest">
+  <div class="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between text-xs font-mono">
+    <div class="flex items-center gap-4">
+      <span class="text-moss">●</span>
+      <span>Maya_Creative_Co / command_center.v1</span>
+    </div>
+    <div class="hidden sm:flex items-center gap-4 text-cream/60">
+      <span>section: 06_bonus</span>
+      <span>access: lifetime</span>
+    </div>
+  </div>
+</div>
+
+<!-- Top nav -->
+<header class="border-b border-line bg-cream sticky top-0 z-40">
+  <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="index.html" class="flex items-center gap-3">
+      <div class="w-8 h-8 checkerboard-mini rounded-sharp"></div>
+      <div class="leading-tight">
+        <div class="font-display font-bold text-forest text-base">Command Center</div>
+        <div class="font-mono text-[10px] text-ash">booked_out.v1</div>
+      </div>
+    </a>
+    <nav class="hidden lg:flex items-center gap-1 font-mono text-xs">
+      <a href="index.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">hub</a>
+      <a href="01_tools.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">01_tools</a>
+      <a href="02_templates.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">02_templates</a>
+      <a href="03_scripts.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">03_scripts</a>
+      <a href="04_videos.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">04_videos</a>
+      <a href="05_vault.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">05_vault</a>
+      <a href="06_bonus.html" class="px-3 py-1.5 rounded-sharp bg-forest text-cream">06_bonus</a>
+    </nav>
+    <a href="mailto:hello@collegarestudio.com" class="hidden sm:inline-block text-xs font-mono text-forest border border-forest px-3 py-1.5 rounded-sharp hover:bg-forest hover:text-cream transition">support</a>
+  </div>
+</header>
+
+<!-- Section header -->
+<section class="border-b border-line bg-cream">
+  <div class="max-w-6xl mx-auto px-6 py-14">
+    <div class="flex items-center gap-3 mb-5 font-mono text-xs text-ash">
+      <a href="index.html" class="hover:text-forest">hub</a>
+      <span>/</span>
+      <span class="text-moss">06_bonus</span>
+    </div>
+    <p class="font-mono text-xs text-moss mb-4">// section_06 · bonus</p>
+    <h1 class="font-display text-4xl lg:text-6xl font-bold text-forest mb-5 display-balance">The $4,000 deal — start to finish, in 90 minutes.</h1>
+    <p class="text-lg text-ash max-w-2xl">The full workshop replay. I walk through a real deal I closed earlier this year — every email, every number, every moment I almost undercharged. This is the video I'd send future-me if I could.</p>
+  </div>
+</section>
+
+<!-- Video player -->
+<section class="bg-creamDeep border-b border-line">
+  <div class="max-w-5xl mx-auto px-6 py-16">
+    <div class="video-hero flex items-center justify-center">
+      <div class="flex flex-col items-center gap-4 relative z-10">
+        <div class="play-btn">▶</div>
+        <div class="font-mono text-xs text-moss">[ workshop_replay.mp4 ]</div>
+        <div class="font-mono text-[11px] text-cream/50">90:00 · unlisted_vimeo_embed</div>
+      </div>
+    </div>
+
+    <div class="mt-6 flex flex-col sm:flex-row items-start sm:items-center gap-4 text-sm">
+      <div class="font-mono text-xs text-ash">
+        <span class="text-moss">●</span> recorded: mar 2026 · length: 90_min · format: private_vimeo
+      </div>
+      <div class="sm:ml-auto flex gap-3">
+        <button class="font-mono text-xs text-forest border border-forest px-3 py-2 rounded-sharp hover:bg-forest hover:text-cream transition">↓ download_slides</button>
+        <button class="font-mono text-xs text-forest border border-forest px-3 py-2 rounded-sharp hover:bg-forest hover:text-cream transition">↓ chapter_markers</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Chapter breakdown -->
+<section class="bg-cream border-b border-line">
+  <div class="max-w-5xl mx-auto px-6 py-16">
+    <div class="mb-10">
+      <p class="font-mono text-xs text-moss mb-2">// chapters</p>
+      <h2 class="font-display text-3xl font-bold text-forest mb-3">Jump to the moment that matters to you.</h2>
+      <p class="text-ash">Eight chapters. Every one is ~10 minutes. Don't feel like you need to watch it linearly.</p>
+    </div>
+
+    <div class="space-y-3">
+
+      <div class="bg-creamDeep border border-line rounded-sharp p-5 flex items-start gap-5">
+        <div class="flex-shrink-0 font-mono text-xs text-forest font-bold">00:00</div>
+        <div class="flex-1">
+          <div class="font-display font-bold text-forest mb-1">01 · The inbound that started it.</div>
+          <p class="text-sm text-ash">A screenshot of the actual DM. Why I almost said no. The one thing I noticed that told me this was worth more than they thought.</p>
+        </div>
+      </div>
+
+      <div class="bg-creamDeep border border-line rounded-sharp p-5 flex items-start gap-5">
+        <div class="flex-shrink-0 font-mono text-xs text-forest font-bold">11:30</div>
+        <div class="flex-1">
+          <div class="font-display font-bold text-forest mb-1">02 · The discovery call · live replay.</div>
+          <p class="text-sm text-ash">A redacted audio clip of the 22-minute call. I pause it every 2-3 minutes and explain what I was thinking, what they were signaling, and where I anchored the number.</p>
+        </div>
+      </div>
+
+      <div class="bg-creamDeep border border-line rounded-sharp p-5 flex items-start gap-5">
+        <div class="flex-shrink-0 font-mono text-xs text-forest font-bold">25:00</div>
+        <div class="flex-1">
+          <div class="font-display font-bold text-forest mb-1">03 · Building the proposal live.</div>
+          <p class="text-sm text-ash">I open the template from section_02 on-screen and build out this specific proposal in real time. Every bullet point, every number, every line of usage language.</p>
+        </div>
+      </div>
+
+      <div class="bg-creamDeep border border-line rounded-sharp p-5 flex items-start gap-5">
+        <div class="flex-shrink-0 font-mono text-xs text-forest font-bold">36:40</div>
+        <div class="flex-1">
+          <div class="font-display font-bold text-forest mb-1">04 · The pushback and the re-anchor.</div>
+          <p class="text-sm text-ash">They came back with a 30% lower counter-offer. I walk through the exact reply — and the specific reframe that got us back to the original number.</p>
+        </div>
+      </div>
+
+      <div class="bg-creamDeep border border-line rounded-sharp p-5 flex items-start gap-5">
+        <div class="flex-shrink-0 font-mono text-xs text-forest font-bold">48:15</div>
+        <div class="flex-1">
+          <div class="font-display font-bold text-forest mb-1">05 · Contract, deposit, kickoff.</div>
+          <p class="text-sm text-ash">Which clauses I paid attention to. Why the late-fee clause matters even on "safe" deals. How I structured the 50/50 split and what I'd do differently.</p>
+        </div>
+      </div>
+
+      <div class="bg-creamDeep border border-line rounded-sharp p-5 flex items-start gap-5">
+        <div class="flex-shrink-0 font-mono text-xs text-forest font-bold">58:00</div>
+        <div class="flex-1">
+          <div class="font-display font-bold text-forest mb-1">06 · The production week.</div>
+          <p class="text-sm text-ash">A fast-forward through the production timeline. Where it almost went sideways (product delay + sickness). How I communicated with the brand without panicking them.</p>
+        </div>
+      </div>
+
+      <div class="bg-creamDeep border border-line rounded-sharp p-5 flex items-start gap-5">
+        <div class="flex-shrink-0 font-mono text-xs text-forest font-bold">68:30</div>
+        <div class="flex-1">
+          <div class="font-display font-bold text-forest mb-1">07 · Revisions, delivery, invoice.</div>
+          <p class="text-sm text-ash">Two rounds of revisions, what I pushed back on, what I conceded. How the final invoice was structured. The exact day payment cleared.</p>
+        </div>
+      </div>
+
+      <div class="bg-creamDeep border border-line rounded-sharp p-5 flex items-start gap-5">
+        <div class="flex-shrink-0 font-mono text-xs text-forest font-bold">80:00</div>
+        <div class="flex-1">
+          <div class="font-display font-bold text-forest mb-1">08 · Debrief and what I'd do differently.</div>
+          <p class="text-sm text-ash">What I'd change if I ran this deal again today. The two places I left money on the table. The one thing I did that I want to keep doing forever.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Resources -->
+<section class="bg-creamDeep border-b border-line">
+  <div class="max-w-5xl mx-auto px-6 py-14">
+    <div class="mb-6">
+      <p class="font-mono text-xs text-moss mb-2">// workshop_resources</p>
+      <h2 class="font-display text-2xl font-bold text-forest">What comes with the replay.</h2>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-4">
+      <div class="bg-cream border border-line rounded-sharp p-5">
+        <p class="font-mono text-[11px] text-moss mb-2">// file_01</p>
+        <div class="font-display font-bold text-forest mb-1">Slide deck (PDF)</div>
+        <p class="text-sm text-ash">46 slides, including the annotated proposal and the revised pricing breakdown.</p>
+      </div>
+      <div class="bg-cream border border-line rounded-sharp p-5">
+        <p class="font-mono text-[11px] text-moss mb-2">// file_02</p>
+        <div class="font-display font-bold text-forest mb-1">Chapter-marked transcript</div>
+        <p class="text-sm text-ash">Full transcript with timestamps so you can skim, search, or translate.</p>
+      </div>
+      <div class="bg-cream border border-line rounded-sharp p-5">
+        <p class="font-mono text-[11px] text-moss mb-2">// file_03</p>
+        <div class="font-display font-bold text-forest mb-1">The deal's actual numbers</div>
+        <p class="text-sm text-ash">A one-page breakdown: base rate, usage uplift, brand size multiplier, final invoice. With the math shown.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Back to hub -->
+<section class="bg-cream">
+  <div class="max-w-6xl mx-auto px-6 py-14">
+    <div class="grid md:grid-cols-2 gap-6">
+      <a href="05_vault.html" class="bg-creamDeep border border-line rounded-sharp p-6 tile-hover">
+        <p class="font-mono text-xs text-moss mb-2">// prev_section</p>
+        <div class="font-display text-xl font-bold text-forest">← Section 05 · Resource Vault</div>
+      </a>
+      <a href="index.html" class="bg-creamDeep border border-line rounded-sharp p-6 tile-hover">
+        <p class="font-mono text-xs text-moss mb-2">// you've_seen_it_all</p>
+        <div class="font-display text-xl font-bold text-forest">Back to the Hub →</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-forestDeep text-cream border-t border-forest">
+  <div class="max-w-6xl mx-auto px-6 py-10">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-6 h-6 checkerboard-cream rounded-sharp"></div>
+        <span class="font-mono text-xs text-cream/70">maya_creative_co / command_center.v1</span>
+      </div>
+      <div class="font-mono text-[11px] text-cream/50">
+        © 2026 Maya Creative Co · section_06 · lifetime access
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
