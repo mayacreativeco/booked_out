@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
 
   const resend = new Resend(process.env.RESEND_API_KEY);
   await resend.emails.send({
-    from: 'Maya <hello@mayacreativeco.com>',
+    from: 'Maya <hello@mayaherring.com>',
     to: email,
     subject: 'Your Booked Out Command Center is ready',
     html,
