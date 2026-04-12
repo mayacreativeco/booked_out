@@ -1,294 +1,325 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com:office:office">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Welcome to Booked Out — Your Command Center is Ready</title>
-<meta name="robots" content="noindex, nofollow" />
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-  tailwind.config = {
-    theme: {
-      extend: {
-        fontFamily: {
-          display: ['Space Grotesk', 'system-ui', 'sans-serif'],
-          sans: ['Inter', 'system-ui', 'sans-serif'],
-          mono: ['JetBrains Mono', 'monospace'],
-        },
-        colors: {
-          cream: '#F5F0E4',
-          creamDeep: '#EDE5D2',
-          forest: '#1B3A2F',
-          forestDeep: '#0F2620',
-          forestLight: '#2D5742',
-          moss: '#4A7C59',
-          ink: '#0A1A12',
-          ash: '#4A5C50',
-          line: '#D8D0BE',
-        },
-      },
-    },
-  }
-</script>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<meta name="supported-color-schemes" content="light">
+<title>Your Booked Out Command Center is ready</title>
+<!--[if mso]>
+<noscript><xml><o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch></o:OfficeDocumentSettings></xml></noscript>
+<![endif]-->
 <style>
-  html { scroll-behavior: smooth; }
-  body { font-family: 'Inter', system-ui, sans-serif; background-color: #F5F0E4; color: #0A1A12; }
-  .font-display { font-family: 'Space Grotesk', system-ui, sans-serif; letter-spacing: -0.02em; }
-  .font-mono { font-family: 'JetBrains Mono', monospace; }
-  .display-balance { text-wrap: balance; }
-
-  .checkerboard-mini {
-    background-image:
-      linear-gradient(45deg, #1B3A2F 25%, transparent 25%),
-      linear-gradient(-45deg, #1B3A2F 25%, transparent 25%),
-      linear-gradient(45deg, transparent 75%, #1B3A2F 75%),
-      linear-gradient(-45deg, transparent 75%, #1B3A2F 75%);
-    background-size: 8px 8px;
-    background-position: 0 0, 0 4px, 4px -4px, -4px 0;
-  }
-
-  .rounded-sharp { border-radius: 4px; }
-
-  .cta-glow {
-    box-shadow: 0 0 0 1px rgba(74, 124, 89, 0.3), 0 4px 20px rgba(27, 58, 47, 0.15);
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
-  }
-  .cta-glow:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 0 0 1px rgba(74, 124, 89, 0.5), 0 8px 30px rgba(27, 58, 47, 0.25);
+  body, table, td, a { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+  table, td { mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+  img { -ms-interpolation-mode: bicubic; border: 0; height: auto; line-height: 100%; outline: none; text-decoration: none; }
+  body { margin: 0; padding: 0; width: 100% !important; background-color: #F5F0E4; }
+  @media only screen and (max-width: 620px) {
+    .mobile-full { width: 100% !important; }
+    .mobile-padding { padding-left: 20px !important; padding-right: 20px !important; }
+    .mobile-stack { display: block !important; width: 100% !important; }
+    .mobile-center { text-align: center !important; }
+    .mobile-hide { display: none !important; }
   }
 </style>
 </head>
+<body style="margin:0; padding:0; background-color:#F5F0E4; font-family:'Inter','Helvetica Neue',Helvetica,Arial,sans-serif;">
 
-<body class="bg-cream text-ink">
-
-<!-- Top bar -->
-<div class="bg-forestDeep text-cream border-b border-forest">
-  <div class="max-w-2xl mx-auto px-6 py-3 flex items-center justify-between text-xs font-mono">
-    <div class="flex items-center gap-4">
-      <span class="text-moss">●</span>
-      <span>Maya_Creative_Co / booked_out</span>
-    </div>
-    <span class="text-cream/60">purchase: confirmed</span>
-  </div>
+<!-- Preheader text (hidden) -->
+<div style="display:none; max-height:0; overflow:hidden; mso-hide:all;">
+  Your private dashboard link is inside. Bookmark it — it's the only way in. &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;
 </div>
 
-<!-- Hero -->
-<section class="bg-cream border-b border-line">
-  <div class="max-w-2xl mx-auto px-6 py-16 lg:py-20 text-center">
-    <div class="w-12 h-12 checkerboard-mini rounded-sharp mx-auto mb-6"></div>
-    <p class="font-mono text-xs text-moss mb-4 tracking-wide">// order_complete</p>
-    <h1 class="font-display text-4xl lg:text-5xl font-bold text-forest leading-[0.95] display-balance mb-6">
-      Your Command Center<br />is ready.
-    </h1>
-    <p class="text-lg text-ash max-w-lg mx-auto">
-      You just bought lifetime access to every tool, template, script, and resource inside Booked Out. Here's how to get in and where to start.
-    </p>
-  </div>
-</section>
+<!-- Outer wrapper -->
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#F5F0E4;">
+<tr><td align="center" style="padding:0;">
 
-<!-- Access block -->
-<section class="bg-forestDeep text-cream border-y border-forest">
-  <div class="max-w-2xl mx-auto px-6 py-12">
-    <p class="font-mono text-xs text-moss mb-4">// your_private_link</p>
-    <h2 class="font-display text-2xl lg:text-3xl font-bold mb-4 display-balance">This is your dashboard. No one else has this URL.</h2>
-    <p class="text-cream/70 mb-6">
-      The link below is your private access point. It doesn't require a login or password — the URL itself is your key. Bookmark it now.
-    </p>
+<!-- Top bar -->
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#0F2620;">
+<tr>
+<td style="padding:12px 30px; font-family:'Courier New',Courier,monospace; font-size:12px; color:#F5F0E4;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr>
+    <td style="font-family:'Courier New',Courier,monospace; font-size:12px; color:#F5F0E4;">
+      <span style="color:#4A7C59;">&#9679;</span>&nbsp;&nbsp;Maya_Creative_Co / booked_out
+    </td>
+    <td align="right" style="font-family:'Courier New',Courier,monospace; font-size:12px; color:rgba(245,240,228,0.6);">
+      purchase: confirmed
+    </td>
+  </tr>
+  </table>
+</td>
+</tr>
+</table>
 
-    <div class="bg-ink rounded-sharp p-5 font-mono text-sm border border-forestLight mb-6 break-all">
-      <span class="text-moss">$</span> <span class="text-cream/90">{{DASHBOARD_URL}}</span>
-    </div>
+<!-- Main content area -->
+<table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" class="mobile-full" style="background-color:#F5F0E4; max-width:600px;">
 
-    <a href="{{DASHBOARD_URL}}" class="cta-glow inline-block bg-forest text-cream font-display font-bold text-base px-8 py-3.5 rounded-sharp hover:bg-forestLight transition">
-      Open your Command Center →
-    </a>
+<!-- Checkerboard icon + headline -->
+<tr>
+<td align="center" style="padding:50px 40px 0 40px;" class="mobile-padding">
+  <!-- Checkerboard icon -->
+  <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 auto 20px;">
+  <tr>
+    <td style="width:12px;height:12px;background-color:#1B3A2F;"></td>
+    <td style="width:12px;height:12px;background-color:#F5F0E4;border:1px solid #D8D0BE;"></td>
+    <td style="width:12px;height:12px;background-color:#1B3A2F;"></td>
+  </tr>
+  <tr>
+    <td style="width:12px;height:12px;background-color:#F5F0E4;border:1px solid #D8D0BE;"></td>
+    <td style="width:12px;height:12px;background-color:#1B3A2F;"></td>
+    <td style="width:12px;height:12px;background-color:#F5F0E4;border:1px solid #D8D0BE;"></td>
+  </tr>
+  <tr>
+    <td style="width:12px;height:12px;background-color:#1B3A2F;"></td>
+    <td style="width:12px;height:12px;background-color:#F5F0E4;border:1px solid #D8D0BE;"></td>
+    <td style="width:12px;height:12px;background-color:#1B3A2F;"></td>
+  </tr>
+  </table>
 
-    <div class="mt-8 pt-6 border-t border-forest space-y-3 font-mono text-xs text-cream/60">
-      <div class="flex items-start gap-3">
-        <span class="text-moss mt-0.5">→</span>
-        <span>Bookmark this URL — it's the only way in. There's no login page on the public site.</span>
-      </div>
-      <div class="flex items-start gap-3">
-        <span class="text-moss mt-0.5">→</span>
-        <span>Don't share this link. It's unique to your purchase and tied to your access.</span>
-      </div>
-      <div class="flex items-start gap-3">
-        <span class="text-moss mt-0.5">→</span>
-        <span>Works on any device — phone, tablet, laptop. No app required.</span>
-      </div>
-    </div>
-  </div>
-</section>
+  <p style="margin:0 0 8px; font-family:'Courier New',Courier,monospace; font-size:12px; color:#4A7C59; letter-spacing:0.5px;">// order_complete</p>
+  <h1 style="margin:0 0 16px; font-family:'Georgia',serif; font-size:36px; font-weight:700; color:#1B3A2F; line-height:1.1; letter-spacing:-0.5px;">Your Command Center<br>is ready.</h1>
+  <p style="margin:0; font-size:16px; color:#4A5C50; line-height:1.6; max-width:440px;">You just bought lifetime access to every tool, template, script, and resource inside Booked Out. Here's how to get in.</p>
+</td>
+</tr>
 
-<!-- Quick start -->
-<section class="bg-creamDeep border-b border-line">
-  <div class="max-w-2xl mx-auto px-6 py-12">
-    <p class="font-mono text-xs text-moss mb-2">// start_here</p>
-    <h2 class="font-display text-2xl font-bold text-forest mb-2">First 15 minutes. Three moves.</h2>
-    <p class="text-sm text-ash mb-8">You don't need to go through everything today. Just run these three steps and you'll have your first real output inside 15 minutes.</p>
+<!-- Spacer -->
+<tr><td style="height:40px;"></td></tr>
 
-    <div class="space-y-4">
-      <!-- Step 1 -->
-      <div class="bg-cream border border-line rounded-sharp p-5">
-        <div class="flex items-center justify-between mb-3">
-          <span class="font-mono text-xs text-ash">step_01</span>
-          <span class="font-mono text-[10px] text-moss">~5 min</span>
-        </div>
-        <div class="font-display font-bold text-forest text-lg mb-1">Set your rate floor.</div>
-        <p class="text-sm text-ash">Open the Rate Calculator in Section 01 (Interactive Tools). Plug in your numbers once — it gives you a minimum rate. That number becomes your new "no" line for every future deal.</p>
-      </div>
+<!-- Dark green access block -->
+<tr>
+<td style="padding:0 30px;" class="mobile-padding">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#0F2620; border-radius:6px;">
+  <tr>
+  <td style="padding:32px 30px;" class="mobile-padding">
 
-      <!-- Step 2 -->
-      <div class="bg-cream border border-line rounded-sharp p-5">
-        <div class="flex items-center justify-between mb-3">
-          <span class="font-mono text-xs text-ash">step_02</span>
-          <span class="font-mono text-[10px] text-moss">~5 min</span>
-        </div>
-        <div class="font-display font-bold text-forest text-lg mb-1">Grab your first pitch.</div>
-        <p class="text-sm text-ash">Open the Pitch Generator in the same section. Build one outbound email right now. Copy it, send it today — not Monday, today. You just made the kit pay for itself.</p>
-      </div>
+    <p style="margin:0 0 12px; font-family:'Courier New',Courier,monospace; font-size:12px; color:#4A7C59;">// your_private_link</p>
+    <h2 style="margin:0 0 12px; font-family:'Georgia',serif; font-size:24px; font-weight:700; color:#F5F0E4; line-height:1.2;">This is your dashboard. No one else has this URL.</h2>
+    <p style="margin:0 0 24px; font-size:14px; color:rgba(245,240,228,0.7); line-height:1.6;">The link below is your private access point. It doesn't require a login or password — the URL itself is your key. Bookmark it now.</p>
 
-      <!-- Step 3 -->
-      <div class="bg-cream border border-line rounded-sharp p-5">
-        <div class="flex items-center justify-between mb-3">
-          <span class="font-mono text-xs text-ash">step_03</span>
-          <span class="font-mono text-[10px] text-moss">~5 min</span>
-        </div>
-        <div class="font-display font-bold text-forest text-lg mb-1">Copy the tracker.</div>
-        <p class="text-sm text-ash">Go to Section 02 (Templates) and duplicate the Client Tracker. This is where every deal, follow-up, and invoice lives from now on. One sheet, one place.</p>
-      </div>
-    </div>
-  </div>
-</section>
+    <!-- Terminal URL box -->
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#0A1A12; border:1px solid #2D5742; border-radius:4px; margin-bottom:24px;">
+    <tr>
+    <td style="padding:16px 18px;">
+      <p style="margin:0 0 4px; font-family:'Courier New',Courier,monospace; font-size:12px; color:#4A7C59;">$ open dashboard</p>
+      <a href="{{DASHBOARD_URL}}" style="font-family:'Courier New',Courier,monospace; font-size:13px; color:#F5F0E4; text-decoration:underline; word-break:break-all;">{{DASHBOARD_URL}}</a>
+    </td>
+    </tr>
+    </table>
+
+    <!-- CTA button -->
+    <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+    <tr>
+    <td align="center" style="background-color:#1B3A2F; border-radius:4px;">
+      <a href="{{DASHBOARD_URL}}" target="_blank" style="display:inline-block; padding:14px 32px; font-family:'Georgia',serif; font-size:16px; font-weight:700; color:#F5F0E4; text-decoration:none;">Open your Command Center &rarr;</a>
+    </td>
+    </tr>
+    </table>
+
+    <!-- Bullet points -->
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:24px; border-top:1px solid #2D5742; padding-top:20px;">
+    <tr>
+    <td style="padding-top:20px;">
+      <p style="margin:0 0 10px; font-family:'Courier New',Courier,monospace; font-size:12px; color:rgba(245,240,228,0.6); line-height:1.6;">
+        <span style="color:#4A7C59;">&rarr;</span>&nbsp; Bookmark this URL — it's the only way in. No login page on the site.
+      </p>
+      <p style="margin:0 0 10px; font-family:'Courier New',Courier,monospace; font-size:12px; color:rgba(245,240,228,0.6); line-height:1.6;">
+        <span style="color:#4A7C59;">&rarr;</span>&nbsp; Don't share this link. It's unique to your purchase.
+      </p>
+      <p style="margin:0; font-family:'Courier New',Courier,monospace; font-size:12px; color:rgba(245,240,228,0.6); line-height:1.6;">
+        <span style="color:#4A7C59;">&rarr;</span>&nbsp; Works on any device — phone, tablet, laptop. No app required.
+      </p>
+    </td>
+    </tr>
+    </table>
+
+  </td>
+  </tr>
+  </table>
+</td>
+</tr>
+
+<!-- Spacer -->
+<tr><td style="height:40px;"></td></tr>
+
+<!-- Quick start section -->
+<tr>
+<td style="padding:0 30px;" class="mobile-padding">
+  <p style="margin:0 0 6px; font-family:'Courier New',Courier,monospace; font-size:12px; color:#4A7C59;">// start_here</p>
+  <h2 style="margin:0 0 8px; font-family:'Georgia',serif; font-size:24px; font-weight:700; color:#1B3A2F;">First 15 minutes. Three moves.</h2>
+  <p style="margin:0 0 24px; font-size:14px; color:#4A5C50; line-height:1.5;">You don't need to go through everything today. Just run these three and you'll have real output in 15 minutes.</p>
+</td>
+</tr>
+
+<!-- Step 1 -->
+<tr>
+<td style="padding:0 30px 12px;" class="mobile-padding">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#EDE5D2; border:1px solid #D8D0BE; border-radius:4px;">
+  <tr>
+  <td style="padding:20px 24px;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+    <tr>
+      <td style="font-family:'Courier New',Courier,monospace; font-size:11px; color:#4A5C50;">step_01</td>
+      <td align="right" style="font-family:'Courier New',Courier,monospace; font-size:11px; color:#4A7C59;">~5 min</td>
+    </tr>
+    </table>
+    <h3 style="margin:10px 0 6px; font-family:'Georgia',serif; font-size:18px; font-weight:700; color:#1B3A2F;">Set your rate floor.</h3>
+    <p style="margin:0; font-size:14px; color:#4A5C50; line-height:1.5;">Open the Rate Calculator in Section 01. Plug in your numbers — it gives you a minimum rate. That's your new "no" line.</p>
+  </td>
+  </tr>
+  </table>
+</td>
+</tr>
+
+<!-- Step 2 -->
+<tr>
+<td style="padding:0 30px 12px;" class="mobile-padding">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#EDE5D2; border:1px solid #D8D0BE; border-radius:4px;">
+  <tr>
+  <td style="padding:20px 24px;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+    <tr>
+      <td style="font-family:'Courier New',Courier,monospace; font-size:11px; color:#4A5C50;">step_02</td>
+      <td align="right" style="font-family:'Courier New',Courier,monospace; font-size:11px; color:#4A7C59;">~5 min</td>
+    </tr>
+    </table>
+    <h3 style="margin:10px 0 6px; font-family:'Georgia',serif; font-size:18px; font-weight:700; color:#1B3A2F;">Grab your first pitch.</h3>
+    <p style="margin:0; font-size:14px; color:#4A5C50; line-height:1.5;">Open the Pitch Generator. Build one outbound email right now. Send it today — not Monday. You just made the kit pay for itself.</p>
+  </td>
+  </tr>
+  </table>
+</td>
+</tr>
+
+<!-- Step 3 -->
+<tr>
+<td style="padding:0 30px;" class="mobile-padding">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#EDE5D2; border:1px solid #D8D0BE; border-radius:4px;">
+  <tr>
+  <td style="padding:20px 24px;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+    <tr>
+      <td style="font-family:'Courier New',Courier,monospace; font-size:11px; color:#4A5C50;">step_03</td>
+      <td align="right" style="font-family:'Courier New',Courier,monospace; font-size:11px; color:#4A7C59;">~5 min</td>
+    </tr>
+    </table>
+    <h3 style="margin:10px 0 6px; font-family:'Georgia',serif; font-size:18px; font-weight:700; color:#1B3A2F;">Copy the tracker.</h3>
+    <p style="margin:0; font-size:14px; color:#4A5C50; line-height:1.5;">Go to Section 02 and duplicate the Client Tracker. One sheet for every deal, follow-up, and invoice from now on.</p>
+  </td>
+  </tr>
+  </table>
+</td>
+</tr>
+
+<!-- Spacer -->
+<tr><td style="height:40px;"></td></tr>
 
 <!-- What's inside -->
-<section class="bg-cream border-b border-line">
-  <div class="max-w-2xl mx-auto px-6 py-12">
-    <p class="font-mono text-xs text-moss mb-2">// whats_inside</p>
-    <h2 class="font-display text-2xl font-bold text-forest mb-6">Six sections. Everything you need to run deals.</h2>
+<tr>
+<td style="padding:0 30px;" class="mobile-padding">
+  <p style="margin:0 0 6px; font-family:'Courier New',Courier,monospace; font-size:12px; color:#4A7C59;">// whats_inside</p>
+  <h2 style="margin:0 0 20px; font-family:'Georgia',serif; font-size:22px; font-weight:700; color:#1B3A2F;">Six sections. Everything you need.</h2>
 
-    <div class="space-y-3">
-      <div class="flex items-start gap-4 bg-creamDeep border border-line rounded-sharp p-4">
-        <span class="font-mono text-xs text-moss mt-1 shrink-0">01</span>
-        <div>
-          <div class="font-display font-bold text-forest">Interactive Tools</div>
-          <p class="text-sm text-ash">Rate calculator, negotiation playbook, pitch generator — three tools that do the thinking with you.</p>
-        </div>
-      </div>
-      <div class="flex items-start gap-4 bg-creamDeep border border-line rounded-sharp p-4">
-        <span class="font-mono text-xs text-moss mt-1 shrink-0">02</span>
-        <div>
-          <div class="font-display font-bold text-forest">Templates</div>
-          <p class="text-sm text-ash">Proposal, client tracker, onboarding workflow, portfolio checklist. Copy once, reuse on every deal.</p>
-        </div>
-      </div>
-      <div class="flex items-start gap-4 bg-creamDeep border border-line rounded-sharp p-4">
-        <span class="font-mono text-xs text-moss mt-1 shrink-0">03</span>
-        <div>
-          <div class="font-display font-bold text-forest">Scripts</div>
-          <p class="text-sm text-ash">Cold outreach, warm follow-up, rate negotiation, recovery. The exact words for the moments that cost you money.</p>
-        </div>
-      </div>
-      <div class="flex items-start gap-4 bg-creamDeep border border-line rounded-sharp p-4">
-        <span class="font-mono text-xs text-moss mt-1 shrink-0">04</span>
-        <div>
-          <div class="font-display font-bold text-forest">Mini Implementation Videos</div>
-          <p class="text-sm text-ash">Under-5-minute walkthroughs of every tool and template. Watch once, implement, move on.</p>
-        </div>
-      </div>
-      <div class="flex items-start gap-4 bg-creamDeep border border-line rounded-sharp p-4">
-        <span class="font-mono text-xs text-moss mt-1 shrink-0">05</span>
-        <div>
-          <div class="font-display font-bold text-forest">Resource Vault</div>
-          <p class="text-sm text-ash">Brand contact list, rate benchmarks, swipe file, and an operator FAQ. The stuff you'd normally pay a coach to hand you.</p>
-        </div>
-      </div>
-      <div class="flex items-start gap-4 bg-creamDeep border border-line rounded-sharp p-4">
-        <span class="font-mono text-xs text-moss mt-1 shrink-0">06</span>
-        <div>
-          <div class="font-display font-bold text-forest">Bonus — Workshop Replay</div>
-          <p class="text-sm text-ash">A 90-minute replay walking through a full $4,000 deal from first pitch to signed contract.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+    <tr>
+      <td style="padding:8px 0; border-bottom:1px solid #D8D0BE;">
+        <span style="font-family:'Courier New',Courier,monospace; font-size:12px; color:#4A7C59;">01</span>&nbsp;&nbsp;
+        <span style="font-size:14px; font-weight:700; color:#1B3A2F;">Interactive Tools</span>&nbsp;&nbsp;
+        <span style="font-size:13px; color:#4A5C50;">Rate calculator, negotiation playbook, pitch generator</span>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:8px 0; border-bottom:1px solid #D8D0BE;">
+        <span style="font-family:'Courier New',Courier,monospace; font-size:12px; color:#4A7C59;">02</span>&nbsp;&nbsp;
+        <span style="font-size:14px; font-weight:700; color:#1B3A2F;">Templates</span>&nbsp;&nbsp;
+        <span style="font-size:13px; color:#4A5C50;">Proposal, client tracker, onboarding, portfolio checklist</span>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:8px 0; border-bottom:1px solid #D8D0BE;">
+        <span style="font-family:'Courier New',Courier,monospace; font-size:12px; color:#4A7C59;">03</span>&nbsp;&nbsp;
+        <span style="font-size:14px; font-weight:700; color:#1B3A2F;">Scripts</span>&nbsp;&nbsp;
+        <span style="font-size:13px; color:#4A5C50;">Cold, warm, follow-up, recovery — words for key moments</span>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:8px 0; border-bottom:1px solid #D8D0BE;">
+        <span style="font-family:'Courier New',Courier,monospace; font-size:12px; color:#4A7C59;">04</span>&nbsp;&nbsp;
+        <span style="font-size:14px; font-weight:700; color:#1B3A2F;">Mini Videos</span>&nbsp;&nbsp;
+        <span style="font-size:13px; color:#4A5C50;">Under-5-min walkthroughs of every tool and template</span>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:8px 0; border-bottom:1px solid #D8D0BE;">
+        <span style="font-family:'Courier New',Courier,monospace; font-size:12px; color:#4A7C59;">05</span>&nbsp;&nbsp;
+        <span style="font-size:14px; font-weight:700; color:#1B3A2F;">Resource Vault</span>&nbsp;&nbsp;
+        <span style="font-size:13px; color:#4A5C50;">Brand contacts, rate benchmarks, swipe file, FAQ</span>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:8px 0;">
+        <span style="font-family:'Courier New',Courier,monospace; font-size:12px; color:#4A7C59;">06</span>&nbsp;&nbsp;
+        <span style="font-size:14px; font-weight:700; color:#1B3A2F;">Bonus Workshop</span>&nbsp;&nbsp;
+        <span style="font-size:13px; color:#4A5C50;">90-min replay of a full $4K deal, pitch to contract</span>
+      </td>
+    </tr>
+  </table>
+</td>
+</tr>
 
-<!-- How it works -->
-<section class="bg-forestDeep text-cream">
-  <div class="max-w-2xl mx-auto px-6 py-12">
-    <p class="font-mono text-xs text-moss mb-4">// how_this_works</p>
-    <h2 class="font-display text-2xl font-bold mb-6 display-balance">This isn't a course. It's a command center.</h2>
-
-    <div class="space-y-4 font-mono text-xs">
-      <div class="bg-ink rounded-sharp p-4 border border-forestLight">
-        <div class="text-moss mb-2">$ ./faq --topic access</div>
-        <div class="space-y-2.5 text-cream/80">
-          <div>
-            <span class="text-cream">→ Do I need to log in?</span><br />
-            <span class="ml-4">No. Your private URL is your login. Bookmark it and go.</span>
-          </div>
-          <div>
-            <span class="text-cream">→ Does my access expire?</span><br />
-            <span class="ml-4">No. It's lifetime. Come back in a week or a year — same link, same content.</span>
-          </div>
-          <div>
-            <span class="text-cream">→ Can I share my link?</span><br />
-            <span class="ml-4">No. Your URL is unique and private to you. Sharing it may revoke your access.</span>
-          </div>
-          <div>
-            <span class="text-cream">→ What if something breaks?</span><br />
-            <span class="ml-4">Email support@mayaherring.com. Same inbox Maya uses for her own deals.</span>
-          </div>
-          <div>
-            <span class="text-cream">→ Will new content be added?</span><br />
-            <span class="ml-4">Yes. Updates roll into your existing dashboard automatically — no repurchase.</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+<!-- Spacer -->
+<tr><td style="height:40px;"></td></tr>
 
 <!-- Final CTA -->
-<section class="bg-cream">
-  <div class="max-w-2xl mx-auto px-6 py-14 text-center">
-    <p class="font-mono text-xs text-moss mb-4">// ready</p>
-    <h2 class="font-display text-2xl lg:text-3xl font-bold text-forest mb-4 display-balance">Open your dashboard and run step one.</h2>
-    <p class="text-ash mb-8 max-w-md mx-auto">
-      15 minutes from now you'll have a rate floor, a pitch in someone's inbox, and a tracker for every deal after that.
-    </p>
-    <a href="{{DASHBOARD_URL}}" class="cta-glow inline-block bg-forest text-cream font-display font-bold text-base px-8 py-3.5 rounded-sharp hover:bg-forestLight transition">
-      Open your Command Center →
-    </a>
-  </div>
-</section>
+<tr>
+<td align="center" style="padding:0 30px 10px;" class="mobile-padding">
+  <p style="margin:0 0 6px; font-family:'Courier New',Courier,monospace; font-size:12px; color:#4A7C59;">// ready</p>
+  <h2 style="margin:0 0 12px; font-family:'Georgia',serif; font-size:22px; font-weight:700; color:#1B3A2F;">Open your dashboard and run step one.</h2>
+  <p style="margin:0 0 20px; font-size:14px; color:#4A5C50; line-height:1.5;">15 minutes from now you'll have a rate floor, a pitch in someone's inbox,<br>and a tracker for every deal after that.</p>
+  <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+  <tr>
+  <td align="center" style="background-color:#1B3A2F; border-radius:4px;">
+    <a href="{{DASHBOARD_URL}}" target="_blank" style="display:inline-block; padding:14px 32px; font-family:'Georgia',serif; font-size:16px; font-weight:700; color:#F5F0E4; text-decoration:none;">Open your Command Center &rarr;</a>
+  </td>
+  </tr>
+  </table>
+</td>
+</tr>
+
+<!-- Spacer -->
+<tr><td style="height:30px;"></td></tr>
 
 <!-- Support -->
-<section class="bg-creamDeep border-t border-line">
-  <div class="max-w-2xl mx-auto px-6 py-10 text-center">
-    <p class="font-mono text-xs text-ash mb-3">stuck? lost your link? something not loading?</p>
-    <a href="mailto:support@mayaherring.com" class="inline-block font-mono text-xs text-forest border border-forest px-4 py-2 rounded-sharp hover:bg-forest hover:text-cream transition">support@mayaherring.com</a>
-  </div>
-</section>
+<tr>
+<td align="center" style="padding:20px 30px; border-top:1px solid #D8D0BE;" class="mobile-padding">
+  <p style="margin:0 0 8px; font-family:'Courier New',Courier,monospace; font-size:12px; color:#4A5C50;">stuck? lost your link? something not loading?</p>
+  <a href="mailto:support@mayaherring.com" style="font-family:'Courier New',Courier,monospace; font-size:12px; color:#1B3A2F; text-decoration:underline;">support@mayaherring.com</a>
+</td>
+</tr>
 
-<!-- Footer -->
-<footer class="bg-forestDeep text-cream border-t border-forest">
-  <div class="max-w-2xl mx-auto px-6 py-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-    <div class="flex items-center gap-3">
-      <div class="w-5 h-5 checkerboard-mini rounded-sharp" style="background-image: linear-gradient(45deg, #F5F0E4 25%, transparent 25%), linear-gradient(-45deg, #F5F0E4 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #F5F0E4 75%), linear-gradient(-45deg, transparent 75%, #F5F0E4 75%); background-size: 8px 8px; background-position: 0 0, 0 4px, 4px -4px, -4px 0;"></div>
-      <span class="font-mono text-xs text-cream/70">maya_creative_co / booked_out</span>
-    </div>
-    <span class="font-mono text-[11px] text-cream/50">© 2026 Maya Creative Co · lifetime access</span>
-  </div>
-</footer>
+</table>
+<!-- End main content -->
+
+<!-- Footer bar -->
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#0F2620;">
+<tr>
+<td style="padding:20px 30px;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:600px; margin:0 auto;">
+  <tr>
+    <td style="font-family:'Courier New',Courier,monospace; font-size:11px; color:rgba(245,240,228,0.5);">
+      maya_creative_co / booked_out
+    </td>
+    <td align="right" style="font-family:'Courier New',Courier,monospace; font-size:11px; color:rgba(245,240,228,0.4);">
+      &copy; 2026 Maya Creative Co
+    </td>
+  </tr>
+  </table>
+</td>
+</tr>
+</table>
+
+</td></tr>
+</table>
 
 </body>
 </html>
