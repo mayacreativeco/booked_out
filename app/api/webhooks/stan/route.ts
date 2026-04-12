@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
     .replaceAll('{{DASHBOARD_URL}}', dashboardUrl)
     .replaceAll('{{NAME}}', firstName);
 
-  const resend = new Resend(process.env.RESEND);
+  const resend = new Resend(process.env.RESEND_API_KEY);
   await resend.emails.send({
     from: 'Maya <hello@mayacreativeco.com>',
     to: email,
