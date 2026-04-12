@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Welcome to Booked Out — Your Command Center is Ready</title>
+<meta name="robots" content="noindex, nofollow" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          display: ['Space Grotesk', 'system-ui', 'sans-serif'],
+          sans: ['Inter', 'system-ui', 'sans-serif'],
+          mono: ['JetBrains Mono', 'monospace'],
+        },
+        colors: {
+          cream: '#F5F0E4',
+          creamDeep: '#EDE5D2',
+          forest: '#1B3A2F',
+          forestDeep: '#0F2620',
+          forestLight: '#2D5742',
+          moss: '#4A7C59',
+          ink: '#0A1A12',
+          ash: '#4A5C50',
+          line: '#D8D0BE',
+        },
+      },
+    },
+  }
+</script>
+
+<style>
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', system-ui, sans-serif; background-color: #F5F0E4; color: #0A1A12; }
+  .font-display { font-family: 'Space Grotesk', system-ui, sans-serif; letter-spacing: -0.02em; }
+  .font-mono { font-family: 'JetBrains Mono', monospace; }
+  .display-balance { text-wrap: balance; }
+
+  .checkerboard-mini {
+    background-image:
+      linear-gradient(45deg, #1B3A2F 25%, transparent 25%),
+      linear-gradient(-45deg, #1B3A2F 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #1B3A2F 75%),
+      linear-gradient(-45deg, transparent 75%, #1B3A2F 75%);
+    background-size: 8px 8px;
+    background-position: 0 0, 0 4px, 4px -4px, -4px 0;
+  }
+
+  .rounded-sharp { border-radius: 4px; }
+
+  .cta-glow {
+    box-shadow: 0 0 0 1px rgba(74, 124, 89, 0.3), 0 4px 20px rgba(27, 58, 47, 0.15);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .cta-glow:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 0 1px rgba(74, 124, 89, 0.5), 0 8px 30px rgba(27, 58, 47, 0.25);
+  }
+</style>
+</head>
+
+<body class="bg-cream text-ink">
+
+<!-- Top bar -->
+<div class="bg-forestDeep text-cream border-b border-forest">
+  <div class="max-w-2xl mx-auto px-6 py-3 flex items-center justify-between text-xs font-mono">
+    <div class="flex items-center gap-4">
+      <span class="text-moss">●</span>
+      <span>Maya_Creative_Co / booked_out</span>
+    </div>
+    <span class="text-cream/60">purchase: confirmed</span>
+  </div>
+</div>
+
+<!-- Hero -->
+<section class="bg-cream border-b border-line">
+  <div class="max-w-2xl mx-auto px-6 py-16 lg:py-20 text-center">
+    <div class="w-12 h-12 checkerboard-mini rounded-sharp mx-auto mb-6"></div>
+    <p class="font-mono text-xs text-moss mb-4 tracking-wide">// order_complete</p>
+    <h1 class="font-display text-4xl lg:text-5xl font-bold text-forest leading-[0.95] display-balance mb-6">
+      Your Command Center<br />is ready.
+    </h1>
+    <p class="text-lg text-ash max-w-lg mx-auto">
+      You just bought lifetime access to every tool, template, script, and resource inside Booked Out. Here's how to get in and where to start.
+    </p>
+  </div>
+</section>
+
+<!-- Access block -->
+<section class="bg-forestDeep text-cream border-y border-forest">
+  <div class="max-w-2xl mx-auto px-6 py-12">
+    <p class="font-mono text-xs text-moss mb-4">// your_private_link</p>
+    <h2 class="font-display text-2xl lg:text-3xl font-bold mb-4 display-balance">This is your dashboard. No one else has this URL.</h2>
+    <p class="text-cream/70 mb-6">
+      The link below is your private access point. It doesn't require a login or password — the URL itself is your key. Bookmark it now.
+    </p>
+
+    <div class="bg-ink rounded-sharp p-5 font-mono text-sm border border-forestLight mb-6 break-all">
+      <span class="text-moss">$</span> <span class="text-cream/90">{{DASHBOARD_URL}}</span>
+    </div>
+
+    <a href="{{DASHBOARD_URL}}" class="cta-glow inline-block bg-forest text-cream font-display font-bold text-base px-8 py-3.5 rounded-sharp hover:bg-forestLight transition">
+      Open your Command Center →
+    </a>
+
+    <div class="mt-8 pt-6 border-t border-forest space-y-3 font-mono text-xs text-cream/60">
+      <div class="flex items-start gap-3">
+        <span class="text-moss mt-0.5">→</span>
+        <span>Bookmark this URL — it's the only way in. There's no login page on the public site.</span>
+      </div>
+      <div class="flex items-start gap-3">
+        <span class="text-moss mt-0.5">→</span>
+        <span>Don't share this link. It's unique to your purchase and tied to your access.</span>
+      </div>
+      <div class="flex items-start gap-3">
+        <span class="text-moss mt-0.5">→</span>
+        <span>Works on any device — phone, tablet, laptop. No app required.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Quick start -->
+<section class="bg-creamDeep border-b border-line">
+  <div class="max-w-2xl mx-auto px-6 py-12">
+    <p class="font-mono text-xs text-moss mb-2">// start_here</p>
+    <h2 class="font-display text-2xl font-bold text-forest mb-2">First 15 minutes. Three moves.</h2>
+    <p class="text-sm text-ash mb-8">You don't need to go through everything today. Just run these three steps and you'll have your first real output inside 15 minutes.</p>
+
+    <div class="space-y-4">
+      <!-- Step 1 -->
+      <div class="bg-cream border border-line rounded-sharp p-5">
+        <div class="flex items-center justify-between mb-3">
+          <span class="font-mono text-xs text-ash">step_01</span>
+          <span class="font-mono text-[10px] text-moss">~5 min</span>
+        </div>
+        <div class="font-display font-bold text-forest text-lg mb-1">Set your rate floor.</div>
+        <p class="text-sm text-ash">Open the Rate Calculator in Section 01 (Interactive Tools). Plug in your numbers once — it gives you a minimum rate. That number becomes your new "no" line for every future deal.</p>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="bg-cream border border-line rounded-sharp p-5">
+        <div class="flex items-center justify-between mb-3">
+          <span class="font-mono text-xs text-ash">step_02</span>
+          <span class="font-mono text-[10px] text-moss">~5 min</span>
+        </div>
+        <div class="font-display font-bold text-forest text-lg mb-1">Grab your first pitch.</div>
+        <p class="text-sm text-ash">Open the Pitch Generator in the same section. Build one outbound email right now. Copy it, send it today — not Monday, today. You just made the kit pay for itself.</p>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="bg-cream border border-line rounded-sharp p-5">
+        <div class="flex items-center justify-between mb-3">
+          <span class="font-mono text-xs text-ash">step_03</span>
+          <span class="font-mono text-[10px] text-moss">~5 min</span>
+        </div>
+        <div class="font-display font-bold text-forest text-lg mb-1">Copy the tracker.</div>
+        <p class="text-sm text-ash">Go to Section 02 (Templates) and duplicate the Client Tracker. This is where every deal, follow-up, and invoice lives from now on. One sheet, one place.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- What's inside -->
+<section class="bg-cream border-b border-line">
+  <div class="max-w-2xl mx-auto px-6 py-12">
+    <p class="font-mono text-xs text-moss mb-2">// whats_inside</p>
+    <h2 class="font-display text-2xl font-bold text-forest mb-6">Six sections. Everything you need to run deals.</h2>
+
+    <div class="space-y-3">
+      <div class="flex items-start gap-4 bg-creamDeep border border-line rounded-sharp p-4">
+        <span class="font-mono text-xs text-moss mt-1 shrink-0">01</span>
+        <div>
+          <div class="font-display font-bold text-forest">Interactive Tools</div>
+          <p class="text-sm text-ash">Rate calculator, negotiation playbook, pitch generator — three tools that do the thinking with you.</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-4 bg-creamDeep border border-line rounded-sharp p-4">
+        <span class="font-mono text-xs text-moss mt-1 shrink-0">02</span>
+        <div>
+          <div class="font-display font-bold text-forest">Templates</div>
+          <p class="text-sm text-ash">Proposal, client tracker, onboarding workflow, portfolio checklist. Copy once, reuse on every deal.</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-4 bg-creamDeep border border-line rounded-sharp p-4">
+        <span class="font-mono text-xs text-moss mt-1 shrink-0">03</span>
+        <div>
+          <div class="font-display font-bold text-forest">Scripts</div>
+          <p class="text-sm text-ash">Cold outreach, warm follow-up, rate negotiation, recovery. The exact words for the moments that cost you money.</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-4 bg-creamDeep border border-line rounded-sharp p-4">
+        <span class="font-mono text-xs text-moss mt-1 shrink-0">04</span>
+        <div>
+          <div class="font-display font-bold text-forest">Mini Implementation Videos</div>
+          <p class="text-sm text-ash">Under-5-minute walkthroughs of every tool and template. Watch once, implement, move on.</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-4 bg-creamDeep border border-line rounded-sharp p-4">
+        <span class="font-mono text-xs text-moss mt-1 shrink-0">05</span>
+        <div>
+          <div class="font-display font-bold text-forest">Resource Vault</div>
+          <p class="text-sm text-ash">Brand contact list, rate benchmarks, swipe file, and an operator FAQ. The stuff you'd normally pay a coach to hand you.</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-4 bg-creamDeep border border-line rounded-sharp p-4">
+        <span class="font-mono text-xs text-moss mt-1 shrink-0">06</span>
+        <div>
+          <div class="font-display font-bold text-forest">Bonus — Workshop Replay</div>
+          <p class="text-sm text-ash">A 90-minute replay walking through a full $4,000 deal from first pitch to signed contract.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- How it works -->
+<section class="bg-forestDeep text-cream">
+  <div class="max-w-2xl mx-auto px-6 py-12">
+    <p class="font-mono text-xs text-moss mb-4">// how_this_works</p>
+    <h2 class="font-display text-2xl font-bold mb-6 display-balance">This isn't a course. It's a command center.</h2>
+
+    <div class="space-y-4 font-mono text-xs">
+      <div class="bg-ink rounded-sharp p-4 border border-forestLight">
+        <div class="text-moss mb-2">$ ./faq --topic access</div>
+        <div class="space-y-2.5 text-cream/80">
+          <div>
+            <span class="text-cream">→ Do I need to log in?</span><br />
+            <span class="ml-4">No. Your private URL is your login. Bookmark it and go.</span>
+          </div>
+          <div>
+            <span class="text-cream">→ Does my access expire?</span><br />
+            <span class="ml-4">No. It's lifetime. Come back in a week or a year — same link, same content.</span>
+          </div>
+          <div>
+            <span class="text-cream">→ Can I share my link?</span><br />
+            <span class="ml-4">No. Your URL is unique and private to you. Sharing it may revoke your access.</span>
+          </div>
+          <div>
+            <span class="text-cream">→ What if something breaks?</span><br />
+            <span class="ml-4">Email support@mayaherring.com. Same inbox Maya uses for her own deals.</span>
+          </div>
+          <div>
+            <span class="text-cream">→ Will new content be added?</span><br />
+            <span class="ml-4">Yes. Updates roll into your existing dashboard automatically — no repurchase.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Final CTA -->
+<section class="bg-cream">
+  <div class="max-w-2xl mx-auto px-6 py-14 text-center">
+    <p class="font-mono text-xs text-moss mb-4">// ready</p>
+    <h2 class="font-display text-2xl lg:text-3xl font-bold text-forest mb-4 display-balance">Open your dashboard and run step one.</h2>
+    <p class="text-ash mb-8 max-w-md mx-auto">
+      15 minutes from now you'll have a rate floor, a pitch in someone's inbox, and a tracker for every deal after that.
+    </p>
+    <a href="{{DASHBOARD_URL}}" class="cta-glow inline-block bg-forest text-cream font-display font-bold text-base px-8 py-3.5 rounded-sharp hover:bg-forestLight transition">
+      Open your Command Center →
+    </a>
+  </div>
+</section>
+
+<!-- Support -->
+<section class="bg-creamDeep border-t border-line">
+  <div class="max-w-2xl mx-auto px-6 py-10 text-center">
+    <p class="font-mono text-xs text-ash mb-3">stuck? lost your link? something not loading?</p>
+    <a href="mailto:support@mayaherring.com" class="inline-block font-mono text-xs text-forest border border-forest px-4 py-2 rounded-sharp hover:bg-forest hover:text-cream transition">support@mayaherring.com</a>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-forestDeep text-cream border-t border-forest">
+  <div class="max-w-2xl mx-auto px-6 py-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+    <div class="flex items-center gap-3">
+      <div class="w-5 h-5 checkerboard-mini rounded-sharp" style="background-image: linear-gradient(45deg, #F5F0E4 25%, transparent 25%), linear-gradient(-45deg, #F5F0E4 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #F5F0E4 75%), linear-gradient(-45deg, transparent 75%, #F5F0E4 75%); background-size: 8px 8px; background-position: 0 0, 0 4px, 4px -4px, -4px 0;"></div>
+      <span class="font-mono text-xs text-cream/70">maya_creative_co / booked_out</span>
+    </div>
+    <span class="font-mono text-[11px] text-cream/50">© 2026 Maya Creative Co · lifetime access</span>
+  </div>
+</footer>
+
+</body>
+</html>
