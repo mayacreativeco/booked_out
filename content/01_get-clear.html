@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>01 · Get Clear — Booked Out Command Center</title>
+<meta name="robots" content="noindex, nofollow" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = { theme: { extend: {
+    fontFamily: { display: ['Space Grotesk','system-ui','sans-serif'], sans: ['Inter','system-ui','sans-serif'], mono: ['JetBrains Mono','monospace'] },
+    colors: { cream:'#F5F0E4', creamDeep:'#EDE5D2', forest:'#1B3A2F', forestDeep:'#0F2620', forestLight:'#2D5742', moss:'#4A7C59', ink:'#0A1A12', ash:'#4A5C50', line:'#D8D0BE' },
+  }}}
+</script>
+<style>
+  html{scroll-behavior:smooth}
+  body{font-family:'Inter',system-ui,sans-serif;background-color:#F5F0E4;color:#0A1A12}
+  .font-display{font-family:'Space Grotesk',system-ui,sans-serif;letter-spacing:-0.02em}
+  .font-mono{font-family:'JetBrains Mono',monospace}
+  .display-balance{text-wrap:balance}
+  .checkerboard-mini{background-image:linear-gradient(45deg,#1B3A2F 25%,transparent 25%),linear-gradient(-45deg,#1B3A2F 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#1B3A2F 75%),linear-gradient(-45deg,transparent 75%,#1B3A2F 75%);background-size:8px 8px;background-position:0 0,0 4px,4px -4px,-4px 0}
+  .checkerboard-cream{background-image:linear-gradient(45deg,#F5F0E4 25%,transparent 25%),linear-gradient(-45deg,#F5F0E4 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#F5F0E4 75%),linear-gradient(-45deg,transparent 75%,#F5F0E4 75%);background-size:12px 12px;background-position:0 0,0 6px,6px -6px,-6px 0}
+  .rounded-sharp{border-radius:4px}
+  .tile-hover{transition:transform 0.15s,box-shadow 0.15s,border-color 0.15s}
+  .tile-hover:hover{transform:translateY(-2px);border-color:#1B3A2F;box-shadow:6px 6px 0 #1B3A2F}
+  .btn-primary{display:inline-flex;align-items:center;gap:8px;background:#1B3A2F;color:#F5F0E4;padding:10px 20px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;transition:background 0.15s;cursor:pointer;border:none}
+  .btn-primary:hover{background:#0F2620}
+  .btn-ghost{display:inline-flex;align-items:center;gap:8px;background:transparent;color:#1B3A2F;padding:10px 18px;border:1px solid #1B3A2F;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:12px;transition:all 0.15s;cursor:pointer}
+  .btn-ghost:hover{background:#1B3A2F;color:#F5F0E4}
+  .niche-btn{padding:10px 16px;border:1px solid #D8D0BE;background:#fff;color:#4A5C50;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:11px;cursor:pointer;transition:all 0.15s}
+  .niche-btn:hover,.niche-btn.sel{background:#1B3A2F;color:#F5F0E4;border-color:#1B3A2F}
+  details.acc>summary{list-style:none;cursor:pointer}
+  details.acc>summary::-webkit-details-marker{display:none}
+  details.acc[open]>summary .tog{transform:rotate(45deg)}
+  .tog{transition:transform 0.2s;display:inline-block}
+  .template-body{background:#fff;border:1px solid #D8D0BE;border-radius:4px;padding:24px;font-family:'Inter',sans-serif;font-size:14px;line-height:1.65;color:#0A1A12}
+  .template-body h4{font-family:'Space Grotesk',sans-serif;font-weight:700;color:#1B3A2F;margin-top:20px;margin-bottom:6px;font-size:15px}
+  .template-body h4:first-child{margin-top:0}
+  .template-body ul{margin:8px 0 8px 18px}
+  .template-body li{margin-bottom:4px}
+  .ph{background:#EDE5D2;padding:1px 6px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#1B3A2F}
+</style>
+</head>
+<body class="bg-cream text-ink">
+
+<div class="bg-forestDeep text-cream border-b border-forest">
+  <div class="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between text-xs font-mono">
+    <div class="flex items-center gap-4"><span class="text-moss">●</span><span>Maya_Creative_Co / booked_out</span></div>
+    <div class="hidden sm:flex items-center gap-4 text-cream/60"><span>section: 01_clear</span><span>access: lifetime</span></div>
+  </div>
+</div>
+
+<header class="border-b border-line bg-cream sticky top-0 z-40">
+  <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="index.html" class="flex items-center gap-3">
+      <div class="w-8 h-8 checkerboard-mini rounded-sharp"></div>
+      <div class="leading-tight">
+        <div class="font-display font-bold text-forest text-base">Booked Out</div>
+        <div class="font-mono text-[10px] text-ash">command_center.v2</div>
+      </div>
+    </a>
+    <nav class="hidden lg:flex items-center gap-1 font-mono text-xs">
+      <a href="index.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">hub</a>
+      <a href="00_start.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">start</a>
+      <a href="01_get-clear.html" class="px-3 py-1.5 rounded-sharp bg-forest text-cream">01_clear</a>
+      <a href="02_get-visible.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">02_visible</a>
+      <a href="03_get-paid.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">03_paid</a>
+      <a href="04_get-booked.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">04_booked</a>
+      <a href="05_get-consistent.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">05_consistent</a>
+      <a href="06_scale-up.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">06_scale</a>
+    </nav>
+    <a href="mailto:support@mayaherring.com" class="hidden sm:inline-block text-xs font-mono text-forest border border-forest px-3 py-1.5 rounded-sharp hover:bg-forest hover:text-cream transition">support</a>
+  </div>
+</header>
+
+<!-- Section header -->
+<section class="border-b border-line bg-cream">
+  <div class="max-w-6xl mx-auto px-6 py-14">
+    <div class="flex items-center gap-3 mb-5 font-mono text-xs text-ash">
+      <a href="index.html" class="hover:text-forest">hub</a><span>/</span><span class="text-moss">01_get-clear</span>
+    </div>
+    <p class="font-mono text-xs text-moss mb-4">// stage_01 · get_clear</p>
+    <h1 class="font-display text-4xl lg:text-6xl font-bold text-forest mb-5 display-balance">Know what you are. Know what you offer.</h1>
+    <p class="text-lg text-ash max-w-2xl">Before you pitch anyone, you need to be able to say in one sentence what you do and why a brand should hire you. This section makes that sentence obvious.</p>
+    <div class="mt-8 flex flex-wrap gap-2">
+      <a href="#niche-selector" class="px-4 py-2 border border-line rounded-sharp font-mono text-xs text-forest hover:border-forest">→ niche_selector</a>
+      <a href="#roadmap" class="px-4 py-2 border border-line rounded-sharp font-mono text-xs text-forest hover:border-forest">→ beginner_roadmap</a>
+      <a href="#portfolio-checklist" class="px-4 py-2 border border-line rounded-sharp font-mono text-xs text-forest hover:border-forest">→ portfolio_checklist</a>
+      <a href="#offer-positioning" class="px-4 py-2 border border-line rounded-sharp font-mono text-xs text-forest hover:border-forest">→ offer_positioning</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ NICHE SELECTOR ============ -->
+<section id="niche-selector" class="border-b border-line bg-creamDeep">
+  <div class="max-w-5xl mx-auto px-6 py-16">
+    <p class="font-mono text-xs text-moss mb-2">// tool_01 · niche_selector</p>
+    <h2 class="font-display text-3xl font-bold text-forest mb-3">What kind of creator are you?</h2>
+    <p class="text-ash max-w-2xl mb-8">Pick your answers and get your positioning sentence — the one line you'll use in every pitch, bio, and intro forever.</p>
+
+    <div class="bg-cream border-2 border-forest rounded-sharp p-6 md:p-10">
+      <div class="space-y-8">
+
+        <div>
+          <p class="font-mono text-xs text-moss mb-3">// step_01 · your_primary_niche</p>
+          <div class="flex flex-wrap gap-2" id="nicheGroup">
+            <button class="niche-btn" data-group="niche" data-val="beauty">Beauty</button>
+            <button class="niche-btn" data-group="niche" data-val="skincare">Skincare</button>
+            <button class="niche-btn" data-group="niche" data-val="wellness">Wellness</button>
+            <button class="niche-btn" data-group="niche" data-val="fitness">Fitness</button>
+            <button class="niche-btn" data-group="niche" data-val="food &amp; beverage">Food &amp; Beverage</button>
+            <button class="niche-btn" data-group="niche" data-val="fashion">Fashion</button>
+            <button class="niche-btn" data-group="niche" data-val="home &amp; lifestyle">Home &amp; Lifestyle</button>
+            <button class="niche-btn" data-group="niche" data-val="tech &amp; gadgets">Tech &amp; Gadgets</button>
+            <button class="niche-btn" data-group="niche" data-val="pet">Pet</button>
+            <button class="niche-btn" data-group="niche" data-val="baby &amp; parenting">Baby &amp; Parenting</button>
+          </div>
+        </div>
+
+        <div>
+          <p class="font-mono text-xs text-moss mb-3">// step_02 · your_content_style</p>
+          <div class="flex flex-wrap gap-2">
+            <button class="niche-btn" data-group="style" data-val="talking-head / testimonial">Talking-head / testimonial</button>
+            <button class="niche-btn" data-group="style" data-val="GRWM / get ready with me">GRWM</button>
+            <button class="niche-btn" data-group="style" data-val="unboxing / first impression">Unboxing</button>
+            <button class="niche-btn" data-group="style" data-val="lifestyle / ambient">Lifestyle / ambient</button>
+            <button class="niche-btn" data-group="style" data-val="educational / how-to">Educational / how-to</button>
+            <button class="niche-btn" data-group="style" data-val="ad-style / performance">Ad-style / performance</button>
+          </div>
+        </div>
+
+        <div>
+          <p class="font-mono text-xs text-moss mb-3">// step_03 · your_experience_level</p>
+          <div class="flex flex-wrap gap-2">
+            <button class="niche-btn" data-group="exp" data-val="just starting out">Just starting out</button>
+            <button class="niche-btn" data-group="exp" data-val="growing (some paid deals)">Growing — some paid deals</button>
+            <button class="niche-btn" data-group="exp" data-val="established (consistent income)">Established — consistent income</button>
+          </div>
+        </div>
+
+        <button class="btn-primary" onclick="buildNicheSentence()">→ Build my positioning sentence</button>
+      </div>
+
+      <div id="nicheResult" class="hidden mt-8 p-6 bg-forestDeep text-cream rounded-sharp">
+        <p class="font-mono text-xs text-moss mb-3">// your_positioning_sentence</p>
+        <p class="font-display text-2xl font-bold text-cream leading-tight" id="nicheOutput">—</p>
+        <p class="font-mono text-[11px] text-cream/50 mt-4">// save this. put it in your bio, your email signature, every pitch. the specificity is the point.</p>
+        <button class="mt-4 btn-ghost border-cream/40 text-cream hover:bg-cream hover:text-forest" id="copyNicheBtn" onclick="copyNiche()">Copy sentence</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BEGINNER ROADMAP ============ -->
+<section id="roadmap" class="border-b border-line bg-cream">
+  <div class="max-w-5xl mx-auto px-6 py-16">
+    <p class="font-mono text-xs text-moss mb-2">// tool_02 · beginner_roadmap</p>
+    <h2 class="font-display text-3xl font-bold text-forest mb-3">The 5 non-negotiables before your first pitch.</h2>
+    <p class="text-ash max-w-2xl mb-8">Not optional. If even one of these is missing, the pitch will fail — not because the pitch is bad, but because the foundation isn't there yet.</p>
+
+    <div class="space-y-4">
+
+      <div class="bg-creamDeep border-2 border-forest rounded-sharp p-6">
+        <div class="flex gap-5">
+          <div class="flex-shrink-0 w-10 h-10 bg-forest text-cream font-mono text-sm font-bold flex items-center justify-center rounded-sharp">01</div>
+          <div>
+            <div class="font-display font-bold text-forest text-lg mb-1">A portfolio with 3+ pieces in one niche.</div>
+            <p class="text-sm text-ash">Not variety. Depth. Three pieces of skincare content is worth more than one skincare, one food, one tech. Brands book specialists. If you don't have 3, create spec work for a brand you love before you pitch anyone.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-creamDeep border-2 border-forest rounded-sharp p-6">
+        <div class="flex gap-5">
+          <div class="flex-shrink-0 w-10 h-10 bg-forest text-cream font-mono text-sm font-bold flex items-center justify-center rounded-sharp">02</div>
+          <div>
+            <div class="font-display font-bold text-forest text-lg mb-1">A rate you'll actually hold.</div>
+            <p class="text-sm text-ash">Run the <a href="03_get-paid.html#rate-calculator" class="underline text-forest">Rate Calculator</a>. Write your floor — the lowest you'll ever accept. Then add 25% for your opening quote. You need both numbers memorized before you talk to a brand.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-creamDeep border-2 border-forest rounded-sharp p-6">
+        <div class="flex gap-5">
+          <div class="flex-shrink-0 w-10 h-10 bg-forest text-cream font-mono text-sm font-bold flex items-center justify-center rounded-sharp">03</div>
+          <div>
+            <div class="font-display font-bold text-forest text-lg mb-1">One clear way to contact you.</div>
+            <p class="text-sm text-ash">A direct email. Not a form, not a DM-only account, not a booking link buried three clicks deep. One link that takes them directly to your inbox. This belongs at the top of your portfolio and in your pitch signature.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-creamDeep border-2 border-forest rounded-sharp p-6">
+        <div class="flex gap-5">
+          <div class="flex-shrink-0 w-10 h-10 bg-forest text-cream font-mono text-sm font-bold flex items-center justify-center rounded-sharp">04</div>
+          <div>
+            <div class="font-display font-bold text-forest text-lg mb-1">A proposal template on deck.</div>
+            <p class="text-sm text-ash">Before you pitch, have the <a href="05_get-consistent.html#proposal" class="underline text-forest">Proposal Template</a> filled in with your name and standard rates. When a brand says yes, you send paperwork inside 2 hours — not 2 days. Momentum dies in the gap.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-creamDeep border-2 border-forest rounded-sharp p-6">
+        <div class="flex gap-5">
+          <div class="flex-shrink-0 w-10 h-10 bg-forest text-cream font-mono text-sm font-bold flex items-center justify-center rounded-sharp">05</div>
+          <div>
+            <div class="font-display font-bold text-forest text-lg mb-1">A client tracker set up and empty.</div>
+            <p class="text-sm text-ash">Copy the <a href="05_get-consistent.html#client-tracker" class="underline text-forest">Client Tracker schema</a> into Notion, Airtable, or a Google Sheet. The moment you pitch someone, they go in the tracker — stage: pitched. This is how you run a real business, not a hobby.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ PORTFOLIO CHECKLIST ============ -->
+<section id="portfolio-checklist" class="border-b border-line bg-creamDeep">
+  <div class="max-w-5xl mx-auto px-6 py-16">
+    <p class="font-mono text-xs text-moss mb-2">// tool_03 · portfolio_checklist</p>
+    <h2 class="font-display text-3xl font-bold text-forest mb-3">The Portfolio Checklist.</h2>
+    <p class="text-ash max-w-2xl mb-8">What your portfolio actually needs to book higher-ticket deals. Score yours out of 12. If you're under 8, that's the first thing to fix.</p>
+
+    <div class="bg-cream border-2 border-forest rounded-sharp p-6 md:p-10">
+      <div class="flex items-center justify-between mb-6 pb-4 border-b border-line">
+        <span class="font-mono text-xs text-moss">portfolio.audit()</span>
+        <span id="portfolioScore" class="font-mono text-sm text-forest font-bold">score: 0 / 12</span>
+      </div>
+      <div id="portfolioChecklist" class="space-y-3"></div>
+      <div class="mt-6 bg-creamDeep border border-line rounded-sharp p-5">
+        <p class="font-mono text-xs text-moss mb-3">// scoring</p>
+        <ul class="text-sm text-ash space-y-1">
+          <li><strong>10–12:</strong> Book with confidence. Your floor should go up.</li>
+          <li><strong>7–9:</strong> Solid. Fix the gaps and your close rate jumps.</li>
+          <li><strong>4–6:</strong> You're leaving money on the table. Prioritize the unchecked items this month.</li>
+          <li><strong>0–3:</strong> Start here before any more outbound. Watch the portfolio video in the videos section.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ OFFER POSITIONING ============ -->
+<section id="offer-positioning" class="border-b border-line bg-cream">
+  <div class="max-w-5xl mx-auto px-6 py-16">
+    <p class="font-mono text-xs text-moss mb-2">// tool_04 · offer_positioning</p>
+    <h2 class="font-display text-3xl font-bold text-forest mb-3">How to position your offer.</h2>
+    <p class="text-ash max-w-2xl mb-8">The difference between "I make videos" and "I make performance UGC for DTC beauty brands that drives paid results." One of those gets you $200 deals. The other gets you $2,000 ones.</p>
+
+    <div class="grid md:grid-cols-2 gap-6">
+
+      <div class="bg-creamDeep border border-line rounded-sharp p-6">
+        <p class="font-mono text-xs text-moss mb-3">// the_wrong_way</p>
+        <div class="space-y-3 text-sm text-ash">
+          <div class="bg-cream border border-line rounded p-3">
+            <p class="line-through text-ash/60">"Hi, I'm a content creator who does videos for brands."</p>
+          </div>
+          <div class="bg-cream border border-line rounded p-3">
+            <p class="line-through text-ash/60">"I do UGC, photography, social media management, and influencer work."</p>
+          </div>
+          <div class="bg-cream border border-line rounded p-3">
+            <p class="line-through text-ash/60">"My rates are flexible depending on what you need."</p>
+          </div>
+        </div>
+        <p class="font-mono text-[11px] text-moss mt-4">// vague + broad = low rates + bad clients</p>
+      </div>
+
+      <div class="bg-creamDeep border-2 border-forest rounded-sharp p-6">
+        <p class="font-mono text-xs text-moss mb-3">// the_right_way</p>
+        <div class="space-y-3 text-sm text-ink">
+          <div class="bg-cream border border-forest rounded p-3">
+            <p>"I make performance UGC for wellness brands — talking-head and testimonial style, built for paid social."</p>
+          </div>
+          <div class="bg-cream border border-forest rounded p-3">
+            <p>"My deliverable is simple: 3 × 30-second verticals, 2 concepts each, with 30 days paid usage."</p>
+          </div>
+          <div class="bg-cream border border-forest rounded p-3">
+            <p>"Starting rate for that package is $1,800."</p>
+          </div>
+        </div>
+        <p class="font-mono text-[11px] text-moss mt-4">// specific + priced = brands that respect you</p>
+      </div>
+    </div>
+
+    <div class="mt-6 bg-creamDeep border border-line rounded-sharp p-6">
+      <p class="font-mono text-xs text-moss mb-3">// the_formula</p>
+      <p class="text-sm text-ash mb-4">Your offer sentence has 4 parts. Fill in each one:</p>
+      <div class="grid sm:grid-cols-2 gap-3 text-sm">
+        <div class="bg-cream border border-line rounded-sharp p-4">
+          <div class="font-mono text-xs text-forest mb-1">01 · what_you_make</div>
+          <p class="text-ash">Specific deliverable format (not "content" — "30-second vertical videos")</p>
+        </div>
+        <div class="bg-cream border border-line rounded-sharp p-4">
+          <div class="font-mono text-xs text-forest mb-1">02 · who_you_make_it_for</div>
+          <p class="text-ash">Your niche + the type of brand (DTC, indie, enterprise, etc.)</p>
+        </div>
+        <div class="bg-cream border border-line rounded-sharp p-4">
+          <div class="font-mono text-xs text-forest mb-1">03 · what_outcome_it_drives</div>
+          <p class="text-ash">Paid social results, organic reach, conversion, launch performance</p>
+        </div>
+        <div class="bg-cream border border-line rounded-sharp p-4">
+          <div class="font-mono text-xs text-forest mb-1">04 · your_starting_rate</div>
+          <p class="text-ash">One specific number. Not a range. Not "flexible." The floor of your opening quote.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Bottom nav -->
+<section class="bg-creamDeep">
+  <div class="max-w-6xl mx-auto px-6 py-10">
+    <div class="grid md:grid-cols-2 gap-6">
+      <a href="00_start.html" class="bg-cream border border-line rounded-sharp p-6 tile-hover">
+        <p class="font-mono text-xs text-moss mb-2">// prev</p>
+        <div class="font-display text-xl font-bold text-forest">← Start Here</div>
+      </a>
+      <a href="02_get-visible.html" class="bg-cream border border-line rounded-sharp p-6 tile-hover">
+        <p class="font-mono text-xs text-moss mb-2">// next_stage</p>
+        <div class="font-display text-xl font-bold text-forest">02 · Get Visible →</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer class="bg-forestDeep text-cream border-t border-forest">
+  <div class="max-w-6xl mx-auto px-6 py-10">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-6 h-6 checkerboard-cream rounded-sharp"></div>
+        <span class="font-mono text-xs text-cream/70">maya_creative_co / booked_out</span>
+      </div>
+      <div class="font-mono text-[11px] text-cream/50">© 2026 Maya Creative Co · stage_01 · lifetime access</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Niche selector
+  const selections = {};
+  document.querySelectorAll('.niche-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const group = this.dataset.group;
+      document.querySelectorAll(`[data-group="${group}"]`).forEach(b => b.classList.remove('sel'));
+      this.classList.add('sel');
+      selections[group] = this.dataset.val;
+    });
+  });
+
+  function buildNicheSentence() {
+    const niche = selections.niche;
+    const style = selections.style;
+    const exp = selections.exp;
+    if (!niche || !style || !exp) {
+      alert('Pick one option in each step first.');
+      return;
+    }
+    const sentence = `I make ${style} UGC for ${niche} brands — ${exp === 'just starting out' ? 'building my portfolio with quality over quantity' : exp === 'growing (some paid deals)' ? 'with paid brand deals and a growing portfolio' : 'with a proven track record of brand deals'}.`;
+    document.getElementById('nicheOutput').textContent = sentence;
+    document.getElementById('nicheResult').classList.remove('hidden');
+    document.getElementById('nicheResult').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function copyNiche() {
+    const text = document.getElementById('nicheOutput').textContent;
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.getElementById('copyNicheBtn');
+      const orig = btn.textContent; btn.textContent = 'Copied ✓';
+      setTimeout(() => { btn.textContent = orig; }, 2000);
+    });
+  }
+
+  // Portfolio checklist
+  const CHECKLIST = [
+    { id: 'hero_reel', label: '60-90 second hero reel at the top of the page', hint: 'Your 3 best clips, cut together, no intro card.' },
+    { id: 'niche_focus', label: '3+ pieces in one specific niche (beauty, wellness, food, etc.)', hint: 'Brands book specialists, not generalists.' },
+    { id: 'brand_named', label: 'Each piece is labeled with the brand name', hint: 'Even if you credit "shot for" — name the brand.' },
+    { id: 'outcome_metric', label: 'At least 2 pieces include a results line', hint: '"Drove 2.4M views" or "became the top-performing ad for Q2".' },
+    { id: 'vertical_format', label: 'Vertical 9:16 format showcased alongside horizontal', hint: 'Most UGC buyers spec vertical first.' },
+    { id: 'hook_variety', label: 'Visible variety of hooks across 3+ clips', hint: 'POV, talking-head, problem-solution, GRWM, testimonial.' },
+    { id: 'one_click_contact', label: 'One-click contact — not a form', hint: 'Direct email or Calendly link, visible on first scroll.' },
+    { id: 'clear_rate_hint', label: 'A rate floor or "starting at" signal', hint: 'Filters time-wasters before they book a discovery call.' },
+    { id: 'social_proof', label: 'At least one brand logo or testimonial quote', hint: 'Real name, real company, ideally with title.' },
+    { id: 'mobile_optimized', label: 'Loads cleanly on mobile in under 3 seconds', hint: '70%+ of brand contacts open portfolios on phone.' },
+    { id: 'current_work', label: 'Most recent piece is from the last 60 days', hint: 'Stale portfolios signal stale creators.' },
+    { id: 'clear_cta', label: 'One clear CTA: "Pitch me a project"', hint: 'Not 3 buttons. Not a contact form. One action.' },
+  ];
+
+  const list = document.getElementById('portfolioChecklist');
+  CHECKLIST.forEach(item => {
+    const wrap = document.createElement('label');
+    wrap.className = 'flex items-start gap-4 p-4 bg-cream border border-line rounded-sharp cursor-pointer hover:border-forest transition';
+    wrap.innerHTML = `<input type="checkbox" data-id="${item.id}" class="mt-1 w-4 h-4 accent-forest cursor-pointer" /><div class="flex-1"><div class="font-display font-bold text-forest text-sm">${item.label}</div><div class="font-mono text-[11px] text-ash mt-1">// ${item.hint}</div></div>`;
+    list.appendChild(wrap);
+  });
+
+  const scoreEl = document.getElementById('portfolioScore');
+  list.addEventListener('change', () => {
+    const n = list.querySelectorAll('input:checked').length;
+    scoreEl.textContent = `score: ${n} / 12`;
+  });
+</script>
+
+</body>
+</html>

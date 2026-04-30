@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Start Here — Booked Out Command Center</title>
+<meta name="robots" content="noindex, nofollow" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = { theme: { extend: {
+    fontFamily: { display: ['Space Grotesk','system-ui','sans-serif'], sans: ['Inter','system-ui','sans-serif'], mono: ['JetBrains Mono','monospace'] },
+    colors: { cream:'#F5F0E4', creamDeep:'#EDE5D2', forest:'#1B3A2F', forestDeep:'#0F2620', forestLight:'#2D5742', moss:'#4A7C59', ink:'#0A1A12', ash:'#4A5C50', line:'#D8D0BE' },
+  }}}
+</script>
+<style>
+  html{scroll-behavior:smooth}
+  body{font-family:'Inter',system-ui,sans-serif;background-color:#F5F0E4;color:#0A1A12}
+  .font-display{font-family:'Space Grotesk',system-ui,sans-serif;letter-spacing:-0.02em}
+  .font-mono{font-family:'JetBrains Mono',monospace}
+  .display-balance{text-wrap:balance}
+  .checkerboard-mini{background-image:linear-gradient(45deg,#1B3A2F 25%,transparent 25%),linear-gradient(-45deg,#1B3A2F 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#1B3A2F 75%),linear-gradient(-45deg,transparent 75%,#1B3A2F 75%);background-size:8px 8px;background-position:0 0,0 4px,4px -4px,-4px 0}
+  .checkerboard-cream{background-image:linear-gradient(45deg,#F5F0E4 25%,transparent 25%),linear-gradient(-45deg,#F5F0E4 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#F5F0E4 75%),linear-gradient(-45deg,transparent 75%,#F5F0E4 75%);background-size:12px 12px;background-position:0 0,0 6px,6px -6px,-6px 0}
+  .rounded-sharp{border-radius:4px}
+  .tile-hover{transition:transform 0.15s,box-shadow 0.15s,border-color 0.15s}
+  .tile-hover:hover{transform:translateY(-2px);border-color:#1B3A2F;box-shadow:6px 6px 0 #1B3A2F}
+  .day-card{border-left:3px solid #D8D0BE;transition:border-color 0.15s}
+  .day-card.done{border-left-color:#4A7C59;background:#EDE5D2}
+  .day-card:hover{border-left-color:#1B3A2F}
+</style>
+</head>
+<body class="bg-cream text-ink">
+
+<div class="bg-forestDeep text-cream border-b border-forest">
+  <div class="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between text-xs font-mono">
+    <div class="flex items-center gap-4"><span class="text-moss">●</span><span>Maya_Creative_Co / booked_out</span></div>
+    <div class="hidden sm:flex items-center gap-4 text-cream/60"><span>section: 00_start</span><span>access: lifetime</span></div>
+  </div>
+</div>
+
+<header class="border-b border-line bg-cream sticky top-0 z-40">
+  <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="index.html" class="flex items-center gap-3">
+      <div class="w-8 h-8 checkerboard-mini rounded-sharp"></div>
+      <div class="leading-tight">
+        <div class="font-display font-bold text-forest text-base">Booked Out</div>
+        <div class="font-mono text-[10px] text-ash">command_center.v2</div>
+      </div>
+    </a>
+    <nav class="hidden lg:flex items-center gap-1 font-mono text-xs">
+      <a href="index.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">hub</a>
+      <a href="00_start.html" class="px-3 py-1.5 rounded-sharp bg-forest text-cream">start</a>
+      <a href="01_get-clear.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">01_clear</a>
+      <a href="02_get-visible.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">02_visible</a>
+      <a href="03_get-paid.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">03_paid</a>
+      <a href="04_get-booked.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">04_booked</a>
+      <a href="05_get-consistent.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">05_consistent</a>
+      <a href="06_scale-up.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">06_scale</a>
+    </nav>
+    <a href="mailto:support@mayaherring.com" class="hidden sm:inline-block text-xs font-mono text-forest border border-forest px-3 py-1.5 rounded-sharp hover:bg-forest hover:text-cream transition">support</a>
+  </div>
+</header>
+
+<!-- Section header -->
+<section class="border-b border-line bg-cream">
+  <div class="max-w-6xl mx-auto px-6 py-14">
+    <div class="flex items-center gap-3 mb-5 font-mono text-xs text-ash">
+      <a href="index.html" class="hover:text-forest">hub</a><span>/</span><span class="text-moss">00_start</span>
+    </div>
+    <p class="font-mono text-xs text-moss mb-4">// section_00 · start_here</p>
+    <h1 class="font-display text-4xl lg:text-6xl font-bold text-forest mb-5 display-balance">Your 7-day launch plan.</h1>
+    <p class="text-lg text-ash max-w-2xl">The fastest path from "just bought this" to "first pitch sent." Do these in order. Skip nothing in week one.</p>
+  </div>
+</section>
+
+<!-- 7-day plan -->
+<section class="bg-creamDeep border-b border-line">
+  <div class="max-w-5xl mx-auto px-6 py-16">
+    <div class="mb-10">
+      <p class="font-mono text-xs text-moss mb-2">// the_plan</p>
+      <h2 class="font-display text-3xl font-bold text-forest mb-3">Seven days. One action each day.</h2>
+      <p class="text-ash max-w-2xl">You don't need a course to finish. You need seven decisions. Make them in order and you'll have pitched your first brand by the end of week one.</p>
+    </div>
+
+    <div class="space-y-3" id="dayPlan">
+
+      <div class="day-card bg-cream border border-line rounded-sharp p-6 cursor-pointer" onclick="toggleDay(this)">
+        <div class="flex items-start gap-5">
+          <div class="flex-shrink-0 w-12 h-12 bg-forest text-cream font-mono text-sm font-bold flex items-center justify-center rounded-sharp">D1</div>
+          <div class="flex-1">
+            <div class="flex items-center justify-between mb-1">
+              <div class="font-display font-bold text-forest text-lg">Lock your niche. One sentence.</div>
+              <span class="font-mono text-xs text-ash">→ 01_clear</span>
+            </div>
+            <p class="text-sm text-ash mb-3">You can't pitch a brand if you don't know what kind of creator you are. Run the niche selector in <a href="01_get-clear.html#niche-selector" class="underline text-forest">Get Clear</a> and write your niche sentence before you do anything else today.</p>
+            <div class="font-mono text-[11px] text-moss">done_when: "I make [type] UGC for [niche] brands" — and you believe it.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="day-card bg-cream border border-line rounded-sharp p-6 cursor-pointer" onclick="toggleDay(this)">
+        <div class="flex items-start gap-5">
+          <div class="flex-shrink-0 w-12 h-12 bg-forest text-cream font-mono text-sm font-bold flex items-center justify-center rounded-sharp">D2</div>
+          <div class="flex-1">
+            <div class="flex items-center justify-between mb-1">
+              <div class="font-display font-bold text-forest text-lg">Audit your portfolio. Score it.</div>
+              <span class="font-mono text-xs text-ash">→ 01_clear</span>
+            </div>
+            <p class="text-sm text-ash mb-3">Run the <a href="01_get-clear.html#portfolio-checklist" class="underline text-forest">Portfolio Checklist</a>. Score out of 12. If you're below 8, that's where your day goes. Fix the gaps before you pitch anything.</p>
+            <div class="font-mono text-[11px] text-moss">done_when: score ≥ 8 / 12.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="day-card bg-cream border border-line rounded-sharp p-6 cursor-pointer" onclick="toggleDay(this)">
+        <div class="flex items-start gap-5">
+          <div class="flex-shrink-0 w-12 h-12 bg-forest text-cream font-mono text-sm font-bold flex items-center justify-center rounded-sharp">D3</div>
+          <div class="flex-1">
+            <div class="flex items-center justify-between mb-1">
+              <div class="font-display font-bold text-forest text-lg">Run your rate. Write the number down.</div>
+              <span class="font-mono text-xs text-ash">→ 03_paid</span>
+            </div>
+            <p class="text-sm text-ash mb-3">Use the <a href="03_get-paid.html#rate-calculator" class="underline text-forest">Rate Calculator</a> to get your range. Then write your floor — the lowest you'll ever accept — and the opening quote you'll lead with. Don't adjust these per-brand. Set them once.</p>
+            <div class="font-mono text-[11px] text-moss">done_when: floor_rate and opening_quote are written somewhere you'll see them.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="day-card bg-cream border border-line rounded-sharp p-6 cursor-pointer" onclick="toggleDay(this)">
+        <div class="flex items-start gap-5">
+          <div class="flex-shrink-0 w-12 h-12 bg-forest text-cream font-mono text-sm font-bold flex items-center justify-center rounded-sharp">D4</div>
+          <div class="flex-1">
+            <div class="flex items-center justify-between mb-1">
+              <div class="font-display font-bold text-forest text-lg">Build your brand target list. Five brands.</div>
+              <span class="font-mono text-xs text-ash">→ 04_booked</span>
+            </div>
+            <p class="text-sm text-ash mb-3">Open the <a href="04_get-booked.html#brand-contacts" class="underline text-forest">Brand Contact Database</a> and pick 5 brands in your niche that are actively running UGC. Find the right person on LinkedIn. Add them to your <a href="05_get-consistent.html#client-tracker" class="underline text-forest">Client Tracker</a> with stage: cold.</p>
+            <div class="font-mono text-[11px] text-moss">done_when: 5 rows in your tracker, stage = cold.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="day-card bg-cream border border-line rounded-sharp p-6 cursor-pointer" onclick="toggleDay(this)">
+        <div class="flex items-start gap-5">
+          <div class="flex-shrink-0 w-12 h-12 bg-forest text-cream font-mono text-sm font-bold flex items-center justify-center rounded-sharp">D5</div>
+          <div class="flex-1">
+            <div class="flex items-center justify-between mb-1">
+              <div class="font-display font-bold text-forest text-lg">Write three pitches. Don't send yet.</div>
+              <span class="font-mono text-xs text-ash">→ 04_booked</span>
+            </div>
+            <p class="text-sm text-ash mb-3">Use the <a href="04_get-booked.html#pitch-generator" class="underline text-forest">Pitch Generator</a> for your first 3 brands. Save the drafts. Sleep on them. You'll edit in the morning with fresh eyes before you send.</p>
+            <div class="font-mono text-[11px] text-moss">done_when: 3 drafts written and saved.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="day-card bg-cream border border-line rounded-sharp p-6 cursor-pointer" onclick="toggleDay(this)">
+        <div class="flex items-start gap-5">
+          <div class="flex-shrink-0 w-12 h-12 bg-forest text-cream font-mono text-sm font-bold flex items-center justify-center rounded-sharp">D6</div>
+          <div class="flex-1">
+            <div class="flex items-center justify-between mb-1">
+              <div class="font-display font-bold text-forest text-lg">Send two pitches. Yes, today.</div>
+              <span class="font-mono text-xs text-ash">→ 04_booked</span>
+            </div>
+            <p class="text-sm text-ash mb-3">Edit yesterday's drafts, pick the 2 strongest, and send them. Not schedule — send. Update your tracker to stage: pitched. Set a D10 follow-up reminder for each.</p>
+            <div class="font-mono text-[11px] text-moss">done_when: 2 pitches sent, tracker updated, follow-ups calendared.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="day-card bg-cream border border-line rounded-sharp p-6 cursor-pointer" onclick="toggleDay(this)">
+        <div class="flex items-start gap-5">
+          <div class="flex-shrink-0 w-12 h-12 bg-forest text-cream font-mono text-sm font-bold flex items-center justify-center rounded-sharp">D7</div>
+          <div class="flex-1">
+            <div class="flex items-center justify-between mb-1">
+              <div class="font-display font-bold text-forest text-lg">Build your weekly routine. Block the calendar.</div>
+              <span class="font-mono text-xs text-ash">→ 05_consistent</span>
+            </div>
+            <p class="text-sm text-ash mb-3">Open the <a href="05_get-consistent.html#ceo-dashboard" class="underline text-forest">Weekly CEO Dashboard</a>. Block a recurring 15-minute "Monday review" on your calendar. This is how chaos turns into a business.</p>
+            <div class="font-mono text-[11px] text-moss">done_when: recurring Monday review on calendar. You are now running a business.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Where to go next -->
+<section class="bg-cream border-b border-line">
+  <div class="max-w-5xl mx-auto px-6 py-16">
+    <p class="font-mono text-xs text-moss mb-2">// where_to_go_from_here</p>
+    <h2 class="font-display text-3xl font-bold text-forest mb-3">After week one, work the stages in order.</h2>
+    <p class="text-ash max-w-2xl mb-10">Each stage builds on the last. Don't jump to Get Paid before you've done Get Clear. The order matters because the skills compound.</p>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <a href="01_get-clear.html" class="bg-creamDeep border border-line rounded-sharp p-5 tile-hover block">
+        <div class="font-mono text-[11px] text-moss mb-2">// stage_01</div>
+        <div class="font-display font-bold text-forest text-lg mb-1">Get Clear</div>
+        <p class="text-sm text-ash">Niche. Offer. Portfolio. The foundation everything else depends on.</p>
+        <div class="mt-3 font-mono text-xs text-forest">→ 01_get-clear</div>
+      </a>
+      <a href="02_get-visible.html" class="bg-creamDeep border border-line rounded-sharp p-5 tile-hover block">
+        <div class="font-mono text-[11px] text-moss mb-2">// stage_02</div>
+        <div class="font-display font-bold text-forest text-lg mb-1">Get Visible</div>
+        <p class="text-sm text-ash">Hooks, scripts, content angles. Build the proof before you need it.</p>
+        <div class="mt-3 font-mono text-xs text-forest">→ 02_get-visible</div>
+      </a>
+      <a href="03_get-paid.html" class="bg-creamDeep border border-line rounded-sharp p-5 tile-hover block">
+        <div class="font-mono text-[11px] text-moss mb-2">// stage_03</div>
+        <div class="font-display font-bold text-forest text-lg mb-1">Get Paid</div>
+        <p class="text-sm text-ash">Rate calculator, negotiation playbook, real market benchmarks.</p>
+        <div class="mt-3 font-mono text-xs text-forest">→ 03_get-paid</div>
+      </a>
+      <a href="04_get-booked.html" class="bg-creamDeep border border-line rounded-sharp p-5 tile-hover block">
+        <div class="font-mono text-[11px] text-moss mb-2">// stage_04</div>
+        <div class="font-display font-bold text-forest text-lg mb-1">Get Booked</div>
+        <p class="text-sm text-ash">Pitch generator, scripts, brand database. Close the first deal.</p>
+        <div class="mt-3 font-mono text-xs text-forest">→ 04_get-booked</div>
+      </a>
+      <a href="05_get-consistent.html" class="bg-creamDeep border border-line rounded-sharp p-5 tile-hover block">
+        <div class="font-mono text-[11px] text-moss mb-2">// stage_05</div>
+        <div class="font-display font-bold text-forest text-lg mb-1">Get Consistent</div>
+        <p class="text-sm text-ash">Proposals, client tracker, onboarding. Turn one deal into a pipeline.</p>
+        <div class="mt-3 font-mono text-xs text-forest">→ 05_get-consistent</div>
+      </a>
+      <a href="06_scale-up.html" class="bg-creamDeep border border-line rounded-sharp p-5 tile-hover block">
+        <div class="font-mono text-[11px] text-moss mb-2">// stage_06</div>
+        <div class="font-display font-bold text-forest text-lg mb-1">Scale Up</div>
+        <p class="text-sm text-ash">Raise rates, build retainers, stop trading time for money.</p>
+        <div class="mt-3 font-mono text-xs text-forest">→ 06_scale-up</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Bottom nav -->
+<section class="bg-creamDeep">
+  <div class="max-w-6xl mx-auto px-6 py-10">
+    <div class="grid md:grid-cols-2 gap-6">
+      <a href="index.html" class="bg-cream border border-line rounded-sharp p-6 tile-hover">
+        <p class="font-mono text-xs text-moss mb-2">// back_to</p>
+        <div class="font-display text-xl font-bold text-forest">← Back to Hub</div>
+      </a>
+      <a href="01_get-clear.html" class="bg-cream border border-line rounded-sharp p-6 tile-hover">
+        <p class="font-mono text-xs text-moss mb-2">// first_stage</p>
+        <div class="font-display text-xl font-bold text-forest">01 · Get Clear →</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer class="bg-forestDeep text-cream border-t border-forest">
+  <div class="max-w-6xl mx-auto px-6 py-10">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-6 h-6 checkerboard-cream rounded-sharp"></div>
+        <span class="font-mono text-xs text-cream/70">maya_creative_co / booked_out</span>
+      </div>
+      <div class="font-mono text-[11px] text-cream/50">© 2026 Maya Creative Co · section_00 · lifetime access</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  function toggleDay(el) {
+    el.classList.toggle('done');
+  }
+</script>
+
+</body>
+</html>

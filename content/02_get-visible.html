@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>02 · Get Visible — Booked Out Command Center</title>
+<meta name="robots" content="noindex, nofollow" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = { theme: { extend: {
+    fontFamily: { display: ['Space Grotesk','system-ui','sans-serif'], sans: ['Inter','system-ui','sans-serif'], mono: ['JetBrains Mono','monospace'] },
+    colors: { cream:'#F5F0E4', creamDeep:'#EDE5D2', forest:'#1B3A2F', forestDeep:'#0F2620', forestLight:'#2D5742', moss:'#4A7C59', ink:'#0A1A12', ash:'#4A5C50', line:'#D8D0BE' },
+  }}}
+</script>
+<style>
+  html{scroll-behavior:smooth}
+  body{font-family:'Inter',system-ui,sans-serif;background-color:#F5F0E4;color:#0A1A12}
+  .font-display{font-family:'Space Grotesk',system-ui,sans-serif;letter-spacing:-0.02em}
+  .font-mono{font-family:'JetBrains Mono',monospace}
+  .display-balance{text-wrap:balance}
+  .checkerboard-mini{background-image:linear-gradient(45deg,#1B3A2F 25%,transparent 25%),linear-gradient(-45deg,#1B3A2F 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#1B3A2F 75%),linear-gradient(-45deg,transparent 75%,#1B3A2F 75%);background-size:8px 8px;background-position:0 0,0 4px,4px -4px,-4px 0}
+  .checkerboard-cream{background-image:linear-gradient(45deg,#F5F0E4 25%,transparent 25%),linear-gradient(-45deg,#F5F0E4 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#F5F0E4 75%),linear-gradient(-45deg,transparent 75%,#F5F0E4 75%);background-size:12px 12px;background-position:0 0,0 6px,6px -6px,-6px 0}
+  .rounded-sharp{border-radius:4px}
+  .tile-hover{transition:transform 0.15s,box-shadow 0.15s,border-color 0.15s}
+  .tile-hover:hover{transform:translateY(-2px);border-color:#1B3A2F;box-shadow:6px 6px 0 #1B3A2F}
+  .btn-primary{display:inline-flex;align-items:center;gap:8px;background:#1B3A2F;color:#F5F0E4;padding:12px 24px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;transition:background 0.15s;cursor:pointer;border:none}
+  .btn-primary:hover{background:#0F2620}
+  .btn-ghost{display:inline-flex;align-items:center;gap:8px;background:transparent;color:#1B3A2F;padding:10px 18px;border:1px solid #1B3A2F;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:12px;transition:all 0.15s;cursor:pointer}
+  .btn-ghost:hover{background:#1B3A2F;color:#F5F0E4}
+  label.field-label{display:block;font-family:'JetBrains Mono',monospace;font-size:11px;color:#4A5C50;margin-bottom:6px}
+  input.field,select.field,textarea.field{width:100%;background:#fff;border:1px solid #D8D0BE;border-radius:4px;padding:10px 12px;font-family:'Inter',sans-serif;font-size:14px;color:#0A1A12;transition:border-color 0.15s}
+  input.field:focus,select.field:focus,textarea.field:focus{outline:none;border-color:#1B3A2F;box-shadow:0 0 0 3px rgba(27,58,47,0.1)}
+  .terminal{background:#0F2620;color:#F5F0E4;border-radius:4px;font-family:'JetBrains Mono',monospace}
+  .fade-in{animation:fadeIn 0.35s ease-out}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body class="bg-cream text-ink">
+
+<div class="bg-forestDeep text-cream border-b border-forest">
+  <div class="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between text-xs font-mono">
+    <div class="flex items-center gap-4"><span class="text-moss">●</span><span>Maya_Creative_Co / booked_out</span></div>
+    <div class="hidden sm:flex items-center gap-4 text-cream/60"><span>section: 02_visible</span><span>access: lifetime</span></div>
+  </div>
+</div>
+
+<header class="border-b border-line bg-cream sticky top-0 z-40">
+  <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="index.html" class="flex items-center gap-3">
+      <div class="w-8 h-8 checkerboard-mini rounded-sharp"></div>
+      <div class="leading-tight">
+        <div class="font-display font-bold text-forest text-base">Booked Out</div>
+        <div class="font-mono text-[10px] text-ash">command_center.v2</div>
+      </div>
+    </a>
+    <nav class="hidden lg:flex items-center gap-1 font-mono text-xs">
+      <a href="index.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">hub</a>
+      <a href="00_start.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">start</a>
+      <a href="01_get-clear.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">01_clear</a>
+      <a href="02_get-visible.html" class="px-3 py-1.5 rounded-sharp bg-forest text-cream">02_visible</a>
+      <a href="03_get-paid.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">03_paid</a>
+      <a href="04_get-booked.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">04_booked</a>
+      <a href="05_get-consistent.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">05_consistent</a>
+      <a href="06_scale-up.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">06_scale</a>
+    </nav>
+    <a href="mailto:support@mayaherring.com" class="hidden sm:inline-block text-xs font-mono text-forest border border-forest px-3 py-1.5 rounded-sharp hover:bg-forest hover:text-cream transition">support</a>
+  </div>
+</header>
+
+<section class="border-b border-line bg-cream">
+  <div class="max-w-6xl mx-auto px-6 py-14">
+    <div class="flex items-center gap-3 mb-5 font-mono text-xs text-ash">
+      <a href="index.html" class="hover:text-forest">hub</a><span>/</span><span class="text-moss">02_get-visible</span>
+    </div>
+    <p class="font-mono text-xs text-moss mb-4">// stage_02 · get_visible</p>
+    <h1 class="font-display text-4xl lg:text-6xl font-bold text-forest mb-5 display-balance">Build the proof before you need it.</h1>
+    <p class="text-lg text-ash max-w-2xl">Brands hire people who have content. This section gives you the tools to create it — hooks that stop the scroll, scripts that convert, and 30 content angles to work with.</p>
+    <div class="mt-8 flex flex-wrap gap-2">
+      <a href="#hook-generator" class="px-4 py-2 border border-line rounded-sharp font-mono text-xs text-forest hover:border-forest">→ hook_generator</a>
+      <a href="#script-builder" class="px-4 py-2 border border-line rounded-sharp font-mono text-xs text-forest hover:border-forest">→ ugc_script_builder</a>
+      <a href="#content-prompts" class="px-4 py-2 border border-line rounded-sharp font-mono text-xs text-forest hover:border-forest">→ content_prompts</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HOOK GENERATOR ============ -->
+<section id="hook-generator" class="border-b border-line bg-creamDeep">
+  <div class="max-w-5xl mx-auto px-6 py-16">
+    <p class="font-mono text-xs text-moss mb-2">// tool_01 · hook_generator</p>
+    <h2 class="font-display text-3xl font-bold text-forest mb-3">Generate 5 hooks for any product.</h2>
+    <p class="text-ash max-w-xl mb-8">The hook is the only thing that matters in the first 2 seconds. Enter your product and get 5 proven hook structures — ready to shoot.</p>
+
+    <div class="bg-cream border-2 border-forest rounded-sharp p-6 md:p-10">
+      <div class="flex items-center justify-between mb-8 pb-4 border-b border-line">
+        <span class="font-mono text-xs text-moss">hook_generator.run()</span>
+        <span class="font-mono text-xs text-ash">5_hooks</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="md:col-span-2">
+          <label class="field-label">product_name_or_type</label>
+          <input type="text" id="hookProduct" class="field" placeholder="e.g. vitamin C serum, protein powder, running shoes" />
+        </div>
+        <div>
+          <label class="field-label">niche</label>
+          <select id="hookNiche" class="field">
+            <option value="skincare / beauty">Skincare / Beauty</option>
+            <option value="wellness / supplements">Wellness / Supplements</option>
+            <option value="fitness / activewear">Fitness / Activewear</option>
+            <option value="food / beverage">Food / Beverage</option>
+            <option value="fashion / apparel">Fashion / Apparel</option>
+            <option value="home / lifestyle">Home / Lifestyle</option>
+          </select>
+        </div>
+        <div>
+          <label class="field-label">hook_style</label>
+          <select id="hookStyle" class="field">
+            <option value="problem_solution">Problem → Solution</option>
+            <option value="pov">POV / First Person</option>
+            <option value="bold_claim">Bold Claim</option>
+            <option value="question">Question</option>
+            <option value="story">Story / Experience</option>
+          </select>
+        </div>
+        <div class="md:col-span-2">
+          <button class="btn-primary w-full sm:w-auto" onclick="generateHooks()">→ Generate hooks</button>
+        </div>
+      </div>
+
+      <div id="hookResults" class="hidden fade-in space-y-3">
+        <div class="pt-4 border-t border-line mb-2">
+          <p class="font-mono text-xs text-moss">// your_5_hooks · copy the one that hits</p>
+        </div>
+        <div id="hookList"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ UGC SCRIPT BUILDER ============ -->
+<section id="script-builder" class="border-b border-line bg-cream">
+  <div class="max-w-5xl mx-auto px-6 py-16">
+    <p class="font-mono text-xs text-moss mb-2">// tool_02 · ugc_script_builder</p>
+    <h2 class="font-display text-3xl font-bold text-forest mb-3">Build a 30-second UGC script.</h2>
+    <p class="text-ash max-w-xl mb-8">Fill in four fields. Get a complete 30-second script with hook, problem, solution, and CTA — formatted for the teleprompter or your notes app.</p>
+
+    <div class="bg-creamDeep border-2 border-forest rounded-sharp p-6 md:p-10">
+      <div class="flex items-center justify-between mb-8 pb-4 border-b border-line">
+        <span class="font-mono text-xs text-moss">script_builder.run()</span>
+        <span class="font-mono text-xs text-ash">30_sec_format</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="md:col-span-2">
+          <label class="field-label">product_name</label>
+          <input type="text" id="scriptProduct" class="field" placeholder="e.g. Glow+ Vitamin C Serum" />
+        </div>
+        <div>
+          <label class="field-label">key_benefit · 1_short_sentence</label>
+          <input type="text" id="scriptBenefit" class="field" placeholder="e.g. fades dark spots in 2 weeks" />
+        </div>
+        <div>
+          <label class="field-label">problem_you_solve</label>
+          <input type="text" id="scriptProblem" class="field" placeholder="e.g. dull, uneven skin tone" />
+        </div>
+        <div>
+          <label class="field-label">your_name_or_persona</label>
+          <input type="text" id="scriptName" class="field" placeholder="e.g. Maya" />
+        </div>
+        <div>
+          <label class="field-label">call_to_action</label>
+          <select id="scriptCTA" class="field">
+            <option value="Link in bio — grab yours before they sell out.">Link in bio — grab yours before they sell out.</option>
+            <option value="Use code [CODE] for 15% off.">Use code [CODE] for 15% off.</option>
+            <option value="Shop the link below.">Shop the link below.</option>
+            <option value="I'll drop the link in comments.">I'll drop the link in comments.</option>
+          </select>
+        </div>
+        <div class="md:col-span-2">
+          <button class="btn-primary" onclick="buildScript()">→ Build my script</button>
+        </div>
+      </div>
+
+      <div id="scriptOutput" class="hidden fade-in">
+        <div class="pt-4 border-t border-line">
+          <p class="font-mono text-xs text-moss mb-4">// your_30_second_script</p>
+          <div class="terminal p-6">
+            <div class="flex items-center gap-2 mb-4 pb-3 border-b border-cream/20">
+              <span class="w-2 h-2 rounded-full bg-cream/30"></span>
+              <span class="w-2 h-2 rounded-full bg-cream/30"></span>
+              <span class="w-2 h-2 rounded-full bg-moss"></span>
+              <span class="text-xs text-cream/50 ml-auto">script.txt</span>
+            </div>
+            <pre id="scriptText" class="text-cream text-sm whitespace-pre-wrap leading-relaxed font-sans"></pre>
+          </div>
+          <div class="mt-4">
+            <button class="btn-ghost" onclick="copyScript()">Copy script</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTENT PROMPTS ============ -->
+<section id="content-prompts" class="border-b border-line bg-creamDeep">
+  <div class="max-w-5xl mx-auto px-6 py-16">
+    <p class="font-mono text-xs text-moss mb-2">// tool_03 · content_prompts</p>
+    <h2 class="font-display text-3xl font-bold text-forest mb-3">30 content angles that book deals.</h2>
+    <p class="text-ash max-w-2xl mb-8">These are the angles brands pay for. Create spec content using these prompts and your portfolio sells itself.</p>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+      <!-- Performance angles -->
+      <div class="bg-cream border border-line rounded-sharp p-4">
+        <div class="font-mono text-[10px] text-moss mb-2">type: performance</div>
+        <div class="font-display font-bold text-forest text-sm mb-1">"I tried this for 30 days."</div>
+        <p class="text-xs text-ash">Time-boxed testimonial. High trust signal. Works in any niche.</p>
+      </div>
+      <div class="bg-cream border border-line rounded-sharp p-4">
+        <div class="font-mono text-[10px] text-moss mb-2">type: performance</div>
+        <div class="font-display font-bold text-forest text-sm mb-1">"The [adjective] thing I've added to my routine."</div>
+        <p class="text-xs text-ash">Fill in: cheapest, sneakiest, most underrated, most annoying-to-explain.</p>
+      </div>
+      <div class="bg-cream border border-line rounded-sharp p-4">
+        <div class="font-mono text-[10px] text-moss mb-2">type: performance</div>
+        <div class="font-display font-bold text-forest text-sm mb-1">"Before I found this, I was [problem]."</div>
+        <p class="text-xs text-ash">Classic problem/solution structure. Lead with the pain, earn the product.</p>
+      </div>
+      <div class="bg-cream border border-line rounded-sharp p-4">
+        <div class="font-mono text-[10px] text-moss mb-2">type: social_proof</div>
+        <div class="font-display font-bold text-forest text-sm mb-1">"My [partner/friend/mom] asked what I changed."</div>
+        <p class="text-xs text-ash">Third-party validation without paid spokespeople. High relatability.</p>
+      </div>
+      <div class="bg-cream border border-line rounded-sharp p-4">
+        <div class="font-mono text-[10px] text-moss mb-2">type: social_proof</div>
+        <div class="font-display font-bold text-forest text-sm mb-1">"I've been quietly recommending this for months."</div>
+        <p class="text-xs text-ash">Feels like a secret tip from a trusted friend. High share rate.</p>
+      </div>
+      <div class="bg-cream border border-line rounded-sharp p-4">
+        <div class="font-mono text-[10px] text-moss mb-2">type: pov</div>
+        <div class="font-display font-bold text-forest text-sm mb-1">"POV: you finally found the [product type] that works."</div>
+        <p class="text-xs text-ash">TikTok native format. Puts the viewer in the experience immediately.</p>
+      </div>
+      <div class="bg-cream border border-line rounded-sharp p-4">
+        <div class="font-mono text-[10px] text-moss mb-2">type: pov</div>
+        <div class="font-display font-bold text-forest text-sm mb-1">"POV: you're running late but your [product] gets you there."</div>
+        <p class="text-xs text-ash">Urgency + product benefit in one scene. Great for beauty, fashion, food.</p>
+      </div>
+      <div class="bg-cream border border-line rounded-sharp p-4">
+        <div class="font-mono text-[10px] text-moss mb-2">type: educational</div>
+        <div class="font-display font-bold text-forest text-sm mb-1">"Why [common belief] is wrong."</div>
+        <p class="text-xs text-ash">Contrarian hook. Stops scrollers. Works for supplements, skincare, fitness.</p>
+      </div>
+      <div class="bg-cream border border-line rounded-sharp p-4">
+        <div class="font-mono text-[10px] text-moss mb-2">type: educational</div>
+        <div class="font-display font-bold text-forest text-sm mb-1">"The [number] things I wish I knew about [category]."</div>
+        <p class="text-xs text-ash">List format. Easy to watch to the end. Strong completion rate.</p>
+      </div>
+      <div class="bg-cream border border-line rounded-sharp p-4">
+        <div class="font-mono text-[10px] text-moss mb-2">type: unboxing</div>
+        <div class="font-display font-bold text-forest text-sm mb-1">"I finally caved and ordered it — first impressions."</div>
+        <p class="text-xs text-ash">Authentic unboxing energy. Works even if you're familiar with the brand.</p>
+      </div>
+      <div class="bg-cream border border-line rounded-sharp p-4">
+        <div class="font-mono text-[10px] text-moss mb-2">type: unboxing</div>
+        <div class="font-display font-bold text-forest text-sm mb-1">"Trying every product in the [brand] haul."</div>
+        <p class="text-xs text-ash">Multi-product format. Great for brands with wide SKU range.</p>
+      </div>
+      <div class="bg-cream border border-line rounded-sharp p-4">
+        <div class="font-mono text-[10px] text-moss mb-2">type: grwm</div>
+        <div class="font-display font-bold text-forest text-sm mb-1">"My get ready with me ft. [brand]."</div>
+        <p class="text-xs text-ash">Natural product integration. Works best when the product genuinely fits the routine.</p>
+      </div>
+      <div class="bg-cream border border-line rounded-sharp p-4">
+        <div class="font-mono text-[10px] text-moss mb-2">type: comparison</div>
+        <div class="font-display font-bold text-forest text-sm mb-1">"I tried [expensive brand] vs. [brand] — here's what happened."</div>
+        <p class="text-xs text-ash">Comparison content performs well. Anchor to a well-known competitor.</p>
+      </div>
+      <div class="bg-cream border border-line rounded-sharp p-4">
+        <div class="font-mono text-[10px] text-moss mb-2">type: routine</div>
+        <div class="font-display font-bold text-forest text-sm mb-1">"My entire morning routine with [brand] products."</div>
+        <p class="text-xs text-ash">Full integration. Feels authentic when it's an honest reflection of real use.</p>
+      </div>
+      <div class="bg-cream border border-line rounded-sharp p-4">
+        <div class="font-mono text-[10px] text-moss mb-2">type: bold_claim</div>
+        <div class="font-display font-bold text-forest text-sm mb-1">"This is the only [product type] I'll ever use."</div>
+        <p class="text-xs text-ash">Strong conviction hook. Only use when you actually mean it — delivers on authenticity.</p>
+      </div>
+    </div>
+
+    <div class="mt-6 bg-cream border border-line rounded-sharp p-5">
+      <p class="font-mono text-xs text-moss mb-2">// pro_tip</p>
+      <p class="text-sm text-ash">Pick 3 of these angles and film spec content for a brand you love — today. Don't wait to be hired. The spec work becomes your portfolio, which becomes your reason to pitch, which becomes your deal.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Bottom nav -->
+<section class="bg-cream">
+  <div class="max-w-6xl mx-auto px-6 py-10">
+    <div class="grid md:grid-cols-2 gap-6">
+      <a href="01_get-clear.html" class="bg-creamDeep border border-line rounded-sharp p-6 tile-hover">
+        <p class="font-mono text-xs text-moss mb-2">// prev_stage</p>
+        <div class="font-display text-xl font-bold text-forest">← 01 · Get Clear</div>
+      </a>
+      <a href="03_get-paid.html" class="bg-creamDeep border border-line rounded-sharp p-6 tile-hover">
+        <p class="font-mono text-xs text-moss mb-2">// next_stage</p>
+        <div class="font-display text-xl font-bold text-forest">03 · Get Paid →</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer class="bg-forestDeep text-cream border-t border-forest">
+  <div class="max-w-6xl mx-auto px-6 py-10">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-6 h-6 checkerboard-cream rounded-sharp"></div>
+        <span class="font-mono text-xs text-cream/70">maya_creative_co / booked_out</span>
+      </div>
+      <div class="font-mono text-[11px] text-cream/50">© 2026 Maya Creative Co · stage_02 · lifetime access</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Hook generator
+  const HOOKS = {
+    problem_solution: [
+      p => `If you're struggling with [problem], this ${p} is going to change everything.`,
+      p => `I was so frustrated with my [problem] until I found this ${p}.`,
+      p => `Stop wasting money on [alternatives]. This ${p} actually works.`,
+      p => `The reason your [problem] isn't improving? You haven't tried this ${p}.`,
+      p => `Three months ago my [problem] was the worst it'd ever been. Then I found this ${p}.`,
+    ],
+    pov: [
+      p => `POV: you finally found the ${p} that actually delivers on its promises.`,
+      p => `POV: you're about to fall down a ${p} rabbit hole.`,
+      p => `POV: it's 7am and your ${p} is already carrying the whole day.`,
+      p => `POV: you add this ${p} to your cart and your entire [routine] changes.`,
+      p => `POV: your friend keeps asking what you changed. It's this ${p}.`,
+    ],
+    bold_claim: [
+      p => `This ${p} is genuinely the best one I've ever tried. And I've tried everything.`,
+      p => `I don't care what anyone says — this ${p} is worth every penny.`,
+      p => `Hot take: this ${p} is better than the expensive version I was using.`,
+      p => `Unpopular opinion: you need this ${p} in your life. Let me explain.`,
+      p => `I'll be honest — I didn't believe the hype about this ${p} until I actually used it.`,
+    ],
+    question: [
+      p => `What if your [routine] could actually be fixed with one ${p}?`,
+      p => `Have you been sleeping on this ${p}? Because same. Until now.`,
+      p => `Why is nobody talking about this ${p}?`,
+      p => `Is this ${p} really worth it? I spent two weeks finding out.`,
+      p => `How is this ${p} not more popular? I'm genuinely confused.`,
+    ],
+    story: [
+      p => `I almost returned this ${p}. Then I gave it one more week. Big mistake — the good kind.`,
+      p => `My [friend/dermatologist/trainer] told me to try this ${p}. I rolled my eyes. I was wrong.`,
+      p => `I've been quietly using this ${p} for three months and didn't want to say anything until I was sure.`,
+      p => `The story of how this ${p} became the most-reached-for thing in my [routine/kitchen/gym bag].`,
+      p => `I ordered this ${p} as a last resort. It's now on my permanent list.`,
+    ],
+  };
+
+  function generateHooks() {
+    const product = document.getElementById('hookProduct').value.trim() || 'product';
+    const style = document.getElementById('hookStyle').value;
+    const templates = HOOKS[style];
+    const hooks = templates.map(fn => fn(product));
+
+    const list = document.getElementById('hookList');
+    list.innerHTML = '';
+    hooks.forEach((hook, i) => {
+      const div = document.createElement('div');
+      div.className = 'bg-creamDeep border border-line rounded-sharp p-4 flex items-start justify-between gap-4';
+      div.innerHTML = `
+        <div class="flex-1">
+          <div class="font-mono text-[10px] text-moss mb-1">hook_${String(i+1).padStart(2,'0')}</div>
+          <p class="text-sm text-ink leading-relaxed" id="hook-text-${i}">${hook}</p>
+        </div>
+        <button class="flex-shrink-0 text-xs font-mono text-forest border border-forest px-3 py-1.5 rounded-sharp hover:bg-forest hover:text-cream transition" onclick="copyHook(${i})">Copy</button>
+      `;
+      list.appendChild(div);
+    });
+
+    document.getElementById('hookResults').classList.remove('hidden');
+    document.getElementById('hookResults').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function copyHook(i) {
+    const text = document.getElementById(`hook-text-${i}`).textContent;
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.querySelectorAll('#hookList button')[i];
+      const orig = btn.textContent; btn.textContent = 'Copied ✓';
+      setTimeout(() => { btn.textContent = orig; }, 2000);
+    });
+  }
+
+  // Script builder
+  function buildScript() {
+    const product = document.getElementById('scriptProduct').value.trim() || '[product]';
+    const benefit = document.getElementById('scriptBenefit').value.trim() || '[key benefit]';
+    const problem = document.getElementById('scriptProblem').value.trim() || '[problem]';
+    const name = document.getElementById('scriptName').value.trim() || 'Me';
+    const cta = document.getElementById('scriptCTA').value;
+
+    const script = `[HOOK — 0:00–0:04]
+"Okay, ${name} here — if you deal with ${problem}, keep watching."
+
+[PROBLEM — 0:04–0:10]
+"I've tried everything for ${problem}. Nothing actually worked long-term — until I found this."
+
+[INTRODUCE PRODUCT — 0:10–0:18]
+"This is ${product}. What it does is ${benefit}. And honestly? The results speak for themselves."
+
+[PROOF / EXPERIENCE — 0:18–0:24]
+"I've been using it for [X weeks/months] and the difference is real. [Add a specific detail you noticed.]"
+
+[CTA — 0:24–0:30]
+"If you're dealing with ${problem}, seriously — try this. ${cta}"`;
+
+    document.getElementById('scriptText').textContent = script;
+    document.getElementById('scriptOutput').classList.remove('hidden');
+    document.getElementById('scriptOutput').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function copyScript() {
+    const text = document.getElementById('scriptText').textContent;
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = event.target;
+      const orig = btn.textContent; btn.textContent = 'Copied ✓';
+      setTimeout(() => { btn.textContent = orig; }, 2000);
+    });
+  }
+</script>
+
+</body>
+</html>

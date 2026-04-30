@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>06 · Scale Up — Booked Out Command Center</title>
+<meta name="robots" content="noindex, nofollow" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = { theme: { extend: {
+    fontFamily: { display: ['Space Grotesk','system-ui','sans-serif'], sans: ['Inter','system-ui','sans-serif'], mono: ['JetBrains Mono','monospace'] },
+    colors: { cream:'#F5F0E4', creamDeep:'#EDE5D2', forest:'#1B3A2F', forestDeep:'#0F2620', forestLight:'#2D5742', moss:'#4A7C59', ink:'#0A1A12', ash:'#4A5C50', line:'#D8D0BE' },
+  }}}
+</script>
+<style>
+  html{scroll-behavior:smooth}
+  body{font-family:'Inter',system-ui,sans-serif;background-color:#F5F0E4;color:#0A1A12}
+  .font-display{font-family:'Space Grotesk',system-ui,sans-serif;letter-spacing:-0.02em}
+  .font-mono{font-family:'JetBrains Mono',monospace}
+  .display-balance{text-wrap:balance}
+  .checkerboard-mini{background-image:linear-gradient(45deg,#1B3A2F 25%,transparent 25%),linear-gradient(-45deg,#1B3A2F 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#1B3A2F 75%),linear-gradient(-45deg,transparent 75%,#1B3A2F 75%);background-size:8px 8px;background-position:0 0,0 4px,4px -4px,-4px 0}
+  .checkerboard-cream{background-image:linear-gradient(45deg,#F5F0E4 25%,transparent 25%),linear-gradient(-45deg,#F5F0E4 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#F5F0E4 75%),linear-gradient(-45deg,transparent 75%,#F5F0E4 75%);background-size:12px 12px;background-position:0 0,0 6px,6px -6px,-6px 0}
+  .rounded-sharp{border-radius:4px}
+  .tile-hover{transition:transform 0.15s,box-shadow 0.15s,border-color 0.15s}
+  .tile-hover:hover{transform:translateY(-2px);border-color:#1B3A2F;box-shadow:6px 6px 0 #1B3A2F}
+  details.acc>summary{list-style:none;cursor:pointer}
+  details.acc>summary::-webkit-details-marker{display:none}
+  details.acc[open]>summary .tog{transform:rotate(45deg)}
+  .tog{transition:transform 0.2s;display:inline-block}
+</style>
+</head>
+<body class="bg-cream text-ink">
+
+<div class="bg-forestDeep text-cream border-b border-forest">
+  <div class="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between text-xs font-mono">
+    <div class="flex items-center gap-4"><span class="text-moss">●</span><span>Maya_Creative_Co / booked_out</span></div>
+    <div class="hidden sm:flex items-center gap-4 text-cream/60"><span>section: 06_scale</span><span>access: lifetime</span></div>
+  </div>
+</div>
+
+<header class="border-b border-line bg-cream sticky top-0 z-40">
+  <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="index.html" class="flex items-center gap-3">
+      <div class="w-8 h-8 checkerboard-mini rounded-sharp"></div>
+      <div class="leading-tight">
+        <div class="font-display font-bold text-forest text-base">Booked Out</div>
+        <div class="font-mono text-[10px] text-ash">command_center.v2</div>
+      </div>
+    </a>
+    <nav class="hidden lg:flex items-center gap-1 font-mono text-xs">
+      <a href="index.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">hub</a>
+      <a href="00_start.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">start</a>
+      <a href="01_get-clear.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">01_clear</a>
+      <a href="02_get-visible.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">02_visible</a>
+      <a href="03_get-paid.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">03_paid</a>
+      <a href="04_get-booked.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">04_booked</a>
+      <a href="05_get-consistent.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">05_consistent</a>
+      <a href="06_scale-up.html" class="px-3 py-1.5 rounded-sharp bg-forest text-cream">06_scale</a>
+    </nav>
+    <a href="mailto:support@mayaherring.com" class="hidden sm:inline-block text-xs font-mono text-forest border border-forest px-3 py-1.5 rounded-sharp hover:bg-forest hover:text-cream transition">support</a>
+  </div>
+</header>
+
+<section class="border-b border-line bg-cream">
+  <div class="max-w-6xl mx-auto px-6 py-14">
+    <div class="flex items-center gap-3 mb-5 font-mono text-xs text-ash">
+      <a href="index.html" class="hover:text-forest">hub</a><span>/</span><span class="text-moss">06_scale-up</span>
+    </div>
+    <p class="font-mono text-xs text-moss mb-4">// stage_06 · scale_up</p>
+    <h1 class="font-display text-4xl lg:text-6xl font-bold text-forest mb-5 display-balance">Stop trading time for money.</h1>
+    <p class="text-lg text-ash max-w-2xl">You've built the business. Now raise the ceiling — higher rates, retainers, brand psychology, and the operator FAQ for every weird edge case you'll hit at this stage.</p>
+    <div class="mt-8 flex flex-wrap gap-2">
+      <a href="#raise-rates" class="px-4 py-2 border border-line rounded-sharp font-mono text-xs text-forest hover:border-forest">→ raise_rates</a>
+      <a href="#retainers" class="px-4 py-2 border border-line rounded-sharp font-mono text-xs text-forest hover:border-forest">→ retainer_roadmap</a>
+      <a href="#brand-psychology" class="px-4 py-2 border border-line rounded-sharp font-mono text-xs text-forest hover:border-forest">→ brand_psychology</a>
+      <a href="#operator-faq" class="px-4 py-2 border border-line rounded-sharp font-mono text-xs text-forest hover:border-forest">→ operator_faq</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RAISE RATES ============ -->
+<section id="raise-rates" class="border-b border-line bg-creamDeep">
+  <div class="max-w-5xl mx-auto px-6 py-16">
+    <p class="font-mono text-xs text-moss mb-2">// tool_01 · raise_rates_framework</p>
+    <h2 class="font-display text-3xl font-bold text-forest mb-3">How to raise your rates without losing clients.</h2>
+    <p class="text-ash max-w-2xl mb-8">The signals that tell you it's time to raise — and the exact script to do it without burning the relationship.</p>
+
+    <div class="grid md:grid-cols-2 gap-6 mb-8">
+      <div class="bg-cream border-2 border-forest rounded-sharp p-6">
+        <p class="font-mono text-xs text-moss mb-3">// signals_it_is_time</p>
+        <div class="space-y-3">
+          <div class="flex items-start gap-3">
+            <span class="text-moss mt-1">→</span>
+            <div class="text-sm text-ink"><strong class="text-forest">70%+ of your pitches convert.</strong> High conversion means you're underpriced. The market is telling you your floor is too low.</div>
+          </div>
+          <div class="flex items-start gap-3">
+            <span class="text-moss mt-1">→</span>
+            <div class="text-sm text-ink"><strong class="text-forest">You're booked 4+ weeks in advance.</strong> If your schedule is full, demand exceeds supply. That's called pricing power — use it.</div>
+          </div>
+          <div class="flex items-start gap-3">
+            <span class="text-moss mt-1">→</span>
+            <div class="text-sm text-ink"><strong class="text-forest">You have real results to point to.</strong> ROAS numbers, view counts, conversion data — any of this justifies a rate increase anchored in value, not just time.</div>
+          </div>
+          <div class="flex items-start gap-3">
+            <span class="text-moss mt-1">→</span>
+            <div class="text-sm text-ink"><strong class="text-forest">6+ months have passed since your last raise.</strong> Inflation, demand, and your own skill level all go up over time. Your rate should too.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-cream border-2 border-forest rounded-sharp p-6">
+        <p class="font-mono text-xs text-moss mb-3">// the_raise_script · for_existing_clients</p>
+        <div class="bg-forestDeep text-cream p-4 rounded-sharp text-sm leading-relaxed mb-3">
+          Hi [Name],<br/><br/>
+          I wanted to give you a heads-up that my rates are going up on [DATE] — I'm raising my standard package to $[NEW RATE].<br/><br/>
+          Because of how well our projects have gone, I want to offer you a transition window: any project booked before [DATE] will be at the current rate of $[CURRENT RATE].<br/><br/>
+          Do you have anything you'd want to lock in?<br/><br/>
+          — [Your name]
+        </div>
+        <p class="font-mono text-[11px] text-ash">// give 30 days notice. offer a transition window. the urgency closes the deal before the rate changes — you get revenue and they get value.</p>
+      </div>
+    </div>
+
+    <div class="bg-cream border border-line rounded-sharp p-6">
+      <p class="font-mono text-xs text-moss mb-3">// how_much_to_raise</p>
+      <div class="grid sm:grid-cols-3 gap-4 text-sm">
+        <div class="bg-creamDeep border border-line rounded-sharp p-4">
+          <div class="font-mono text-xs text-forest mb-2">first_raise</div>
+          <p class="text-ash">Raise 20–25%. Large enough to matter, small enough to keep most clients. Re-run the <a href="03_get-paid.html#rate-calculator" class="underline text-forest">Rate Calculator</a> under "established" to see your new range.</p>
+        </div>
+        <div class="bg-creamDeep border border-line rounded-sharp p-4">
+          <div class="font-mono text-xs text-forest mb-2">ongoing_raises</div>
+          <p class="text-ash">15–20% every 6–9 months as long as you're consistently booking. Smaller, more frequent raises are easier to absorb than large jumps.</p>
+        </div>
+        <div class="bg-creamDeep border border-line rounded-sharp p-4">
+          <div class="font-mono text-xs text-forest mb-2">premium_raise</div>
+          <p class="text-ash">When you have documented results (ROAS, conversion data), raise 40–50% and anchor the increase to the value you've proven — not the time you've put in.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RETAINER ROADMAP ============ -->
+<section id="retainers" class="border-b border-line bg-cream">
+  <div class="max-w-5xl mx-auto px-6 py-16">
+    <p class="font-mono text-xs text-moss mb-2">// tool_02 · retainer_roadmap</p>
+    <h2 class="font-display text-3xl font-bold text-forest mb-3">How to convert a brand into a retainer.</h2>
+    <p class="text-ash max-w-2xl mb-8">Project work is unpredictable income. Retainers are predictable. Here's how to move a brand from "one-off deal" to "ongoing partner."</p>
+
+    <div class="space-y-4">
+
+      <div class="bg-creamDeep border border-line rounded-sharp p-6">
+        <div class="flex items-start gap-5">
+          <div class="flex-shrink-0 w-10 h-10 bg-forest text-cream font-mono text-sm font-bold flex items-center justify-center rounded-sharp">01</div>
+          <div>
+            <div class="font-display font-bold text-forest text-lg mb-1">Deliver beyond scope on the first project.</div>
+            <p class="text-sm text-ash">Overdeliver once, on purpose. An extra cut they didn't ask for. A concept they can use but didn't commission. This isn't free work — it's a calculated investment in relationship equity that opens the retainer conversation.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-creamDeep border border-line rounded-sharp p-6">
+        <div class="flex items-start gap-5">
+          <div class="flex-shrink-0 w-10 h-10 bg-forest text-cream font-mono text-sm font-bold flex items-center justify-center rounded-sharp">02</div>
+          <div>
+            <div class="font-display font-bold text-forest text-lg mb-1">Pitch the retainer at delivery, not before.</div>
+            <p class="text-sm text-ash">When you deliver final cuts, include: "I'd love to build on this for Q[X]. I'm putting together a monthly package for [2-3 brands I trust] — want me to send a brief on what that would look like for [brand]?" Timing matters. Pitch when they're happiest with you.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-creamDeep border border-line rounded-sharp p-6">
+        <div class="flex items-start gap-5">
+          <div class="flex-shrink-0 w-10 h-10 bg-forest text-cream font-mono text-sm font-bold flex items-center justify-center rounded-sharp">03</div>
+          <div>
+            <div class="font-display font-bold text-forest text-lg mb-1">Structure the retainer as "monthly creative partner."</div>
+            <p class="text-sm text-ash mb-3">Not "monthly content package." The language shift positions you as a strategic asset, not a vendor. A simple retainer structure:</p>
+            <div class="bg-cream border border-line rounded-sharp p-4 font-mono text-xs text-ash space-y-1">
+              <div>→ 4 × 30-sec videos / month</div>
+              <div>→ 2 unique hook directions each</div>
+              <div>→ 30 days paid social usage per batch</div>
+              <div>→ Priority turnaround (7 days vs. standard 14)</div>
+              <div>→ Monthly strategy call (30 min)</div>
+              <div class="pt-2 text-forest font-bold">→ $[RATE × 3.2 / month] · 3-month commitment</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-creamDeep border border-line rounded-sharp p-6">
+        <div class="flex items-start gap-5">
+          <div class="flex-shrink-0 w-10 h-10 bg-forest text-cream font-mono text-sm font-bold flex items-center justify-center rounded-sharp">04</div>
+          <div>
+            <div class="font-display font-bold text-forest text-lg mb-1">Require a 3-month minimum. Never month-to-month.</div>
+            <p class="text-sm text-ash">Month-to-month retainers get cancelled the moment something tightens at the brand. A 3-month commitment gives you predictability and gives them commitment to actually use what they're paying for. It also gives you enough runway to produce work that actually shows results.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ BRAND PSYCHOLOGY ============ -->
+<section id="brand-psychology" class="border-b border-line bg-creamDeep">
+  <div class="max-w-5xl mx-auto px-6 py-16">
+    <p class="font-mono text-xs text-moss mb-2">// tool_03 · brand_psychology</p>
+    <h2 class="font-display text-3xl font-bold text-forest mb-3">How brands actually make buying decisions.</h2>
+    <p class="text-ash max-w-2xl mb-8">Understanding what's happening on the brand side explains why certain pitches land and certain deals stall. Use this to read situations faster.</p>
+
+    <div class="grid md:grid-cols-2 gap-5">
+
+      <div class="bg-cream border border-line rounded-sharp p-5">
+        <div class="font-mono text-[10px] text-moss mb-2">insight_01</div>
+        <div class="font-display font-bold text-forest text-base mb-2">The person you're pitching isn't spending their own money.</div>
+        <p class="text-sm text-ash">They're spending a budget, and they're managing risk. Your job isn't to make the spend feel exciting — it's to make the spend feel safe. "Here's what I've done before, here's what I'll do for you, here's exactly what's included" eliminates risk. Risk elimination closes deals.</p>
+      </div>
+
+      <div class="bg-cream border border-line rounded-sharp p-5">
+        <div class="font-mono text-[10px] text-moss mb-2">insight_02</div>
+        <div class="font-display font-bold text-forest text-base mb-2">Brands have a social proof problem at every stage.</div>
+        <p class="text-sm text-ash">They need to defend the spend upward. When you give them a results number, a recognizable brand reference, or a clear deliverable, you're giving them ammunition to take to their boss. Pitches that include "my work for [comparable brand] drove X" are easy to approve. Abstract pitches are not.</p>
+      </div>
+
+      <div class="bg-cream border border-line rounded-sharp p-5">
+        <div class="font-mono text-[10px] text-moss mb-2">insight_03</div>
+        <div class="font-display font-bold text-forest text-base mb-2">Timing is a bigger factor than quality.</div>
+        <p class="text-sm text-ash">Most "no"s aren't "no, never" — they're "no, not right now." A brand that ignored you in January might close in March because they just kicked off a new quarter, launched a new product, or hired a new marketing manager. Follow-up cadence matters more than pitch perfection.</p>
+      </div>
+
+      <div class="bg-cream border border-line rounded-sharp p-5">
+        <div class="font-mono text-[10px] text-moss mb-2">insight_04</div>
+        <div class="font-display font-bold text-forest text-base mb-2">Brands don't fully understand UGC pricing — yet.</div>
+        <p class="text-sm text-ash">Most brands have no benchmark for what UGC should cost. If you anchor high with a clear justification (usage rights, turnaround, deliverable count), they'll accept that number because they have nothing to compare it to. The first number you say sets the frame. Say it with confidence.</p>
+      </div>
+
+      <div class="bg-cream border border-line rounded-sharp p-5">
+        <div class="font-mono text-[10px] text-moss mb-2">insight_05</div>
+        <div class="font-display font-bold text-forest text-base mb-2">The relationship matters more than the deliverable.</div>
+        <p class="text-sm text-ash">The brand contacts who keep coming back are the ones who feel like working with you was easy — not just that the content was good. Be responsive, be clear, be professional. "Easy to work with" is a competitive advantage at every rate level.</p>
+      </div>
+
+      <div class="bg-cream border border-line rounded-sharp p-5">
+        <div class="font-mono text-[10px] text-moss mb-2">insight_06</div>
+        <div class="font-display font-bold text-forest text-base mb-2">Most brands are running too many tests at once.</div>
+        <p class="text-sm text-ash">Their attention is split. Your proposal should be the easiest decision in their inbox that day. Short scope. One deliverable structure. One rate. One next step. Brands close proposals that require one reply, not five.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ OPERATOR FAQ ============ -->
+<section id="operator-faq" class="border-b border-line bg-cream">
+  <div class="max-w-5xl mx-auto px-6 py-16">
+    <p class="font-mono text-xs text-moss mb-2">// tool_04 · operator_faq</p>
+    <h2 class="font-display text-3xl font-bold text-forest mb-3">Operator FAQ.</h2>
+    <p class="text-ash max-w-2xl mb-8">The weird questions I get asked most — the ones that don't fit anywhere else but matter when you're running the business at this level.</p>
+
+    <div class="space-y-3">
+
+      <details class="acc bg-creamDeep border border-line rounded-sharp">
+        <summary class="p-5 flex justify-between items-center">
+          <span class="font-display font-bold text-forest">Should I form an LLC before I start charging?</span>
+          <span class="tog font-mono text-xl text-forest">+</span>
+        </summary>
+        <div class="px-5 pb-5 border-t border-line pt-5 text-sm text-ash leading-relaxed">Short answer: not immediately. Operate as a sole proprietor under your own name until you're consistently clearing ~$30K/year from UGC work. At that point, an LLC (with an S-corp election in the US) starts saving you meaningful tax dollars. Before that, the paperwork and state fees aren't worth it. Disclaimer: I'm not an accountant — this is just what I did. Talk to one before you file anything.</div>
+      </details>
+
+      <details class="acc bg-creamDeep border border-line rounded-sharp">
+        <summary class="p-5 flex justify-between items-center">
+          <span class="font-display font-bold text-forest">Do I need a contract for every deal?</span>
+          <span class="tog font-mono text-xl text-forest">+</span>
+        </summary>
+        <div class="px-5 pb-5 border-t border-line pt-5 text-sm text-ash leading-relaxed">Yes. Every single one. Even the $500 ones. The <a href="05_get-consistent.html#proposal" class="underline text-forest">proposal template</a> in Get Consistent can double as a lightweight SOW when signed. Use HelloSign or PandaDoc to make it one-click on their side.</div>
+      </details>
+
+      <details class="acc bg-creamDeep border border-line rounded-sharp">
+        <summary class="p-5 flex justify-between items-center">
+          <span class="font-display font-bold text-forest">How do I handle taxes as a creator?</span>
+          <span class="tog font-mono text-xl text-forest">+</span>
+        </summary>
+        <div class="px-5 pb-5 border-t border-line pt-5 text-sm text-ash leading-relaxed">Set aside 25-30% of every deposit into a separate high-yield savings account labeled "taxes" and don't touch it. File quarterly estimated taxes if you're in the US and earning more than $1K/quarter from UGC. Hire an accountant who has at least 3 other creator clients — it's worth the $400-800/year.</div>
+      </details>
+
+      <details class="acc bg-creamDeep border border-line rounded-sharp">
+        <summary class="p-5 flex justify-between items-center">
+          <span class="font-display font-bold text-forest">What if a brand wants me to use their product in a way I don't believe in?</span>
+          <span class="tog font-mono text-xl text-forest">+</span>
+        </summary>
+        <div class="px-5 pb-5 border-t border-line pt-5 text-sm text-ash leading-relaxed">Walk. Every single time. The content won't perform (because your delivery will be off), the brand will blame you, and your audience will sniff it out. Your portfolio is worth more than any one deal. The <a href="04_get-booked.html#scripts" class="underline text-forest">recovery scripts</a> include a polite exit note you can send.</div>
+      </details>
+
+      <details class="acc bg-creamDeep border border-line rounded-sharp">
+        <summary class="p-5 flex justify-between items-center">
+          <span class="font-display font-bold text-forest">How do I handle a brand that keeps scope-creeping after signing?</span>
+          <span class="tog font-mono text-xl text-forest">+</span>
+        </summary>
+        <div class="px-5 pb-5 border-t border-line pt-5 text-sm text-ash leading-relaxed">Use the <a href="03_get-paid.html#negotiation-playbook" class="underline text-forest">scope-creep script</a> in the Negotiation Playbook (scenario 03). Frame every new request as an add-on or a swap — never as "free extra work". One warning then the add-on invoice goes out regardless. Brands respect clear boundaries.</div>
+      </details>
+
+      <details class="acc bg-creamDeep border border-line rounded-sharp">
+        <summary class="p-5 flex justify-between items-center">
+          <span class="font-display font-bold text-forest">When should I raise my rates?</span>
+          <span class="tog font-mono text-xl text-forest">+</span>
+        </summary>
+        <div class="px-5 pb-5 border-t border-line pt-5 text-sm text-ash leading-relaxed">When more than 70% of your pitches are converting, it's time to raise. High conversion = you're under-priced. Raise the floor by 20-25% and watch what happens. You'll lose the cheapest deals and keep the ones that actually move the business. Re-run the <a href="03_get-paid.html#rate-calculator" class="underline text-forest">rate calculator</a> under "established" to see your new numbers.</div>
+      </details>
+
+      <details class="acc bg-creamDeep border border-line rounded-sharp">
+        <summary class="p-5 flex justify-between items-center">
+          <span class="font-display font-bold text-forest">How do I know if I'm ready to scale?</span>
+          <span class="tog font-mono text-xl text-forest">+</span>
+        </summary>
+        <div class="px-5 pb-5 border-t border-line pt-5 text-sm text-ash leading-relaxed">You're ready to scale when you're consistently booked (not just sometimes), you have a real pipeline (not just one deal at a time), and you're turning down work because you're at capacity — not because you're scared. If any of those three are missing, go back to Get Consistent and run the CEO dashboard for 60 more days before making structural changes.</div>
+      </details>
+
+    </div>
+  </div>
+</section>
+
+<!-- Bottom nav -->
+<section class="bg-creamDeep">
+  <div class="max-w-6xl mx-auto px-6 py-10">
+    <div class="grid md:grid-cols-2 gap-6">
+      <a href="05_get-consistent.html" class="bg-cream border border-line rounded-sharp p-6 tile-hover">
+        <p class="font-mono text-xs text-moss mb-2">// prev_stage</p>
+        <div class="font-display text-xl font-bold text-forest">← 05 · Get Consistent</div>
+      </a>
+      <a href="index.html" class="bg-cream border border-line rounded-sharp p-6 tile-hover">
+        <p class="font-mono text-xs text-moss mb-2">// you_have_it_all</p>
+        <div class="font-display text-xl font-bold text-forest">Back to the Hub →</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer class="bg-forestDeep text-cream border-t border-forest">
+  <div class="max-w-6xl mx-auto px-6 py-10">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-6 h-6 checkerboard-cream rounded-sharp"></div>
+        <span class="font-mono text-xs text-cream/70">maya_creative_co / booked_out</span>
+      </div>
+      <div class="font-mono text-[11px] text-cream/50">© 2026 Maya Creative Co · stage_06 · lifetime access</div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

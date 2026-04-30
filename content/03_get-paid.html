@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>03 · Get Paid — Booked Out Command Center</title>
+<meta name="robots" content="noindex, nofollow" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = { theme: { extend: {
+    fontFamily: { display: ['Space Grotesk','system-ui','sans-serif'], sans: ['Inter','system-ui','sans-serif'], mono: ['JetBrains Mono','monospace'] },
+    colors: { cream:'#F5F0E4', creamDeep:'#EDE5D2', forest:'#1B3A2F', forestDeep:'#0F2620', forestLight:'#2D5742', moss:'#4A7C59', ink:'#0A1A12', ash:'#4A5C50', line:'#D8D0BE' },
+  }}}
+</script>
+<style>
+  html{scroll-behavior:smooth}
+  body{font-family:'Inter',system-ui,sans-serif;background-color:#F5F0E4;color:#0A1A12}
+  .font-display{font-family:'Space Grotesk',system-ui,sans-serif;letter-spacing:-0.02em}
+  .font-mono{font-family:'JetBrains Mono',monospace}
+  .display-balance{text-wrap:balance}
+  .checkerboard-mini{background-image:linear-gradient(45deg,#1B3A2F 25%,transparent 25%),linear-gradient(-45deg,#1B3A2F 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#1B3A2F 75%),linear-gradient(-45deg,transparent 75%,#1B3A2F 75%);background-size:8px 8px;background-position:0 0,0 4px,4px -4px,-4px 0}
+  .checkerboard-cream{background-image:linear-gradient(45deg,#F5F0E4 25%,transparent 25%),linear-gradient(-45deg,#F5F0E4 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#F5F0E4 75%),linear-gradient(-45deg,transparent 75%,#F5F0E4 75%);background-size:12px 12px;background-position:0 0,0 6px,6px -6px,-6px 0}
+  .rounded-sharp{border-radius:4px}
+  .tile-hover{transition:transform 0.15s,box-shadow 0.15s,border-color 0.15s}
+  .tile-hover:hover{transform:translateY(-2px);border-color:#1B3A2F;box-shadow:6px 6px 0 #1B3A2F}
+  .btn-primary{display:inline-flex;align-items:center;gap:8px;background:#1B3A2F;color:#F5F0E4;padding:12px 24px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;transition:background 0.15s;cursor:pointer;border:none}
+  .btn-primary:hover{background:#0F2620}
+  .btn-ghost{display:inline-flex;align-items:center;gap:8px;background:transparent;color:#1B3A2F;padding:12px 20px;border:1px solid #1B3A2F;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:13px;transition:all 0.15s;cursor:pointer}
+  .btn-ghost:hover{background:#1B3A2F;color:#F5F0E4}
+  label.field-label{display:block;font-family:'JetBrains Mono',monospace;font-size:11px;color:#4A5C50;margin-bottom:6px}
+  input.field,select.field,textarea.field{width:100%;background:#fff;border:1px solid #D8D0BE;border-radius:4px;padding:10px 12px;font-family:'Inter',sans-serif;font-size:14px;color:#0A1A12;transition:border-color 0.15s}
+  input.field:focus,select.field:focus{outline:none;border-color:#1B3A2F;box-shadow:0 0 0 3px rgba(27,58,47,0.1)}
+  .terminal{background:#0F2620;color:#F5F0E4;border-radius:4px;font-family:'JetBrains Mono',monospace}
+  .fade-in{animation:fadeIn 0.35s ease-out}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+  details.scenario>summary{list-style:none;cursor:pointer}
+  details.scenario>summary::-webkit-details-marker{display:none}
+  details.scenario[open]>summary .tog{transform:rotate(45deg)}
+  .tog{transition:transform 0.2s;display:inline-block}
+</style>
+</head>
+<body class="bg-cream text-ink">
+
+<div class="bg-forestDeep text-cream border-b border-forest">
+  <div class="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between text-xs font-mono">
+    <div class="flex items-center gap-4"><span class="text-moss">●</span><span>Maya_Creative_Co / booked_out</span></div>
+    <div class="hidden sm:flex items-center gap-4 text-cream/60"><span>section: 03_paid</span><span>access: lifetime</span></div>
+  </div>
+</div>
+
+<header class="border-b border-line bg-cream sticky top-0 z-40">
+  <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="index.html" class="flex items-center gap-3">
+      <div class="w-8 h-8 checkerboard-mini rounded-sharp"></div>
+      <div class="leading-tight">
+        <div class="font-display font-bold text-forest text-base">Booked Out</div>
+        <div class="font-mono text-[10px] text-ash">command_center.v2</div>
+      </div>
+    </a>
+    <nav class="hidden lg:flex items-center gap-1 font-mono text-xs">
+      <a href="index.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">hub</a>
+      <a href="00_start.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">start</a>
+      <a href="01_get-clear.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">01_clear</a>
+      <a href="02_get-visible.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">02_visible</a>
+      <a href="03_get-paid.html" class="px-3 py-1.5 rounded-sharp bg-forest text-cream">03_paid</a>
+      <a href="04_get-booked.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">04_booked</a>
+      <a href="05_get-consistent.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">05_consistent</a>
+      <a href="06_scale-up.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">06_scale</a>
+    </nav>
+    <a href="mailto:support@mayaherring.com" class="hidden sm:inline-block text-xs font-mono text-forest border border-forest px-3 py-1.5 rounded-sharp hover:bg-forest hover:text-cream transition">support</a>
+  </div>
+</header>
+
+<section class="border-b border-line bg-cream">
+  <div class="max-w-6xl mx-auto px-6 py-14">
+    <div class="flex items-center gap-3 mb-5 font-mono text-xs text-ash">
+      <a href="index.html" class="hover:text-forest">hub</a><span>/</span><span class="text-moss">03_get-paid</span>
+    </div>
+    <p class="font-mono text-xs text-moss mb-4">// stage_03 · get_paid</p>
+    <h1 class="font-display text-4xl lg:text-6xl font-bold text-forest mb-5 display-balance">Know your number. Hold your number.</h1>
+    <p class="text-lg text-ash max-w-2xl">The tools that tell you what to charge, how to defend it, and what the market is actually paying. Run the calculator first — everything else flows from your rate.</p>
+    <div class="mt-8 flex flex-wrap gap-2">
+      <a href="#rate-calculator" class="px-4 py-2 border border-line rounded-sharp font-mono text-xs text-forest hover:border-forest">→ rate_calculator</a>
+      <a href="#negotiation-playbook" class="px-4 py-2 border border-line rounded-sharp font-mono text-xs text-forest hover:border-forest">→ negotiation_playbook</a>
+      <a href="#benchmarks" class="px-4 py-2 border border-line rounded-sharp font-mono text-xs text-forest hover:border-forest">→ rate_benchmarks</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RATE CALCULATOR ============ -->
+<section id="rate-calculator" class="border-b border-line bg-creamDeep">
+  <div class="max-w-5xl mx-auto px-6 py-16">
+    <p class="font-mono text-xs text-moss mb-2">// tool_01 · rate_calculator</p>
+    <h2 class="font-display text-3xl lg:text-4xl font-bold text-forest mb-3">What should I charge?</h2>
+    <p class="text-ash max-w-xl mb-8">Run the project through the calculator. Get a range, a suggested package, and tailored negotiation notes.</p>
+
+    <div class="bg-cream border-2 border-forest rounded-sharp p-6 md:p-10">
+      <div class="flex items-center justify-between mb-8 pb-4 border-b border-line">
+        <span class="font-mono text-xs text-moss">rate_calculator.run()</span>
+        <span class="font-mono text-xs text-ash">v1.0</span>
+      </div>
+
+      <form id="rateForm" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <label class="field-label" for="deliverableType">deliverable_type</label>
+          <select id="deliverableType" class="field" required>
+            <option value="video15">15-second video</option>
+            <option value="video30" selected>30-second video</option>
+            <option value="video60">60-second video</option>
+            <option value="photoSet">Photo set</option>
+            <option value="voiceover">Voiceover only</option>
+            <option value="grwm">GRWM video</option>
+            <option value="unboxing">Unboxing video</option>
+            <option value="testimonial">Testimonial video</option>
+            <option value="lifestyle">Lifestyle video</option>
+            <option value="adStyle">Ad-style video</option>
+          </select>
+        </div>
+        <div>
+          <label class="field-label" for="numDeliverables">number_of_deliverables</label>
+          <input type="number" id="numDeliverables" class="field" min="1" max="50" value="3" required />
+        </div>
+        <div>
+          <label class="field-label" for="usageRights">usage_rights</label>
+          <select id="usageRights" class="field" required>
+            <option value="organic">Organic only</option>
+            <option value="paid30" selected>Paid social — 30 days</option>
+            <option value="paid90">Paid social — 90 days</option>
+            <option value="paid180">Paid social — 6 months</option>
+            <option value="paid365">Paid social — 1 year</option>
+            <option value="whitelisting">Whitelisting</option>
+            <option value="buyout">Full buyout</option>
+          </select>
+        </div>
+        <div>
+          <label class="field-label" for="turnaround">turnaround</label>
+          <select id="turnaround" class="field" required>
+            <option value="2weeks" selected>2 weeks</option>
+            <option value="1week">1 week</option>
+            <option value="3days">3 days</option>
+            <option value="rush">24-hour rush</option>
+          </select>
+        </div>
+        <div>
+          <label class="field-label" for="revisions">revisions_included</label>
+          <input type="number" id="revisions" class="field" min="0" max="10" value="1" required />
+        </div>
+        <div>
+          <label class="field-label" for="concepts">hooks_concepts_requested</label>
+          <input type="number" id="concepts" class="field" min="1" max="10" value="2" required />
+        </div>
+        <div>
+          <label class="field-label" for="experience">experience_tier</label>
+          <select id="experience" class="field" required>
+            <option value="new">New (under 6 months)</option>
+            <option value="growing" selected>Growing (6–18 months)</option>
+            <option value="established">Established (18+ months)</option>
+          </select>
+        </div>
+        <div>
+          <label class="field-label" for="brandSize">brand_size</label>
+          <select id="brandSize" class="field">
+            <option value="indie">Indie / early stage</option>
+            <option value="growing" selected>Growing DTC</option>
+            <option value="established">Established DTC</option>
+            <option value="enterprise">Enterprise</option>
+          </select>
+        </div>
+        <div class="md:col-span-2 flex flex-col sm:flex-row gap-4 items-center justify-center pt-4">
+          <button type="submit" class="btn-primary">→ Calculate my rate</button>
+          <button type="button" id="resetBtn" class="text-ash text-sm font-mono underline hover:text-forest">reset()</button>
+        </div>
+      </form>
+
+      <div id="resultPanel" class="hidden mt-10 fade-in">
+        <div class="terminal p-6 md:p-8">
+          <div class="flex items-center justify-between mb-6 pb-3 border-b border-cream/20">
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-cream/30"></span>
+              <span class="w-2 h-2 rounded-full bg-cream/30"></span>
+              <span class="w-2 h-2 rounded-full bg-moss"></span>
+            </div>
+            <span class="text-xs text-cream/50">output.json</span>
+          </div>
+          <div class="text-center mb-8">
+            <p class="text-cream/60 text-xs mb-3">&gt; calculated_rate_range:</p>
+            <p class="font-display text-5xl md:text-7xl font-bold tracking-tight text-cream" id="rateRange">—</p>
+            <p class="text-cream/60 text-xs mt-3" id="rateContext">for_this_scope</p>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-6">
+            <div class="border border-cream/20 rounded p-4">
+              <p class="text-xs text-cream/50 mb-2">per_deliverable</p>
+              <p class="font-display text-2xl font-bold text-cream" id="perDeliverable">—</p>
+            </div>
+            <div class="border border-cream/20 rounded p-4">
+              <p class="text-xs text-cream/50 mb-2">suggested_package</p>
+              <p class="font-display text-2xl font-bold text-cream" id="packagePrice">—</p>
+              <p class="text-xs text-cream/40 mt-1" id="packageNote"></p>
+            </div>
+            <div class="border border-cream/20 rounded p-4">
+              <p class="text-xs text-cream/50 mb-2">confidence</p>
+              <p class="font-display text-2xl font-bold text-cream" id="confidence">—</p>
+              <p class="text-xs text-cream/40 mt-1" id="confidenceNote"></p>
+            </div>
+          </div>
+          <div class="border border-cream/20 rounded p-5">
+            <p class="text-xs text-cream/50 mb-3">&gt; negotiation_notes:</p>
+            <ul id="negotiationNotes" class="space-y-2 text-sm text-cream/90 leading-relaxed font-sans"></ul>
+          </div>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-3 justify-center mt-6">
+          <button type="button" id="copyBtn" class="btn-ghost">Copy result</button>
+          <a href="#negotiation-playbook" class="btn-primary">→ Now handle the negotiation</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ NEGOTIATION PLAYBOOK ============ -->
+<section id="negotiation-playbook" class="border-b border-line bg-cream">
+  <div class="max-w-5xl mx-auto px-6 py-16">
+    <p class="font-mono text-xs text-moss mb-2">// tool_02 · negotiation_playbook</p>
+    <h2 class="font-display text-3xl lg:text-4xl font-bold text-forest mb-3">What do I actually say?</h2>
+    <p class="text-ash max-w-xl mb-8">Pick the situation you're in. You'll get the exact script to send, the reasoning behind it, and the next move to make.</p>
+
+    <div class="bg-creamDeep border-2 border-forest rounded-sharp p-6 md:p-10">
+      <div class="flex items-center justify-between mb-6 pb-4 border-b border-line">
+        <span class="font-mono text-xs text-moss">negotiation_playbook.select()</span>
+        <span class="font-mono text-xs text-ash">6_scenarios</span>
+      </div>
+      <div class="space-y-3">
+
+        <details class="scenario bg-cream border border-line rounded-sharp">
+          <summary class="p-5 flex justify-between items-center">
+            <div class="flex items-center gap-4">
+              <span class="font-mono text-xs text-ash">01</span>
+              <span class="font-display font-bold text-forest">"They want usage rights but won't raise the budget."</span>
+            </div>
+            <span class="tog font-mono text-xl text-forest">+</span>
+          </summary>
+          <div class="px-5 pb-5 border-t border-line pt-5 space-y-5">
+            <div><p class="font-mono text-xs text-moss mb-2">// script · copy this</p>
+            <div class="bg-creamDeep border-l-4 border-moss p-4 text-sm text-ink leading-relaxed">Happy to expand usage on this one. A couple of options depending on how you want to run it:<br/><br/>→ Organic only is $[BASE].<br/>→ Adding 30 days of paid social is $[BASE × 1.4].<br/>→ Full 90-day paid window is $[BASE × 1.7].<br/><br/>Usage is the biggest lever on my side because it multiplies where this content lives. Which window works best for your launch timing?</div></div>
+            <div><p class="font-mono text-xs text-moss mb-2">// why_this_works</p><p class="text-sm text-ash">You're not saying no — you're reframing around scope. Three tiers makes organic feel restrictive and paid-30 feel reasonable. They'll almost always pick the middle.</p></div>
+            <div><p class="font-mono text-xs text-moss mb-2">// next_move</p><p class="text-sm text-ash">If they still push back, offer 10% discount on paid-30 in exchange for a longer commitment. Never cut the base rate to unlock usage — unbundle it instead.</p></div>
+          </div>
+        </details>
+
+        <details class="scenario bg-cream border border-line rounded-sharp">
+          <summary class="p-5 flex justify-between items-center">
+            <div class="flex items-center gap-4">
+              <span class="font-mono text-xs text-ash">02</span>
+              <span class="font-display font-bold text-forest">"They lowballed my quote."</span>
+            </div>
+            <span class="tog font-mono text-xl text-forest">+</span>
+          </summary>
+          <div class="px-5 pb-5 border-t border-line pt-5 space-y-5">
+            <div><p class="font-mono text-xs text-moss mb-2">// script · copy this</p>
+            <div class="bg-creamDeep border-l-4 border-moss p-4 text-sm text-ink leading-relaxed">Thanks for the transparency on the budget. My rate for this scope is $[YOUR RATE] based on [1–2 line reason: usage, turnaround, concepts]. I can't go lower on the base — but I can adjust what's inside the package to fit the $[THEIR BUDGET] number.<br/><br/>At that budget, I'd recommend dropping to [smaller scope] which still gives you [core outcome they wanted]. Want me to send that version?</div></div>
+            <div><p class="font-mono text-xs text-moss mb-2">// why_this_works</p><p class="text-sm text-ash">Protecting your rate protects every future rate you ever quote. Adjusting scope instead of discounting teaches the brand that your number is a number — not a starting point.</p></div>
+            <div><p class="font-mono text-xs text-moss mb-2">// next_move</p><p class="text-sm text-ash">If they accept the smaller scope, upsell on turnaround or revisions before you close. If they decline everything, walk. A brand that can't afford your floor won't refer you to one that can.</p></div>
+          </div>
+        </details>
+
+        <details class="scenario bg-cream border border-line rounded-sharp">
+          <summary class="p-5 flex justify-between items-center">
+            <div class="flex items-center gap-4">
+              <span class="font-mono text-xs text-ash">03</span>
+              <span class="font-display font-bold text-forest">"Scope is creeping mid-project."</span>
+            </div>
+            <span class="tog font-mono text-xl text-forest">+</span>
+          </summary>
+          <div class="px-5 pb-5 border-t border-line pt-5 space-y-5">
+            <div><p class="font-mono text-xs text-moss mb-2">// script · copy this</p>
+            <div class="bg-creamDeep border-l-4 border-moss p-4 text-sm text-ink leading-relaxed">Totally doable! Quick heads up — [the new ask] is outside the original scope we agreed to in the SOW. Happy to add it on as an extra at $[ADD-ON RATE], or we can swap it in for [one of the existing deliverables] at no extra cost. Which way would you prefer?</div></div>
+            <div><p class="font-mono text-xs text-moss mb-2">// why_this_works</p><p class="text-sm text-ash">Neutral, zero-blame language. The swap option makes it feel collaborative — but either answer keeps your rate protected. Most brands pick the add-on because they've already scoped the launch.</p></div>
+            <div><p class="font-mono text-xs text-moss mb-2">// next_move</p><p class="text-sm text-ash">Whatever they pick, confirm it in writing in the same thread before you do the work. Reference the original SOW line explicitly.</p></div>
+          </div>
+        </details>
+
+        <details class="scenario bg-cream border border-line rounded-sharp">
+          <summary class="p-5 flex justify-between items-center">
+            <div class="flex items-center gap-4">
+              <span class="font-mono text-xs text-ash">04</span>
+              <span class="font-display font-bold text-forest">"Payment is late."</span>
+            </div>
+            <span class="tog font-mono text-xl text-forest">+</span>
+          </summary>
+          <div class="px-5 pb-5 border-t border-line pt-5 space-y-5">
+            <div><p class="font-mono text-xs text-moss mb-2">// script · day_3_past_due</p>
+            <div class="bg-creamDeep border-l-4 border-moss p-4 text-sm text-ink leading-relaxed">Hey [name], just a quick check-in — invoice #[NUMBER] for $[AMOUNT] was due [DATE]. Can you confirm it's in the queue? Happy to resend if it got lost.</div></div>
+            <div><p class="font-mono text-xs text-moss mb-2">// script · day_10_past_due</p>
+            <div class="bg-creamDeep border-l-4 border-moss p-4 text-sm text-ink leading-relaxed">Following up on invoice #[NUMBER] — it's now 10 days past due. Per our SOW, a 5% late fee has been added and is reflected in the attached updated invoice. Please confirm expected payment date.</div></div>
+            <div><p class="font-mono text-xs text-moss mb-2">// next_move</p><p class="text-sm text-ash">After day 14, pause any ongoing deliverables and CC the brand's finance contact. Don't deliver more work until the invoice clears.</p></div>
+          </div>
+        </details>
+
+        <details class="scenario bg-cream border border-line rounded-sharp">
+          <summary class="p-5 flex justify-between items-center">
+            <div class="flex items-center gap-4">
+              <span class="font-mono text-xs text-ash">05</span>
+              <span class="font-display font-bold text-forest">"They're asking for unlimited revisions."</span>
+            </div>
+            <span class="tog font-mono text-xl text-forest">+</span>
+          </summary>
+          <div class="px-5 pb-5 border-t border-line pt-5 space-y-5">
+            <div><p class="font-mono text-xs text-moss mb-2">// script · copy this</p>
+            <div class="bg-creamDeep border-l-4 border-moss p-4 text-sm text-ink leading-relaxed">I include 2 rounds of revisions in my standard package because that's what it takes to get to a strong final cut without diluting it. Additional revisions after round 2 are billed at $50/round. If you're expecting more than 2 because of internal review cycles, totally fine — I'd just adjust the quote upfront so we're aligned from day one.</div></div>
+            <div><p class="font-mono text-xs text-moss mb-2">// next_move</p><p class="text-sm text-ash">Put this directly in your proposal template's "what's included" block. Don't negotiate revisions on a per-deal basis — set the rule once, apply it every time.</p></div>
+          </div>
+        </details>
+
+        <details class="scenario bg-cream border border-line rounded-sharp">
+          <summary class="p-5 flex justify-between items-center">
+            <div class="flex items-center gap-4">
+              <span class="font-mono text-xs text-ash">06</span>
+              <span class="font-display font-bold text-forest">"They want exclusivity in the category."</span>
+            </div>
+            <span class="tog font-mono text-xl text-forest">+</span>
+          </summary>
+          <div class="px-5 pb-5 border-t border-line pt-5 space-y-5">
+            <div><p class="font-mono text-xs text-moss mb-2">// script · copy this</p>
+            <div class="bg-creamDeep border-l-4 border-moss p-4 text-sm text-ink leading-relaxed">Category exclusivity is something I price separately because it limits who I can work with for the duration. For [CATEGORY], a 90-day exclusive adds 40% to the base, 6 months adds 75%, and 12 months is a 2x multiplier. It also comes with a signed non-compete clause. Which window works for your campaign?</div></div>
+            <div><p class="font-mono text-xs text-moss mb-2">// next_move</p><p class="text-sm text-ash">If they balk, offer a "no direct competitor" clause instead (only blocks 3 named brands) for a smaller premium. It's a middle ground that keeps them happy and your pipeline free.</p></div>
+          </div>
+        </details>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RATE BENCHMARKS ============ -->
+<section id="benchmarks" class="border-b border-line bg-creamDeep">
+  <div class="max-w-5xl mx-auto px-6 py-16">
+    <p class="font-mono text-xs text-moss mb-2">// tool_03 · rate_benchmarks</p>
+    <h2 class="font-display text-3xl font-bold text-forest mb-3">Real-world rate benchmarks.</h2>
+    <p class="text-ash max-w-2xl mb-8">What brands are actually paying right now. These are the numbers my network reports back, bucketed by deliverable and experience level. Updated quarterly.</p>
+
+    <div class="bg-cream border-2 border-forest rounded-sharp p-6 md:p-8">
+      <div class="flex items-center justify-between mb-5 pb-4 border-b border-line">
+        <span class="font-mono text-xs text-moss">benchmarks.q2_2026</span>
+        <span class="font-mono text-xs text-ash">4_tiers · 5_deliverables</span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse">
+          <thead>
+            <tr class="bg-creamDeep border-b border-forest">
+              <th class="text-left p-3 font-mono text-[11px] text-forest">deliverable</th>
+              <th class="text-left p-3 font-mono text-[11px] text-forest">new</th>
+              <th class="text-left p-3 font-mono text-[11px] text-forest">growing</th>
+              <th class="text-left p-3 font-mono text-[11px] text-forest">established</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-line"><td class="p-3 font-mono text-xs text-forest">30-sec vertical video</td><td class="p-3 text-ash">$250 – $400</td><td class="p-3 text-ash">$400 – $750</td><td class="p-3 text-ash">$750 – $1,500</td></tr>
+            <tr class="border-b border-line bg-creamDeep/60"><td class="p-3 font-mono text-xs text-forest">60-sec vertical video</td><td class="p-3 text-ash">$400 – $600</td><td class="p-3 text-ash">$600 – $1,000</td><td class="p-3 text-ash">$1,000 – $2,200</td></tr>
+            <tr class="border-b border-line"><td class="p-3 font-mono text-xs text-forest">3-piece GRWM package</td><td class="p-3 text-ash">$800 – $1,200</td><td class="p-3 text-ash">$1,500 – $2,500</td><td class="p-3 text-ash">$2,500 – $4,500</td></tr>
+            <tr class="border-b border-line bg-creamDeep/60"><td class="p-3 font-mono text-xs text-forest">5-photo lifestyle set</td><td class="p-3 text-ash">$300 – $500</td><td class="p-3 text-ash">$500 – $900</td><td class="p-3 text-ash">$900 – $1,800</td></tr>
+            <tr><td class="p-3 font-mono text-xs text-forest">Unboxing + testimonial</td><td class="p-3 text-ash">$350 – $550</td><td class="p-3 text-ash">$550 – $950</td><td class="p-3 text-ash">$950 – $2,000</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="mt-5 bg-creamDeep border border-line rounded-sharp p-4">
+        <p class="font-mono text-[11px] text-moss mb-2">// important_context</p>
+        <p class="text-sm text-ash">These are <strong class="text-forest">base rates</strong> for organic-only usage. Every number in this table gets multiplied by the usage window (1.4x for 30-day paid, up to 3.5x for full buyout). Use the <a href="#rate-calculator" class="underline text-forest">Rate Calculator</a> to get your real number.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Bottom nav -->
+<section class="bg-cream">
+  <div class="max-w-6xl mx-auto px-6 py-10">
+    <div class="grid md:grid-cols-2 gap-6">
+      <a href="02_get-visible.html" class="bg-creamDeep border border-line rounded-sharp p-6 tile-hover">
+        <p class="font-mono text-xs text-moss mb-2">// prev_stage</p>
+        <div class="font-display text-xl font-bold text-forest">← 02 · Get Visible</div>
+      </a>
+      <a href="04_get-booked.html" class="bg-creamDeep border border-line rounded-sharp p-6 tile-hover">
+        <p class="font-mono text-xs text-moss mb-2">// next_stage</p>
+        <div class="font-display text-xl font-bold text-forest">04 · Get Booked →</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer class="bg-forestDeep text-cream border-t border-forest">
+  <div class="max-w-6xl mx-auto px-6 py-10">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-6 h-6 checkerboard-cream rounded-sharp"></div>
+        <span class="font-mono text-xs text-cream/70">maya_creative_co / booked_out</span>
+      </div>
+      <div class="font-mono text-[11px] text-cream/50">© 2026 Maya Creative Co · stage_03 · lifetime access</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const BASE_RATES = { video15:300,video30:450,video60:600,photoSet:250,voiceover:150,grwm:400,unboxing:350,testimonial:400,lifestyle:350,adStyle:500 };
+  const DELIVERABLE_LABELS = { video15:'15-second video',video30:'30-second video',video60:'60-second video',photoSet:'photo set',voiceover:'voiceover',grwm:'GRWM video',unboxing:'unboxing video',testimonial:'testimonial video',lifestyle:'lifestyle video',adStyle:'ad-style video' };
+  const USAGE_MULTIPLIERS = { organic:1.0,paid30:1.4,paid90:1.7,paid180:2.1,paid365:2.5,whitelisting:1.6,buyout:3.5 };
+  const USAGE_LABELS = { organic:'organic only',paid30:'paid social for 30 days',paid90:'paid social for 90 days',paid180:'paid social for 6 months',paid365:'paid social for 1 year',whitelisting:'whitelisting',buyout:'a full buyout' };
+  const TURNAROUND_MULTIPLIERS = { '2weeks':1.0,'1week':1.15,'3days':1.4,rush:1.75 };
+  const TURNAROUND_LABELS = { '2weeks':'2-week','1week':'1-week','3days':'3-day',rush:'24-hour rush' };
+  const EXPERIENCE_MULTIPLIERS = { new:0.85,growing:1.0,established:1.25 };
+  const BRAND_MULTIPLIERS = { indie:0.9,growing:1.0,established:1.2,enterprise:1.4 };
+
+  function formatMoney(n) { return '$' + Math.round(n).toLocaleString('en-US'); }
+
+  function calculateRate(inputs) {
+    const baseRate = BASE_RATES[inputs.deliverableType] * inputs.numDeliverables;
+    const revisionAdd = inputs.revisions * 50;
+    const conceptsAdd = Math.max(0, inputs.concepts - 1) * 75;
+    const subtotal = baseRate + revisionAdd + conceptsAdd;
+    const usage = USAGE_MULTIPLIERS[inputs.usageRights];
+    const turn = TURNAROUND_MULTIPLIERS[inputs.turnaround];
+    const exp = EXPERIENCE_MULTIPLIERS[inputs.experience];
+    const brand = BRAND_MULTIPLIERS[inputs.brandSize];
+    const adjusted = subtotal * usage * turn * exp * brand;
+    const low = Math.round(adjusted * 0.9 / 25) * 25;
+    const high = Math.round(adjusted * 1.25 / 25) * 25;
+    const mid = Math.round((low + high) / 2 / 25) * 25;
+    const perDeliverable = Math.round(mid / inputs.numDeliverables / 25) * 25;
+    return { low, high, mid, perDeliverable, usage, turn, exp, brand };
+  }
+
+  function buildNegotiationNotes(inputs, calc) {
+    const notes = [];
+    if (calc.usage >= 2.1) {
+      notes.push(`<strong class="text-cream">Usage rights are doing the heavy lifting.</strong> You're licensing for ${USAGE_LABELS[inputs.usageRights]} — about ${Math.round(calc.usage * 100 - 100)}% above organic. If the brand pushes back, offer to halve the window for a 25% cut.`);
+    } else if (calc.usage >= 1.4) {
+      notes.push(`<strong class="text-cream">Usage is your biggest negotiation lever.</strong> ${USAGE_LABELS[inputs.usageRights].charAt(0).toUpperCase() + USAGE_LABELS[inputs.usageRights].slice(1)} adds ~${Math.round(calc.usage * 100 - 100)}% over organic. Expanding to a full year of paid? Your rate jumps another 40–60%.`);
+    } else {
+      notes.push(`<strong class="text-cream">Organic-only deal.</strong> Make sure the contract explicitly excludes paid social, whitelisting, and ads. If they ever want to run this as an ad, that's a separate fee.`);
+    }
+    if (calc.turn >= 1.4) {
+      notes.push(`<strong class="text-cream">Rush turnaround justifies a real premium.</strong> ${TURNAROUND_LABELS[inputs.turnaround]} adds ${Math.round(calc.turn * 100 - 100)}% to your base. Don't apologize for it — fast work is more valuable.`);
+    }
+    if (inputs.experience === 'new') {
+      notes.push(`<strong class="text-cream">You're early — that's fine.</strong> The calculator built in a 15% adjustment. Once you have 3 testimonials and 6 months of work, switch to "growing" and your floor jumps.`);
+    } else if (inputs.experience === 'established') {
+      notes.push(`<strong class="text-cream">You're past the proving stage.</strong> Don't anchor to what new creators charge. 18+ months of brand work earns you the right to defend bigger numbers.`);
+    }
+    if (inputs.concepts >= 3) {
+      notes.push(`<strong class="text-cream">${inputs.concepts} concepts is more work than most brands realize.</strong> Each unique hook is essentially a separate creative deliverable. Line-item it in the proposal.`);
+    }
+    if (inputs.brandSize === 'enterprise') {
+      notes.push(`<strong class="text-cream">Enterprise brands have budget.</strong> Don't undercharge them out of impostor syndrome — procurement teams are calibrated for higher numbers. Quoting low makes you look junior.`);
+    } else if (inputs.brandSize === 'indie') {
+      notes.push(`<strong class="text-cream">Indie brands have less budget but better relationships.</strong> Trade a 10–15% discount for stronger usage, a public testimonial, or a longer-term commitment.`);
+    }
+    notes.push(`<strong class="text-cream">Quote the high end first.</strong> Lead with $${calc.high.toLocaleString()}. The low end is your floor — not your starting point.`);
+    return notes;
+  }
+
+  document.getElementById('rateForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const inputs = {
+      deliverableType: document.getElementById('deliverableType').value,
+      numDeliverables: parseInt(document.getElementById('numDeliverables').value, 10) || 1,
+      usageRights: document.getElementById('usageRights').value,
+      turnaround: document.getElementById('turnaround').value,
+      revisions: parseInt(document.getElementById('revisions').value, 10) || 0,
+      concepts: parseInt(document.getElementById('concepts').value, 10) || 1,
+      experience: document.getElementById('experience').value,
+      brandSize: document.getElementById('brandSize').value,
+    };
+    const calc = calculateRate(inputs);
+    const notes = buildNegotiationNotes(inputs, calc);
+    const panel = document.getElementById('resultPanel');
+    panel.classList.remove('hidden');
+    document.getElementById('rateRange').textContent = `${formatMoney(calc.low)} – ${formatMoney(calc.high)}`;
+    document.getElementById('rateContext').textContent = `${inputs.numDeliverables}x_${DELIVERABLE_LABELS[inputs.deliverableType].replace(/\s/g, '_')}_with_${USAGE_LABELS[inputs.usageRights].replace(/\s/g, '_')}`;
+    document.getElementById('perDeliverable').textContent = formatMoney(calc.perDeliverable);
+    document.getElementById('packagePrice').textContent = formatMoney(calc.mid);
+    document.getElementById('packageNote').textContent = `${inputs.numDeliverables} deliverables`;
+    let conf = 'solid', confNote = 'within market range';
+    if (calc.high > 8000) { conf = 'high-ticket'; confNote = 'quote with confidence'; }
+    if (calc.low < 500) { conf = 'entry-level'; confNote = 'protect your floor'; }
+    document.getElementById('confidence').textContent = conf;
+    document.getElementById('confidenceNote').textContent = confNote;
+    const ul = document.getElementById('negotiationNotes');
+    ul.innerHTML = '';
+    notes.forEach(note => {
+      const li = document.createElement('li');
+      li.innerHTML = `<span class="text-moss">→</span> ${note}`;
+      ul.appendChild(li);
+    });
+    setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+  });
+
+  document.getElementById('resetBtn').addEventListener('click', function() {
+    document.getElementById('rateForm').reset();
+    document.getElementById('resultPanel').classList.add('hidden');
+  });
+
+  document.getElementById('copyBtn').addEventListener('click', function() {
+    const range = document.getElementById('rateRange').textContent;
+    const context = document.getElementById('rateContext').textContent;
+    const per = document.getElementById('perDeliverable').textContent;
+    const pkg = document.getElementById('packagePrice').textContent;
+    const notes = Array.from(document.querySelectorAll('#negotiationNotes li')).map(li => '• ' + li.textContent.replace(/^→\s*/, '')).join('\n\n');
+    const text = `MY UGC RATE\n${range}\n${context}\n\nPer deliverable: ${per}\nSuggested package: ${pkg}\n\nNEGOTIATION NOTES:\n${notes}\n\nCalculated inside the Booked Out Command Center`;
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.getElementById('copyBtn');
+      const original = btn.textContent; btn.textContent = 'Copied ✓';
+      setTimeout(() => { btn.textContent = original; }, 2000);
+    });
+  });
+</script>
+
+</body>
+</html>
