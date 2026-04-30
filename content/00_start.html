@@ -124,16 +124,29 @@
     </div>
     <div id="route-bridge" class="hidden bg-forestDeep text-cream rounded-sharp p-6">
       <div class="font-mono text-xs text-moss mb-3">// route: BRIDGE → first_$5K_month</div>
-      <p class="text-cream/80 mb-4">You need a rate card you'll actually hold and an outbound system that runs without thinking. Your path is 03_paid first, then 04_booked. Get your number locked in, then flood the pipeline.</p>
-      <div class="flex flex-wrap gap-3 mt-2">
+      <p class="text-cream/80 mb-3">You need a rate card you'll actually hold and an outbound system that runs without thinking. Your path is 03_paid first, then 04_booked.</p>
+      <div class="bg-forestLight rounded-sharp p-4 mb-4 text-xs font-mono text-cream/80 space-y-1">
+        <div class="text-moss mb-2">// skip_01_and_02_only_if:</div>
+        <div>→ Your portfolio scores 9+ on the Portfolio Checklist (run it first — takes 4 minutes)</div>
+        <div>→ Your positioning sentence already includes a niche, a content style, and an outcome</div>
+        <div class="pt-2 text-cream/60">If either is soft, do 01_clear first. It's a 90-minute fix that saves you a year of bad-fit deals. Pricing in 03 only works if 01 is locked.</div>
+      </div>
+      <div class="flex flex-wrap gap-3">
+        <a href="01_get-clear.html" class="px-4 py-2 border border-cream/30 text-cream rounded-sharp font-mono text-xs hover:border-cream transition">→ 01_clear · check your foundation</a>
         <a href="03_get-paid.html" class="px-4 py-2 bg-moss text-cream rounded-sharp font-mono text-xs hover:bg-forestLight transition">→ 03_paid · set your rate</a>
         <a href="04_get-booked.html" class="px-4 py-2 border border-cream/30 text-cream rounded-sharp font-mono text-xs hover:border-cream transition">→ 04_booked · build the pipeline</a>
       </div>
     </div>
     <div id="route-niche" class="hidden bg-forestDeep text-cream rounded-sharp p-6">
       <div class="font-mono text-xs text-moss mb-3">// route: NICHE → $8–10K locked operation</div>
-      <p class="text-cream/80 mb-4">You need retainers, a pipeline that runs on repeat, and rates that actually reflect your value. Your path is 05_consistent to build the system, then 06_scale to raise everything.</p>
-      <div class="flex flex-wrap gap-3 mt-2">
+      <p class="text-cream/80 mb-3">You need retainers, a pipeline that runs on repeat, and rates that actually reflect your value.</p>
+      <div class="bg-forestLight rounded-sharp p-4 mb-4 text-xs font-mono text-cream/80 space-y-1">
+        <div class="text-moss mb-2">// quick_stop_first:</div>
+        <div>→ Re-run the Rate Calculator in 03_paid under "established." Most creators at $3–5K are 30–50% under market and don't realize it.</div>
+        <div class="pt-2 text-cream/60">The retainers in 06 only multiply correctly if your project rate is right first. Then go 05 → 06.</div>
+      </div>
+      <div class="flex flex-wrap gap-3">
+        <a href="03_get-paid.html" class="px-4 py-2 border border-cream/30 text-cream rounded-sharp font-mono text-xs hover:border-cream transition">→ 03_paid · audit your rate first</a>
         <a href="05_get-consistent.html" class="px-4 py-2 bg-moss text-cream rounded-sharp font-mono text-xs hover:bg-forestLight transition">→ 05_consistent · build the system</a>
         <a href="06_scale-up.html" class="px-4 py-2 border border-cream/30 text-cream rounded-sharp font-mono text-xs hover:border-cream transition">→ 06_scale · raise &amp; retain</a>
       </div>
@@ -156,6 +169,27 @@
 
       <div class="acc-item">
         <button class="acc-trigger" onclick="toggleAcc(this)">
+          <div class="acc-day">D0</div>
+          <div class="acc-label">Read this before Day 1.</div>
+          <div class="acc-chevron">›</div>
+        </button>
+        <div class="acc-body">
+          <div class="acc-inner">
+            <p class="text-sm text-forest font-semibold mb-3">You are now a UGC creator.</p>
+            <p class="text-sm text-ash mb-3">Not when you have followers. Not when a brand pays you. Now. Read this once before Day 1. You'll come back to it on the days you want to quit.</p>
+            <div class="space-y-2 text-sm text-ash mb-4">
+              <p>→ <strong class="text-forest">You don't need a following.</strong> UGC is B2B — you sell to brands, not to followers. The number on your profile is irrelevant to anyone who's about to pay you.</p>
+              <p>→ <strong class="text-forest">You don't need expensive equipment.</strong> Your phone is the studio. Brands cast for skin tone and energy, not 4K cameras.</p>
+              <p>→ <strong class="text-forest">You don't need permission to start.</strong> Filming spec content for a brand you love is allowed and encouraged. It's how every booked-out creator I know got their first deal.</p>
+              <p>→ <strong class="text-forest">"I make [niche] content for brands" is a complete sentence.</strong> Use it when anyone asks what you're doing now. The identity comes first. The income follows.</p>
+            </div>
+            <div class="font-mono text-[11px] text-moss">done_when: you've read this and you're ready to go to D1.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-trigger" onclick="toggleAcc(this)">
           <div class="acc-day">D1</div>
           <div class="acc-label">Lock your niche. One sentence.</div>
           <div class="acc-chevron">›</div>
@@ -163,7 +197,8 @@
         <div class="acc-body">
           <div class="acc-inner">
             <p class="text-sm text-ash mb-3">You can't pitch a brand if you don't know what kind of creator you are. Run the <a href="01_get-clear.html#niche-selector" class="underline text-forest">niche selector</a> in Get Clear and write your positioning sentence before you do anything else today.</p>
-            <div class="font-mono text-[11px] text-moss">done_when: "I make [style] UGC for [niche] brands" — and you believe it.</div>
+            <p class="text-sm text-ash mb-3">Then: tell one person what you're doing. Say it out loud — to a friend, a partner, a sibling, anyone. The accountability gap closes the second you say it out loud. You don't need their permission. You just need to hear yourself say it.</p>
+            <div class="font-mono text-[11px] text-moss">done_when: "I make [style] UGC for [niche] brands" — and you believe it. And one person knows.</div>
           </div>
         </div>
       </div>
@@ -176,7 +211,7 @@
         </button>
         <div class="acc-body">
           <div class="acc-inner">
-            <p class="text-sm text-ash mb-3">Run the <a href="01_get-clear.html#portfolio-checklist" class="underline text-forest">Portfolio Checklist</a>. Score out of 12. Under 8? That's where your next 3 days go. You cannot pitch without proof — brands will ask for your portfolio link in reply #1.</p>
+            <p class="text-sm text-ash mb-3">Run the <a href="01_get-clear.html#portfolio-checklist" class="underline text-forest">Portfolio Checklist</a>. Score out of 12. Under 8? Pick the 3 highest-leverage gaps from the checklist and fix only those before D7. The rest you fix as you go. You don't need a 12 to start pitching — you need a 9. Waiting for perfect is waiting for nothing.</p>
             <div class="font-mono text-[11px] text-moss">done_when: score noted. if under 8, next 3 days = fix the gaps.</div>
           </div>
         </div>
@@ -276,7 +311,7 @@
         </button>
         <div class="acc-body">
           <div class="acc-inner">
-            <p class="text-sm text-ash mb-3">Open Meta Ad Library and search your niche — brands actively running video ads are already buying UGC. To find the right contact for each brand: search <strong>LinkedIn</strong> ("head of social" or "brand manager" + brand name), slide into their <strong>Instagram DMs</strong> if they're active there (smaller brands often respond faster), or use <strong>Hunter.io</strong> to find email addresses directly. Add 10 to your tracker at stage: cold.</p>
+            <p class="text-sm text-ash mb-3">Open Meta Ad Library and search your niche — brands actively running video ads are already buying UGC. To find the right contact: search <strong>LinkedIn</strong> ("head of social" or "brand manager" + brand name), use <strong>Instagram DMs</strong> for smaller indie brands under ~50K followers (they respond fast), or use <strong>Hunter.io</strong> to find emails directly. For brands above that size or with a serious marketing team, skip the DM — find the LinkedIn or email. DMs to bigger brands get routed to a general inbox and ignored. Add 10 to your tracker at stage: cold.</p>
             <p class="text-sm text-ash mb-3 font-mono text-xs text-ash/70">// Note: tools like Onbento, Apollo.io, and Lemlist are covered in 05_consistent for building a real email outbound system — save those for when you're ready to automate and scale.</p>
             <div class="font-mono text-[11px] text-moss">done_when: 10 rows in tracker, stage = cold, contact found for each.</div>
           </div>
@@ -577,6 +612,7 @@
           <div class="acc-inner">
             <p class="text-sm text-ash mb-3">50 pitches at a realistic reply rate means 5-8 live conversations. One or two of those should be close. If you have a proposal pending — follow up today. If your reply rate is under 5% — your pitch copy needs work, not more volume. Go back to <a href="04_get-booked.html" class="underline text-forest">04_booked</a> and revise the opener.</p>
             <p class="text-sm font-display font-bold text-forest mb-3">You did the work. The first $500 is a question of when, not if.</p>
+            <p class="text-sm text-ash mb-3">When you close it — email me. <a href="mailto:support@mayaherring.com" class="underline text-forest">support@mayaherring.com</a>. Subject line: "I closed it." Even one line. I want to know. This is the part that matters.</p>
             <div class="font-mono text-[11px] text-moss">done_when: first_deal_closed. → then go to 03_paid and raise your floor.</div>
           </div>
         </div>

@@ -145,11 +145,18 @@
         <button class="btn-primary" onclick="buildNicheSentence()">→ Build my positioning sentence</button>
       </div>
 
-      <div id="nicheResult" class="hidden mt-8 p-6 bg-forestDeep text-cream rounded-sharp">
-        <p class="font-mono text-xs text-moss mb-3">// your_positioning_sentence</p>
-        <p class="font-display text-2xl font-bold text-cream leading-tight" id="nicheOutput">—</p>
-        <p class="font-mono text-[11px] text-cream/50 mt-4">// save this. put it in your bio, your email signature, every pitch. the specificity is the point.</p>
-        <button class="mt-4 btn-ghost border-cream/40 text-cream hover:bg-cream hover:text-forest" id="copyNicheBtn" onclick="copyNiche()">Copy sentence</button>
+      <div id="nicheResult" class="hidden mt-8 bg-forestDeep text-cream rounded-sharp overflow-hidden">
+        <div class="p-6 border-b border-forest/40">
+          <p class="font-mono text-xs text-moss mb-3">// long_version · media_kit · email_signature</p>
+          <p class="font-display text-xl font-bold text-cream leading-tight" id="nicheOutputLong">—</p>
+          <button class="mt-4 btn-ghost border-cream/40 text-cream hover:bg-cream hover:text-forest text-xs" onclick="copyNicheVersion('long')">Copy long version</button>
+        </div>
+        <div class="p-6">
+          <p class="font-mono text-xs text-moss mb-3">// short_version · bio · IG · link_in_bio</p>
+          <p class="font-display text-xl font-bold text-cream leading-tight" id="nicheOutputShort">—</p>
+          <p class="font-mono text-[11px] text-cream/50 mt-3">// max 10 words. goes everywhere. the specificity is the point.</p>
+          <button class="mt-4 btn-ghost border-cream/40 text-cream hover:bg-cream hover:text-forest text-xs" onclick="copyNicheVersion('short')">Copy short version</button>
+        </div>
       </div>
     </div>
   </div>
@@ -189,7 +196,8 @@
           <div class="flex-shrink-0 w-10 h-10 bg-forest text-cream font-mono text-sm font-bold flex items-center justify-center rounded-sharp">03</div>
           <div>
             <div class="font-display font-bold text-forest text-lg mb-1">One clear way to contact you.</div>
-            <p class="text-sm text-ash">A direct email. Not a form, not a DM-only account, not a booking link buried three clicks deep. One link that takes them directly to your inbox. This belongs at the top of your portfolio and in your pitch signature.</p>
+            <p class="text-sm text-ash mb-3">A direct email. Not a form, not a DM-only account, not a booking link buried three clicks deep. One link that takes them directly to your inbox. Paste this block at the top of your portfolio and in your pitch signature:</p>
+            <div class="bg-cream border border-forest rounded-sharp p-3 font-mono text-xs text-forest">Direct email: hello@[yourname].com &nbsp;·&nbsp; Reply within 24 hrs &nbsp;·&nbsp; Currently booking [Month] projects.</div>
           </div>
         </div>
       </div>
@@ -237,7 +245,7 @@
           <li><strong>10–12:</strong> Book with confidence. Your floor should go up.</li>
           <li><strong>7–9:</strong> Solid. Fix the gaps and your close rate jumps.</li>
           <li><strong>4–6:</strong> You're leaving money on the table. Prioritize the unchecked items this month.</li>
-          <li><strong>0–3:</strong> Start here before any more outbound. Watch the portfolio video in the videos section.</li>
+          <li><strong>0–3:</strong> Don't pitch yet. Pick the 3 highest-leverage gaps and spend the next 7 days closing them. You'll feel the difference inside one week — and your reply rate will be 3x what it would have been.</li>
         </ul>
       </div>
     </div>
@@ -467,15 +475,22 @@
       sentence = variants[Math.floor(Math.random() * variants.length)];
     }
 
-    document.getElementById('nicheOutput').textContent = sentence;
+    // Generate short version (bio-length: niche + style, 8-10 words)
+    const short = `${styleStr.split(' ')[0].charAt(0).toUpperCase() + styleStr.split(' ')[0].slice(1)} + ${styles.length > 1 ? styles[1].split(' ')[0] : styleStr.split(' ').slice(0,2).join(' ')} UGC for ${nicheStr} brands.`.replace(/\s+/g,' ');
+    const shortClean = `${styles.map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' + ')} UGC for ${nicheStr} brands.`;
+
+    document.getElementById('nicheOutputLong').textContent = sentence;
+    document.getElementById('nicheOutputShort').textContent = shortClean;
     document.getElementById('nicheResult').classList.remove('hidden');
     document.getElementById('nicheResult').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 
-  function copyNiche() {
-    const text = document.getElementById('nicheOutput').textContent;
+  function copyNicheVersion(version) {
+    const id = version === 'long' ? 'nicheOutputLong' : 'nicheOutputShort';
+    const text = document.getElementById(id).textContent;
     navigator.clipboard.writeText(text).then(() => {
-      const btn = document.getElementById('copyNicheBtn');
+      const btns = document.querySelectorAll('#nicheResult button');
+      const btn = version === 'long' ? btns[0] : btns[1];
       const orig = btn.textContent; btn.textContent = 'Copied ✓';
       setTimeout(() => { btn.textContent = orig; }, 2000);
     });

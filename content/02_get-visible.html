@@ -117,7 +117,7 @@
         </div>
         <div>
           <label class="field-label">hook_style</label>
-          <select id="hookStyle" class="field">
+          <select id="hookStyle" class="field" onchange="updateHookGuide()">
             <option value="mid_thought">mid-thought entry — starts like you're already talking</option>
             <option value="quiet_confession">quiet confession — soft, private, intimate</option>
             <option value="right_person_address">right-person address — talks directly at the viewer</option>
@@ -126,6 +126,7 @@
             <option value="lived_experience">lived experience — story-based, personal</option>
             <option value="tension_story">tension &amp; story — builds before the payoff</option>
           </select>
+          <div id="hookStyleGuide" class="mt-2 font-mono text-[11px] text-moss">// best when: you have personality on camera and want to drop viewers into the middle of a thought</div>
         </div>
         <div class="flex items-end">
           <button class="btn-primary w-full" onclick="generateHooks()">→ Generate hooks</button>
@@ -224,8 +225,20 @@
             <pre id="scriptText" class="text-cream text-sm whitespace-pre-wrap leading-relaxed font-mono"></pre>
           </div>
           <div id="scriptMeta" class="mt-4 p-4 bg-forestDeep rounded-sharp text-sm font-mono"></div>
-          <div class="mt-4">
+          <div class="mt-4 flex flex-wrap gap-3">
             <button class="btn-ghost" onclick="copyScript()">Copy script</button>
+            <button class="btn-ghost" onclick="toggleDetailTool()">Stuck on the specific detail?</button>
+          </div>
+          <div id="detailTool" class="hidden mt-4 p-5 bg-creamDeep border border-line rounded-sharp">
+            <p class="font-mono text-xs text-moss mb-3">// specific_detail · brainstorm</p>
+            <p class="text-sm text-ash mb-3">The "[your honest, specific detail]" placeholder is the most important line in the script. Answer one of these:</p>
+            <div class="space-y-2 text-sm text-ash">
+              <p>→ The first time you noticed a difference — what were you doing?</p>
+              <p>→ The thing someone else said to you about it (unsolicited is gold)</p>
+              <p>→ The thing you stopped doing once this started working</p>
+              <p>→ The unexpected by-product: energy, mood, time saved, confidence</p>
+            </div>
+            <p class="mt-3 font-mono text-[11px] text-moss">// pick the one that's truest. that's your honest detail.</p>
           </div>
         </div>
       </div>
@@ -1022,6 +1035,43 @@ length: 40–44 sec
 creator voice: ${age.tone}
 killer words to use naturally: ${age.killer.join(', ')}
 the rule: camera moments = trust. b-roll = proof. keep them distinct.`;
+  }
+
+  // ─── Hook style guide ────────────────────────────────────────────
+  const HOOK_STYLE_GUIDES = {
+    mid_thought:        '// best when: you have personality on camera and want to drop viewers into the middle of a thought',
+    quiet_confession:   '// best when: the topic feels vulnerable or personal — you\'ve been keeping this to yourself',
+    right_person_address:'// best when: you have a clear demographic in mind and can speak directly to their exact situation',
+    pattern_interrupt:  '// best when: you have a strong opinion or have spotted something most people get wrong',
+    rant_hot_take:      '// best when: you have receipts — experience, data, results — to back up the take',
+    lived_experience:   '// best when: you have a real before-and-after story with a specific moment you can point to',
+    tension_story:      '// best when: the story has stakes — for longer-form content 45+ sec',
+  };
+
+  function updateHookGuide() {
+    const style = document.getElementById('hookStyle').value;
+    document.getElementById('hookStyleGuide').textContent = HOOK_STYLE_GUIDES[style] || '';
+  }
+
+  // ─── Feature check on result field ───────────────────────────────
+  document.addEventListener('DOMContentLoaded', function() {
+    const resultField = document.getElementById('scriptResult');
+    if (!resultField) return;
+    const warn = document.createElement('div');
+    warn.id = 'featureWarn';
+    warn.className = 'hidden mt-2 p-3 bg-amber-50 border border-amber-300 rounded-sharp text-xs text-amber-800 font-mono';
+    warn.innerHTML = `// heads up: if your result reads like a feature ("contains X," "made with Y"), pause.<br>brands buy outcomes, not ingredients. try: "my [skin / mornings / energy] changed because..."`;
+    resultField.parentNode.appendChild(warn);
+    resultField.addEventListener('input', function() {
+      const v = this.value.toLowerCase();
+      const looksLikeFeature = /contains|made with|formulated|ingredient|mg |%|extract of|powered by/.test(v);
+      document.getElementById('featureWarn').classList.toggle('hidden', !looksLikeFeature);
+    });
+  });
+
+  // ─── Detail tool toggle ───────────────────────────────────────────
+  function toggleDetailTool() {
+    document.getElementById('detailTool').classList.toggle('hidden');
   }
 
   function copyScript() {

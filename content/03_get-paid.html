@@ -325,6 +325,15 @@
           <div class="px-5 pb-5 border-t border-line pt-5 space-y-5">
             <div><p class="font-mono text-xs text-moss mb-2">// script · copy this</p>
             <div class="bg-creamDeep border-l-4 border-moss p-4 text-sm text-ink leading-relaxed">Category exclusivity is something I price separately because it limits who I can work with for the duration. For [CATEGORY], a 90-day exclusive adds 40% to the base, 6 months adds 75%, and 12 months is a 2x multiplier. It also comes with a signed non-compete clause. Which window works for your campaign?</div></div>
+            <div class="bg-cream border border-line rounded-sharp p-4">
+              <p class="font-mono text-xs text-moss mb-3">// quick_check · before_you_quote_exclusivity</p>
+              <div class="space-y-2 text-sm text-ash">
+                <p>→ <strong class="text-forest">Brand-level</strong> ("don't work with 3 named competitors"): standard rate + 10–15%, easy yes</p>
+                <p>→ <strong class="text-forest">Sub-category</strong> ("no other moisturizer brands"): your usual exclusivity premium</p>
+                <p>→ <strong class="text-forest">Whole-category</strong> ("no skincare brands at all"): 3–5x premium minimum, only for 6+ month commitment with a retainer</p>
+              </div>
+              <p class="mt-3 text-xs text-ash font-mono">// if they ask for whole-category exclusivity on a single project, that's the deal walking away from you — not toward you.</p>
+            </div>
             <div><p class="font-mono text-xs text-moss mb-2">// next_move</p><p class="text-sm text-ash">If they balk, offer a "no direct competitor" clause instead (only blocks 3 named brands) for a smaller premium. It's a middle ground that keeps them happy and your pipeline free.</p></div>
           </div>
         </details>
@@ -369,6 +378,24 @@
         <p class="font-mono text-[11px] text-moss mb-2">// important_context</p>
         <p class="text-sm text-ash">These are <strong class="text-forest">base rates</strong> for organic-only usage. Every number in this table gets multiplied by the usage window (1.4x for 30-day paid, up to 3.5x for full buyout). Use the <a href="#rate-calculator" class="underline text-forest">Rate Calculator</a> to get your real number.</p>
       </div>
+    </div>
+  </div>
+</section>
+
+<section class="border-y border-line bg-creamDeep">
+  <div class="max-w-5xl mx-auto px-6 py-12">
+    <p class="font-mono text-xs text-moss mb-3">// internal_script · before_you_send</p>
+    <h3 class="font-display text-xl font-bold text-forest mb-4">Read this before you hit send on any rate.</h3>
+    <div class="bg-forestDeep text-cream rounded-sharp p-6 font-mono text-sm space-y-3">
+      <div>→ This number reflects what the work is worth. Not what I think the brand can afford.</div>
+      <div>→ If they say no, it's a budget issue, not a rate issue. There is a brand at this number.</div>
+      <div>→ My job is to say my number cleanly. Their job is to decide. I don't do both jobs.</div>
+      <div class="pt-3 border-t border-forest/40 text-moss">Send.</div>
+    </div>
+    <div class="mt-6 p-5 bg-cream border border-line rounded-sharp">
+      <p class="font-mono text-xs text-moss mb-2">// want_to_go_deeper?</p>
+      <p class="text-sm text-ash mb-3">Ran the calculator and your numbers feel scary? The Strategy Intensive is where we audit your specific rates against your specific clients — and figure out exactly where to raise.</p>
+      <a href="https://stan.store/mayacreativeco/p/strategy-intensive-g5nxk41l" target="_blank" class="font-mono text-xs text-forest border border-forest px-3 py-2 rounded-sharp hover:bg-forest hover:text-cream transition inline-block">→ 1:1 strategy intensive · $700</a>
     </div>
   </div>
 </section>
@@ -456,6 +483,8 @@
       notes.push(`<strong class="text-cream">Indie brands have less budget but better relationships.</strong> Trade a 10–15% discount for stronger usage, a public testimonial, or a longer-term commitment.`);
     }
     notes.push(`<strong class="text-cream">Quote the high end first.</strong> Lead with $${calc.high.toLocaleString()}. The low end is your floor — not your starting point.`);
+    const floor = formatMoney(calc.low);
+    notes.push(`<strong class="text-cream">Before you send:</strong> Brands that pay under ${floor} are not your customers. Saying yes to them is saying no to the brands that would pay this number. Your floor is ${floor}. Below that, you're not pricing — you're auditioning. And auditions don't compound.`);
     return notes;
   }
 

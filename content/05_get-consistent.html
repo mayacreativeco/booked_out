@@ -209,6 +209,32 @@
           <li>Filter on <code class="bg-creamDeep px-1 rounded">stage = invoiced</code> every Friday to check for late payments.</li>
         </ol>
       </div>
+      <div class="mt-6 bg-cream border-2 border-forest rounded-sharp p-5">
+        <p class="font-mono text-xs text-moss mb-4">// deal_goes_wrong · decision_tree</p>
+        <p class="text-sm text-ash mb-5">When something stalls, use the stage in your tracker to know exactly what to do next:</p>
+        <div class="space-y-3">
+          <div class="flex items-start gap-3 text-sm">
+            <span class="flex-shrink-0 font-mono text-[11px] text-forest bg-creamDeep px-2 py-1 rounded-sharp mt-0.5">pitched</span>
+            <div class="text-ash">No reply in 5 days → send <code class="bg-creamDeep px-1 rounded">follow_up_01</code>. No reply in 10 days → send <code class="bg-creamDeep px-1 rounded">follow_up_02</code>. No reply in 14 days → archive and re-pitch in 60 days. <a href="04_get-booked.html#scripts" class="underline text-forest">Scripts in 04.</a></div>
+          </div>
+          <div class="flex items-start gap-3 text-sm">
+            <span class="flex-shrink-0 font-mono text-[11px] text-forest bg-creamDeep px-2 py-1 rounded-sharp mt-0.5">proposal_sent</span>
+            <div class="text-ash">No reply in 3 days → one short check-in: "Wanted to make sure this landed — any questions on the scope?" No reply in 7 days → politely withdraw and re-offer 30 days out.</div>
+          </div>
+          <div class="flex items-start gap-3 text-sm">
+            <span class="flex-shrink-0 font-mono text-[11px] text-forest bg-creamDeep px-2 py-1 rounded-sharp mt-0.5">signed</span>
+            <div class="text-ash">Deposit not received in 5 business days → follow up once. Not received in 10 → send a single message: "I have you on my schedule for [week]. I'll hold your spot until [DATE] — just need the deposit to confirm." Release the date if nothing arrives.</div>
+          </div>
+          <div class="flex items-start gap-3 text-sm">
+            <span class="flex-shrink-0 font-mono text-[11px] text-forest bg-creamDeep px-2 py-1 rounded-sharp mt-0.5">invoiced</span>
+            <div class="text-ash">Past due 5 days → friendly reminder. Past due 10 days → formal notice with late fee language from your contract. Past due 30 days → final demand. After that, collections or small claims. Keep every email.</div>
+          </div>
+          <div class="flex items-start gap-3 text-sm">
+            <span class="flex-shrink-0 font-mono text-[11px] text-forest bg-creamDeep px-2 py-1 rounded-sharp mt-0.5">in_production</span>
+            <div class="text-ash">Brand goes silent on feedback → set a hard deadline: "I need your notes by [DATE] to hit the delivery date. If I don't hear back I'll proceed with my best judgment." Then deliver on the original date regardless.</div>
+          </div>
+        </div>
+      </div>
       <div class="mt-5 flex flex-wrap gap-3">
         <button class="btn-primary" id="copyTrackerSchema">Copy schema as CSV</button>
         <a href="04_get-booked.html#scripts" class="btn-ghost">→ Follow-up scripts</a>
@@ -257,8 +283,12 @@
         </li>
         <li class="flex gap-4">
           <span class="flex-shrink-0 w-10 h-10 bg-forest text-cream font-mono text-sm flex items-center justify-center rounded-sharp">06</span>
-          <div><div class="font-display font-bold text-forest mb-1">Identify the single point of contact.</div>
-          <p class="text-sm text-ash">One person on the brand side owns feedback and approvals. If you're getting conflicting notes from three stakeholders, pause and politely ask who the final decision-maker is.</p></div>
+          <div><div class="font-display font-bold text-forest mb-1">Identify your creative POC — and your AP/finance contact separately.</div>
+          <p class="text-sm text-ash">One person on the brand side owns feedback and approvals. If you're getting conflicting notes from three stakeholders, pause and politely ask who the final decision-maker is.</p>
+          <div class="mt-3 bg-creamDeep border border-line rounded-sharp p-4">
+            <p class="font-mono text-[11px] text-moss mb-2">// ap_contact_script</p>
+            <p class="text-sm text-ash">"Quick admin question — who should I send the invoice to when it's time? Just want to make sure the right person has it from the start." Send this within 24 hours of the signed contract. Don't wait until delivery. Chasing payment through the wrong person adds 2-3 weeks to your collections timeline.</p>
+          </div></div>
         </li>
         <li class="flex gap-4">
           <span class="flex-shrink-0 w-10 h-10 bg-forest text-cream font-mono text-sm flex items-center justify-center rounded-sharp">07</span>
