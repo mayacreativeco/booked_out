@@ -90,6 +90,7 @@
       <a href="#roadmap" class="px-4 py-2 border border-line rounded-sharp font-mono text-xs text-forest hover:border-forest">→ beginner_roadmap</a>
       <a href="#portfolio-checklist" class="px-4 py-2 border border-line rounded-sharp font-mono text-xs text-forest hover:border-forest">→ portfolio_checklist</a>
       <a href="#offer-positioning" class="px-4 py-2 border border-line rounded-sharp font-mono text-xs text-forest hover:border-forest">→ offer_positioning</a>
+      <a href="#pitch-style" class="px-4 py-2 border border-line rounded-sharp font-mono text-xs text-forest hover:border-forest">→ pitch_style</a>
     </div>
   </div>
 </section>
@@ -105,7 +106,7 @@
       <div class="space-y-8">
 
         <div>
-          <p class="font-mono text-xs text-moss mb-3">// step_01 · your_primary_niche</p>
+          <p class="font-mono text-xs text-moss mb-3">// step_01 · your_niche(s) · pick all that apply</p>
           <div class="flex flex-wrap gap-2" id="nicheGroup">
             <button class="niche-btn" data-group="niche" data-val="beauty">Beauty</button>
             <button class="niche-btn" data-group="niche" data-val="skincare">Skincare</button>
@@ -121,7 +122,7 @@
         </div>
 
         <div>
-          <p class="font-mono text-xs text-moss mb-3">// step_02 · your_content_style</p>
+          <p class="font-mono text-xs text-moss mb-3">// step_02 · your_content_style(s) · pick all that apply</p>
           <div class="flex flex-wrap gap-2">
             <button class="niche-btn" data-group="style" data-val="talking-head / testimonial">Talking-head / testimonial</button>
             <button class="niche-btn" data-group="style" data-val="GRWM / get ready with me">GRWM</button>
@@ -310,6 +311,57 @@
   </div>
 </section>
 
+<!-- ============ PITCH STYLE ============ -->
+<section id="pitch-style" class="border-b border-line bg-creamDeep">
+  <div class="max-w-5xl mx-auto px-6 py-16">
+    <p class="font-mono text-xs text-moss mb-2">// tool_05 · how_to_pitch</p>
+    <h2 class="font-display text-3xl font-bold text-forest mb-3">How to actually pitch a brand.</h2>
+    <p class="text-ash max-w-2xl mb-8">The goal of your first message is not to close a deal — it's to get a reply. Keep it short, keep it warm, and don't mention rates. That comes in message two, after they express interest.</p>
+
+    <div class="grid md:grid-cols-2 gap-6 mb-6">
+      <div class="bg-cream border border-line rounded-sharp p-6">
+        <p class="font-mono text-xs text-moss mb-4">// message_01 · the opener · no rates</p>
+        <div class="bg-creamDeep border border-line rounded-sharp p-5 text-sm text-ash leading-relaxed mb-5 font-sans">
+          <p class="mb-3">Hey [Name]!</p>
+          <p class="mb-3">I've been following [Brand] for a while and I genuinely love what you've been putting out — especially [specific product / recent campaign / post you noticed]. Your content feels really different from what most brands in this space are doing.</p>
+          <p class="mb-3">I'm a UGC creator in the [niche] space and I think my style would be a great fit for you. Would love to connect if you're open to it!</p>
+          <p>[Your name]</p>
+        </div>
+        <div class="space-y-1.5 font-mono text-[11px]">
+          <div class="text-moss">✓ short — 4 sentences max</div>
+          <div class="text-moss">✓ specific — reference one real thing about them</div>
+          <div class="text-moss">✓ warm — sounds like a human, not a template</div>
+          <div class="text-ash/60 line-through">✗ no rates</div>
+          <div class="text-ash/60 line-through">✗ no portfolio link yet</div>
+          <div class="text-ash/60 line-through">✗ no deliverables list</div>
+        </div>
+      </div>
+
+      <div class="bg-cream border-2 border-forest rounded-sharp p-6">
+        <p class="font-mono text-xs text-moss mb-4">// message_02 · when they reply · now rates</p>
+        <div class="bg-creamDeep border border-line rounded-sharp p-5 text-sm text-ash leading-relaxed mb-5 font-sans">
+          <p class="mb-3">So glad you're interested!</p>
+          <p class="mb-3">I mainly do [style] UGC — here's my portfolio: [link]. My standard package is [X videos] for $[rate], which includes [usage rights]. Totally happy to adjust based on what you have in mind.</p>
+          <p class="mb-3">Want me to put together a quick proposal?</p>
+          <p>[Your name]</p>
+        </div>
+        <div class="space-y-1.5 font-mono text-[11px]">
+          <div class="text-moss">✓ portfolio link — now it lands with context</div>
+          <div class="text-moss">✓ specific rate — one number, not a range</div>
+          <div class="text-moss">✓ usage rights mentioned upfront</div>
+          <div class="text-moss">✓ proposal offer — moves to next step fast</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-cream border border-line rounded-sharp p-6">
+      <p class="font-mono text-xs text-moss mb-3">// why_this_works</p>
+      <p class="text-sm text-ash mb-3">Most creators lead with rates because they're scared of "wasting time." But a cold email with a price list attached gets deleted immediately — the brand has no reason to care about your number before they care about you. Warm them up first. Get the reply. Then go to business.</p>
+      <p class="text-sm text-ash">One exception: if a brand reaches out to <em>you</em> first, you can mention rates in reply #1. They opted in. The dynamic is already different.</p>
+    </div>
+  </div>
+</section>
+
 <!-- Bottom nav -->
 <section class="bg-creamDeep">
   <div class="max-w-6xl mx-auto px-6 py-10">
@@ -339,26 +391,41 @@
 </footer>
 
 <script>
-  // Niche selector
-  const selections = {};
+  // Niche selector — multi-select for niche + style, single-select for exp
+  const selections = { niche: [], style: [], exp: null };
   document.querySelectorAll('.niche-btn').forEach(btn => {
     btn.addEventListener('click', function() {
       const group = this.dataset.group;
-      document.querySelectorAll(`[data-group="${group}"]`).forEach(b => b.classList.remove('sel'));
-      this.classList.add('sel');
-      selections[group] = this.dataset.val;
+      if (group === 'exp') {
+        // single-select
+        document.querySelectorAll('[data-group="exp"]').forEach(b => b.classList.remove('sel'));
+        this.classList.add('sel');
+        selections.exp = this.dataset.val;
+      } else {
+        // multi-select: toggle
+        this.classList.toggle('sel');
+        const val = this.dataset.val;
+        if (this.classList.contains('sel')) {
+          if (!selections[group].includes(val)) selections[group].push(val);
+        } else {
+          selections[group] = selections[group].filter(v => v !== val);
+        }
+      }
     });
   });
 
   function buildNicheSentence() {
-    const niche = selections.niche;
-    const style = selections.style;
+    const niches = selections.niche;
+    const styles = selections.style;
     const exp = selections.exp;
-    if (!niche || !style || !exp) {
-      alert('Pick one option in each step first.');
+    if (!niches.length || !styles.length || !exp) {
+      alert('Pick at least one niche, one content style, and your experience level.');
       return;
     }
-    const sentence = `I make ${style} UGC for ${niche} brands — ${exp === 'just starting out' ? 'building my portfolio with quality over quantity' : exp === 'growing (some paid deals)' ? 'with paid brand deals and a growing portfolio' : 'with a proven track record of brand deals'}.`;
+    const nicheStr = niches.length === 1 ? niches[0] : niches.slice(0, -1).join(', ') + ' & ' + niches[niches.length - 1];
+    const styleStr = styles.length === 1 ? styles[0] : styles.slice(0, -1).join(', ') + ' & ' + styles[styles.length - 1];
+    const expStr = exp === 'just starting out' ? 'building my portfolio with quality over quantity' : exp === 'growing (some paid deals)' ? 'with paid brand deals and a growing portfolio' : 'with a proven track record of brand deals';
+    const sentence = `I make ${styleStr} UGC for ${nicheStr} brands — ${expStr}.`;
     document.getElementById('nicheOutput').textContent = sentence;
     document.getElementById('nicheResult').classList.remove('hidden');
     document.getElementById('nicheResult').scrollIntoView({ behavior: 'smooth', block: 'nearest' });

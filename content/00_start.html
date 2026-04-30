@@ -26,9 +26,27 @@
   .rounded-sharp{border-radius:4px}
   .tile-hover{transition:transform 0.15s,box-shadow 0.15s,border-color 0.15s}
   .tile-hover:hover{transform:translateY(-2px);border-color:#1B3A2F;box-shadow:6px 6px 0 #1B3A2F}
-  .day-card{border-left:3px solid #D8D0BE;transition:border-color 0.15s}
-  .day-card.done{border-left-color:#4A7C59;background:#EDE5D2}
-  .day-card:hover{border-left-color:#1B3A2F}
+  /* Segment buttons */
+  .seg-btn{padding:16px 20px;border:2px solid #D8D0BE;background:#fff;color:#4A5C50;border-radius:4px;font-family:'Inter',sans-serif;font-size:13px;cursor:pointer;transition:all 0.15s;text-align:left;width:100%}
+  .seg-btn:hover{border-color:#1B3A2F}
+  .seg-btn.active{background:#1B3A2F;color:#F5F0E4;border-color:#1B3A2F}
+  .seg-btn.active .seg-tag{color:#4A7C59}
+  /* Accordion */
+  .acc-item{border:1px solid #D8D0BE;border-radius:4px;background:#fff;margin-bottom:8px;overflow:hidden}
+  .acc-item.done-item{border-color:#4A7C59}
+  .acc-trigger{width:100%;padding:16px 20px;display:flex;align-items:center;gap:16px;cursor:pointer;background:transparent;border:none;text-align:left;transition:background 0.15s}
+  .acc-trigger:hover{background:#F5F0E4}
+  .acc-trigger.open{background:#EDE5D2}
+  .acc-day{flex-shrink:0;width:44px;height:44px;background:#1B3A2F;color:#F5F0E4;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;border-radius:4px}
+  .acc-item.done-item .acc-day{background:#4A7C59}
+  .acc-label{flex:1;font-family:'Space Grotesk',sans-serif;font-weight:700;color:#1B3A2F;font-size:15px}
+  .acc-chevron{flex-shrink:0;font-size:18px;color:#4A5C50;transition:transform 0.2s;line-height:1}
+  .acc-trigger.open .acc-chevron{transform:rotate(90deg)}
+  .acc-body{max-height:0;overflow:hidden;transition:max-height 0.3s ease-out}
+  .acc-body.open{max-height:500px}
+  .acc-inner{padding:0 20px 20px 80px}
+  .week-lbl{font-family:'JetBrains Mono',monospace;font-size:11px;color:#4A7C59;margin-bottom:10px;margin-top:28px;padding-left:4px;letter-spacing:0.02em}
+  .week-lbl:first-child{margin-top:0}
 </style>
 </head>
 <body class="bg-cream text-ink">
@@ -63,170 +81,548 @@
   </div>
 </header>
 
-<!-- Section header -->
+<!-- Hero -->
 <section class="border-b border-line bg-cream">
   <div class="max-w-6xl mx-auto px-6 py-14">
     <div class="flex items-center gap-3 mb-5 font-mono text-xs text-ash">
       <a href="index.html" class="hover:text-forest">hub</a><span>/</span><span class="text-moss">00_start</span>
     </div>
     <p class="font-mono text-xs text-moss mb-4">// section_00 · start_here</p>
-    <h1 class="font-display text-4xl lg:text-6xl font-bold text-forest mb-5 display-balance">Your 7-day launch plan.</h1>
-    <p class="text-lg text-ash max-w-2xl">The fastest path from "just bought this" to "first pitch sent." Do these in order. Skip nothing in week one.</p>
+    <h1 class="font-display text-4xl lg:text-6xl font-bold text-forest mb-5 display-balance">Where are you right now?</h1>
+    <p class="text-lg text-ash max-w-2xl">Pick your stage below. Your route through Booked Out depends on where you're starting from — not where you want to end up.</p>
   </div>
 </section>
 
-<!-- 7-day plan -->
+<!-- Segment selector -->
 <section class="bg-creamDeep border-b border-line">
+  <div class="max-w-5xl mx-auto px-6 py-14">
+    <p class="font-mono text-xs text-moss mb-2">// who_are_you_right_now</p>
+    <h2 class="font-display text-2xl font-bold text-forest mb-6">Pick your starting stage.</h2>
+
+    <div class="grid md:grid-cols-3 gap-4 mb-8">
+      <button class="seg-btn" onclick="setSeg('mass', this)">
+        <div class="seg-tag font-mono text-[10px] text-moss mb-2">// MASS</div>
+        <div class="font-bold text-base mb-1">Starting from scratch.</div>
+        <div class="text-sm opacity-70">No consistent income yet. Ready to land my first $500 deal.</div>
+      </button>
+      <button class="seg-btn" onclick="setSeg('bridge', this)">
+        <div class="seg-tag font-mono text-[10px] text-moss mb-2">// BRIDGE</div>
+        <div class="font-bold text-base mb-1">Making $2–3K but inconsistent.</div>
+        <div class="text-sm opacity-70">Getting work but it's unpredictable. Need a system and better rates.</div>
+      </button>
+      <button class="seg-btn" onclick="setSeg('niche', this)">
+        <div class="seg-tag font-mono text-[10px] text-moss mb-2">// NICHE</div>
+        <div class="font-bold text-base mb-1">Making $3–5K but not locked in.</div>
+        <div class="text-sm opacity-70">Consistent-ish income, but no retainers or real pipeline. Ready to scale.</div>
+      </button>
+    </div>
+
+    <div id="route-mass" class="hidden bg-forestDeep text-cream rounded-sharp p-6">
+      <div class="font-mono text-xs text-moss mb-3">// route: MASS → first_$500</div>
+      <p class="text-cream/80 mb-4">You're going from scarcity scrolling to your first paid brand deal. The 30-day plan below is built exactly for you. Do it in order. Don't skip the first 7 days.</p>
+      <div class="font-mono text-xs text-moss">→ scroll down for your 30-day plan ↓</div>
+    </div>
+    <div id="route-bridge" class="hidden bg-forestDeep text-cream rounded-sharp p-6">
+      <div class="font-mono text-xs text-moss mb-3">// route: BRIDGE → first_$5K_month</div>
+      <p class="text-cream/80 mb-4">You need a rate card you'll actually hold and an outbound system that runs without thinking. Your path is 03_paid first, then 04_booked. Get your number locked in, then flood the pipeline.</p>
+      <div class="flex flex-wrap gap-3 mt-2">
+        <a href="03_get-paid.html" class="px-4 py-2 bg-moss text-cream rounded-sharp font-mono text-xs hover:bg-forestLight transition">→ 03_paid · set your rate</a>
+        <a href="04_get-booked.html" class="px-4 py-2 border border-cream/30 text-cream rounded-sharp font-mono text-xs hover:border-cream transition">→ 04_booked · build the pipeline</a>
+      </div>
+    </div>
+    <div id="route-niche" class="hidden bg-forestDeep text-cream rounded-sharp p-6">
+      <div class="font-mono text-xs text-moss mb-3">// route: NICHE → $8–10K locked operation</div>
+      <p class="text-cream/80 mb-4">You need retainers, a pipeline that runs on repeat, and rates that actually reflect your value. Your path is 05_consistent to build the system, then 06_scale to raise everything.</p>
+      <div class="flex flex-wrap gap-3 mt-2">
+        <a href="05_get-consistent.html" class="px-4 py-2 bg-moss text-cream rounded-sharp font-mono text-xs hover:bg-forestLight transition">→ 05_consistent · build the system</a>
+        <a href="06_scale-up.html" class="px-4 py-2 border border-cream/30 text-cream rounded-sharp font-mono text-xs hover:border-cream transition">→ 06_scale · raise &amp; retain</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 30-day plan -->
+<section class="bg-cream border-b border-line">
   <div class="max-w-5xl mx-auto px-6 py-16">
     <div class="mb-10">
-      <p class="font-mono text-xs text-moss mb-2">// the_plan</p>
-      <h2 class="font-display text-3xl font-bold text-forest mb-3">Seven days. One action each day.</h2>
-      <p class="text-ash max-w-2xl">You don't need a course to finish. You need seven decisions. Make them in order and you'll have pitched your first brand by the end of week one.</p>
+      <p class="font-mono text-xs text-moss mb-2">// the_30_day_plan · beginner_route</p>
+      <h2 class="font-display text-3xl font-bold text-forest mb-3">30 days. First paid deal.</h2>
+      <p class="text-ash max-w-2xl">Go from "just bought this" to landing your first paid brand deal. Build your portfolio, send 50 pitches, close one. You only need one to start.</p>
     </div>
 
-    <div class="space-y-3" id="dayPlan">
+    <div>
 
-      <div class="day-card bg-cream border border-line rounded-sharp p-6 cursor-pointer" onclick="toggleDay(this)">
-        <div class="flex items-start gap-5">
-          <div class="flex-shrink-0 w-12 h-12 bg-forest text-cream font-mono text-sm font-bold flex items-center justify-center rounded-sharp">D1</div>
-          <div class="flex-1">
-            <div class="flex items-center justify-between mb-1">
-              <div class="font-display font-bold text-forest text-lg">Lock your niche. One sentence.</div>
-              <span class="font-mono text-xs text-ash">→ 01_clear</span>
-            </div>
-            <p class="text-sm text-ash mb-3">You can't pitch a brand if you don't know what kind of creator you are. Run the niche selector in <a href="01_get-clear.html#niche-selector" class="underline text-forest">Get Clear</a> and write your niche sentence before you do anything else today.</p>
-            <div class="font-mono text-[11px] text-moss">done_when: "I make [type] UGC for [niche] brands" — and you believe it.</div>
+      <div class="week-lbl">// week_01 · days 1–7 · foundation</div>
+
+      <div class="acc-item">
+        <button class="acc-trigger" onclick="toggleAcc(this)">
+          <div class="acc-day">D1</div>
+          <div class="acc-label">Lock your niche. One sentence.</div>
+          <div class="acc-chevron">›</div>
+        </button>
+        <div class="acc-body">
+          <div class="acc-inner">
+            <p class="text-sm text-ash mb-3">You can't pitch a brand if you don't know what kind of creator you are. Run the <a href="01_get-clear.html#niche-selector" class="underline text-forest">niche selector</a> in Get Clear and write your positioning sentence before you do anything else today.</p>
+            <div class="font-mono text-[11px] text-moss">done_when: "I make [style] UGC for [niche] brands" — and you believe it.</div>
           </div>
         </div>
       </div>
 
-      <div class="day-card bg-cream border border-line rounded-sharp p-6 cursor-pointer" onclick="toggleDay(this)">
-        <div class="flex items-start gap-5">
-          <div class="flex-shrink-0 w-12 h-12 bg-forest text-cream font-mono text-sm font-bold flex items-center justify-center rounded-sharp">D2</div>
-          <div class="flex-1">
-            <div class="flex items-center justify-between mb-1">
-              <div class="font-display font-bold text-forest text-lg">Audit your portfolio. Score it.</div>
-              <span class="font-mono text-xs text-ash">→ 01_clear</span>
-            </div>
-            <p class="text-sm text-ash mb-3">Run the <a href="01_get-clear.html#portfolio-checklist" class="underline text-forest">Portfolio Checklist</a>. Score out of 12. If you're below 8, that's where your day goes. Fix the gaps before you pitch anything.</p>
-            <div class="font-mono text-[11px] text-moss">done_when: score ≥ 8 / 12.</div>
+      <div class="acc-item">
+        <button class="acc-trigger" onclick="toggleAcc(this)">
+          <div class="acc-day">D2</div>
+          <div class="acc-label">Audit your portfolio. Score it.</div>
+          <div class="acc-chevron">›</div>
+        </button>
+        <div class="acc-body">
+          <div class="acc-inner">
+            <p class="text-sm text-ash mb-3">Run the <a href="01_get-clear.html#portfolio-checklist" class="underline text-forest">Portfolio Checklist</a>. Score out of 12. Under 8? That's where your next 3 days go. You cannot pitch without proof — brands will ask for your portfolio link in reply #1.</p>
+            <div class="font-mono text-[11px] text-moss">done_when: score noted. if under 8, next 3 days = fix the gaps.</div>
           </div>
         </div>
       </div>
 
-      <div class="day-card bg-cream border border-line rounded-sharp p-6 cursor-pointer" onclick="toggleDay(this)">
-        <div class="flex items-start gap-5">
-          <div class="flex-shrink-0 w-12 h-12 bg-forest text-cream font-mono text-sm font-bold flex items-center justify-center rounded-sharp">D3</div>
-          <div class="flex-1">
-            <div class="flex items-center justify-between mb-1">
-              <div class="font-display font-bold text-forest text-lg">Run your rate. Write the number down.</div>
-              <span class="font-mono text-xs text-ash">→ 03_paid</span>
-            </div>
-            <p class="text-sm text-ash mb-3">Use the <a href="03_get-paid.html#rate-calculator" class="underline text-forest">Rate Calculator</a> to get your range. Then write your floor — the lowest you'll ever accept — and the opening quote you'll lead with. Don't adjust these per-brand. Set them once.</p>
-            <div class="font-mono text-[11px] text-moss">done_when: floor_rate and opening_quote are written somewhere you'll see them.</div>
+      <div class="acc-item">
+        <button class="acc-trigger" onclick="toggleAcc(this)">
+          <div class="acc-day">D3</div>
+          <div class="acc-label">Film your first spec piece. Today.</div>
+          <div class="acc-chevron">›</div>
+        </button>
+        <div class="acc-body">
+          <div class="acc-inner">
+            <p class="text-sm text-ash mb-3">Pick a brand you genuinely love — something you already own or use. Go to <a href="02_get-visible.html#script-builder" class="underline text-forest">Get Visible → Script Builder</a>, build a 30-second script, and film it. A real video shot today beats a perfect concept that never gets filmed.</p>
+            <div class="font-mono text-[11px] text-moss">done_when: 1 piece filmed and somewhere shareable. phone camera is fine.</div>
           </div>
         </div>
       </div>
 
-      <div class="day-card bg-cream border border-line rounded-sharp p-6 cursor-pointer" onclick="toggleDay(this)">
-        <div class="flex items-start gap-5">
-          <div class="flex-shrink-0 w-12 h-12 bg-forest text-cream font-mono text-sm font-bold flex items-center justify-center rounded-sharp">D4</div>
-          <div class="flex-1">
-            <div class="flex items-center justify-between mb-1">
-              <div class="font-display font-bold text-forest text-lg">Build your brand target list. Five brands.</div>
-              <span class="font-mono text-xs text-ash">→ 04_booked</span>
-            </div>
-            <p class="text-sm text-ash mb-3">Open the <a href="04_get-booked.html#brand-contacts" class="underline text-forest">Brand Contact Database</a> and pick 5 brands in your niche that are actively running UGC. Find the right person on LinkedIn. Add them to your <a href="05_get-consistent.html#client-tracker" class="underline text-forest">Client Tracker</a> with stage: cold.</p>
-            <div class="font-mono text-[11px] text-moss">done_when: 5 rows in your tracker, stage = cold.</div>
+      <div class="acc-item">
+        <button class="acc-trigger" onclick="toggleAcc(this)">
+          <div class="acc-day">D4</div>
+          <div class="acc-label">Set your rate. Write the two numbers down.</div>
+          <div class="acc-chevron">›</div>
+        </button>
+        <div class="acc-body">
+          <div class="acc-inner">
+            <p class="text-sm text-ash mb-3">Use the <a href="03_get-paid.html#rate-calculator" class="underline text-forest">Rate Calculator</a>. Get your floor (the lowest you'll ever accept) and your opening quote (floor + 25%). Write both numbers somewhere physical. You need them memorized before any brand reaches out.</p>
+            <div class="font-mono text-[11px] text-moss">done_when: floor_rate and opening_quote are written. stop adjusting per-brand.</div>
           </div>
         </div>
       </div>
 
-      <div class="day-card bg-cream border border-line rounded-sharp p-6 cursor-pointer" onclick="toggleDay(this)">
-        <div class="flex items-start gap-5">
-          <div class="flex-shrink-0 w-12 h-12 bg-forest text-cream font-mono text-sm font-bold flex items-center justify-center rounded-sharp">D5</div>
-          <div class="flex-1">
-            <div class="flex items-center justify-between mb-1">
-              <div class="font-display font-bold text-forest text-lg">Write three pitches. Don't send yet.</div>
-              <span class="font-mono text-xs text-ash">→ 04_booked</span>
-            </div>
-            <p class="text-sm text-ash mb-3">Use the <a href="04_get-booked.html#pitch-generator" class="underline text-forest">Pitch Generator</a> for your first 3 brands. Save the drafts. Sleep on them. You'll edit in the morning with fresh eyes before you send.</p>
-            <div class="font-mono text-[11px] text-moss">done_when: 3 drafts written and saved.</div>
+      <div class="acc-item">
+        <button class="acc-trigger" onclick="toggleAcc(this)">
+          <div class="acc-day">D5</div>
+          <div class="acc-label">Set up your client tracker. Empty is fine.</div>
+          <div class="acc-chevron">›</div>
+        </button>
+        <div class="acc-body">
+          <div class="acc-inner">
+            <p class="text-sm text-ash mb-3">Copy the <a href="05_get-consistent.html#client-tracker" class="underline text-forest">Client Tracker schema</a> into Notion, Airtable, or Google Sheets. Columns you need: brand, contact name, stage (cold / pitched / replied / in-negotiation / booked / done), and last contact date. One row per brand, forever.</p>
+            <div class="font-mono text-[11px] text-moss">done_when: tracker exists and is empty. it won't stay empty long.</div>
           </div>
         </div>
       </div>
 
-      <div class="day-card bg-cream border border-line rounded-sharp p-6 cursor-pointer" onclick="toggleDay(this)">
-        <div class="flex items-start gap-5">
-          <div class="flex-shrink-0 w-12 h-12 bg-forest text-cream font-mono text-sm font-bold flex items-center justify-center rounded-sharp">D6</div>
-          <div class="flex-1">
-            <div class="flex items-center justify-between mb-1">
-              <div class="font-display font-bold text-forest text-lg">Send two pitches. Yes, today.</div>
-              <span class="font-mono text-xs text-ash">→ 04_booked</span>
-            </div>
-            <p class="text-sm text-ash mb-3">Edit yesterday's drafts, pick the 2 strongest, and send them. Not schedule — send. Update your tracker to stage: pitched. Set a D10 follow-up reminder for each.</p>
-            <div class="font-mono text-[11px] text-moss">done_when: 2 pitches sent, tracker updated, follow-ups calendared.</div>
+      <div class="acc-item">
+        <button class="acc-trigger" onclick="toggleAcc(this)">
+          <div class="acc-day">D6</div>
+          <div class="acc-label">Film spec piece #2. Different format.</div>
+          <div class="acc-chevron">›</div>
+        </button>
+        <div class="acc-body">
+          <div class="acc-inner">
+            <p class="text-sm text-ash mb-3">Second piece for the same brand or a different one in your niche. Try a different format: if D3 was talking-head, try unboxing or GRWM today. Brands want to see range. Use the <a href="02_get-visible.html#content-prompts" class="underline text-forest">Content Prompts</a> for angles that work.</p>
+            <div class="font-mono text-[11px] text-moss">done_when: 2 pieces total in portfolio. different formats if possible.</div>
           </div>
         </div>
       </div>
 
-      <div class="day-card bg-cream border border-line rounded-sharp p-6 cursor-pointer" onclick="toggleDay(this)">
-        <div class="flex items-start gap-5">
-          <div class="flex-shrink-0 w-12 h-12 bg-forest text-cream font-mono text-sm font-bold flex items-center justify-center rounded-sharp">D7</div>
-          <div class="flex-1">
-            <div class="flex items-center justify-between mb-1">
-              <div class="font-display font-bold text-forest text-lg">Build your weekly routine. Block the calendar.</div>
-              <span class="font-mono text-xs text-ash">→ 05_consistent</span>
-            </div>
-            <p class="text-sm text-ash mb-3">Open the <a href="05_get-consistent.html#ceo-dashboard" class="underline text-forest">Weekly CEO Dashboard</a>. Block a recurring 15-minute "Monday review" on your calendar. This is how chaos turns into a business.</p>
-            <div class="font-mono text-[11px] text-moss">done_when: recurring Monday review on calendar. You are now running a business.</div>
+      <div class="acc-item">
+        <button class="acc-trigger" onclick="toggleAcc(this)">
+          <div class="acc-day">D7</div>
+          <div class="acc-label">Write your offer sentence. This is your brand voice.</div>
+          <div class="acc-chevron">›</div>
+        </button>
+        <div class="acc-body">
+          <div class="acc-inner">
+            <p class="text-sm text-ash mb-3">Open <a href="01_get-clear.html#offer-positioning" class="underline text-forest">Offer Positioning</a> in Get Clear. Use the 4-part formula to write one sentence that describes exactly what you do. This goes in your bio, your email signature, your media kit. Write it once, use it everywhere.</p>
+            <div class="font-mono text-[11px] text-moss">done_when: one offer sentence written. not a paragraph. one sentence.</div>
           </div>
         </div>
       </div>
 
-    </div>
+      <div class="week-lbl">// week_02 · days 8–14 · build the pipeline</div>
+
+      <div class="acc-item">
+        <button class="acc-trigger" onclick="toggleAcc(this)">
+          <div class="acc-day">D8</div>
+          <div class="acc-label">Film spec piece #3. Your portfolio is live.</div>
+          <div class="acc-chevron">›</div>
+        </button>
+        <div class="acc-body">
+          <div class="acc-inner">
+            <p class="text-sm text-ash mb-3">Third piece. Now you have a portfolio. Put all 3 in a single shareable link — portfolio.so, Beacons, Google Drive folder, or a Notion page. The format doesn't matter. One link that you can paste into an email is all you need.</p>
+            <div class="font-mono text-[11px] text-moss">done_when: 3 pieces, one shareable link. that's your portfolio.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-trigger" onclick="toggleAcc(this)">
+          <div class="acc-day">D9</div>
+          <div class="acc-label">Research 10 brands. Add them to your tracker.</div>
+          <div class="acc-chevron">›</div>
+        </button>
+        <div class="acc-body">
+          <div class="acc-inner">
+            <p class="text-sm text-ash mb-3">Open Meta Ad Library and search your niche. Look for DTC brands actively running video ads — they're already buying UGC. For each brand: find the marketing contact on LinkedIn (search "head of social" or "brand manager" + brand name). Add 10 to your tracker at stage: cold.</p>
+            <div class="font-mono text-[11px] text-moss">done_when: 10 rows in tracker, stage = cold, contact found for each.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-trigger" onclick="toggleAcc(this)">
+          <div class="acc-day">D10</div>
+          <div class="acc-label">Write your pitch template. Don't send yet.</div>
+          <div class="acc-chevron">›</div>
+        </button>
+        <div class="acc-body">
+          <div class="acc-inner">
+            <p class="text-sm text-ash mb-3">Go to <a href="04_get-booked.html#pitch-generator" class="underline text-forest">04_booked → Pitch Generator</a>. Build your template. Remember the rule: first message = warm, short, no rates. Just: "I love your brand, I make content in this space, would you be open to chatting?" Rates come in message two, after they reply.</p>
+            <div class="font-mono text-[11px] text-moss">done_when: 1 pitch template drafted. warm, short, no rates, no portfolio link yet.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-trigger" onclick="toggleAcc(this)">
+          <div class="acc-day">D11</div>
+          <div class="acc-label">Customize 5 pitches. One specific line each.</div>
+          <div class="acc-chevron">›</div>
+        </button>
+        <div class="acc-body">
+          <div class="acc-inner">
+            <p class="text-sm text-ash mb-3">Take your template and customize it for your top 5 brands. For each: reference something specific — a recent product launch, a campaign you noticed, a piece of content they posted. One genuine, researched line per pitch. That's what makes it land instead of get deleted.</p>
+            <div class="font-mono text-[11px] text-moss">done_when: 5 customized drafts saved. one specific reference in each.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-trigger" onclick="toggleAcc(this)">
+          <div class="acc-day">D12</div>
+          <div class="acc-label">Research 10 more brands. Total: 20 in tracker.</div>
+          <div class="acc-chevron">›</div>
+        </button>
+        <div class="acc-body">
+          <div class="acc-inner">
+            <p class="text-sm text-ash mb-3">Back to Meta Ad Library. Look at adjacent niches too — beauty → skincare tools → wellness supplements. You want 50 pitches sent by day 30. Pacing: 10 new brands every couple of days gets you there without burning out.</p>
+            <div class="font-mono text-[11px] text-moss">done_when: 20 rows total in tracker.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-trigger" onclick="toggleAcc(this)">
+          <div class="acc-day">D13</div>
+          <div class="acc-label">Customize 5 more pitches. Batch before you send.</div>
+          <div class="acc-chevron">›</div>
+        </button>
+        <div class="acc-body">
+          <div class="acc-inner">
+            <p class="text-sm text-ash mb-3">Personalized versions for your next 5 brands. You now have 10 pitches ready to send. Batching the writing separate from the sending is intentional — cold outreach takes different mental energy than personalization work.</p>
+            <div class="font-mono text-[11px] text-moss">done_when: 10 pitch drafts ready. reviewed once. ready to send.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-trigger" onclick="toggleAcc(this)">
+          <div class="acc-day">D14</div>
+          <div class="acc-label">Review day. Are you actually ready?</div>
+          <div class="acc-chevron">›</div>
+        </button>
+        <div class="acc-body">
+          <div class="acc-inner">
+            <p class="text-sm text-ash mb-3">Before you send anything: does your portfolio link work? Are your pitches personalized (not copy-paste)? Do you know your rate without thinking? Is your tracker set up? Fix anything that's still soft before you go live. This is the last checkpoint.</p>
+            <div class="font-mono text-[11px] text-moss">done_when: portfolio link ✓ · rates memorized ✓ · pitches personalized ✓</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="week-lbl">// week_03 · days 15–21 · start sending</div>
+
+      <div class="acc-item">
+        <button class="acc-trigger" onclick="toggleAcc(this)">
+          <div class="acc-day">D15</div>
+          <div class="acc-label">Send pitches 1–5. First batch live.</div>
+          <div class="acc-chevron">›</div>
+        </button>
+        <div class="acc-body">
+          <div class="acc-inner">
+            <p class="text-sm text-ash mb-3">Send your first 5 pitches. Update your tracker: stage = pitched, last contact = today. Set a reminder for D20 to follow up on any that haven't replied. Send and move on — do not check your inbox obsessively.</p>
+            <div class="font-mono text-[11px] text-moss">done_when: 5 pitches sent. tracker updated. D20 follow-up reminders set.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-trigger" onclick="toggleAcc(this)">
+          <div class="acc-day">D16</div>
+          <div class="acc-label">Research 10 more brands. Pipeline never stops.</div>
+          <div class="acc-chevron">›</div>
+        </button>
+        <div class="acc-body">
+          <div class="acc-inner">
+            <p class="text-sm text-ash mb-3">While pitches 1-5 are out there, build the next wave. Research 10 more brands, add to tracker. The pipeline should always be ahead of your current conversations — you want to be choosing which brand to work with, not waiting on one.</p>
+            <div class="font-mono text-[11px] text-moss">done_when: 30 brands total in tracker.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-trigger" onclick="toggleAcc(this)">
+          <div class="acc-day">D17</div>
+          <div class="acc-label">Send pitches 6–10.</div>
+          <div class="acc-chevron">›</div>
+        </button>
+        <div class="acc-body">
+          <div class="acc-inner">
+            <p class="text-sm text-ash mb-3">Second batch. Same rules: personalized, warm, no rates in first message. Update tracker after each. You now have 10 active pitches in the world.</p>
+            <div class="font-mono text-[11px] text-moss">done_when: 10 total pitches sent. 10 rows at stage = pitched.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-trigger" onclick="toggleAcc(this)">
+          <div class="acc-day">D18</div>
+          <div class="acc-label">Handle any replies. This is your first real conversation.</div>
+          <div class="acc-chevron">›</div>
+        </button>
+        <div class="acc-body">
+          <div class="acc-inner">
+            <p class="text-sm text-ash mb-3">If anyone replied from pitches 1-5: reply back the same day. This is where you introduce your rates for the first time — keep the same warm energy. "So glad you're interested! Here's my portfolio and how I typically work..." Share the link here, not before.</p>
+            <div class="font-mono text-[11px] text-moss">done_when: all replies answered within same business day. rates sent on reply.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-trigger" onclick="toggleAcc(this)">
+          <div class="acc-day">D19</div>
+          <div class="acc-label">Customize and send pitches 11–15.</div>
+          <div class="acc-chevron">›</div>
+        </button>
+        <div class="acc-body">
+          <div class="acc-inner">
+            <p class="text-sm text-ash mb-3">Research and customize for the next wave. By now you're getting comfortable with personalizing — you've seen what real pitching looks like in your niche.</p>
+            <div class="font-mono text-[11px] text-moss">done_when: 15 total pitches sent.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-trigger" onclick="toggleAcc(this)">
+          <div class="acc-day">D20</div>
+          <div class="acc-label">Follow up on D15 pitches that haven't replied.</div>
+          <div class="acc-chevron">›</div>
+        </button>
+        <div class="acc-body">
+          <div class="acc-inner">
+            <p class="text-sm text-ash mb-3">5 days, no reply: one follow-up. Short. Warm. "Hey [Name], just bumping this in case it got buried! Still really interested in working together if the timing's right." That's it. One follow-up per pitch, ever. Move on if they don't reply again.</p>
+            <div class="font-mono text-[11px] text-moss">done_when: follow-ups sent on non-replies from D15. stage updated in tracker.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-trigger" onclick="toggleAcc(this)">
+          <div class="acc-day">D21</div>
+          <div class="acc-label">Send pitches 16–20. Halfway to 50.</div>
+          <div class="acc-chevron">›</div>
+        </button>
+        <div class="acc-body">
+          <div class="acc-inner">
+            <p class="text-sm text-ash mb-3">20 pitches out. You're building real data. No replies at all? Look at your subject lines and opening line — something needs adjusting. Getting replies but no conversions? The issue is in how you're presenting rates. Go back to <a href="03_get-paid.html" class="underline text-forest">03_paid</a>.</p>
+            <div class="font-mono text-[11px] text-moss">done_when: 20 pitches sent. analyze reply rate — above 10%? if not, revise pitch copy.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="week-lbl">// week_04 · days 22–30 · close the first deal</div>
+
+      <div class="acc-item">
+        <button class="acc-trigger" onclick="toggleAcc(this)">
+          <div class="acc-day">D22</div>
+          <div class="acc-label">Follow up on all non-replies from week 3.</div>
+          <div class="acc-chevron">›</div>
+        </button>
+        <div class="acc-body">
+          <div class="acc-inner">
+            <p class="text-sm text-ash mb-3">One follow-up on every non-reply from D15-D21. After that, move them to stage: no reply in your tracker. Close the loop and move forward. You'll revisit in 30 days if you want — but for now, keep volume up.</p>
+            <div class="font-mono text-[11px] text-moss">done_when: all non-replies followed up. stage updated to no_reply.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-trigger" onclick="toggleAcc(this)">
+          <div class="acc-day">D23</div>
+          <div class="acc-label">Research 10 more. Total: 40 brands.</div>
+          <div class="acc-chevron">›</div>
+        </button>
+        <div class="acc-body">
+          <div class="acc-inner">
+            <p class="text-sm text-ash mb-3">Keep the pipeline moving. If you have a warm conversation going, great — keep it warm while also building the next wave. Never stop prospecting just because one looks promising.</p>
+            <div class="font-mono text-[11px] text-moss">done_when: 40 brands total in tracker.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-trigger" onclick="toggleAcc(this)">
+          <div class="acc-day">D24</div>
+          <div class="acc-label">Warm lead? Send a proposal now.</div>
+          <div class="acc-chevron">›</div>
+        </button>
+        <div class="acc-body">
+          <div class="acc-inner">
+            <p class="text-sm text-ash mb-3">If a brand has replied and is interested: don't stall. Send the <a href="05_get-consistent.html#proposal" class="underline text-forest">Proposal Template</a> from 05_consistent. Fill it the night before, send at 9am. Deals die in the gap between "sounds good" and "here's the paperwork."</p>
+            <div class="font-mono text-[11px] text-moss">done_when: proposal sent within 24 hours of any warm reply.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-trigger" onclick="toggleAcc(this)">
+          <div class="acc-day">D25</div>
+          <div class="acc-label">Send pitches 21–30. Getting faster now.</div>
+          <div class="acc-chevron">›</div>
+        </button>
+        <div class="acc-body">
+          <div class="acc-inner">
+            <p class="text-sm text-ash mb-3">By now pitching takes 10-15 minutes per brand, not an hour. Your research is faster. Your personalization is tighter. You're building a real outbound muscle — and the results compound.</p>
+            <div class="font-mono text-[11px] text-moss">done_when: 30 total pitches sent.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-trigger" onclick="toggleAcc(this)">
+          <div class="acc-day">D26</div>
+          <div class="acc-label">Film spec piece #4. Portfolio stays fresh.</div>
+          <div class="acc-chevron">›</div>
+        </button>
+        <div class="acc-body">
+          <div class="acc-inner">
+            <p class="text-sm text-ash mb-3">New content from the last 30 days signals you're active. Film something — a new angle, a new brand, a new format. Doesn't need to be perfect. Needs to be recent. Brands notice when the most recent work is 3 months old.</p>
+            <div class="font-mono text-[11px] text-moss">done_when: 4+ pieces in portfolio. most recent from this month.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-trigger" onclick="toggleAcc(this)">
+          <div class="acc-day">D27</div>
+          <div class="acc-label">Send pitches 31–40.</div>
+          <div class="acc-chevron">›</div>
+        </button>
+        <div class="acc-body">
+          <div class="acc-inner">
+            <p class="text-sm text-ash mb-3">Keep sending. The math is real: at a 10-15% reply rate, 40 pitches = 4-6 conversations. Of those, 1-2 will be real interest. That's your first deal. Volume isn't spam — personalized volume is strategy.</p>
+            <div class="font-mono text-[11px] text-moss">done_when: 40 pitches sent total.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-trigger" onclick="toggleAcc(this)">
+          <div class="acc-day">D28</div>
+          <div class="acc-label">Move every active conversation forward.</div>
+          <div class="acc-chevron">›</div>
+        </button>
+        <div class="acc-body">
+          <div class="acc-inner">
+            <p class="text-sm text-ash mb-3">Any open conversations stalling: move them. Proposal pending? Follow up. They asked for rates and went quiet? Follow up: "Hey, happy to adjust anything or answer questions if something was unclear!" No conversation sits idle for more than 72 hours.</p>
+            <div class="font-mono text-[11px] text-moss">done_when: no conversation sitting idle for more than 72 hours.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-trigger" onclick="toggleAcc(this)">
+          <div class="acc-day">D29</div>
+          <div class="acc-label">Send pitches 41–50. Final push.</div>
+          <div class="acc-chevron">›</div>
+        </button>
+        <div class="acc-body">
+          <div class="acc-inner">
+            <p class="text-sm text-ash mb-3">Last 10. These are brands you've been researching since week 3 — they get your best, most dialed-in versions yet. You know your niche. You know what they need. You know your rate. Pitch with confidence.</p>
+            <div class="font-mono text-[11px] text-moss">done_when: 50 pitches sent total. tracker fully up to date.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item done-item">
+        <button class="acc-trigger" style="background:#f0f7f2" onclick="toggleAcc(this)">
+          <div class="acc-day">D30</div>
+          <div class="acc-label">50 pitches sent. First deal is coming.</div>
+          <div class="acc-chevron" style="color:#4A7C59">›</div>
+        </button>
+        <div class="acc-body">
+          <div class="acc-inner">
+            <p class="text-sm text-ash mb-3">50 pitches at a realistic reply rate means 5-8 live conversations. One or two of those should be close. If you have a proposal pending — follow up today. If your reply rate is under 5% — your pitch copy needs work, not more volume. Go back to <a href="04_get-booked.html" class="underline text-forest">04_booked</a> and revise the opener.</p>
+            <p class="text-sm font-display font-bold text-forest mb-3">You did the work. The first $500 is a question of when, not if.</p>
+            <div class="font-mono text-[11px] text-moss">done_when: first_deal_closed. → then go to 03_paid and raise your floor.</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /day plan -->
   </div>
 </section>
 
 <!-- Where to go next -->
-<section class="bg-cream border-b border-line">
+<section class="bg-creamDeep border-b border-line">
   <div class="max-w-5xl mx-auto px-6 py-16">
-    <p class="font-mono text-xs text-moss mb-2">// where_to_go_from_here</p>
-    <h2 class="font-display text-3xl font-bold text-forest mb-3">After week one, work the stages in order.</h2>
-    <p class="text-ash max-w-2xl mb-10">Each stage builds on the last. Don't jump to Get Paid before you've done Get Clear. The order matters because the skills compound.</p>
-
+    <p class="font-mono text-xs text-moss mb-2">// after_the_30_days</p>
+    <h2 class="font-display text-3xl font-bold text-forest mb-3">After your first deal, work the stages in order.</h2>
+    <p class="text-ash max-w-2xl mb-10">Each stage builds on the last. Don't jump to Scale Up before you have a consistent pipeline. The order matters because the skills compound.</p>
     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-      <a href="01_get-clear.html" class="bg-creamDeep border border-line rounded-sharp p-5 tile-hover block">
+      <a href="01_get-clear.html" class="bg-cream border border-line rounded-sharp p-5 tile-hover block">
         <div class="font-mono text-[11px] text-moss mb-2">// stage_01</div>
         <div class="font-display font-bold text-forest text-lg mb-1">Get Clear</div>
         <p class="text-sm text-ash">Niche. Offer. Portfolio. The foundation everything else depends on.</p>
         <div class="mt-3 font-mono text-xs text-forest">→ 01_get-clear</div>
       </a>
-      <a href="02_get-visible.html" class="bg-creamDeep border border-line rounded-sharp p-5 tile-hover block">
+      <a href="02_get-visible.html" class="bg-cream border border-line rounded-sharp p-5 tile-hover block">
         <div class="font-mono text-[11px] text-moss mb-2">// stage_02</div>
         <div class="font-display font-bold text-forest text-lg mb-1">Get Visible</div>
-        <p class="text-sm text-ash">Hooks, scripts, content angles. Build the proof before you need it.</p>
+        <p class="text-sm text-ash">Hooks, scripts, content angles. Build proof before you need it.</p>
         <div class="mt-3 font-mono text-xs text-forest">→ 02_get-visible</div>
       </a>
-      <a href="03_get-paid.html" class="bg-creamDeep border border-line rounded-sharp p-5 tile-hover block">
+      <a href="03_get-paid.html" class="bg-cream border border-line rounded-sharp p-5 tile-hover block">
         <div class="font-mono text-[11px] text-moss mb-2">// stage_03</div>
         <div class="font-display font-bold text-forest text-lg mb-1">Get Paid</div>
         <p class="text-sm text-ash">Rate calculator, negotiation playbook, real market benchmarks.</p>
         <div class="mt-3 font-mono text-xs text-forest">→ 03_get-paid</div>
       </a>
-      <a href="04_get-booked.html" class="bg-creamDeep border border-line rounded-sharp p-5 tile-hover block">
+      <a href="04_get-booked.html" class="bg-cream border border-line rounded-sharp p-5 tile-hover block">
         <div class="font-mono text-[11px] text-moss mb-2">// stage_04</div>
         <div class="font-display font-bold text-forest text-lg mb-1">Get Booked</div>
-        <p class="text-sm text-ash">Pitch generator, scripts, brand database. Close the first deal.</p>
+        <p class="text-sm text-ash">Pitch generator, scripts, brand database. Close the next deal faster.</p>
         <div class="mt-3 font-mono text-xs text-forest">→ 04_get-booked</div>
       </a>
-      <a href="05_get-consistent.html" class="bg-creamDeep border border-line rounded-sharp p-5 tile-hover block">
+      <a href="05_get-consistent.html" class="bg-cream border border-line rounded-sharp p-5 tile-hover block">
         <div class="font-mono text-[11px] text-moss mb-2">// stage_05</div>
         <div class="font-display font-bold text-forest text-lg mb-1">Get Consistent</div>
         <p class="text-sm text-ash">Proposals, client tracker, onboarding. Turn one deal into a pipeline.</p>
         <div class="mt-3 font-mono text-xs text-forest">→ 05_get-consistent</div>
       </a>
-      <a href="06_scale-up.html" class="bg-creamDeep border border-line rounded-sharp p-5 tile-hover block">
+      <a href="06_scale-up.html" class="bg-cream border border-line rounded-sharp p-5 tile-hover block">
         <div class="font-mono text-[11px] text-moss mb-2">// stage_06</div>
         <div class="font-display font-bold text-forest text-lg mb-1">Scale Up</div>
         <p class="text-sm text-ash">Raise rates, build retainers, stop trading time for money.</p>
@@ -237,14 +633,14 @@
 </section>
 
 <!-- Bottom nav -->
-<section class="bg-creamDeep">
+<section class="bg-cream">
   <div class="max-w-6xl mx-auto px-6 py-10">
     <div class="grid md:grid-cols-2 gap-6">
-      <a href="index.html" class="bg-cream border border-line rounded-sharp p-6 tile-hover">
+      <a href="index.html" class="bg-creamDeep border border-line rounded-sharp p-6 tile-hover block">
         <p class="font-mono text-xs text-moss mb-2">// back_to</p>
         <div class="font-display text-xl font-bold text-forest">← Back to Hub</div>
       </a>
-      <a href="01_get-clear.html" class="bg-cream border border-line rounded-sharp p-6 tile-hover">
+      <a href="01_get-clear.html" class="bg-creamDeep border border-line rounded-sharp p-6 tile-hover block">
         <p class="font-mono text-xs text-moss mb-2">// first_stage</p>
         <div class="font-display text-xl font-bold text-forest">01 · Get Clear →</div>
       </a>
@@ -265,8 +661,25 @@
 </footer>
 
 <script>
-  function toggleDay(el) {
-    el.classList.toggle('done');
+  function setSeg(seg, btn) {
+    document.querySelectorAll('.seg-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    ['mass','bridge','niche'].forEach(s => document.getElementById('route-' + s).classList.add('hidden'));
+    var el = document.getElementById('route-' + seg);
+    el.classList.remove('hidden');
+    el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function toggleAcc(trigger) {
+    var isOpen = trigger.classList.contains('open');
+    document.querySelectorAll('.acc-trigger.open').forEach(function(t) {
+      t.classList.remove('open');
+      t.nextElementSibling.classList.remove('open');
+    });
+    if (!isOpen) {
+      trigger.classList.add('open');
+      trigger.nextElementSibling.classList.add('open');
+    }
   }
 </script>
 
