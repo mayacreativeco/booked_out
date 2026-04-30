@@ -276,19 +276,19 @@
             <p>"I make performance UGC for wellness brands — talking-head and testimonial style, built for paid social."</p>
           </div>
           <div class="bg-cream border border-forest rounded p-3">
-            <p>"My deliverable is simple: 3 × 30-second verticals, 2 concepts each, with 30 days paid usage."</p>
+            <p>"My deliverable is simple: 3 × 30-second verticals, 2 concepts each, with 30 days usage rights for paid social."</p>
           </div>
           <div class="bg-cream border border-forest rounded p-3">
-            <p>"Starting rate for that package is $1,800."</p>
+            <p>"I turn around first drafts in 5 business days, I'm easy to give feedback to, and I don't disappear after you pay."</p>
           </div>
         </div>
-        <p class="font-mono text-[11px] text-moss mt-4">// specific + priced = brands that respect you</p>
+        <p class="font-mono text-[11px] text-moss mt-4">// specific + clear process = brands that trust you before they've even worked with you</p>
       </div>
     </div>
 
     <div class="mt-6 bg-creamDeep border border-line rounded-sharp p-6">
       <p class="font-mono text-xs text-moss mb-3">// the_formula</p>
-      <p class="text-sm text-ash mb-4">Your offer sentence has 4 parts. Fill in each one:</p>
+      <p class="text-sm text-ash mb-4">Your offer sentence has 4 parts. This goes in your bio, your media kit, and your email signature — not your first pitch. Rates come in message two. <a href="#pitch-style" class="underline text-forest">See → pitch_style</a> for how that conversation goes.</p>
       <div class="grid sm:grid-cols-2 gap-3 text-sm">
         <div class="bg-cream border border-line rounded-sharp p-4">
           <div class="font-mono text-xs text-forest mb-1">01 · what_you_make</div>
@@ -300,11 +300,11 @@
         </div>
         <div class="bg-cream border border-line rounded-sharp p-4">
           <div class="font-mono text-xs text-forest mb-1">03 · what_outcome_it_drives</div>
-          <p class="text-ash">Paid social results, organic reach, conversion, launch performance</p>
+          <p class="text-ash">Paid social results, organic reach, conversion, launch performance — one clear output</p>
         </div>
         <div class="bg-cream border border-line rounded-sharp p-4">
-          <div class="font-mono text-xs text-forest mb-1">04 · your_starting_rate</div>
-          <p class="text-ash">One specific number. Not a range. Not "flexible." The floor of your opening quote.</p>
+          <div class="font-mono text-xs text-forest mb-1">04 · what_makes_working_with_you_easy</div>
+          <p class="text-ash">Turnaround time, feedback process, communication style. Brands pay more for certainty — give them it.</p>
         </div>
       </div>
     </div>
@@ -393,16 +393,34 @@
 <script>
   // Niche selector — multi-select for niche + style, single-select for exp
   const selections = { niche: [], style: [], exp: null };
+
+  // Clean readable labels (no slashes)
+  const NICHE_LABELS = {
+    'beauty': 'beauty', 'skincare': 'skincare', 'wellness': 'wellness',
+    'fitness': 'fitness', 'food & beverage': 'food and beverage', 'fashion': 'fashion',
+    'home & lifestyle': 'home and lifestyle', 'tech & gadgets': 'tech', 'pet': 'pet',
+    'baby & parenting': 'parenting'
+  };
+  const STYLE_LABELS = {
+    'talking-head / testimonial': 'testimonial-style', 'GRWM / get ready with me': 'GRWM',
+    'unboxing / first impression': 'unboxing', 'lifestyle / ambient': 'lifestyle',
+    'educational / how-to': 'educational', 'ad-style / performance': 'performance ad-style'
+  };
+
+  function joinNatural(arr) {
+    if (arr.length === 1) return arr[0];
+    if (arr.length === 2) return arr[0] + ' and ' + arr[1];
+    return arr.slice(0, -1).join(', ') + ', and ' + arr[arr.length - 1];
+  }
+
   document.querySelectorAll('.niche-btn').forEach(btn => {
     btn.addEventListener('click', function() {
       const group = this.dataset.group;
       if (group === 'exp') {
-        // single-select
         document.querySelectorAll('[data-group="exp"]').forEach(b => b.classList.remove('sel'));
         this.classList.add('sel');
         selections.exp = this.dataset.val;
       } else {
-        // multi-select: toggle
         this.classList.toggle('sel');
         const val = this.dataset.val;
         if (this.classList.contains('sel')) {
@@ -415,17 +433,40 @@
   });
 
   function buildNicheSentence() {
-    const niches = selections.niche;
-    const styles = selections.style;
+    const niches = selections.niche.map(n => NICHE_LABELS[n] || n);
+    const styles = selections.style.map(s => STYLE_LABELS[s] || s);
     const exp = selections.exp;
     if (!niches.length || !styles.length || !exp) {
       alert('Pick at least one niche, one content style, and your experience level.');
       return;
     }
-    const nicheStr = niches.length === 1 ? niches[0] : niches.slice(0, -1).join(', ') + ' & ' + niches[niches.length - 1];
-    const styleStr = styles.length === 1 ? styles[0] : styles.slice(0, -1).join(', ') + ' & ' + styles[styles.length - 1];
-    const expStr = exp === 'just starting out' ? 'building my portfolio with quality over quantity' : exp === 'growing (some paid deals)' ? 'with paid brand deals and a growing portfolio' : 'with a proven track record of brand deals';
-    const sentence = `I make ${styleStr} UGC for ${nicheStr} brands — ${expStr}.`;
+    const nicheStr = joinNatural(niches);
+    const styleStr = joinNatural(styles);
+
+    let sentence;
+    if (exp === 'just starting out') {
+      const variants = [
+        `I create ${styleStr} content for ${nicheStr} brands. I'm intentionally building a focused portfolio right now, which means everything I take on is work I'm fully committed to delivering at a high level.`,
+        `I specialize in ${styleStr} UGC for ${nicheStr} brands. I'm in the portfolio-building phase and I'm selective about what I take on, so the brands I work with get my full attention and best work.`,
+        `I make ${styleStr} content for ${nicheStr} brands. I'm growing my portfolio with a quality-over-quantity approach, and I'm open to building real relationships with brands I genuinely connect with.`,
+      ];
+      sentence = variants[Math.floor(Math.random() * variants.length)];
+    } else if (exp === 'growing (some paid deals)') {
+      const variants = [
+        `I create ${styleStr} UGC for ${nicheStr} brands. I've built a track record of paid partnerships and I'm at a stage where I'm growing both the volume and the quality of the work I take on.`,
+        `I'm a UGC creator making ${styleStr} content, primarily for ${nicheStr} brands. I've had paid deals, my portfolio reflects real brand work, and I'm focused on building longer-term client relationships.`,
+        `I make ${styleStr} content for ${nicheStr} brands, with paid partnerships I can point to and a growing roster of brands who've hired me more than once.`,
+      ];
+      sentence = variants[Math.floor(Math.random() * variants.length)];
+    } else {
+      const variants = [
+        `I create ${styleStr} UGC for ${nicheStr} brands, with an established client roster, a clear process, and content that consistently performs.`,
+        `I'm a ${styleStr} UGC creator specializing in ${nicheStr} brands. I've built a reputation for reliable delivery and content that brands actually run, and I'm thoughtful about the partnerships I take on.`,
+        `I make ${styleStr} content for ${nicheStr} brands. I have an established track record, a process that makes working together easy, and a portfolio that speaks for itself.`,
+      ];
+      sentence = variants[Math.floor(Math.random() * variants.length)];
+    }
+
     document.getElementById('nicheOutput').textContent = sentence;
     document.getElementById('nicheResult').classList.remove('hidden');
     document.getElementById('nicheResult').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
@@ -442,18 +483,18 @@
 
   // Portfolio checklist
   const CHECKLIST = [
-    { id: 'hero_reel', label: '60-90 second hero reel at the top of the page', hint: 'Your 3 best clips, cut together, no intro card.' },
-    { id: 'niche_focus', label: '3+ pieces in one specific niche (beauty, wellness, food, etc.)', hint: 'Brands book specialists, not generalists.' },
-    { id: 'brand_named', label: 'Each piece is labeled with the brand name', hint: 'Even if you credit "shot for" — name the brand.' },
-    { id: 'outcome_metric', label: 'At least 2 pieces include a results line', hint: '"Drove 2.4M views" or "became the top-performing ad for Q2".' },
-    { id: 'vertical_format', label: 'Vertical 9:16 format showcased alongside horizontal', hint: 'Most UGC buyers spec vertical first.' },
-    { id: 'hook_variety', label: 'Visible variety of hooks across 3+ clips', hint: 'POV, talking-head, problem-solution, GRWM, testimonial.' },
-    { id: 'one_click_contact', label: 'One-click contact — not a form', hint: 'Direct email or Calendly link, visible on first scroll.' },
-    { id: 'clear_rate_hint', label: 'A rate floor or "starting at" signal', hint: 'Filters time-wasters before they book a discovery call.' },
-    { id: 'social_proof', label: 'At least one brand logo or testimonial quote', hint: 'Real name, real company, ideally with title.' },
-    { id: 'mobile_optimized', label: 'Loads cleanly on mobile in under 3 seconds', hint: '70%+ of brand contacts open portfolios on phone.' },
-    { id: 'current_work', label: 'Most recent piece is from the last 60 days', hint: 'Stale portfolios signal stale creators.' },
-    { id: 'clear_cta', label: 'One clear CTA: "Pitch me a project"', hint: 'Not 3 buttons. Not a contact form. One action.' },
+    { id: 'intro_card', label: 'An intro card or short welcome video at the top', hint: 'Personality is a selling point. A 15-30 sec intro showing who you are before the work builds instant connection — brands hire people, not just portfolios.' },
+    { id: 'video_count', label: '5-10 videos minimum — one per niche to show range', hint: 'More proof = more trust. Aim for at least one piece per niche you work in so brands can see you adapt across categories.' },
+    { id: 'format_variety', label: 'Range of content formats: talking-head, GRWM, unboxing, lifestyle, educational', hint: 'Brands want to see versatility. One niche, multiple formats. Don\'t just show one style — show that you can execute across the board.' },
+    { id: 'brand_named', label: 'Every piece is labeled with the brand or product name', hint: 'Even spec work counts. Label everything — "created using" or "shot for" is enough. Just name the brand.' },
+    { id: 'outcome_metric', label: 'At least 2 pieces include a performance or result note', hint: '"2.4M views", "top ad for Q2", or even "client-approved and aired." Any signal that this content did something real.' },
+    { id: 'vertical_format', label: 'Vertical 9:16 format featured prominently', hint: 'Most UGC buyers spec vertical first. If you only have horizontal, film 3 verticals before you pitch anyone.' },
+    { id: 'one_click_contact', label: 'One-click contact visible on the first scroll', hint: 'Direct email link or a booking link. Not a form, not buried in the footer. If they have to hunt for it, they won\'t.' },
+    { id: 'social_proof', label: 'Brand logos or testimonials — paid deals OR spec work', hint: 'No paid deals yet? No problem. If you filmed a product at home, add that brand\'s logo to your portfolio. It shows initiative. Don\'t leave this section blank.' },
+    { id: 'brand_logo_section', label: 'A "brands I\'ve created for" section — even if it was spec', hint: 'Logos carry visual authority even when the deal wasn\'t paid. Most creators skip this. It\'s one of the highest-leverage things you can add.' },
+    { id: 'mobile_optimized', label: 'Loads cleanly on mobile in under 3 seconds', hint: '70%+ of brand contacts open portfolio links on their phone. Test it before you send it.' },
+    { id: 'current_work', label: 'Most recent piece is from the last 60 days', hint: 'Stale portfolios signal stale creators. If your newest piece is old, film something this week before you pitch anyone.' },
+    { id: 'clear_cta', label: 'One warm CTA: "Let\'s work together" or "I\'d love to create for you"', hint: '"Pitch me a project" puts the work on them. Make it feel like a welcome. One button, one action, zero friction.' },
   ];
 
   const list = document.getElementById('portfolioChecklist');

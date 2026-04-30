@@ -108,6 +108,14 @@
           <input type="text" id="hookProduct" class="field" placeholder="e.g. vitamin C serum, protein powder, running shoes" />
         </div>
         <div>
+          <label class="field-label">target_demographic · who is this for?</label>
+          <input type="text" id="hookDemo" class="field" placeholder="e.g. women in their 30s with hormonal acne" />
+        </div>
+        <div>
+          <label class="field-label">specific_pain_point · their actual problem</label>
+          <input type="text" id="hookPain" class="field" placeholder="e.g. acne that won't clear up no matter what they try" />
+        </div>
+        <div>
           <label class="field-label">hook_style</label>
           <select id="hookStyle" class="field">
             <option value="problem_solution">Problem → Solution</option>
@@ -409,63 +417,66 @@
 
 <script>
   // ─── Hook Generator ───────────────────────────────────────────────
+  // Templates receive (product, pain, demo) — pain replaces [problem], demo adds specificity
   const HOOKS = {
     problem_solution: [
-      p => `I spent way too long dealing with [problem] before someone finally told me about ${p}.`,
-      p => `The reason [problem] keeps coming back? You're missing ${p}. Nobody told me either.`,
-      p => `Every time I tried to fix [problem] I made it worse. Then I switched to ${p} and everything changed.`,
-      p => `Real talk — I almost gave up on fixing [problem] until a friend sent me this ${p}.`,
-      p => `POV: you've tried literally everything for [problem]. Let me save you the next year of trial and error. It's ${p}.`,
+      (p,pain,demo) => `I spent way too long dealing with ${pain} before someone finally told me about ${p}.`,
+      (p,pain,demo) => `The reason ${pain} keeps coming back? You're probably missing ${p}. Nobody told me either — until recently.`,
+      (p,pain,demo) => `Every single thing I tried for ${pain} made it worse or did nothing. Then I switched to ${p} and something actually changed.`,
+      (p,pain,demo) => `Real talk — I almost accepted that ${pain} was just going to be a permanent part of my life. Then I tried ${p}.`,
+      (p,pain,demo) => `If you've tried everything for ${pain} and nothing has stuck — I want to tell you about ${p} before you give up.`,
     ],
     pov: [
-      p => `POV: it's 3am, you can't sleep, and you're deep in a rabbit hole trying to figure out why this ${p} is everywhere right now.`,
-      p => `POV: your friend asks what you changed. You have to tell them it was a ${p}. They don't believe you.`,
-      p => `POV: you finally stop settling for the version that kind of works and discover this ${p}.`,
-      p => `POV: you add this ${p} to your routine and two weeks later your skin / energy / results / life is just... different.`,
-      p => `POV: you've been doing [routine] slightly wrong this entire time and one ${p} fixes it.`,
+      (p,pain,demo) => `POV: it's 3am, you can't sleep, you're googling "${pain}" for the fourth time this week, and you're about to find out about ${p}.`,
+      (p,pain,demo) => `POV: your ${demo ? demo.split(' ')[0] + ' friend' : 'friend'} asks what you changed about your ${pain.includes('skin') ? 'skin' : pain.includes('energy') ? 'energy' : 'routine'}. You have to tell them it was a ${p}. They don't believe you at first.`,
+      (p,pain,demo) => `POV: you've been silently dealing with ${pain} for [X time] and you find the thing that actually fixes it in a $[price] ${p}.`,
+      (p,pain,demo) => `POV: you add ${p} to your routine and six weeks later ${pain} is just... not the thing you're dealing with anymore.`,
+      (p,pain,demo) => `POV: you've been doing everything right for your ${pain.includes('skin') ? 'skin' : 'routine'} and it's still not working. Then you try ${p}.`,
     ],
     bold_claim: [
-      p => `Hot take: this ${p} is better than the one that costs three times as much. And I've tested both.`,
-      p => `Okay I've been keeping this ${p} quiet for months because I wasn't ready to share. I'm ready now.`,
-      p => `I don't care what anyone says — this ${p} is the only one that actually does what it claims to.`,
-      p => `Unpopular opinion: you don't need half your current routine. You just need this ${p}.`,
-      p => `I've tried every version of this on the market. This ${p} is the one. That's it. That's the video.`,
+      (p,pain,demo) => `Hot take: ${p} fixed ${pain} faster than anything I've tried in the last [X] years. And I've tried a lot.`,
+      (p,pain,demo) => `I've been keeping this ${p} quiet for months because I was waiting to be sure. I'm sure. It's the reason my ${pain} is finally not the first thing I think about in the morning.`,
+      (p,pain,demo) => `I don't care what anyone says about ${p} — it's the only thing that's actually moved the needle on my ${pain}.`,
+      (p,pain,demo) => `Unpopular opinion: you don't need a 12-step routine for ${pain}. You need ${p}. That's it.`,
+      (p,pain,demo) => `I've tested everything that claims to help with ${pain}. This ${p} is the one I actually repurchase.`,
     ],
     confessional: [
-      p => `This is what my brain sounds like at 3am when [problem] is bothering me... and then I found this ${p}.`,
-      p => `I asked ChatGPT why nothing was working for my [problem]. It pointed me straight to ${p}. I was annoyed it was right.`,
-      p => `I've been quietly using this ${p} for months and pretending my [improvement] is just good genes.`,
-      p => `Therapy is great. But also this ${p} fixed the part of my [problem] I'd been avoiding for two years.`,
-      p => `The internal monologue before I found this ${p}: [describe the anxiety / frustration]. I don't have that monologue anymore.`,
+      (p,pain,demo) => `This is what my brain sounds like at 3am when my ${pain} is bad: [internal spiral]. That's not my brain anymore, and it's because of ${p}.`,
+      (p,pain,demo) => `I asked ChatGPT what I was doing wrong with my ${pain}. It told me to look into ${p}. I was annoyed that it was right.`,
+      (p,pain,demo) => `I've been quietly using ${p} for [X months] and pretending my ${pain} just "got better on its own." It didn't. This is what actually changed it.`,
+      (p,pain,demo) => `Therapy is helping with the big stuff. But ${p} is handling the ${pain} that I didn't even realize was affecting my day until it was gone.`,
+      (p,pain,demo) => `The version of me from [X months] ago who was Googling "${pain}" at midnight would lose her mind knowing that ${p} was going to fix it.`,
     ],
     question: [
-      p => `Why is nobody talking about the fact that this ${p} outperforms the one everyone recommends?`,
-      p => `Why did nobody tell me about ${p} before I spent [amount] on things that didn't work?`,
-      p => `Have you ever wondered why [common approach] never fully fixes [problem]? I figured it out. It's ${p}.`,
-      p => `Is this ${p} actually worth the hype or are we all just being marketed to? I tested it for 30 days.`,
-      p => `What if I told you the [problem] you've been dealing with for years could actually just be fixed with a ${p}?`,
+      (p,pain,demo) => `Why is nobody in the ${pain.split(' ').slice(-1)[0]} space talking about the fact that ${p} actually addresses the root cause, not just the symptom?`,
+      (p,pain,demo) => `Why did nobody tell me about ${p} before I spent [amount] on everything else that claimed to fix ${pain}?`,
+      (p,pain,demo) => `Have you ever wondered why everything you try for ${pain} works for a week and then stops? I figured out why. It's ${p}.`,
+      (p,pain,demo) => `Is ${p} actually worth it for ${pain}, or is it just really good marketing? I used it for 30 days to find out.`,
+      (p,pain,demo) => `What if ${pain} isn't something you just have to live with — and a ${p} is the thing you've been missing?`,
     ],
     story: [
-      p => `I almost returned this ${p}. Then I gave it one more week. Big mistake — the good kind.`,
-      p => `My [friend / dermatologist / trainer] told me to try this ${p}. I ignored them for six months. They were right.`,
-      p => `I've been quietly using this ${p} since [timeframe] and didn't want to say anything until I was sure the results were real.`,
-      p => `I ordered this ${p} as a last resort after [other thing] completely stopped working. That was [timeframe] ago.`,
-      p => `The moment I realized this ${p} was actually working: [specific, relatable scene — not a generic reaction shot].`,
+      (p,pain,demo) => `I almost returned ${p} after the first week. My ${pain} wasn't changing fast enough. I gave it one more week. I'm so glad I didn't send it back.`,
+      (p,pain,demo) => `My [friend / dermatologist / trainer] told me ${p} would help my ${pain}. I ignored that advice for six months. They were right and I wasted six months.`,
+      (p,pain,demo) => `I've been quietly using ${p} since [timeframe] and didn't want to make a video until I was 100% sure my ${pain} actually improved and it wasn't a fluke.`,
+      (p,pain,demo) => `I ordered ${p} as a last resort after every other option for ${pain} had failed. That was [timeframe] ago. Here's what happened.`,
+      (p,pain,demo) => `The moment I knew ${p} was actually working on my ${pain}: [specific detail — not "I was amazed." A real, specific moment].`,
     ],
     transformation: [
-      p => `[Timeframe] of using this ${p}. Here's what actually changed — and what didn't.`,
-      p => `The only thing that changed in my [routine] in the last [timeframe] is this ${p}. So.`,
-      p => `Before ${p}: [honest description of the problem]. After: [specific, credible result]. Same person. Very different situation.`,
-      p => `If you'd told me [timeframe] ago that this ${p} would fix what nothing else could, I wouldn't have believed you.`,
-      p => `Side by side — my [skin / results / energy / whatever] before I found this ${p} versus now. The difference is not subtle.`,
+      (p,pain,demo) => `[X weeks] of ${p}. My ${pain}: before and after. I'll let the results explain themselves.`,
+      (p,pain,demo) => `The only thing I changed in my routine this month was adding ${p}. My ${pain} is the thing that changed. So.`,
+      (p,pain,demo) => `Before ${p}: ${pain} every single day. After ${p}: [specific, honest result]. Same lifestyle, one different product.`,
+      (p,pain,demo) => `If you'd told me [X months] ago that ${p} would be what finally fixed my ${pain} after everything else failed, I'd have said you were lying.`,
+      (p,pain,demo) => `${pain} before I found ${p} vs. now, [X weeks] later. The difference is real and it wasn't subtle once it started.`,
     ],
   };
 
   function generateHooks() {
     const product = document.getElementById('hookProduct').value.trim() || 'this product';
-    const style = document.getElementById('hookStyle').value;
+    const pain    = document.getElementById('hookPain').value.trim()    || 'this problem';
+    const demo    = document.getElementById('hookDemo').value.trim()    || '';
+    const style   = document.getElementById('hookStyle').value;
     const templates = HOOKS[style];
-    const hooks = templates.map(fn => fn(product));
+    const hooks = templates.map(fn => fn(product, pain, demo));
 
     const list = document.getElementById('hookList');
     list.innerHTML = '';
@@ -509,110 +520,154 @@
     document.getElementById('modeNote').textContent = modeNotes[currentMode];
   }
 
-  // ─── Script Builder ───────────────────────────────────────────────
+  // ─── Script Builder — Intelligent Generation ──────────────────────
   function buildScript() {
-    const product  = document.getElementById('scriptProduct').value.trim()  || '[product]';
-    const name     = document.getElementById('scriptName').value.trim()     || 'Me';
-    const audience = document.getElementById('scriptAudience').value.trim() || 'your target viewer';
-    const pain     = document.getElementById('scriptPain').value.trim()     || '[pain point]';
-    const result   = document.getElementById('scriptResult').value.trim()   || '[key result]';
+    const product  = document.getElementById('scriptProduct').value.trim();
+    const name     = document.getElementById('scriptName').value.trim()     || 'I';
+    const audience = document.getElementById('scriptAudience').value.trim() || '';
+    const pain     = document.getElementById('scriptPain').value.trim();
+    const result   = document.getElementById('scriptResult').value.trim();
     const cta      = document.getElementById('scriptCTA').value;
     const mode     = currentMode;
 
-    let script;
-
-    if (mode === 'organic') {
-      script =
-`[HOOK — 0:00–0:04]
-Visual: close crop, direct eye contact, genuine expression — no intro, no "hey guys"
-Audio: "${name} here — okay, if you're dealing with ${pain}, stay with me."
-Note: Hook must create pattern interrupt. No smile-and-wave opener.
-
-[EMOTIONAL PAIN — 0:04–0:12]
-Visual: relatable, relaxed — talking to a friend, not performing
-Audio: "I've been dealing with ${pain} for [X time]. I've tried everything. Nothing stuck long-term.
-       I was basically convinced I just had to live with it."
-Note: Make the viewer feel seen BEFORE the product appears. This is the trust-builder.
-
-[PRODUCT REVEAL — 0:12–0:22]
-Visual: hold ${product} up naturally, show label, cut to B-roll of using it
-Audio: "Then I found ${product}. I'll be honest — I wasn't expecting much.
-       What it actually does: ${result}."
-Note: State the result plainly. No ingredient list. No feature dump. One transformation.
-
-[EMOTIONAL SHIFT — 0:22–0:32]
-Visual: show the after — your reaction, a result moment, or a specific visual change
-Audio: "I've been using it for [X weeks] and the difference is real.
-       [Add one specific, credible detail — not vague enthusiasm.]"
-Note: Specific beats emotional. "My skin looked visibly brighter" > "I'm obsessed."
-
-[CTA — 0:32–0:40]
-Visual: direct to camera, warm but confident
-Audio: "${cta}"
-Note: One action only. No "follow me" + "like" + "comment" stacking.
-
-─────────────────────────────────────
-Format: Organic
-Suggested length: 35–45 seconds
-Target audience: ${audience}
-Pain point: ${pain}
-Core transformation: ${result}
-`;
-    } else {
-      script =
-`[HOOK — 0:00–0:02] ← 2 SECONDS. THAT'S IT.
-Visual: extreme close-up OR immediate result visual — no slow intro whatsoever
-Text overlay: BIG, HIGH-CONTRAST — state the result in the first frame
-Audio: "${result}. Here's why."
-Note: Paid ads lose 40%+ of viewers before second 3. The hook IS the ad.
-
-[PAIN AMPLIFICATION — 0:02–0:07]
-Visual: quick cut — keep energy high, no slow panning shots
-Audio: "If you're still dealing with ${pain} — you need to hear this."
-Note: Address the pain fast. Don't explain it. They already know it.
-
-[PRODUCT + PROOF — 0:07–0:18]
-Visual: product clearly visible, cut to B-roll or result shot
-Audio: "${product} is how I got ${result}.
-       I've been using it for [X weeks] and here's the specific thing that changed: [detail]."
-Note: Name the product early. State one result with one specific detail. No lists.
-
-[URGENCY / CREDIBILITY — 0:18–0:24]
-Visual: cut to product close-up or strongest result shot
-Audio: "This isn't a new thing. I just wish I'd found it sooner.
-       If ${pain} is something you're dealing with — just try it."
-Note: Don't manufacture fake urgency. Real credibility (specifics, time, detail) converts better.
-
-[CTA — 0:24–0:30]
-Visual: direct to camera, confident close
-Audio: "${cta}"
-Note: CTA must be ONE clear action. Match it to your ad placement.
-
-─────────────────────────────────────
-Format: Paid Ads
-Suggested length: 15–30 seconds
-Target audience: ${audience}
-Pain point: ${pain}
-Result claim: ${result}
-`;
+    if (!product || !pain || !result) {
+      alert('Fill in the product name, pain point, and key result — those three fields drive the whole script.');
+      return;
     }
 
-    document.getElementById('scriptText').textContent = script;
+    const script = mode === 'organic'
+      ? generateOrganicScript(product, name, audience, pain, result, cta)
+      : generatePaidScript(product, name, audience, pain, result, cta);
 
-    const metaEl = document.getElementById('scriptMeta');
-    metaEl.innerHTML = `
+    document.getElementById('scriptText').textContent = script;
+    document.getElementById('scriptMeta').innerHTML = `
       <div class="font-mono text-xs text-moss mb-3">// script_metadata</div>
       <div class="grid sm:grid-cols-2 gap-2 text-xs font-mono">
         <div><span class="text-cream/50">mode:</span> <span class="text-moss">${mode}</span></div>
-        <div><span class="text-cream/50">length:</span> <span class="text-cream">${mode === 'organic' ? '35–45 sec' : '15–30 sec'}</span></div>
-        <div><span class="text-cream/50">audience:</span> <span class="text-cream">${audience}</span></div>
+        <div><span class="text-cream/50">length:</span> <span class="text-cream">${mode === 'organic' ? '35–50 sec' : '15–28 sec'}</span></div>
+        <div><span class="text-cream/50">audience:</span> <span class="text-cream">${audience || 'not specified'}</span></div>
         <div><span class="text-cream/50">pain:</span> <span class="text-cream">${pain}</span></div>
         <div class="sm:col-span-2"><span class="text-cream/50">transformation:</span> <span class="text-cream">${result}</span></div>
       </div>
     `;
-
     document.getElementById('scriptOutput').classList.remove('hidden');
     document.getElementById('scriptOutput').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function generateOrganicScript(product, name, audience, pain, result, cta) {
+    // Detect tone cues from inputs
+    const painWords = pain.toLowerCase();
+    const resultWords = result.toLowerCase();
+    const isLongStruggle = /year|month|long|forever|always|never|tried everything/i.test(pain);
+    const isSkinCare = /skin|acne|breakout|pore|glow|complexion|texture|dark spot/i.test(painWords + resultWords);
+    const isEnergy = /energy|tired|fatigue|sleep|crash|fog|focus/i.test(painWords + resultWords);
+    const hasTime = /week|day|month|overnight/i.test(resultWords);
+
+    // Generate a pattern-interrupt hook that doesn't just echo the pain back
+    const hookVariants = [
+      `Real question: how long have you been dealing with ${pain}? Because ${name === 'I' ? 'I' : name} was dealing with it way longer than ${name === 'I' ? 'I' : 'they'} needed to.`,
+      `Nobody warned me how much ${pain} would actually start to affect the way ${name === 'I' ? 'I' : name} moved through the day. If you know, you know.`,
+      `${name === 'I' ? 'I' : name} need to talk about ${pain} because ${name === 'I' ? 'I' : 'they'} genuinely didn't think there was a fix — until there was.`,
+    ];
+    const hook = hookVariants[Math.floor(Math.random() * hookVariants.length)];
+
+    // Pain section — reframe beyond the obvious
+    const painSection = isLongStruggle
+      ? `The frustrating part isn't just ${pain} itself. It's the cycle. You find something that might help, it does a little, then it stops, and you're back at the beginning. ${name === 'I' ? "I'd" : name + " had"} convinced ${name === 'I' ? 'myself' : 'themselves'} this was just the situation and there was no actual solution.`
+      : `${name === 'I' ? "I'd" : name + " had"} been through the standard advice — the things everyone recommends for ${pain}. Some of it helped a little. None of it fixed it. At some point you start to wonder if you're missing something obvious.`;
+
+    // Product reveal — make it feel like a reluctant recommendation, not a sponsored placement
+    const revealSection = isSkinCare
+      ? `Someone mentioned ${product} and ${name === 'I' ? "I" : name} almost didn't try it. ${name === 'I' ? "I've" : name + " had"} been down this road before. But ${name === 'I' ? "I" : name} ordered it, used it consistently — the way you're actually supposed to — and waited.`
+      : `${product} wasn't the first thing ${name === 'I' ? "I" : name} tried. It was closer to the last. ${name === 'I' ? "I" : name} went in skeptical, genuinely. And then something different happened.`;
+
+    // Transformation — make it specific and credible, not vague
+    const timeRef = hasTime ? '' : ' — and the timeline surprised me';
+    const shiftSection = `Here's what changed: ${result}${timeRef}. The thing ${name === 'I' ? "I" : name} noticed first was [add your most specific, credible detail here — something you actually observed, not just "I was amazed"]. That's when ${name === 'I' ? "I" : name} knew this was real.`;
+
+    return `[HOOK — 0:00–0:05]
+Visual: straight to camera, no intro card, no "hey guys" — lean in slightly like you're about to tell someone something real
+Pacing: medium-slow, let it land
+"${hook}"
+
+[THE TRUTH ABOUT ${pain.toUpperCase()} — 0:05–0:14]
+Visual: relaxed, processing out loud — this isn't a performance, it's a conversation
+Cut idea: you sitting somewhere comfortable, natural light, looking slightly off-camera then back
+"${painSection}"
+
+[${product.toUpperCase()} ENTERS — 0:14–0:24]
+Visual: show the product naturally (not product-demo style — more like "let me show you what I've been using")
+B-roll: 1–2 shots of actually using it. Real, not staged.
+"${revealSection}"
+
+[THE SHIFT — 0:24–0:34]
+Visual: this is your money shot — show the result. Could be your face, a comparison, a reaction, whatever makes the change visible
+Energy: genuine, not over-the-top. Specific > excited.
+"${shiftSection}"
+
+[CTA — 0:34–0:42]
+Visual: direct, warm, like you're wrapping up a conversation with a friend
+"${cta}"
+
+─────────────────────────────────────
+Format: Organic content / portfolio
+Length: 40–45 seconds
+Psychology used: pattern interrupt → shared struggle → reluctant convert → specific proof → low-pressure close
+Audience: ${audience || 'define your target viewer for maximum specificity'}
+The rule: sell the transformation. ${product} is the vehicle — ${result} is the story.`;
+  }
+
+  function generatePaidScript(product, name, audience, pain, result, cta) {
+    // For paid ads: result-first, pattern interrupt in frame 1, no warmup allowed
+    const painShort = pain.length > 40 ? pain.slice(0, 40) + '...' : pain;
+    const resultShort = result.length > 50 ? result.slice(0, 50) + '...' : result;
+
+    // Hook options for paid — punchy, result-forward
+    const paidHooks = [
+      `"${result}. That happened because of ${product}."`,
+      `"If ${painShort} is your situation right now — stay with me for 20 seconds."`,
+      `"I stopped dealing with ${painShort}. Here's the one thing that changed."`,
+    ];
+    const paidHook = paidHooks[Math.floor(Math.random() * paidHooks.length)];
+
+    // Pain amplification — short, aggressive, validates the viewer's frustration fast
+    const painAmp = `"You've probably tried things that helped a little. ${pain} is the kind of thing that takes over more than you admit. ${name === 'I' ? "I" : name} know because ${name === 'I' ? "I" : name} was there."`;
+
+    // Proof — specific and fast
+    const proofLine = `"${product} is the reason ${result}. ${name === 'I' ? "I've" : name + " has"} been using it for [X weeks] — here's the specific change ${name === 'I' ? "I" : name} noticed: [your most credible detail]."`;
+
+    return `[HOOK — 0:00–0:02] ← YOU HAVE 2 SECONDS
+Visual: zero intro — immediate result visual, extreme close-up, OR fast-cut to the most compelling moment
+Text overlay: 1 line, bold, high contrast — state the result or the pain before the audio hits
+${paidHook}
+Note: Paid ads lose 40%+ of viewers before second 3. The hook IS the ad. If the first frame doesn't work, nothing else matters.
+
+[PAIN AMPLIFICATION — 0:02–0:07]
+Visual: fast cut, maintain energy — no slow b-roll here
+${painAmp}
+Note: Don't explain the pain — validate it. The viewer already knows it. You're just proving you know it too.
+
+[PRODUCT + SPECIFIC PROOF — 0:07–0:18]
+Visual: product clearly in frame, cut to B-roll or result visual
+${proofLine}
+Note: Name the product in the first 10 seconds. State one result with one specific detail. No ingredient lists. No feature stacking.
+
+[CREDIBILITY CLOSE — 0:18–0:24]
+Visual: cut to your strongest result moment or product close-up
+"This isn't a new discovery. ${name === 'I' ? "I" : name} just wish ${name === 'I' ? "I'd" : name + " had"} found it before ${name === 'I' ? "I" : name} wasted time and money on things that didn't work for ${painShort}."
+Note: Don't manufacture urgency. Real credibility — specifics, timeline, honest framing — converts better than fake scarcity.
+
+[CTA — 0:24–0:30]
+Visual: direct to camera, confident, no hesitation
+"${cta}"
+Note: ONE action. Match it to the placement. No stacking.
+
+─────────────────────────────────────
+Format: Paid ads
+Length: 20–28 seconds
+Psychology used: pattern interrupt → pain validation → product + proof → credibility → direct close
+Audience: ${audience || 'define your target viewer — tighter targeting = stronger relevance in hooks'}
+The rule: every second has to earn the next one. If it doesn't need to be in the ad, it's not in the ad.`;
   }
 
   function copyScript() {
