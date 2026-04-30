@@ -150,17 +150,33 @@
     <p class="text-ash max-w-xl mb-8">Sell the transformation — not the product features. Fill in the fields, pick your mode, get a complete script with visual direction and timing built in.</p>
 
     <div class="bg-creamDeep border-2 border-forest rounded-sharp p-6 md:p-10">
-      <div class="flex items-center justify-between mb-6 pb-4 border-b border-line">
-        <span class="font-mono text-xs text-moss">script_builder.run()</span>
-        <div class="flex gap-2 flex-wrap">
+      <div class="mb-6 pb-5 border-b border-line">
+        <div class="flex items-center justify-between mb-5">
+          <span class="font-mono text-xs text-moss">script_builder.run()</span>
+        </div>
+        <div id="format-group" class="flex flex-wrap items-center gap-2 mb-3">
+          <span class="font-mono text-[11px] text-ash w-16 shrink-0">format:</span>
           <button class="mode-btn active" data-mode="voiceover" onclick="setMode(this)">voiceover</button>
           <button class="mode-btn" data-mode="talking_to_camera" onclick="setMode(this)">talking to camera</button>
           <button class="mode-btn" data-mode="hybrid" onclick="setMode(this)">hybrid</button>
         </div>
+        <div id="ctype-group" class="flex flex-wrap items-center gap-2 mb-3">
+          <span class="font-mono text-[11px] text-ash w-16 shrink-0">type:</span>
+          <button class="mode-btn active" data-ctype="organic" onclick="setContentType(this)">organic</button>
+          <button class="mode-btn" data-ctype="paid" onclick="setContentType(this)">paid_ads</button>
+        </div>
+        <div id="age-group" class="flex flex-wrap items-center gap-2">
+          <span class="font-mono text-[11px] text-ash w-16 shrink-0">my_age:</span>
+          <button class="mode-btn" data-age="genz" onclick="setCreatorAge(this)">gen z</button>
+          <button class="mode-btn" data-age="youngmil" onclick="setCreatorAge(this)">millennial 24–30</button>
+          <button class="mode-btn active" data-age="oldermil" onclick="setCreatorAge(this)">millennial 31–40</button>
+          <button class="mode-btn" data-age="genx" onclick="setCreatorAge(this)">gen x</button>
+          <button class="mode-btn" data-age="boomer" onclick="setCreatorAge(this)">boomer</button>
+        </div>
       </div>
 
       <div class="mb-4 p-4 rounded-sharp border border-line bg-cream">
-        <div id="modeNote" class="font-mono text-xs text-moss">// voiceover mode: your voice narrates over b-roll and product footage — no talking head required. good for aesthetics-forward content, satisfying close-ups, ambient lifestyle shots</div>
+        <div id="modeNote" class="font-mono text-xs text-moss">// voiceover · organic: your voice over lifestyle b-roll and product shots. storytelling-forward, ambient, 40–50 sec, soft close.</div>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
@@ -413,8 +429,19 @@
 </footer>
 
 <script>
+  // ─── Shuffle utility ─────────────────────────────────────────────
+  function shuffleArr(arr) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+  const rnd = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
   // ─── Hook Generator ───────────────────────────────────────────────
-  // hooksv2-aligned: mid-sentence energy, specific pain, lowercase, no templates that sound like templates
+  // 8 per category — shuffled on every generate so output is always different
   const HOOKS = {
     mid_thought: [
       (p,pain,demo) => `— okay so i've been dealing with ${pain} for way longer than i should have and i need to tell you about ${p} because it actually changed something.`,
@@ -422,13 +449,19 @@
       (p,pain,demo) => `i've been meaning to talk about ${pain} because i know i'm not the only one and ${p} is the thing that finally made it a non-issue for me.`,
       (p,pain,demo) => `real talk i didn't think anything was going to actually help with ${pain}. i'd kind of accepted it. and then i tried ${p}.`,
       (p,pain,demo) => `— because nobody tells you that ${pain} doesn't have to be permanent and that something like ${p} exists and just works.`,
+      (p,pain,demo) => `...and i know everyone says this but ${pain} and ${p} is actually the thing that finally made a difference and i feel kind of wild that it worked.`,
+      (p,pain,demo) => `i should have talked about ${p} months ago but i was waiting to see if it was real. it's real. the ${pain} situation? completely different now.`,
+      (p,pain,demo) => `been using ${p} quietly for a while. the ${pain} situation has been different. i'm just going to show you.`,
     ],
     quiet_confession: [
       (p,pain,demo) => `i've been using ${p} for a few months and i've been keeping it quiet. mostly because ${pain} felt like something i was embarrassed about and i didn't want to make a video until i was sure it wasn't a fluke.`,
       (p,pain,demo) => `honestly i was going to pretend my ${pain} just got better on its own. it didn't. it was ${p}. i just wasn't ready to tell anyone.`,
-      (p,pain,demo) => `the thing about ${pain} that nobody really says out loud is how much it actually takes up in your head. ${p} is why it doesn't anymore.`,
+      (p,pain,demo) => `the thing about ${pain} that nobody really says out loud is how much it takes up in your head. ${p} is why it doesn't anymore.`,
       (p,pain,demo) => `i don't usually talk about ${pain} because it felt personal. but ${p} is the reason i actually can now.`,
       (p,pain,demo) => `between us — the version of me that was googling "${pain}" at midnight would have cried knowing ${p} was going to be the thing that fixed it.`,
+      (p,pain,demo) => `i don't usually talk about ${pain} because it's embarrassing to admit how much it was affecting me. but ${p} is the reason i'm over it and i think you might need to hear this.`,
+      (p,pain,demo) => `i've been sitting on this because i wasn't sure if i wanted to make it a whole thing. but ${p} genuinely fixed my ${pain} and i feel weird not saying anything.`,
+      (p,pain,demo) => `the thing is i almost didn't try ${p}. i was too tired to try another thing for ${pain}. i'm really glad i did.`,
     ],
     right_person_address: [
       (p,pain,demo) => `if ${pain} is something you've just been quietly managing and you've kind of given up on actually fixing it — i need you to stay for this.`,
@@ -436,6 +469,9 @@
       (p,pain,demo) => `if you've spent money on things that claimed to help with ${pain} and you're tired of being disappointed — you're going to want to hear about ${p}.`,
       (p,pain,demo) => `this is for the person who's been dealing with ${pain} long enough that it just feels like a personality trait at this point. it's not. ${p} exists.`,
       (p,pain,demo) => `if ${pain} is the first thing you think about in the morning, you've been where i was. ${p} is how i stopped being there.`,
+      (p,pain,demo) => `hey — if ${pain} is something you've googled at 2am more than once, this is the part where i tell you ${p} exists.`,
+      (p,pain,demo) => `i made this for whoever has spent real money on ${pain} solutions that didn't work. you're not crazy. the right thing just hadn't shown up yet.`,
+      (p,pain,demo) => `if you're the kind of person who's been managing ${pain} for so long you've forgotten what it felt like before — i want to show you something.`,
     ],
     pattern_interrupt: [
       (p,pain,demo) => `wait — you're still dealing with ${pain}? like you haven't tried ${p} yet? okay let me explain because this changes things.`,
@@ -443,6 +479,9 @@
       (p,pain,demo) => `everything everyone recommends for ${pain} is kind of... wrong? or at least incomplete. ${p} is the part nobody mentions.`,
       (p,pain,demo) => `i was doing everything right for ${pain}. like textbook correct. and it still wasn't working. until ${p}.`,
       (p,pain,demo) => `unpopular opinion: you don't need a complicated routine for ${pain}. you need ${p}. that's it. that's the whole thing.`,
+      (p,pain,demo) => `here's the thing. you've been told to fix ${pain} the wrong way. consistently. by everyone. ${p} is what actually addresses it.`,
+      (p,pain,demo) => `i want to save you the months and money i wasted before i found ${p} for ${pain}. because i looked everywhere and nobody was talking about this.`,
+      (p,pain,demo) => `your ${pain} routine is probably fine. it's just missing ${p}. and once you add it, everything else makes more sense.`,
     ],
     rant_hot_take: [
       (p,pain,demo) => `i'm so tired of watching people overcomplicate ${pain} when ${p} exists and actually does the thing it says it does.`,
@@ -450,20 +489,29 @@
       (p,pain,demo) => `can we be honest about the fact that most products marketed for ${pain} don't work and ${p} is genuinely one of the rare ones that does?`,
       (p,pain,demo) => `hot take: ${pain} is not something you just have to live with. people tell you that so you keep buying things that half-work. ${p} fully works.`,
       (p,pain,demo) => `i'm genuinely annoyed it took me this long to find ${p} for ${pain}. like years of wasted money annoyed. okay let me show you.`,
+      (p,pain,demo) => `why are we still acting like ${pain} is something you just learn to manage? ${p} is right there. it works. i don't understand the silence around it.`,
+      (p,pain,demo) => `i spent a lot of money on ${pain} solutions before ${p}. a lot. i'm annoyed about it. let me save you the same mistake.`,
+      (p,pain,demo) => `the way brands market products for ${pain} and then ${p} exists and actually delivers — it's genuinely frustrating that this isn't talked about more.`,
     ],
     lived_experience: [
       (p,pain,demo) => `i almost returned ${p} after the first week because my ${pain} wasn't changing fast enough. gave it one more week. please hear me when i say i'm so glad i didn't send it back.`,
       (p,pain,demo) => `i ordered ${p} as kind of a last resort after every single thing i tried for ${pain} had failed. that was [x weeks] ago. here's what actually happened.`,
       (p,pain,demo) => `my [friend / dermatologist / trainer] told me to try ${p} for ${pain}. i ignored it for months. they were completely right and i wasted months being stubborn.`,
-      (p,pain,demo) => `there was a specific moment i knew ${p} was actually working on my ${pain}. not "wow" moment — just a quiet, specific thing i noticed. let me tell you what it was.`,
+      (p,pain,demo) => `there was a specific moment i knew ${p} was actually working on my ${pain}. not a wow moment — just a quiet, specific thing i noticed. let me tell you what it was.`,
       (p,pain,demo) => `i've been quietly using ${p} since [timeframe] and didn't want to make a video until i was 100% sure my ${pain} improved and it wasn't just a coincidence.`,
+      (p,pain,demo) => `the first week of ${p} for ${pain} — i genuinely thought nothing was happening. week two, something shifted. i'm going to tell you exactly what changed.`,
+      (p,pain,demo) => `i want to tell you about the specific moment i knew ${p} was working. it's not dramatic. it's the kind of thing you only notice when something's actually different.`,
+      (p,pain,demo) => `i've recommended ${p} to probably 8 people now for ${pain}. none of them have come back disappointed. that's the only metric i trust.`,
     ],
     tension_story: [
       (p,pain,demo) => `i need to tell you what happened when i finally stopped trying to fix ${pain} on my own and just tried ${p}. because it did not go the way i expected.`,
       (p,pain,demo) => `the version of this story where ${pain} is still my daily problem is a version that almost happened. like i almost gave up before i found ${p}.`,
-      (p,pain,demo) => `okay so this might be a long one but — ${pain} was genuinely making me miserable and i didn't know ${p} was the thing i'd been missing this whole time.`,
+      (p,pain,demo) => `okay so this might be a lot but — ${pain} was genuinely making me miserable and i didn't know ${p} was the thing i'd been missing this whole time.`,
       (p,pain,demo) => `i have tried so many things for ${pain}. so many. and i'm embarrassed about how much time and money went into things that half-worked before someone mentioned ${p}.`,
       (p,pain,demo) => `the timeline of my ${pain} journey is: denial, frustration, accepting it as permanent, and then ${p} exists and i find out about it way too late.`,
+      (p,pain,demo) => `there's a version of this story where i gave up on fixing ${pain} and just accepted it. that almost happened. ${p} is why it didn't.`,
+      (p,pain,demo) => `i want to walk you through my ${pain} timeline because i think it'll sound familiar and i think the ending is going to be useful to you.`,
+      (p,pain,demo) => `i've tried enough things for ${pain} to know when something is marketing and when something actually does something. ${p} does something.`,
     ],
   };
 
@@ -472,8 +520,9 @@
     const pain    = document.getElementById('hookPain').value.trim()    || 'this problem';
     const demo    = document.getElementById('hookDemo').value.trim()    || '';
     const style   = document.getElementById('hookStyle').value;
-    const templates = HOOKS[style];
-    const hooks = templates.map(fn => fn(product, pain, demo));
+    // Shuffle all templates and pick 5 — different result every single click
+    const templates = shuffleArr(HOOKS[style]);
+    const hooks = templates.slice(0, 5).map(fn => fn(product, pain, demo));
 
     const list = document.getElementById('hookList');
     list.innerHTML = '';
@@ -503,15 +552,15 @@
     });
   }
 
-  // ─── Age detection ────────────────────────────────────────────────
-  function detectAgeGroup(audience) {
+  // ─── Age detection (audience-side, used for context notes only) ──
+  function detectAudienceAge(audience) {
     const a = audience.toLowerCase();
-    if (/gen.?z|gen z|teenager|teen|18|19|20|21|22|23|early 20s|high school|college/i.test(a)) return 'genz';
-    if (/late 20s|24|25|26|27|28|29|millennial|young professional|grad|early career/i.test(a)) return 'youngmil';
-    if (/30s|31|32|33|34|35|36|37|38|39|mid.?30s|late 30s|mom|parent|career woman|working mom/i.test(a)) return 'oldermil';
-    if (/40s|41|42|43|44|45|46|47|48|49|50s|51|52|53|54|55|gen.?x|gen x|midlife|empty nest/i.test(a)) return 'genx';
-    if (/60s|61|62|63|64|65|boomer|baby boomer|retired|senior|grandm/i.test(a)) return 'boomer';
-    return 'youngmil'; // default
+    if (/gen.?z|teenager|teen|18|19|20|21|22|23|early 20s|high school|college/i.test(a)) return 'genz';
+    if (/late 20s|24|25|26|27|28|29|young professional|grad|early career/i.test(a)) return 'youngmil';
+    if (/30s|31|32|33|34|35|36|37|38|39|mid.?30s|late 30s|mom|parent|working mom/i.test(a)) return 'oldermil';
+    if (/40s|41|42|43|44|45|46|47|48|49|50s|51|52|53|54|55|gen.?x|midlife/i.test(a)) return 'genx';
+    if (/60s|61|62|63|64|65|boomer|retired|senior/i.test(a)) return 'boomer';
+    return 'oldermil';
   }
 
   const AGE_CONTEXT = {
@@ -577,80 +626,156 @@
     },
   };
 
-  // ─── Mode toggle ──────────────────────────────────────────────────
-  let currentMode = 'voiceover';
-  const modeNotes = {
-    voiceover: '// voiceover mode: your voice narrates over b-roll and product footage — no talking head required. good for aesthetics-forward content, satisfying close-ups, ambient lifestyle shots',
-    talking_to_camera: '// talking to camera mode: direct address, diary-feel, personal — you are the content. works best when your face and energy are the proof.',
-    hybrid: '// hybrid mode: mix of talking to camera and voiceover/b-roll — best of both. gives you more edit flexibility and holds attention longer.',
+  // ─── Mode / type / age state ──────────────────────────────────────
+  let currentMode    = 'voiceover';
+  let contentType    = 'organic';
+  let creatorAgeKey  = 'oldermil';
+
+  const MODE_NOTES = {
+    voiceover: {
+      organic: '// voiceover · organic: your voice over lifestyle b-roll and product shots. storytelling-forward, ambient, 40–50 sec, soft close.',
+      paid:    '// voiceover · paid: tight b-roll, result-first narration, 15–20 sec. every frame has to earn its place.',
+    },
+    talking_to_camera: {
+      organic: '// talking to camera · organic: diary-feel, direct address, you are the content. 35–50 sec, story arc, soft close.',
+      paid:    '// talking to camera · paid: straight to the result in frame 1. punchy, short, hard CTA. 15–25 sec.',
+    },
+    hybrid: {
+      organic: '// hybrid · organic: direct camera moments for trust, b-roll for proof. best of both for portfolio content.',
+      paid:    '// hybrid · paid: hook on camera, proof via b-roll, close on camera. high attention retention for paid placements.',
+    },
   };
 
-  function setMode(btn) {
-    document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    currentMode = btn.dataset.mode;
-    document.getElementById('modeNote').textContent = modeNotes[currentMode];
+  function updateModeNote() {
+    document.getElementById('modeNote').textContent = MODE_NOTES[currentMode][contentType];
   }
 
-  // ─── Script Builder — Intelligent Generation ──────────────────────
+  function setMode(btn) {
+    document.querySelectorAll('#format-group .mode-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentMode = btn.dataset.mode;
+    updateModeNote();
+  }
+
+  function setContentType(btn) {
+    document.querySelectorAll('#ctype-group .mode-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    contentType = btn.dataset.ctype;
+    updateModeNote();
+  }
+
+  function setCreatorAge(btn) {
+    document.querySelectorAll('#age-group .mode-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    creatorAgeKey = btn.dataset.age;
+  }
+
+  // ─── Script Builder ───────────────────────────────────────────────
   function buildScript() {
     const product  = document.getElementById('scriptProduct').value.trim();
     const audience = document.getElementById('scriptAudience').value.trim() || '';
     const pain     = document.getElementById('scriptPain').value.trim();
     const result   = document.getElementById('scriptResult').value.trim();
     const cta      = document.getElementById('scriptCTA').value;
-    const mode     = currentMode;
+    const isPaid   = contentType === 'paid';
 
     if (!product || !pain || !result) {
       alert('fill in the product name, pain point, and key result — those three fields drive the whole script.');
       return;
     }
 
-    const ageKey = detectAgeGroup(audience);
-    const age    = AGE_CONTEXT[ageKey];
+    // Creator age drives voice/delivery; audience text used for context notes
+    const age        = AGE_CONTEXT[creatorAgeKey];
+    const audienceAge = detectAudienceAge(audience);
 
     let script;
-    if (mode === 'voiceover')          script = generateVoiceoverScript(product, audience, pain, result, cta, age);
-    else if (mode === 'talking_to_camera') script = generateTalkingToCameraScript(product, audience, pain, result, cta, age);
-    else                               script = generateHybridScript(product, audience, pain, result, cta, age);
+    if (currentMode === 'voiceover')          script = generateVoiceoverScript(product, audience, pain, result, cta, age, isPaid);
+    else if (currentMode === 'talking_to_camera') script = generateTalkingToCameraScript(product, audience, pain, result, cta, age, isPaid);
+    else                                          script = generateHybridScript(product, audience, pain, result, cta, age, isPaid);
 
     document.getElementById('scriptText').textContent = script;
     document.getElementById('scriptMeta').innerHTML = `
       <div class="font-mono text-xs text-moss mb-3">// script_metadata</div>
       <div class="grid sm:grid-cols-2 gap-2 text-xs font-mono">
-        <div><span class="text-cream/50">mode:</span> <span class="text-moss">${mode.replace('_',' ')}</span></div>
-        <div><span class="text-cream/50">audience_tier:</span> <span class="text-cream">${age.label}</span></div>
-        <div><span class="text-cream/50">voice:</span> <span class="text-cream">${age.voice}</span></div>
-        <div><span class="text-cream/50">delivery_note:</span> <span class="text-cream">${age.deliveryNote}</span></div>
-        <div class="sm:col-span-2"><span class="text-cream/50">killer_words_for_this_audience:</span> <span class="text-moss">${age.killer.join(' · ')}</span></div>
+        <div><span class="text-cream/50">format:</span> <span class="text-moss">${currentMode.replace(/_/g,' ')}</span></div>
+        <div><span class="text-cream/50">type:</span> <span class="text-moss">${contentType}</span></div>
+        <div><span class="text-cream/50">creator_voice:</span> <span class="text-cream">${age.label}</span></div>
+        <div><span class="text-cream/50">delivery:</span> <span class="text-cream">${age.deliveryNote}</span></div>
+        <div class="sm:col-span-2"><span class="text-cream/50">killer_words:</span> <span class="text-moss">${age.killer.join(' · ')}</span></div>
       </div>
     `;
     document.getElementById('scriptOutput').classList.remove('hidden');
     document.getElementById('scriptOutput').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 
-  // pick 3 hooks (mid-thought, quiet confession, right-person address) for output
+  // pick 3 hooks (mid-thought, quiet confession, right-person) — shuffled so different each time
   function pick3Hooks(product, pain, demo) {
-    const r = () => Math.floor(Math.random() * 5);
     return [
-      HOOKS.mid_thought[r()](product, pain, demo),
-      HOOKS.quiet_confession[r()](product, pain, demo),
-      HOOKS.right_person_address[r()](product, pain, demo),
+      rnd(shuffleArr(HOOKS.mid_thought))(product, pain, demo),
+      rnd(shuffleArr(HOOKS.quiet_confession))(product, pain, demo),
+      rnd(shuffleArr(HOOKS.right_person_address))(product, pain, demo),
     ];
   }
 
-  function generateTalkingToCameraScript(product, audience, pain, result, cta, age) {
+  function generateTalkingToCameraScript(product, audience, pain, result, cta, age, isPaid) {
     const hooks = pick3Hooks(product, pain, audience);
-    const isLongStruggle = /year|month|forever|always|never|tried everything|long time/i.test(pain);
     const setting = age.settingByMode.talking_to_camera;
 
-    const painSection = isLongStruggle
-      ? `i think what gets me is it's not even the ${pain} itself. it's the loop of it. you try something, it helps a little, then it stops, then you're back. i had genuinely convinced myself this was just the way things were going to be.`
-      : `i'd done all the standard stuff for ${pain}. everything you're supposed to do. some of it helped a little. none of it fixed it. and at a certain point you start wondering if you're just missing something obvious.`;
+    const painOptions = [
+      `i think what gets me is it's not even the ${pain} itself. it's the loop of it. you try something, it helps a little, then it stops, then you're back. i had genuinely convinced myself this was just how things were going to be.`,
+      `the thing nobody talks about with ${pain} is the mental overhead. you're constantly thinking about it, adjusting, trying different stuff, and at some point you're just exhausted. i was in that spot.`,
+      `i'd done all the standard stuff for ${pain}. everything you're supposed to do. some of it helped a little. none of it fixed it. and at a certain point you start wondering if you're just missing something obvious.`,
+      `there was a point where ${pain} wasn't even the main thing anymore — it was the frustration of knowing the thing i was trying wasn't fully working and i didn't know what else to do.`,
+    ];
+    const revealOptions = [
+      `someone mentioned ${product} and honestly i almost didn't try it. i'd been down that road. but i ordered it anyway, used it the way you're actually supposed to, and waited.`,
+      `i added ${product} and didn't tell anyone because i didn't want to make it a thing until i knew if it was actually doing something. turns out it was.`,
+      `${product} was not the first thing i tried. it was closer to the last. i went in completely skeptical. and then something different happened.`,
+      `a friend mentioned ${product} almost in passing and i almost ignored it. i'm glad i didn't. six weeks later my ${pain} situation looked completely different.`,
+    ];
+    const shiftOptions = [
+      `here's what changed: ${result}. the first thing i noticed was [your specific, honest detail — something real, not "i was amazed"]. that's when i knew it wasn't a fluke.`,
+      `${result}. and honestly the thing that told me it was working wasn't a dramatic before and after — it was just a quiet, specific thing i noticed. [add that detail here].`,
+      `the shift was ${result}. what i noticed first was [your most credible detail]. same everything else in my life. just this one thing different.`,
+    ];
 
-    const revealSection = `someone mentioned ${product} and honestly i almost didn't try it. i'd been down that road. but i ordered it anyway, used it the way you're actually supposed to, and i waited. i want to tell you what happened.`;
+    const p = rnd(painOptions);
+    const rev = rnd(revealOptions);
+    const shift = rnd(shiftOptions);
 
-    const shiftSection = `here's what changed: ${result}. the first thing i noticed was [your specific, honest detail here — not "it was amazing," something real and observable]. that's when i knew it wasn't a fluke.`;
+    if (isPaid) {
+      return `// paid · talking to camera — ${age.label}
+// setting: ${setting}
+
+// 3 hook options — pick the fastest one, you have 2 seconds
+
+HOOK OPTION A: "${hooks[0]}"
+HOOK OPTION B: "${hooks[1]}"
+HOOK OPTION C: "${hooks[2]}"
+
+─────────────────────────────────────
+
+[hook — 0:00–0:02] ← this is everything
+zero intro. result or pain in the first frame.
+delivery: ${age.deliveryNote}
+
+[pain — 0:02–0:07]
+don't explain it — validate it. they already know.
+"you know that thing with ${pain} where nothing ever fully fixes it? yeah. i was there."
+
+[product + proof — 0:07–0:18]
+"${product} is the reason ${result}. i've been using it for [x weeks]. the specific change i noticed was [your most credible detail]. that's it."
+
+[cta — 0:18–0:24]
+direct to camera, confident, one action only.
+"${cta}"
+
+─────────────────────────────────────
+format: paid · talking to camera
+length: 20–25 sec
+creator voice: ${age.tone}
+killer words: ${age.killer.join(', ')}`;
+    }
 
     return `// 3 hook options — pick the one that feels most like you
 
@@ -664,7 +789,7 @@ HOOK OPTION C (right-person address):
 "${hooks[2]}"
 
 ─────────────────────────────────────
-// talking to camera script — ${age.label}
+// talking to camera · organic — ${age.label}
 // setting: ${setting}
 
 [hook — 0:00–0:05]
@@ -672,41 +797,88 @@ straight to camera, no intro, no "hey guys." just start talking.
 delivery: ${age.deliveryNote}
 
 [the truth — 0:05–0:15]
-still direct to camera. no performance. processing out loud.
-"${painSection}"
+still direct to camera. processing out loud. no performance.
+"${p}"
 
 [the product — 0:15–0:25]
-hold ${product} up naturally, like you're just showing someone. not a demo. a mention.
-"${revealSection}"
+hold ${product} up naturally. not a demo. just showing someone.
+"${rev}"
 
 [the shift — 0:25–0:35]
-this is your proof moment. if you have a visual result — show it here.
-"${shiftSection}"
+proof moment. show the result if you can.
+"${shift}"
 
 [cta — 0:35–0:42]
-warm, direct, no pressure. like ending a conversation with a friend.
+warm, direct. ending a conversation with a friend.
 "${cta}"
 
 ─────────────────────────────────────
-format: talking to camera / diary-style
+format: talking to camera / organic / diary-style
 length: 40–45 sec
-audience tone: ${age.tone}
+creator voice: ${age.tone}
 killer words to use naturally: ${age.killer.join(', ')}
 the rule: sell ${result}. ${product} is just the vehicle.`;
   }
 
-  function generateVoiceoverScript(product, audience, pain, result, cta, age) {
+  function generateVoiceoverScript(product, audience, pain, result, cta, age, isPaid) {
     const hooks = pick3Hooks(product, pain, audience);
     const setting = age.settingByMode.voiceover;
-    const isLongStruggle = /year|month|forever|always|never|tried everything|long time/i.test(pain);
 
-    const painVO = isLongStruggle
-      ? `i genuinely thought ${pain} was just going to be a permanent thing. like i'd tried enough stuff to know that the stuff people recommend doesn't really work. and i'd kind of made peace with it.`
-      : `the thing about ${pain} is you don't realize how much space it takes up in your head until it's gone. i'd been managing it for a while. managing, not fixing.`;
+    const painVOOptions = [
+      `i genuinely thought ${pain} was just going to be a permanent thing. i'd tried enough to know that most of what people recommend doesn't fully work. i'd kind of made peace with it.`,
+      `the thing about ${pain} is you don't realize how much space it takes up until it's gone. i was managing it, not fixing it. big difference.`,
+      `i'd done the research. tried the things. some of it helped a little. i was in that annoying middle place where nothing fully worked but nothing was bad enough to be worth making a whole thing about.`,
+      `${pain} had been background noise for long enough that i'd basically accepted it. i wasn't even actively looking for a fix anymore. and then i found ${product}.`,
+    ];
+    const revealVOOptions = [
+      `and then i started using ${product}. not expecting much. i want to show you what changed because it's not subtle.`,
+      `${product} came up and i almost scrolled past it. ordered it on a whim. the results are the reason i'm making this video.`,
+      `i added ${product} to my routine and genuinely didn't tell anyone for weeks because i was waiting to see if it was real. it was real.`,
+    ];
+    const shiftVOOptions = [
+      `${result}. the specific thing i noticed first: [your honest detail]. same lifestyle, same routine, one different product.`,
+      `${result}. what surprised me was [your specific detail]. i wasn't expecting that to be the thing that shifted.`,
+      `here's what actually changed: ${result}. and the detail that convinced me it wasn't a coincidence: [your specific observation].`,
+    ];
 
-    const revealVO = `and then i started using ${product}. not expecting much. i want to show you what actually changed because it's not subtle.`;
+    const pVO = rnd(painVOOptions);
+    const revVO = rnd(revealVOOptions);
+    const shiftVO = rnd(shiftVOOptions);
 
-    const shiftVO = `${result}. the specific thing i noticed first was [your honest, specific detail]. same everything else. just this one thing different.`;
+    if (isPaid) {
+      return `// paid · voiceover — ${age.label}
+// setting: ${setting}
+
+// 3 hook options — tight, result-first
+
+HOOK OPTION A: "${hooks[0]}"
+HOOK OPTION B: "${hooks[1]}"
+HOOK OPTION C: "${hooks[2]}"
+
+─────────────────────────────────────
+
+[0:00–0:03] opening shot
+visual: extreme close-up of product or result detail — most compelling frame you have
+voiceover: your hook. no warmup.
+
+[0:03–0:10] pain validation (fast)
+visual: b-roll — everyday routine, "before" energy
+"you already know what ${pain} feels like. i'm not going to explain it. i'm going to show you what fixed it."
+
+[0:10–0:20] product + proof
+visual: product in use, result visual if possible
+"${product}. [x weeks]. ${result}. the specific thing: [your detail]."
+
+[0:20–0:25] cta
+visual: product close-up or clean shot
+"${cta}"
+
+─────────────────────────────────────
+format: paid · voiceover
+length: 22–26 sec
+creator voice: ${age.tone}
+killer words: ${age.killer.join(', ')}`;
+    }
 
     return `// 3 hook options — pick the one that fits your opening shot
 
@@ -720,50 +892,97 @@ HOOK OPTION C (right-person address):
 "${hooks[2]}"
 
 ─────────────────────────────────────
-// voiceover script — ${age.label}
+// voiceover · organic — ${age.label}
 // setting: ${setting}
 
 [opening shot — 0:00–0:05]
-visual: close-up of the product, your hands, or an aesthetic detail that pulls attention
-voiceover (your hook choice from above)
+visual: close-up of the product, your hands, or an aesthetic detail
+voiceover: your hook choice from above
 no face required — the hook does the work
 
-[pain voiceover — 0:05–0:15]
-visual: b-roll of your daily routine, morning, the "before" energy — nothing staged
-"${painVO}"
+[pain — 0:05–0:15]
+visual: b-roll of your routine, morning, the "before" energy — nothing staged
+"${pVO}"
 
-[product voiceover — 0:15–0:25]
-visual: slow product shots — texture, packaging, you using it. make it look like something people want
-"${revealVO}"
+[product — 0:15–0:25]
+visual: slow product shots — texture, packaging, you actually using it
+"${revVO}"
 
 [shift / result — 0:25–0:35]
-visual: this is your best b-roll slot — show the result visually if possible, or cut to your most compelling product moment
+visual: best b-roll slot — show the result if possible
 "${shiftVO}"
 
 [cta — 0:35–0:42]
-visual: clean product shot or your face — brief
+visual: clean product shot or quick face moment
 "${cta}"
 
 ─────────────────────────────────────
-format: voiceover / aesthetics-forward
+format: voiceover / organic / aesthetics-forward
 length: 40–45 sec
-audience tone: ${age.tone}
+creator voice: ${age.tone}
 killer words to use naturally: ${age.killer.join(', ')}
-the rule: the visuals do half the selling. the voiceover just has to be honest.`;
+the rule: the visuals do half the work. the voiceover just has to be honest.`;
   }
 
-  function generateHybridScript(product, audience, pain, result, cta, age) {
+  function generateHybridScript(product, audience, pain, result, cta, age, isPaid) {
     const hooks = pick3Hooks(product, pain, audience);
     const setting = age.settingByMode.hybrid;
-    const isLongStruggle = /year|month|forever|always|never|tried everything|long time/i.test(pain);
 
-    const talkPain = isLongStruggle
-      ? `okay real talk — i was dealing with ${pain} for way longer than i should have been. like i'd genuinely tried the things. and either they did nothing or they helped for two weeks and then stopped. i was fully in the "this is just my life now" mentality.`
-      : `here's the thing about ${pain} nobody says — it's not just the problem itself, it's the mental overhead. you're constantly thinking about it, trying to manage it, looking for whatever fixes it. it's exhausting.`;
+    const talkPainOptions = [
+      `okay real talk — i was dealing with ${pain} for way longer than i should have been. i'd tried the things. either they did nothing or they helped for two weeks and stopped. i was fully in the "this is just my life now" mentality.`,
+      `the annoying thing about ${pain} isn't even the problem itself — it's the cycle. try something, it kind of helps, it stops helping, you're back. i lived in that loop for a while.`,
+      `here's what nobody says about ${pain}: the frustrating part is that most stuff marketed for it does something. just not enough. you end up in this forever state of "kind of managed." i was done with that.`,
+      `i don't know how long you've been dealing with ${pain} but if it's anything like what i went through — the googling, the trying things, the half-results — i need you to hear this.`,
+    ];
+    const voRevealOptions = [
+      `i've been using ${product} for [x weeks] and i'm going to show you what changed. not hype. just what i actually noticed.`,
+      `this is ${product}. i'm going to show you my [x weeks] with it and let you draw your own conclusions.`,
+      `${product} is what i've been using. here's what it actually looks like to add it to a real routine.`,
+    ];
+    const talkShiftOptions = [
+      `${result}. i know that sounds like the thing i'm supposed to say but it's also just true. the specific thing that hit me first was [your honest detail]. that's when i stopped waiting for it to wear off.`,
+      `the shift was ${result}. what convinced me it wasn't a placebo: [your specific detail]. same everything. just this one thing different.`,
+      `${result} — and not in a vague way. the specific thing i noticed was [your detail]. i wasn't expecting it to work that way. but it did.`,
+    ];
 
-    const voReveal = `i've been using ${product} for [x weeks] and i'm going to show you what changed. not hype. just what i actually noticed.`;
+    const tp = rnd(talkPainOptions);
+    const voRev = rnd(voRevealOptions);
+    const ts = rnd(talkShiftOptions);
 
-    const talkShift = `${result}. i know that sounds like the part i'm supposed to say but it's also just true. the specific thing that hit me first was [your honest, specific detail]. that's when i stopped waiting for it to wear off.`;
+    if (isPaid) {
+      return `// paid · hybrid — ${age.label}
+// setting: ${setting}
+
+// 3 hook options — pick fastest, result-first
+
+HOOK OPTION A: "${hooks[0]}"
+HOOK OPTION B: "${hooks[1]}"
+HOOK OPTION C: "${hooks[2]}"
+
+─────────────────────────────────────
+
+[0:00–0:04] talking to camera — hook
+zero intro. straight in.
+delivery: ${age.deliveryNote}
+
+[0:04–0:10] voiceover — pain
+visual: fast b-roll, no slow shots
+"${pain}. you already know. i'm not going to explain it."
+
+[0:10–0:20] voiceover — product + proof
+visual: product in use, result visual
+"${product}. [x weeks]. ${result}. [your specific detail]."
+
+[0:20–0:26] talking to camera — close
+"${cta}"
+
+─────────────────────────────────────
+format: paid · hybrid
+length: 22–28 sec
+creator voice: ${age.tone}
+killer words: ${age.killer.join(', ')}
+the rule: camera = trust. b-roll = proof.`;
+    }
 
     return `// 3 hook options — pick the one that feels right for your opening
 
@@ -777,32 +996,32 @@ HOOK OPTION C (right-person address):
 "${hooks[2]}"
 
 ─────────────────────────────────────
-// hybrid script — ${age.label}
+// hybrid · organic — ${age.label}
 // setting: ${setting}
 
-[talking to camera — 0:00–0:08]
-direct to camera, no staging. start with your hook.
+[talking to camera — 0:00–0:10]
+direct to camera, no staging. start with your hook choice above.
 delivery: ${age.deliveryNote}
-"${talkPain}"
+"${tp}"
 
-[voiceover over b-roll — 0:08–0:18]
+[voiceover over b-roll — 0:10–0:22]
 visual: product shots, close-ups, you using it in your real environment — not a studio
-"${voReveal}"
+"${voRev}"
 
-[talking to camera — 0:18–0:30]
-back to direct camera. this is your most personal moment. look like you're telling a friend.
-"${talkShift}"
+[talking to camera — 0:22–0:34]
+back to direct camera. most personal moment. tell a friend.
+"${ts}"
 
-[voiceover + visual cta — 0:30–0:38]
-visual: product in frame, or your face, or both
+[voiceover + visual cta — 0:34–0:42]
+visual: product in frame or face — brief, warm
 "${cta}"
 
 ─────────────────────────────────────
-format: hybrid (talking to camera + voiceover b-roll)
-length: 38–45 sec
-audience tone: ${age.tone}
+format: hybrid · organic (talking to camera + voiceover b-roll)
+length: 40–44 sec
+creator voice: ${age.tone}
 killer words to use naturally: ${age.killer.join(', ')}
-the rule: the talking-to-camera moments are for trust. the b-roll is for proof.`;
+the rule: camera moments = trust. b-roll = proof. keep them distinct.`;
   }
 
   function copyScript() {
