@@ -129,7 +129,7 @@
           <div id="hookStyleGuide" class="mt-2 font-mono text-[11px] text-moss">// best when: you have personality on camera and want to drop viewers into the middle of a thought</div>
         </div>
         <div class="flex items-end">
-          <button class="btn-primary w-full" onclick="generateHooks()">→ Generate hooks</button>
+          <button class="btn-primary w-full" onclick="generateHooks(this)">→ Generate hooks</button>
         </div>
       </div>
 
@@ -208,7 +208,7 @@
           </select>
         </div>
         <div class="md:col-span-2">
-          <button class="btn-primary" onclick="buildScript()">→ Build my script</button>
+          <button class="btn-primary" onclick="buildScript(this)">→ Build my script</button>
         </div>
       </div>
 
@@ -528,11 +528,42 @@
     ],
   };
 
-  function generateHooks() {
-    const product = document.getElementById('hookProduct').value.trim() || 'this product';
-    const pain    = document.getElementById('hookPain').value.trim()    || 'this problem';
-    const demo    = document.getElementById('hookDemo').value.trim()    || '';
-    const style   = document.getElementById('hookStyle').value;
+  // ─── Input polisher ──────────────────────────────────────────────
+  // Calls the /api/polish-inputs route to fix grammar before generation.
+  // Degrades gracefully — on any error the raw inputs are returned unchanged.
+  async function polishInputs(fields) {
+    try {
+      const resp = await fetch('/api/polish-inputs', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ fields }),
+      });
+      if (!resp.ok) return fields;
+      const data = await resp.json();
+      return data.fields ?? fields;
+    } catch {
+      return fields;
+    }
+  }
+
+  async function generateHooks(btn) {
+    const rawProduct = document.getElementById('hookProduct').value.trim() || 'this product';
+    const rawPain    = document.getElementById('hookPain').value.trim()    || 'this problem';
+    const rawDemo    = document.getElementById('hookDemo').value.trim()    || '';
+    const style      = document.getElementById('hookStyle').value;
+
+    const origText = btn.textContent;
+    btn.textContent = '// polishing inputs...';
+    btn.disabled = true;
+
+    const cleaned = await polishInputs({ product: rawProduct, pain: rawPain, demo: rawDemo });
+    const product = cleaned.product || rawProduct;
+    const pain    = cleaned.pain    || rawPain;
+    const demo    = cleaned.demo    || rawDemo;
+
+    btn.textContent = origText;
+    btn.disabled = false;
+
     // Shuffle all templates and pick 5 — different result every single click
     const templates = shuffleArr(HOOKS[style]);
     const hooks = templates.slice(0, 5).map(fn => fn(product, pain, demo));
@@ -684,25 +715,40 @@
   }
 
   // ─── Script Builder ───────────────────────────────────────────────
-  function buildScript() {
-    const product  = document.getElementById('scriptProduct').value.trim();
-    const audience = document.getElementById('scriptAudience').value.trim() || '';
-    const pain     = document.getElementById('scriptPain').value.trim();
-    const result   = document.getElementById('scriptResult').value.trim();
-    const cta      = document.getElementById('scriptCTA').value;
-    const isPaid   = contentType === 'paid';
+  async function buildScript(btn) {
+    const rawProduct  = document.getElementById('scriptProduct').value.trim();
+    const rawAudience = document.getElementById('scriptAudience').value.trim() || '';
+    const rawPain     = document.getElementById('scriptPain').value.trim();
+    const rawResult   = document.getElementById('scriptResult').value.trim();
+    const cta         = document.getElementById('scriptCTA').value;
+    const isPaid      = contentType === 'paid';
 
-    if (!product || !pain || !result) {
+    if (!rawProduct || !rawPain || !rawResult) {
       alert('fill in the product name, pain point, and key result — those three fields drive the whole script.');
       return;
     }
 
+    const origText = btn.textContent;
+    btn.textContent = '// polishing inputs...';
+    btn.disabled = true;
+
+    const fieldsToClean = { product: rawProduct, pain: rawPain, result: rawResult };
+    if (rawAudience) fieldsToClean.audience = rawAudience;
+
+    const cleaned = await polishInputs(fieldsToClean);
+    const product  = cleaned.product  || rawProduct;
+    const audience = cleaned.audience || rawAudience;
+    const pain     = cleaned.pain     || rawPain;
+    const result   = cleaned.result   || rawResult;
+
+    btn.textContent = origText;
+    btn.disabled = false;
+
     // Creator age drives voice/delivery; audience text used for context notes
-    const age        = AGE_CONTEXT[creatorAgeKey];
-    const audienceAge = detectAudienceAge(audience);
+    const age = AGE_CONTEXT[creatorAgeKey];
 
     let script;
-    if (currentMode === 'voiceover')          script = generateVoiceoverScript(product, audience, pain, result, cta, age, isPaid);
+    if (currentMode === 'voiceover')              script = generateVoiceoverScript(product, audience, pain, result, cta, age, isPaid);
     else if (currentMode === 'talking_to_camera') script = generateTalkingToCameraScript(product, audience, pain, result, cta, age, isPaid);
     else                                          script = generateHybridScript(product, audience, pain, result, cta, age, isPaid);
 
