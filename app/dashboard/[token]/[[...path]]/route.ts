@@ -1,7 +1,9 @@
-import { kv } from '@vercel/kv';
+import { Redis } from '@upstash/redis';
 import { readFile } from 'fs/promises';
 import path from 'path';
 import { NextRequest } from 'next/server';
+
+const redis = Redis.fromEnv();
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -12,7 +14,7 @@ export async function GET(
 ) {
   const { token, path: pathSegments } = await params;
 
-  const client = await kv.get(`client:${token}`);
+  const client = await redis.get(`client:${token}`);
   if (!client) {
     return new Response('Not found', { status: 404 });
   }

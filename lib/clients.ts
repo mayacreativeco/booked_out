@@ -1,4 +1,6 @@
-import { kv } from '@vercel/kv';
+import { Redis } from '@upstash/redis';
+
+const redis = Redis.fromEnv();
 
 export type Client = {
   name: string;
@@ -7,7 +9,7 @@ export type Client = {
 };
 
 export async function getClientByToken(token: string): Promise<Client | null> {
-  return kv.get<Client>(`client:${token}`);
+  return redis.get<Client>(`client:${token}`);
 }
 
 export async function createClient(
@@ -20,7 +22,7 @@ export async function createClient(
     createdAt: new Date().toISOString(),
     data,
   };
-  await kv.set(`client:${token}`, client);
+  await redis.set(`client:${token}`, client);
   const url = `https://booked-out.mayacreativeco.com/dashboard/${token}`;
   return { token, url };
 }
