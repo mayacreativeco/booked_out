@@ -2,6 +2,7 @@ import { NextRequest } from 'next/server';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
+export const maxDuration = 60;
 
 const AUDIT_SYSTEM = `You are a senior contract reviewer specializing in UGC creator agreements. You review contracts on behalf of independent creators (women, $0-15K/month, mostly working with DTC brands) to spot clauses that are predatory, ambiguous, or missing standard creator protections.
 
@@ -84,8 +85,12 @@ export async function POST(req: NextRequest) {
   }
 
   try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 55_000);
+
     const resp = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
+      signal: controller.signal,
       headers: {
         'x-api-key': apiKey,
         'anthropic-version': '2023-06-01',
@@ -93,11 +98,12 @@ export async function POST(req: NextRequest) {
       },
       body: JSON.stringify({
         model: 'claude-haiku-4-5-20251001',
-        max_tokens: 4096,
+        max_tokens: 8192,
         system: AUDIT_SYSTEM,
         messages: [{ role: 'user', content: `Review this contract and return the audit JSON:\n\n${contract}` }],
       }),
     });
+    clearTimeout(timeout);
 
     if (!resp.ok) {
       const err = await resp.text();
