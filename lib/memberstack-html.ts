@@ -76,18 +76,18 @@ function buildGateHtml(): string {
       <div style="font-family:'Space Grotesk',system-ui,sans-serif;font-size:20px;font-weight:700;color:#1B3A2F;margin-bottom:4px;">Annual Access</div>
       <div style="font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:700;color:#1B3A2F;margin-bottom:8px;">$397<span style="font-size:14px;font-weight:400">/yr</span></div>
       <div style="font-size:13px;color:#4A5C50;margin-bottom:16px;">Full access to all 6 stages + bonuses. Best value.</div>
-      <button onclick="(function(){var ms=window.$memberstackDom;if(!ms){alert('Loading — try again in a moment.');return;}ms.purchasePlansWithCheckout({priceId:'prc_annual_placeholder'});})()" style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:#F5F0E4;background:#1B3A2F;padding:12px 28px;border-radius:4px;border:none;cursor:pointer;width:100%;">&#8594; get_annual_access</button>
+      <button onclick="(function(){var ms=window.$memberstackDom;if(!ms){alert('Loading — try again in a moment.');return;}ms.purchasePlansWithCheckout({planId:'pln_booked-out-kit-annual-1w3h0ueu'});})()" style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:#F5F0E4;background:#1B3A2F;padding:12px 28px;border-radius:4px;border:none;cursor:pointer;width:100%;">&#8594; get_annual_access</button>
     </div>
     <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:24px;">
       <div style="flex:1;min-width:180px;background:#F5F0E4;border:1px solid #D8D0BE;border-radius:4px;padding:16px;text-align:center;">
         <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#4A5C50;margin-bottom:6px;">monthly</div>
         <div style="font-family:'Space Grotesk',system-ui,sans-serif;font-size:18px;font-weight:700;color:#1B3A2F;margin-bottom:12px;">$49<span style="font-size:12px;font-weight:400">/mo</span></div>
-        <button onclick="(function(){var ms=window.$memberstackDom;if(!ms){alert('Loading — try again in a moment.');return;}ms.purchasePlansWithCheckout({priceId:'prc_monthly_placeholder'});})()" style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#1B3A2F;background:transparent;border:1px solid #1B3A2F;padding:8px 16px;border-radius:4px;cursor:pointer;width:100%;">monthly plan</button>
+        <button onclick="(function(){var ms=window.$memberstackDom;if(!ms){alert('Loading — try again in a moment.');return;}ms.purchasePlansWithCheckout({planId:'pln_booked-out-kit-monthly-t7am03so'});})()" style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#1B3A2F;background:transparent;border:1px solid #1B3A2F;padding:8px 16px;border-radius:4px;cursor:pointer;width:100%;">monthly plan</button>
       </div>
       <div style="flex:1;min-width:180px;background:#F5F0E4;border:1px solid #D8D0BE;border-radius:4px;padding:16px;text-align:center;">
         <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#4A7C59;margin-bottom:6px;">founding · locked in</div>
         <div style="font-family:'Space Grotesk',system-ui,sans-serif;font-size:18px;font-weight:700;color:#1B3A2F;margin-bottom:12px;">$197<span style="font-size:12px;font-weight:400">/yr</span></div>
-        <button onclick="(function(){var ms=window.$memberstackDom;if(!ms){alert('Loading — try again in a moment.');return;}ms.purchasePlansWithCheckout({priceId:'prc_founding_placeholder'});})()" style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#1B3A2F;background:transparent;border:1px solid #1B3A2F;padding:8px 16px;border-radius:4px;cursor:pointer;width:100%;">founding price</button>
+        <button onclick="(function(){var ms=window.$memberstackDom;if(!ms){alert('Loading — try again in a moment.');return;}ms.purchasePlansWithCheckout({planId:'pln_booked-out-kit-founding-annual-qrar03w5'});})()" style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#1B3A2F;background:transparent;border:1px solid #1B3A2F;padding:8px 16px;border-radius:4px;cursor:pointer;width:100%;">founding price</button>
       </div>
     </div>
     <div style="margin-top:8px;"><a href="/dashboard/00_start.html" style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#4A7C59;text-decoration:none;">or access the free start guide &#8594;</a></div>
