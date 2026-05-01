@@ -547,36 +547,44 @@
   }
 
   async function generateHooks(btn) {
-    const rawProduct = document.getElementById('hookProduct').value.trim() || 'this product';
-    const rawPain    = document.getElementById('hookPain').value.trim()    || 'this problem';
-    const rawDemo    = document.getElementById('hookDemo').value.trim()    || '';
-    const style      = document.getElementById('hookStyle').value;
+    const product = document.getElementById('hookProduct').value.trim() || 'this product';
+    const pain    = document.getElementById('hookPain').value.trim()    || 'this problem';
+    const demo    = document.getElementById('hookDemo').value.trim()    || '';
+    const style   = document.getElementById('hookStyle').value;
 
     const origText = btn.textContent;
-    btn.textContent = '// polishing inputs...';
+    btn.textContent = '// generating...';
     btn.disabled = true;
 
-    const cleaned = await polishInputs({ product: rawProduct, pain: rawPain, demo: rawDemo });
-    const product = cleaned.product || rawProduct;
-    const pain    = cleaned.pain    || rawPain;
-    const demo    = cleaned.demo    || rawDemo;
+    let hooks;
+    try {
+      const resp = await fetch('/api/generate-content', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ type: 'hooks', product, pain, demo, style, creatorAgeKey }),
+      });
+      const data = await resp.json();
+      if (data.error || !Array.isArray(data.hooks) || !data.hooks.length) throw new Error('fallback');
+      hooks = data.hooks;
+    } catch {
+      // Silent fallback to local templates
+      const templates = shuffleArr(HOOKS[style]);
+      hooks = templates.slice(0, 5).map(fn => fn(product, pain, demo));
+    }
 
     btn.textContent = origText;
     btn.disabled = false;
-
-    // Shuffle all templates and pick 5 — different result every single click
-    const templates = shuffleArr(HOOKS[style]);
-    const hooks = templates.slice(0, 5).map(fn => fn(product, pain, demo));
 
     const list = document.getElementById('hookList');
     list.innerHTML = '';
     hooks.forEach((hook, i) => {
       const div = document.createElement('div');
       div.className = 'bg-creamDeep border border-line rounded-sharp p-4 flex items-start justify-between gap-4';
+      const safe = hook.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
       div.innerHTML = `
         <div class="flex-1">
           <div class="font-mono text-[10px] text-moss mb-1">hook_${String(i+1).padStart(2,'0')}</div>
-          <p class="text-sm text-ink leading-relaxed" id="hook-text-${i}">${hook}</p>
+          <p class="text-sm text-ink leading-relaxed" id="hook-text-${i}">${safe}</p>
         </div>
         <button class="flex-shrink-0 text-xs font-mono text-forest border border-forest px-3 py-1.5 rounded-sharp hover:bg-forest hover:text-cream transition" onclick="copyHook(${i})">Copy</button>
       `;
@@ -716,42 +724,50 @@
 
   // ─── Script Builder ───────────────────────────────────────────────
   async function buildScript(btn) {
-    const rawProduct  = document.getElementById('scriptProduct').value.trim();
-    const rawAudience = document.getElementById('scriptAudience').value.trim() || '';
-    const rawPain     = document.getElementById('scriptPain').value.trim();
-    const rawResult   = document.getElementById('scriptResult').value.trim();
-    const cta         = document.getElementById('scriptCTA').value;
-    const isPaid      = contentType === 'paid';
+    const product  = document.getElementById('scriptProduct').value.trim();
+    const audience = document.getElementById('scriptAudience').value.trim() || '';
+    const pain     = document.getElementById('scriptPain').value.trim();
+    const result   = document.getElementById('scriptResult').value.trim();
+    const cta      = document.getElementById('scriptCTA').value;
+    const isPaid   = contentType === 'paid';
 
-    if (!rawProduct || !rawPain || !rawResult) {
+    if (!product || !pain || !result) {
       alert('fill in the product name, pain point, and key result — those three fields drive the whole script.');
       return;
     }
 
     const origText = btn.textContent;
-    btn.textContent = '// polishing inputs...';
+    btn.textContent = '// generating...';
     btn.disabled = true;
 
-    const fieldsToClean = { product: rawProduct, pain: rawPain, result: rawResult };
-    if (rawAudience) fieldsToClean.audience = rawAudience;
-
-    const cleaned = await polishInputs(fieldsToClean);
-    const product  = cleaned.product  || rawProduct;
-    const audience = cleaned.audience || rawAudience;
-    const pain     = cleaned.pain     || rawPain;
-    const result   = cleaned.result   || rawResult;
+    let script;
+    try {
+      const resp = await fetch('/api/generate-content', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          type: 'script',
+          product, audience, pain, result, cta,
+          mode: currentMode,
+          contentType,
+          creatorAgeKey,
+        }),
+      });
+      const data = await resp.json();
+      if (data.error || !data.script) throw new Error('fallback');
+      script = data.script;
+    } catch {
+      // Silent fallback to local templates
+      const age = AGE_CONTEXT[creatorAgeKey];
+      if (currentMode === 'voiceover')              script = generateVoiceoverScript(product, audience, pain, result, cta, age, isPaid);
+      else if (currentMode === 'talking_to_camera') script = generateTalkingToCameraScript(product, audience, pain, result, cta, age, isPaid);
+      else                                          script = generateHybridScript(product, audience, pain, result, cta, age, isPaid);
+    }
 
     btn.textContent = origText;
     btn.disabled = false;
 
-    // Creator age drives voice/delivery; audience text used for context notes
     const age = AGE_CONTEXT[creatorAgeKey];
-
-    let script;
-    if (currentMode === 'voiceover')              script = generateVoiceoverScript(product, audience, pain, result, cta, age, isPaid);
-    else if (currentMode === 'talking_to_camera') script = generateTalkingToCameraScript(product, audience, pain, result, cta, age, isPaid);
-    else                                          script = generateHybridScript(product, audience, pain, result, cta, age, isPaid);
-
     document.getElementById('scriptText').textContent = script;
     document.getElementById('scriptMeta').innerHTML = `
       <div class="font-mono text-xs text-moss mb-3">// script_metadata</div>
