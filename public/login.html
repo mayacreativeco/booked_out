@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Log In — Booked Out</title>
+<meta name="robots" content="noindex, nofollow" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<!-- Memberstack App ID: app_cmoncg0gk00310swu5tew967f | Public Key: pk_c06d36f5d1fa05e0db79 -->
+<script defer data-memberstack-app="app_cmoncg0gk00310swu5tew967f" src="https://static.memberstack.com/scripts/v1/memberstack.js"></script>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = { theme: { extend: {
+    fontFamily: { display: ['Space Grotesk','system-ui','sans-serif'], sans: ['Inter','system-ui','sans-serif'], mono: ['JetBrains Mono','monospace'] },
+    colors: { cream:'#F5F0E4', creamDeep:'#EDE5D2', forest:'#1B3A2F', forestDeep:'#0F2620', forestLight:'#2D5742', moss:'#4A7C59', ink:'#0A1A12', ash:'#4A5C50', line:'#D8D0BE' },
+  }}}
+</script>
+<style>
+  html{scroll-behavior:smooth}
+  body{font-family:'Inter',system-ui,sans-serif;background-color:#F5F0E4;color:#0A1A12}
+  .font-display{font-family:'Space Grotesk',system-ui,sans-serif;letter-spacing:-0.02em}
+  .font-mono{font-family:'JetBrains Mono',monospace}
+  .checkerboard-mini{background-image:linear-gradient(45deg,#1B3A2F 25%,transparent 25%),linear-gradient(-45deg,#1B3A2F 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#1B3A2F 75%),linear-gradient(-45deg,transparent 75%,#1B3A2F 75%);background-size:8px 8px;background-position:0 0,0 4px,4px -4px,-4px 0}
+  .checkerboard-cream{background-image:linear-gradient(45deg,#F5F0E4 25%,transparent 25%),linear-gradient(-45deg,#F5F0E4 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#F5F0E4 75%),linear-gradient(-45deg,transparent 75%,#F5F0E4 75%);background-size:12px 12px;background-position:0 0,0 6px,6px -6px,-6px 0}
+  .rounded-sharp{border-radius:4px}
+  .field{width:100%;background:#fff;border:1.5px solid #D8D0BE;border-radius:4px;padding:11px 14px;font-family:'Inter',sans-serif;font-size:14px;color:#0A1A12;transition:border-color 0.15s;box-sizing:border-box}
+  .field:focus{outline:none;border-color:#1B3A2F;box-shadow:0 0 0 3px rgba(27,58,47,0.08)}
+  .field-label{display:block;font-family:'JetBrains Mono',monospace;font-size:11px;color:#4A5C50;margin-bottom:6px;letter-spacing:0.01em}
+  .btn-primary{display:block;width:100%;text-align:center;background:#1B3A2F;color:#F5F0E4;padding:12px 20px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;transition:background 0.15s;cursor:pointer;border:none;letter-spacing:0.01em}
+  .btn-primary:hover{background:#0F2620}
+  .btn-primary:disabled{opacity:0.55;cursor:not-allowed}
+  .err{display:none;background:#FEF2F2;border:1px solid #FECACA;border-radius:4px;padding:10px 14px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#B91C1C;margin-top:12px}
+</style>
+</head>
+<body class="bg-cream text-ink min-h-screen flex flex-col">
+
+<div class="bg-forestDeep text-cream border-b border-forest">
+  <div class="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between text-xs font-mono">
+    <div class="flex items-center gap-4"><span class="text-moss">●</span><span>Maya_Creative_Co / booked_out</span></div>
+    <div class="hidden sm:flex items-center gap-4 text-cream/60"><span>session: login</span></div>
+  </div>
+</div>
+
+<header class="border-b border-line bg-cream">
+  <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="/dashboard/" class="flex items-center gap-3">
+      <div class="w-8 h-8 checkerboard-mini rounded-sharp"></div>
+      <div class="leading-tight">
+        <div class="font-display font-bold text-forest text-base">Booked Out</div>
+        <div class="font-mono text-[10px] text-ash">command_center</div>
+      </div>
+    </a>
+    <a href="https://CHECKOUT_URL_PLACEHOLDER" class="text-xs font-mono text-forest border border-forest px-3 py-1.5 rounded-sharp hover:bg-forest hover:text-cream transition">subscribe →</a>
+  </div>
+</header>
+
+<main class="flex-1 flex items-center justify-center px-6 py-16">
+  <div class="w-full max-w-md">
+    <div class="mb-8">
+      <p class="font-mono text-xs text-moss mb-3">// auth · login</p>
+      <h1 class="font-display text-4xl font-bold text-forest mb-2">Welcome back, operator.</h1>
+      <p class="text-ash">Sign in to your command center.</p>
+    </div>
+
+    <div class="bg-cream border-2 border-forest rounded-sharp p-6">
+      <div class="space-y-4 mb-5">
+        <div>
+          <label class="field-label" for="email">email_address</label>
+          <input class="field" id="email" type="email" autocomplete="email" placeholder="you@example.com" />
+        </div>
+        <div>
+          <label class="field-label" for="password">password</label>
+          <input class="field" id="password" type="password" autocomplete="current-password" placeholder="••••••••" />
+        </div>
+      </div>
+
+      <button class="btn-primary" id="loginBtn">→ sign_in</button>
+      <div class="err" id="loginErr">// error — check your email and password</div>
+    </div>
+
+    <div class="mt-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-sm font-mono text-ash">
+      <a href="/forgot-password.html" class="text-forest hover:underline text-xs">forgot password →</a>
+      <span class="text-xs">No account? <a href="https://CHECKOUT_URL_PLACEHOLDER" class="text-forest hover:underline">subscribe to get access</a></span>
+    </div>
+  </div>
+</main>
+
+<footer class="bg-forestDeep text-cream border-t border-forest">
+  <div class="max-w-6xl mx-auto px-6 py-8">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-6 h-6 checkerboard-cream rounded-sharp"></div>
+        <span class="font-mono text-xs text-cream/70">maya_creative_co / booked_out</span>
+      </div>
+      <div class="font-mono text-[11px] text-cream/50">© 2026 Maya Creative Co · command center · built for UGC operators</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function() {
+  var btn = document.getElementById('loginBtn');
+  var err = document.getElementById('loginErr');
+
+  // If already logged in, redirect to dashboard
+  var checkInterval = setInterval(function() {
+    if (!window.$memberstackDom) return;
+    clearInterval(checkInterval);
+    window.$memberstackDom.getCurrentMember().then(function(result) {
+      if (result.data) window.location.href = '/dashboard/';
+    });
+  }, 50);
+
+  btn.addEventListener('click', async function() {
+    var email = document.getElementById('email').value.trim();
+    var password = document.getElementById('password').value;
+    err.style.display = 'none';
+
+    if (!email || !password) {
+      err.textContent = '// email and password are required';
+      err.style.display = 'block';
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = '// signing in...';
+
+    try {
+      var result = await window.$memberstackDom.loginMemberEmailPassword({ email, password });
+      if (result.error) throw new Error(result.error.message);
+      window.location.href = '/dashboard/';
+    } catch (e) {
+      err.textContent = '// ' + (e.message || 'invalid email or password');
+      err.style.display = 'block';
+      btn.disabled = false;
+      btn.textContent = '→ sign_in';
+    }
+  });
+
+  // Allow Enter key
+  document.getElementById('password').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') btn.click();
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Account — Booked Out</title>
+<meta name="robots" content="noindex, nofollow" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<!-- Memberstack App ID: app_cmoncg0gk00310swu5tew967f | Public Key: pk_c06d36f5d1fa05e0db79 -->
+<script defer data-memberstack-app="app_cmoncg0gk00310swu5tew967f" src="https://static.memberstack.com/scripts/v1/memberstack.js"></script>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = { theme: { extend: {
+    fontFamily: { display: ['Space Grotesk','system-ui','sans-serif'], sans: ['Inter','system-ui','sans-serif'], mono: ['JetBrains Mono','monospace'] },
+    colors: { cream:'#F5F0E4', creamDeep:'#EDE5D2', forest:'#1B3A2F', forestDeep:'#0F2620', forestLight:'#2D5742', moss:'#4A7C59', ink:'#0A1A12', ash:'#4A5C50', line:'#D8D0BE' },
+  }}}
+</script>
+<style>
+  html{scroll-behavior:smooth}
+  body{font-family:'Inter',system-ui,sans-serif;background-color:#F5F0E4;color:#0A1A12;visibility:hidden}
+  .font-display{font-family:'Space Grotesk',system-ui,sans-serif;letter-spacing:-0.02em}
+  .font-mono{font-family:'JetBrains Mono',monospace}
+  .checkerboard-mini{background-image:linear-gradient(45deg,#1B3A2F 25%,transparent 25%),linear-gradient(-45deg,#1B3A2F 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#1B3A2F 75%),linear-gradient(-45deg,transparent 75%,#1B3A2F 75%);background-size:8px 8px;background-position:0 0,0 4px,4px -4px,-4px 0}
+  .checkerboard-cream{background-image:linear-gradient(45deg,#F5F0E4 25%,transparent 25%),linear-gradient(-45deg,#F5F0E4 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#F5F0E4 75%),linear-gradient(-45deg,transparent 75%,#F5F0E4 75%);background-size:12px 12px;background-position:0 0,0 6px,6px -6px,-6px 0}
+  .rounded-sharp{border-radius:4px}
+  .btn-ghost{display:inline-flex;align-items:center;gap:8px;background:transparent;color:#1B3A2F;padding:10px 18px;border:1px solid #1B3A2F;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:12px;transition:all 0.15s;cursor:pointer;text-decoration:none}
+  .btn-ghost:hover{background:#1B3A2F;color:#F5F0E4}
+  .btn-primary{display:inline-flex;align-items:center;gap:8px;background:#1B3A2F;color:#F5F0E4;padding:10px 18px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;transition:background 0.15s;cursor:pointer;border:none;text-decoration:none}
+  .btn-primary:hover{background:#0F2620}
+  .row{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid #D8D0BE}
+  .row:last-child{border-bottom:none;padding-bottom:0}
+  .row-label{font-family:'JetBrains Mono',monospace;font-size:11px;color:#4A5C50}
+  .row-value{font-family:'JetBrains Mono',monospace;font-size:12px;color:#0A1A12;font-weight:500}
+  .badge-active{background:#F0FDF4;color:#166534;border:1px solid #BBF7D0;padding:2px 8px;border-radius:4px;font-size:10px}
+  .badge-cancelled{background:#FEF2F2;color:#B91C1C;border:1px solid #FECACA;padding:2px 8px;border-radius:4px;font-size:10px}
+  .badge-pastdue{background:#FFFBEB;color:#92400E;border:1px solid #FCD34D;padding:2px 8px;border-radius:4px;font-size:10px}
+</style>
+</head>
+<body class="bg-cream text-ink min-h-screen flex flex-col">
+
+<div class="bg-forestDeep text-cream border-b border-forest">
+  <div class="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between text-xs font-mono">
+    <div class="flex items-center gap-4"><span class="text-moss">●</span><span>Maya_Creative_Co / booked_out</span></div>
+    <div class="hidden sm:flex items-center gap-4 text-cream/60"><span>session: active</span><span id="topEmail"></span></div>
+  </div>
+</div>
+
+<header class="border-b border-line bg-cream">
+  <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="/dashboard/" class="flex items-center gap-3">
+      <div class="w-8 h-8 checkerboard-mini rounded-sharp"></div>
+      <div class="leading-tight">
+        <div class="font-display font-bold text-forest text-base">Booked Out</div>
+        <div class="font-mono text-[10px] text-ash">command_center</div>
+      </div>
+    </a>
+    <nav class="hidden lg:flex items-center gap-1 font-mono text-xs">
+      <a href="/dashboard/" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">hub</a>
+      <a href="/dashboard/00_start.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">start</a>
+      <a href="/dashboard/01_get-clear.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">01_clear</a>
+      <a href="/dashboard/02_get-visible.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">02_visible</a>
+      <a href="/dashboard/03_get-paid.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">03_paid</a>
+      <a href="/dashboard/04_get-booked.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">04_booked</a>
+      <a href="/dashboard/05_get-consistent.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">05_consistent</a>
+      <a href="/dashboard/06_scale-up.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">06_scale</a>
+    </nav>
+    <a href="mailto:support@mayaherring.com" class="hidden sm:inline-block text-xs font-mono text-forest border border-forest px-3 py-1.5 rounded-sharp hover:bg-forest hover:text-cream transition">support</a>
+  </div>
+</header>
+
+<main class="flex-1 max-w-4xl mx-auto w-full px-6 py-14">
+  <div class="mb-10">
+    <p class="font-mono text-xs text-moss mb-2">// account · subscription_status</p>
+    <h1 class="font-display text-4xl font-bold text-forest">Your account.</h1>
+  </div>
+
+  <div class="grid md:grid-cols-2 gap-6">
+
+    <!-- Subscription info -->
+    <div class="bg-cream border-2 border-forest rounded-sharp p-6">
+      <div class="flex items-center justify-between mb-5 pb-4 border-b border-line">
+        <span class="font-mono text-xs text-moss">subscription_status.run()</span>
+        <span id="statusBadge" class="font-mono badge-active text-xs">active</span>
+      </div>
+      <div class="space-y-0">
+        <div class="row">
+          <span class="row-label">email</span>
+          <span class="row-value" id="memberEmail">—</span>
+        </div>
+        <div class="row">
+          <span class="row-label">plan</span>
+          <span class="row-value" id="memberPlan">—</span>
+        </div>
+        <div class="row">
+          <span class="row-label">next_billing</span>
+          <span class="row-value" id="memberBilling">—</span>
+        </div>
+        <div class="row">
+          <span class="row-label">status</span>
+          <span class="row-value" id="memberStatus">—</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="space-y-4">
+      <div class="bg-creamDeep border border-line rounded-sharp p-5">
+        <p class="font-mono text-xs text-moss mb-1">// manage_subscription</p>
+        <h3 class="font-display font-bold text-forest mb-2">Billing & subscription</h3>
+        <p class="text-sm text-ash mb-4">Update payment method, switch plans, pause, or cancel — all in the billing portal.</p>
+        <a id="portalLink" href="#" target="_blank" class="btn-primary text-sm">→ manage_subscription</a>
+      </div>
+
+      <div class="bg-creamDeep border border-line rounded-sharp p-5">
+        <p class="font-mono text-xs text-moss mb-1">// change_password</p>
+        <h3 class="font-display font-bold text-forest mb-2">Change password</h3>
+        <p class="text-sm text-ash mb-4">Reset your password via email.</p>
+        <a href="/forgot-password.html" class="btn-ghost text-sm">→ send_reset_link</a>
+      </div>
+
+      <div class="bg-creamDeep border border-line rounded-sharp p-5">
+        <p class="font-mono text-xs text-moss mb-1">// session</p>
+        <h3 class="font-display font-bold text-forest mb-2">Log out</h3>
+        <p class="text-sm text-ash mb-4">End your current session.</p>
+        <button id="logoutBtn" class="btn-ghost text-sm">→ log_out</button>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer class="bg-forestDeep text-cream border-t border-forest">
+  <div class="max-w-6xl mx-auto px-6 py-8">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-6 h-6 checkerboard-cream rounded-sharp"></div>
+        <span class="font-mono text-xs text-cream/70">maya_creative_co / booked_out</span>
+      </div>
+      <div class="font-mono text-[11px] text-cream/50">© 2026 Maya Creative Co · command center · built for UGC operators</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function() {
+  var PLAN_LABELS = {
+    monthly: 'Monthly · $29/mo',
+    annual: 'Annual · $197/yr',
+    founding: 'Founding Member · $147/yr',
+  };
+
+  // LemonSqueezy customer portal URL (fetched from Memberstack metadata)
+  var DEFAULT_PORTAL = 'https://app.lemonsqueezy.com/billing';
+
+  function fmt(dateStr) {
+    if (!dateStr) return '—';
+    try { return new Date(dateStr).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }); }
+    catch (e) { return dateStr; }
+  }
+
+  function statusBadgeClass(status) {
+    if (status === 'active') return 'badge-active';
+    if (status === 'cancelled') return 'badge-cancelled';
+    return 'badge-pastdue';
+  }
+
+  var checkMs = setInterval(function() {
+    if (!window.$memberstackDom) return;
+    clearInterval(checkMs);
+
+    window.$memberstackDom.getCurrentMember().then(function(result) {
+      if (!result.data) {
+        window.location.href = '/login.html';
+        return;
+      }
+
+      document.body.style.visibility = 'visible';
+
+      var member = result.data;
+      var meta = member.metaData || {};
+      var email = member.auth && member.auth.email ? member.auth.email : '—';
+
+      document.getElementById('topEmail').textContent = email;
+      document.getElementById('memberEmail').textContent = email;
+      document.getElementById('memberPlan').textContent = PLAN_LABELS[meta.planType] || (meta.planType || '—');
+      document.getElementById('memberBilling').textContent = fmt(meta.nextBillingDate);
+
+      var status = meta.status || 'active';
+      document.getElementById('memberStatus').textContent = status;
+      var badge = document.getElementById('statusBadge');
+      badge.textContent = status;
+      badge.className = 'font-mono text-xs ' + statusBadgeClass(status);
+
+      // Portal link: use stored LS portal URL if available, otherwise fallback
+      var portalUrl = meta.lsPortalUrl || DEFAULT_PORTAL;
+      document.getElementById('portalLink').href = portalUrl;
+    });
+  }, 50);
+
+  document.getElementById('logoutBtn').addEventListener('click', async function() {
+    await window.$memberstackDom.logout();
+    window.location.href = '/login.html';
+  });
+})();
+</script>
+</body>
+</html>
