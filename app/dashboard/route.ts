@@ -17,6 +17,6 @@ export async function GET() {
     return new Response('Not found', { status: 404 });
   }
 
-  html = injectMemberstack(html, 'index.html', '/dashboard/');
+  html = await injectMemberstack(html, 'index.html', '/dashboard/');
   return new Response(html, { headers: { 'content-type': 'text/html; charset=utf-8' } });
 }
