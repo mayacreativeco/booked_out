@@ -143,15 +143,9 @@
     if (e.key === 'Enter') btn.click();
   });
 
-  // Subscribe buttons → founding plan (primary during launch)
-  var foundingId = 'pln_booked-out-kit-founding-annual-qrar03w5';
-  function checkout() {
-    var ms = window.memberstack;
-    if (!ms) { alert('Loading — try again in a moment.'); return; }
-    ms.purchasePlansWithCheckout({ planId: foundingId });
-  }
-  document.getElementById('headerSubscribeBtn').onclick = checkout;
-  document.getElementById('inlineSubscribeBtn').onclick = checkout;
+  // Subscribe buttons → root page (has full plan selection)
+  document.getElementById('headerSubscribeBtn').onclick = function() { window.location.href = '/'; };
+  document.getElementById('inlineSubscribeBtn').onclick = function() { window.location.href = '/'; };
 })();
 </script>
 </body>
