@@ -140,11 +140,14 @@ export async function injectMemberstack(
 
       // ---------- Protected page gating ----------
       ${isProtected ? `
+      var hideEl=document.getElementById('ms-gate-hide');
+      if(hideEl)hideEl.remove();
+      document.body.style.visibility='visible';
       if(!member){
         var pw=${paywallJson};
-        if(pw){document.body.innerHTML=pw;return;}
+        if(pw){document.body.innerHTML=pw;}
+        return;
       }
-      document.body.style.visibility='visible';
       ` : ''}
 
       // ---------- Session indicator ----------
