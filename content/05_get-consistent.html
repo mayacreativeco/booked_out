@@ -101,8 +101,9 @@
     <p class="text-lg text-ash max-w-2xl">The templates and systems that make deals repeatable — not just one-off wins. Proposal, tracker, onboarding, and a weekly routine that keeps it all moving.</p>
     <div class="mt-8 flex flex-wrap gap-2">
       <a href="#proposal" class="px-4 py-2 border border-line rounded-sharp font-mono text-xs text-forest hover:border-forest">→ proposal_template</a>
-      <a href="#client-tracker" class="px-4 py-2 border border-line rounded-sharp font-mono text-xs text-forest hover:border-forest">→ client_tracker</a>
+      <a href="#client-crm" class="px-4 py-2 border border-line rounded-sharp font-mono text-xs text-forest hover:border-forest">→ client_crm</a>
       <a href="#onboarding" class="px-4 py-2 border border-line rounded-sharp font-mono text-xs text-forest hover:border-forest">→ onboarding_workflow</a>
+      <a href="#bookkeeping" class="px-4 py-2 border border-line rounded-sharp font-mono text-xs text-forest hover:border-forest">→ bookkeeping_stack</a>
       <a href="#contract-redline" class="px-4 py-2 border border-line rounded-sharp font-mono text-xs text-forest hover:border-forest">→ contract_redline_detector</a>
       <a href="#ceo-dashboard" class="px-4 py-2 border border-line rounded-sharp font-mono text-xs text-forest hover:border-forest">→ weekly_ceo_dashboard</a>
     </div>
@@ -181,17 +182,50 @@
   </div>
 </section>
 
-<!-- ============ CLIENT TRACKER ============ -->
-<section id="client-tracker" class="border-b border-line bg-cream">
+<!-- ============ CLIENT CRM ============ -->
+<section id="client-crm" class="border-b border-line bg-cream">
   <div class="max-w-5xl mx-auto px-6 py-16">
-    <p class="font-mono text-xs text-moss mb-2">// template_02 · client_tracker</p>
-    <h2 class="font-display text-3xl font-bold text-forest mb-3">The Client Tracker.</h2>
-    <p class="text-ash max-w-2xl mb-8">One table to track every deal in your pipeline: where it is, what's owed, what's next. Drop this into Notion, Airtable, or a Google Sheet.</p>
+    <p class="font-mono text-xs text-moss mb-2">// tool_02 · client_crm</p>
+    <h2 class="font-display text-3xl font-bold text-forest mb-3">The CRM I actually use.</h2>
+    <p class="text-ash max-w-2xl mb-8">You don't need to build this from scratch. The schema further down works if you want everything custom in Notion — but for most creators, a purpose-built tool saves you the build time and gets you running today.</p>
 
+    <!-- Tool recommendations -->
+    <div class="space-y-3 mb-10">
+
+      <!-- Brkaway: my_pick -->
+      <div class="bg-creamDeep border-2 border-forest rounded-sharp p-5">
+        <div class="flex items-start justify-between gap-3">
+          <div class="flex-1">
+            <p class="font-mono text-[10px] text-moss mb-2">// my_pick · brkaway</p>
+            <a href="https://brkaway.com" target="_blank" class="font-display font-bold text-forest text-lg hover:underline">Brkaway ↗</a>
+            <p class="text-sm text-ash mt-2 mb-4">Brkaway is the CRM I personally run my business on. Built specifically for creators — pipeline, contacts, deals, and a portfolio section all in one place. Zero setup, already speaks UGC. If you want a tool that just works on day one, start here.</p>
+            <a href="https://brkaway.com" target="_blank" class="inline-block font-mono text-[10px] bg-forest text-cream px-3 py-1.5 rounded-sharp hover:bg-forestDeep transition">→ try brkaway</a>
+          </div>
+          <span class="font-mono text-[10px] text-moss border border-moss/30 px-2 py-0.5 rounded flex-shrink-0">★ recommended</span>
+        </div>
+      </div>
+
+      <!-- Notion: custom route -->
+      <div class="bg-creamDeep border border-line rounded-sharp p-5">
+        <p class="font-mono text-[10px] text-moss mb-2">// the_custom_route · notion + the schema</p>
+        <div class="font-display font-bold text-forest text-sm mb-2">Notion</div>
+        <p class="text-sm text-ash">Notion is for the creator who wants everything tailored exactly to her workflow. More setup, more flexibility. If you already live in Notion and have a system, build it here using the schema below. If you don't, start with Brkaway and migrate later if you ever feel constrained.</p>
+      </div>
+
+      <!-- Sheets: no-tool route -->
+      <div class="bg-creamDeep border border-line rounded-sharp p-5">
+        <p class="font-mono text-[10px] text-moss mb-2">// the_no_tool_route · sheets</p>
+        <div class="font-display font-bold text-forest text-sm mb-2">Google Sheets / Airtable free tier</div>
+        <p class="text-sm text-ash">If you're not ready to spend on either, Google Sheets or Airtable's free tier work fine. Same schema. Less elegant. Still a real CRM if you actually update it. Don't let "perfect tool" be the reason you don't have one.</p>
+      </div>
+
+    </div>
+
+    <!-- Schema: build-it-yourself -->
     <div class="bg-creamDeep border-2 border-forest rounded-sharp p-6 md:p-8">
       <div class="flex items-center justify-between mb-5 pb-4 border-b border-line">
-        <span class="font-mono text-xs text-moss">client_tracker.schema</span>
-        <span class="font-mono text-xs text-ash">12_columns</span>
+        <span class="font-mono text-xs text-moss">// the_custom_route · build_it_yourself</span>
+        <span class="font-mono text-xs text-ash">17_columns</span>
       </div>
       <div class="overflow-x-auto">
         <table class="w-full text-sm border-collapse">
@@ -203,18 +237,23 @@
             </tr>
           </thead>
           <tbody class="text-ink">
-            <tr class="border-b border-line"><td class="p-3 font-mono text-xs">brand_name</td><td class="p-3 text-ash text-xs">text</td><td class="p-3">Name of the brand/company.</td></tr>
-            <tr class="border-b border-line bg-cream/60"><td class="p-3 font-mono text-xs">contact_name</td><td class="p-3 text-ash text-xs">text</td><td class="p-3">Primary contact + email.</td></tr>
-            <tr class="border-b border-line"><td class="p-3 font-mono text-xs">stage</td><td class="p-3 text-ash text-xs">select</td><td class="p-3">cold → pitched → in_talks → proposal_sent → signed → in_production → delivered → invoiced → paid</td></tr>
-            <tr class="border-b border-line bg-cream/60"><td class="p-3 font-mono text-xs">deal_value</td><td class="p-3 text-ash text-xs">currency</td><td class="p-3">Total dollar value of the deal.</td></tr>
-            <tr class="border-b border-line"><td class="p-3 font-mono text-xs">deposit_received</td><td class="p-3 text-ash text-xs">boolean</td><td class="p-3">Is the 50% deposit in?</td></tr>
-            <tr class="border-b border-line bg-cream/60"><td class="p-3 font-mono text-xs">deliverables</td><td class="p-3 text-ash text-xs">text</td><td class="p-3">One-line scope summary.</td></tr>
-            <tr class="border-b border-line"><td class="p-3 font-mono text-xs">usage_window</td><td class="p-3 text-ash text-xs">select</td><td class="p-3">organic / paid_30 / paid_90 / paid_180 / paid_365 / buyout</td></tr>
-            <tr class="border-b border-line bg-cream/60"><td class="p-3 font-mono text-xs">usage_expires</td><td class="p-3 text-ash text-xs">date</td><td class="p-3">Calculated from delivery date — important for usage-expiry follow-ups.</td></tr>
-            <tr class="border-b border-line"><td class="p-3 font-mono text-xs">due_date</td><td class="p-3 text-ash text-xs">date</td><td class="p-3">Final delivery date.</td></tr>
-            <tr class="border-b border-line bg-cream/60"><td class="p-3 font-mono text-xs">invoice_status</td><td class="p-3 text-ash text-xs">select</td><td class="p-3">not_sent / sent / past_due / paid</td></tr>
-            <tr class="border-b border-line"><td class="p-3 font-mono text-xs">next_action</td><td class="p-3 text-ash text-xs">text</td><td class="p-3">One-line: "send invoice", "follow up Tues", "deliver round 2".</td></tr>
-            <tr><td class="p-3 font-mono text-xs">notes</td><td class="p-3 text-ash text-xs">text</td><td class="p-3">Anything else: rapport, prior projects, preferences.</td></tr>
+            <tr class="border-b border-line"><td class="p-3 font-mono text-xs">brand_name</td><td class="p-3 text-ash text-xs">text</td><td class="p-3">Brand/company name</td></tr>
+            <tr class="border-b border-line bg-cream/60"><td class="p-3 font-mono text-xs">niche</td><td class="p-3 text-ash text-xs">select</td><td class="p-3">beauty / skincare / wellness / fitness / food&amp;bev / fashion / home / tech / pet / parenting / other</td></tr>
+            <tr class="border-b border-line"><td class="p-3 font-mono text-xs">contact_name</td><td class="p-3 text-ash text-xs">text</td><td class="p-3">Primary contact + email</td></tr>
+            <tr class="border-b border-line bg-cream/60"><td class="p-3 font-mono text-xs">source</td><td class="p-3 text-ash text-xs">select</td><td class="p-3">cold_pitch / cohley / backstage / kale / referral / inbound_dm / repeat_client</td></tr>
+            <tr class="border-b border-line"><td class="p-3 font-mono text-xs">stage</td><td class="p-3 text-ash text-xs">select</td><td class="p-3">cold → pitched → in_talks → proposal_sent → signed → in_production → delivered → invoiced → paid → no_reply</td></tr>
+            <tr class="border-b border-line bg-cream/60"><td class="p-3 font-mono text-xs">deliverables</td><td class="p-3 text-ash text-xs">text</td><td class="p-3">One-line scope (e.g., "3 × 30s vertical, 2 concepts each")</td></tr>
+            <tr class="border-b border-line"><td class="p-3 font-mono text-xs">deal_value</td><td class="p-3 text-ash text-xs">currency</td><td class="p-3">Total dollar value</td></tr>
+            <tr class="border-b border-line bg-cream/60"><td class="p-3 font-mono text-xs">usage_window</td><td class="p-3 text-ash text-xs">select</td><td class="p-3">organic / paid_30 / paid_90 / paid_180 / paid_365 / buyout / whitelisting</td></tr>
+            <tr class="border-b border-line"><td class="p-3 font-mono text-xs">pitched_date</td><td class="p-3 text-ash text-xs">date</td><td class="p-3">When you first reached out</td></tr>
+            <tr class="border-b border-line bg-cream/60"><td class="p-3 font-mono text-xs">due_date</td><td class="p-3 text-ash text-xs">date</td><td class="p-3">Final delivery date</td></tr>
+            <tr class="border-b border-line"><td class="p-3 font-mono text-xs">usage_expires</td><td class="p-3 text-ash text-xs">date</td><td class="p-3">When usage rights end — biggest re-engagement signal you have</td></tr>
+            <tr class="border-b border-line bg-cream/60"><td class="p-3 font-mono text-xs">deposit_received</td><td class="p-3 text-ash text-xs">boolean</td><td class="p-3">50% in? Don't start work without it</td></tr>
+            <tr class="border-b border-line"><td class="p-3 font-mono text-xs">invoice_status</td><td class="p-3 text-ash text-xs">select</td><td class="p-3">not_sent / sent / past_due / paid</td></tr>
+            <tr class="border-b border-line bg-cream/60"><td class="p-3 font-mono text-xs">case_study_metric</td><td class="p-3 text-ash text-xs">text</td><td class="p-3">Real results: "2.4M views", "3.2x ROAS at $8 CPA" — feed these into future pitches</td></tr>
+            <tr class="border-b border-line"><td class="p-3 font-mono text-xs">renewal_opportunity</td><td class="p-3 text-ash text-xs">date</td><td class="p-3">When to pitch the next deal or retainer</td></tr>
+            <tr class="border-b border-line bg-cream/60"><td class="p-3 font-mono text-xs">next_action</td><td class="p-3 text-ash text-xs">text</td><td class="p-3">One-line: "follow up Tues", "deliver round 2"</td></tr>
+            <tr><td class="p-3 font-mono text-xs">notes</td><td class="p-3 text-ash text-xs">text</td><td class="p-3">Rapport, prior projects, preferences</td></tr>
           </tbody>
         </table>
       </div>
@@ -222,14 +261,16 @@
         <p class="font-mono text-xs text-moss mb-3">// how_to_use</p>
         <ol class="text-sm text-ash space-y-2 list-decimal ml-5">
           <li>Set it up once in Notion / Airtable / Sheets using the column names above.</li>
-          <li>Every time you send an outbound pitch, add a row. Stage: <code class="bg-creamDeep px-1 rounded">pitched</code>.</li>
-          <li>Review the tracker every Monday for 15 minutes. Update the <code class="bg-creamDeep px-1 rounded">next_action</code> column for every active row.</li>
+          <li>Every time you send an outbound pitch, add a row. Stage: <code class="bg-creamDeep px-1 rounded">pitched</code>. Pitched_date: today.</li>
+          <li>Review the CRM every Monday for 15 minutes. Update <code class="bg-creamDeep px-1 rounded">next_action</code> on every active row.</li>
           <li>Filter on <code class="bg-creamDeep px-1 rounded">stage = invoiced</code> every Friday to check for late payments.</li>
+          <li>Filter on <code class="bg-creamDeep px-1 rounded">usage_expires</code> within 30 days every month — those are warm re-engagement opportunities, not cold outreach.</li>
+          <li>Filter on <code class="bg-creamDeep px-1 rounded">niche</code> when planning your next outbound batch — go deep on one category at a time.</li>
         </ol>
       </div>
       <div class="mt-6 bg-cream border-2 border-forest rounded-sharp p-5">
         <p class="font-mono text-xs text-moss mb-4">// deal_goes_wrong · decision_tree</p>
-        <p class="text-sm text-ash mb-5">When something stalls, use the stage in your tracker to know exactly what to do next:</p>
+        <p class="text-sm text-ash mb-5">When something stalls, use the stage in your CRM to know exactly what to do next:</p>
         <div class="space-y-3">
           <div class="flex items-start gap-3 text-sm">
             <span class="flex-shrink-0 font-mono text-[11px] text-forest bg-creamDeep px-2 py-1 rounded-sharp mt-0.5">pitched</span>
@@ -315,6 +356,75 @@
         </li>
       </ol>
     </div>
+  </div>
+</section>
+
+<!-- ============ BOOKKEEPING STACK ============ -->
+<section id="bookkeeping" class="border-b border-line bg-cream">
+  <div class="max-w-5xl mx-auto px-6 py-16">
+    <p class="font-mono text-xs text-moss mb-2">// tool_05 · bookkeeping_stack</p>
+    <h2 class="font-display text-3xl font-bold text-forest mb-3">Books that don't fall apart at tax time.</h2>
+    <p class="text-ash max-w-2xl mb-8">The income is great. The 1099-everything chaos is not. By month 3 of real deals, you'll have brand deposits hitting different weeks, expenses you can't remember categorizing, and a quarterly tax estimate you're scared to look at. This is where most creators leak money.</p>
+
+    <div class="space-y-3 mb-8">
+
+      <div class="bg-creamDeep border-2 border-forest rounded-sharp p-5">
+        <div class="flex items-start justify-between gap-3">
+          <div class="flex-1">
+            <p class="font-mono text-[10px] text-moss mb-2">// my_pick · quickbooks_solopreneur</p>
+            <a href="https://quickbooks.intuit.com/self-employed/" target="_blank" class="font-display font-bold text-forest text-lg hover:underline">QuickBooks Solopreneur ↗</a>
+            <p class="text-sm text-ash mt-2 mb-4">QuickBooks Solopreneur is what I personally use and what I recommend to every creator at $2K+/month. It auto-categorizes transactions, tracks mileage, separates business from personal, and generates the quarterly estimate so you actually know what to set aside. Built for people exactly like us — solo, 1099, multiple income streams.</p>
+            <a href="https://quickbooks.intuit.com/self-employed/" target="_blank" class="inline-block font-mono text-[10px] bg-forest text-cream px-3 py-1.5 rounded-sharp hover:bg-forestDeep transition">→ try quickbooks solopreneur</a>
+          </div>
+          <span class="font-mono text-[10px] text-moss border border-moss/30 px-2 py-0.5 rounded flex-shrink-0">★ recommended</span>
+        </div>
+      </div>
+
+      <div class="bg-creamDeep border border-line rounded-sharp p-5">
+        <p class="font-mono text-[10px] text-moss mb-2">// the_collections_layer · dupay</p>
+        <a href="https://dupayme.com/" target="_blank" class="font-display font-bold text-forest text-sm hover:underline mb-2 inline-block">Dupay ↗</a>
+        <p class="text-sm text-ash">When a brand ghosts on a paid invoice and your two follow-ups didn't work, Dupay takes the chase off your plate. They specialize in helping creators get paid when brands stall, disappear, or quietly close ranks. You don't need it on day one. You will need it eventually — late payment is the #1 collection issue UGC creators run into, and trying to chase a Fortune 500 marketing team's accounts payable inbox by yourself is a full-time job.</p>
+      </div>
+
+    </div>
+
+    <div class="bg-creamDeep border-2 border-forest rounded-sharp p-6 md:p-8 mb-6">
+      <div class="flex items-center justify-between mb-5 pb-4 border-b border-line">
+        <span class="font-mono text-xs text-moss">// what_to_track_from_day_one</span>
+      </div>
+      <div class="space-y-2 text-sm text-ash">
+        <p>→ Every brand deposit <span class="font-mono text-[11px] text-moss">(date received, brand, deal_id from your CRM)</span></p>
+        <p>→ Every business expense by category: <span class="font-mono text-[11px] text-moss">software, equipment, props, travel, education, services, marketing</span></p>
+        <p>→ Mileage if you film outside your home <span class="text-ash/70">(rates change yearly — your bookkeeping tool handles it)</span></p>
+        <p>→ 25–30% of every deposit moved into a separate account labeled "taxes" the same day it lands. Don't touch it.</p>
+      </div>
+    </div>
+
+    <div class="bg-creamDeep border border-line rounded-sharp p-6 mb-6">
+      <p class="font-mono text-xs text-moss mb-3">// quarterly_taxes · the_actually_simple_version</p>
+      <p class="text-sm text-ash mb-3">US-based and earning &gt;$1K/quarter from creator work? You owe quarterly estimated taxes. Your bookkeeping tool generates the number. Send it to the IRS via IRS.gov/payments.</p>
+      <p class="text-sm text-ash mb-3">Set a calendar reminder for <strong class="text-forest">Apr 15, Jun 15, Sep 15, Jan 15</strong> — and you'll never have an April panic again.</p>
+      <p class="text-sm text-ash">The IRS doesn't care that you're "just a creator." They care that you pay on time. The good news: when you're tracking through QB from day one, the number is calculated for you. The hard part isn't math — it's the discipline of moving the money. That's it.</p>
+    </div>
+
+    <p class="font-mono text-xs text-moss mb-3">// faq · bookkeeping + legal</p>
+    <div class="space-y-3">
+      <details class="acc bg-creamDeep border border-line rounded-sharp">
+        <summary class="p-5 flex justify-between items-center">
+          <span class="font-display font-bold text-forest">Should I form an LLC before I start charging?</span>
+          <span class="tog font-mono text-xl text-forest">+</span>
+        </summary>
+        <div class="px-5 pb-5 border-t border-line pt-5 text-sm text-ash leading-relaxed">Short answer: not immediately. Operate as a sole proprietor under your own name until you're consistently clearing ~$30K/year from UGC work. At that point, an LLC (with an S-corp election in the US) starts saving you meaningful tax dollars. Before that, the paperwork and state fees aren't worth it. Disclaimer: I'm not an accountant — this is just what I did. Talk to one before you file anything.</div>
+      </details>
+      <details class="acc bg-creamDeep border border-line rounded-sharp">
+        <summary class="p-5 flex justify-between items-center">
+          <span class="font-display font-bold text-forest">How do I handle taxes as a creator?</span>
+          <span class="tog font-mono text-xl text-forest">+</span>
+        </summary>
+        <div class="px-5 pb-5 border-t border-line pt-5 text-sm text-ash leading-relaxed">Set aside 25–30% of every deposit into a separate high-yield savings account labeled "taxes" and don't touch it. File quarterly estimated taxes if you're in the US and earning more than $1K/quarter from UGC. Hire an accountant who has at least 3 other creator clients — it's worth the $400–800/year.</div>
+      </details>
+    </div>
+
   </div>
 </section>
 
@@ -506,7 +616,7 @@
   });
 
   document.getElementById('copyTrackerSchema').addEventListener('click', function() {
-    const csv = 'brand_name,contact_name,stage,deal_value,deposit_received,deliverables,usage_window,usage_expires,due_date,invoice_status,next_action,notes';
+    const csv = 'brand_name,niche,contact_name,source,stage,deliverables,deal_value,usage_window,pitched_date,due_date,usage_expires,deposit_received,invoice_status,case_study_metric,renewal_opportunity,next_action,notes';
     navigator.clipboard.writeText(csv).then(() => {
       const orig = this.textContent; this.textContent = 'Copied ✓';
       setTimeout(() => { this.textContent = orig; }, 2000);
