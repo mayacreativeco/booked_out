@@ -146,13 +146,10 @@
 <script>
 (function() {
   var PLAN_LABELS = {
-    monthly: 'Monthly · $29/mo',
-    annual: 'Annual · $197/yr',
-    founding: 'Founding Member · $147/yr',
+    monthly: 'Monthly · $49/mo',
+    annual: 'Annual · $397/yr',
+    founding: 'Founding Member · $197/yr',
   };
-
-  // LemonSqueezy customer portal URL (fetched from Memberstack metadata)
-  var DEFAULT_PORTAL = 'https://app.lemonsqueezy.com/billing';
 
   function fmt(dateStr) {
     if (!dateStr) return '—';
@@ -193,9 +190,15 @@
       badge.textContent = status;
       badge.className = 'font-mono text-xs ' + statusBadgeClass(status);
 
-      // Portal link: use stored LS portal URL if available, otherwise fallback
-      var portalUrl = meta.lsPortalUrl || DEFAULT_PORTAL;
-      document.getElementById('portalLink').href = portalUrl;
+      // Open Memberstack customer portal on click
+      document.getElementById('portalLink').addEventListener('click', async function(e) {
+        e.preventDefault();
+        try {
+          await window.$memberstackDom.openCustomerPortal();
+        } catch (err) {
+          console.error('Could not open customer portal:', err);
+        }
+      });
     });
   }, 50);
 
