@@ -131,7 +131,7 @@ function buildGateHtml(foundingAvailable: boolean): string {
 
   const sharedWrap = `min-height:100vh;display:flex;flex-direction:column;background:#F5F0E4;font-family:'Inter',system-ui,sans-serif;`;
   const topbar = `<div style="background:#0F2620;color:#F5F0E4;padding:10px 24px;display:flex;align-items:center;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:12px;border-bottom:1px solid #1B3A2F;"><span>Maya_Creative_Co / booked_out</span><span style="color:rgba(245,240,228,0.5)">session: guest</span></div>`;
-  const msScript = `<script type="module">import memberstackDOM from 'https://esm.sh/@memberstack/dom';window.memberstack=memberstackDOM.init({publicKey:'pk_c06d36f5d1fa05e0db79',appId:'app_cmoncg0gk00310swu5tew967f'});</script>`;
+  const msScript = `<script type="module">import memberstackDOM from 'https://esm.sh/@memberstack/dom';window.memberstack=memberstackDOM.init({domain:'https://memberstack-client.mayacreativeco.com',publicKey:'pk_c06d36f5d1fa05e0db79'});</script>`;
 
   const header = `
     <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#4A7C59;margin-bottom:16px;">// subscriber_only</div>
