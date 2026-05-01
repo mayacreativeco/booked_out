@@ -75,10 +75,10 @@ export async function injectMemberstack(
   filename: string,
   baseHref: string,
 ): Promise<string> {
-  const appId = process.env.MEMBERSTACK_APP_ID ?? '';
+  const publicKey = process.env.MEMBERSTACK_PUBLIC_KEY ?? 'pk_c06d36f5d1fa05e0db79';
   const isProtected = PROTECTED_PAGES.has(filename);
 
-  const msScript = `<script defer data-memberstack-app="${appId}" src="https://static.memberstack.com/scripts/v1/memberstack.js"></script>`;
+  const msScript = `<script type="module">import memberstackDOM from 'https://esm.sh/@memberstack/dom';window.memberstack=memberstackDOM.init({publicKey:'${publicKey}'});</script>`;
   const hideStyle = isProtected ? `<style id="ms-gate-hide">body{visibility:hidden}</style>` : '';
 
   // Inject into <head>
@@ -94,9 +94,9 @@ export async function injectMemberstack(
   const navScript = `<script>
 (function(){
   var checkMs=setInterval(function(){
-    if(!window.$memberstackDom)return;
+    if(!window.memberstack)return;
     clearInterval(checkMs);
-    window.$memberstackDom.getCurrentMember().then(function(r){
+    window.memberstack.getCurrentMember().then(function(r){
       var member=r.data;
       ${isProtected ? `if(!member){document.body.innerHTML=${JSON.stringify(gateHtml)};return;}` : ''}
       document.body.style.visibility='visible';
@@ -122,7 +122,7 @@ export async function injectMemberstack(
 
 function checkoutBtn(planId: string, label: string, style: string): string {
   const escaped = planId.replace(/'/g, "\\'");
-  return `<button onclick="(function(){var ms=window.$memberstackDom;if(!ms){alert('Loading \u2014 try again in a moment.');return;}ms.purchasePlansWithCheckout({planId:'${escaped}'});})()" style="${style}">${label}</button>`;
+  return `<button onclick="(function(){var ms=window.memberstack;if(!ms){alert('Loading \u2014 try again in a moment.');return;}ms.purchasePlansWithCheckout({planId:'${escaped}'});})()" style="${style}">${label}</button>`;
 }
 
 function buildGateHtml(foundingAvailable: boolean): string {
@@ -130,7 +130,7 @@ function buildGateHtml(foundingAvailable: boolean): string {
 
   const sharedWrap = `min-height:100vh;display:flex;flex-direction:column;background:#F5F0E4;font-family:'Inter',system-ui,sans-serif;`;
   const topbar = `<div style="background:#0F2620;color:#F5F0E4;padding:10px 24px;display:flex;align-items:center;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:12px;border-bottom:1px solid #1B3A2F;"><span>Maya_Creative_Co / booked_out</span><span style="color:rgba(245,240,228,0.5)">session: guest</span></div>`;
-  const msScript = `<script defer data-memberstack-app="app_cmoncg0gk00310swu5tew967f" src="https://static.memberstack.com/scripts/v1/memberstack.js"></script>`;
+  const msScript = `<script type="module">import memberstackDOM from 'https://esm.sh/@memberstack/dom';window.memberstack=memberstackDOM.init({publicKey:'pk_c06d36f5d1fa05e0db79'});</script>`;
 
   const header = `
     <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#4A7C59;margin-bottom:16px;">// subscriber_only</div>
