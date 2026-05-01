@@ -344,7 +344,7 @@
           <span class="font-mono text-[11px] text-ash" id="charCount">0 characters</span>
         </div>
         <div class="flex flex-wrap gap-3 items-center">
-          <button type="submit" id="auditRunBtn" class="btn-primary">→ Run the audit</button>
+          <button type="button" id="auditRunBtn" class="btn-primary">→ Run the audit</button>
           <button type="button" id="auditResetBtn" class="btn-ghost">reset()</button>
           <button type="button" id="auditSampleBtn" class="font-mono text-xs text-moss border border-moss/40 px-4 py-2 rounded-sharp hover:border-moss hover:bg-moss/5 transition">load sample contract</button>
         </div>
@@ -711,9 +711,8 @@ By signing below, Talent acknowledges agreement to all terms.`;
     document.getElementById('charCount').textContent = this.value.length.toLocaleString() + ' characters';
   });
 
-  // Form submit
-  document.getElementById('auditForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
+  // Run audit
+  document.getElementById('auditRunBtn').addEventListener('click', async function() {
     const contract = document.getElementById('contractInput').value.trim();
     document.getElementById('auditError').classList.add('hidden');
     document.getElementById('auditOutput').classList.add('hidden');
@@ -723,7 +722,7 @@ By signing below, Talent acknowledges agreement to all terms.`;
       return;
     }
 
-    const btn = document.getElementById('auditRunBtn');
+    const btn = this;
     btn.disabled = true;
     btn.textContent = '// auditing...';
     document.getElementById('auditLoading').classList.remove('hidden');
@@ -740,7 +739,8 @@ By signing below, Talent acknowledges agreement to all terms.`;
       if (data.error === true && data.reason === 'no_key') { showAuditError('no_key'); return; }
       if (data.error || !data.summary) { showAuditError('api_error'); return; }
       renderAudit(data);
-    } catch {
+    } catch (err) {
+      console.error('[audit-contract]', err);
       showAuditError('api_error');
     } finally {
       stopAuditCycle();
