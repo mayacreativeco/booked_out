@@ -36,7 +36,8 @@ export async function GET(
     return new Response('Not found', { status: 404 });
   }
 
-  html = html.replace('<head>', `<head>\n<base href="/dashboard/${token}/">`);
+  const baseFile = filename === 'index.html' ? '' : filename;
+  html = html.replace('<head>', `<head>\n<base href="/dashboard/${token}/${baseFile}">`);
 
   return new Response(html, {
     headers: { 'content-type': 'text/html; charset=utf-8' },
