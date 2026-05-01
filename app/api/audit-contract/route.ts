@@ -60,7 +60,7 @@ Output strict JSON in this schema:
   ],
   "response_email": {
     "subject": "string — short subject line",
-    "body": "string — full email body, with [Name] and [Your name] placeholders. Tone matches severity. Never apologetic. Treats redlines as standard."
+    "body": "string — full email body written BY THE CREATOR to the brand contact. Start with 'Hi [Name],' then 1-2 sentences saying you reviewed the contract and have a few redlines before signing. Then list ONLY the high and medium severity flags — one short paragraph per flag, stating the issue and what you need changed, using plain direct language (not legalese). Close with a soft sentence saying you're excited to move forward once these are resolved. Sign off with '[Your name]'. Never apologetic. Never 'I was wondering if maybe.' State it as standard. If there are no high or medium flags, skip the redline list and just confirm you're ready to proceed."
   }
 }`;
 
