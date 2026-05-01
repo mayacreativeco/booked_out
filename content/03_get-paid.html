@@ -85,7 +85,6 @@
     <div class="mt-8 flex flex-wrap gap-2">
       <a href="#rate-calculator" class="px-4 py-2 border border-line rounded-sharp font-mono text-xs text-forest hover:border-forest">→ rate_calculator</a>
       <a href="#negotiation-playbook" class="px-4 py-2 border border-line rounded-sharp font-mono text-xs text-forest hover:border-forest">→ negotiation_playbook</a>
-      <a href="#influencer-rates" class="px-4 py-2 border border-line rounded-sharp font-mono text-xs text-forest hover:border-forest">→ influencer_rates</a>
       <a href="#benchmarks" class="px-4 py-2 border border-line rounded-sharp font-mono text-xs text-forest hover:border-forest">→ rate_benchmarks</a>
     </div>
   </div>
@@ -96,81 +95,124 @@
   <div class="max-w-5xl mx-auto px-6 py-16">
     <p class="font-mono text-xs text-moss mb-2">// tool_01 · rate_calculator</p>
     <h2 class="font-display text-3xl lg:text-4xl font-bold text-forest mb-3">What should I charge?</h2>
-    <p class="text-ash max-w-xl mb-8">Run the project through the calculator. Get a range, a suggested package, and tailored negotiation notes.</p>
+    <p class="text-ash max-w-xl mb-8">Run the project through the calculator. Get a range, a suggested package, and tailored negotiation notes. Works for UGC-only, posting, and bundle deals.</p>
 
     <div class="bg-cream border-2 border-forest rounded-sharp p-6 md:p-10">
       <div class="flex items-center justify-between mb-8 pb-4 border-b border-line">
         <span class="font-mono text-xs text-moss">rate_calculator.run()</span>
-        <span class="font-mono text-xs text-ash">v1.0</span>
+        <span class="font-mono text-xs text-ash">v2.0 · ugc + posting + bundle</span>
       </div>
 
-      <form id="rateForm" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <form id="rateForm" class="space-y-8">
+
+        <!-- Creator type selector -->
         <div>
-          <label class="field-label" for="deliverableType">deliverable_type</label>
-          <select id="deliverableType" class="field" required>
-            <option value="video15">15-second video</option>
-            <option value="video30" selected>30-second video</option>
-            <option value="video60">60-second video</option>
-            <option value="photoSet">Photo set</option>
-            <option value="voiceover">Voiceover only</option>
-            <option value="grwm">GRWM video</option>
-            <option value="unboxing">Unboxing video</option>
-            <option value="testimonial">Testimonial video</option>
-            <option value="lifestyle">Lifestyle video</option>
-            <option value="adStyle">Ad-style video</option>
-          </select>
+          <label class="field-label mb-3">what_type_of_deal_is_this?</label>
+          <div class="flex flex-wrap gap-3" id="dealTypeGroup">
+            <button type="button" class="deal-btn tab-btn active" data-deal="ugc">UGC only · no posting</button>
+            <button type="button" class="deal-btn tab-btn" data-deal="posting">Posting only · no UGC deliverable</button>
+            <button type="button" class="deal-btn tab-btn" data-deal="bundle">Bundle · UGC content + posting</button>
+          </div>
+          <input type="hidden" id="dealType" value="ugc" />
         </div>
-        <div>
-          <label class="field-label" for="numDeliverables">number_of_deliverables</label>
-          <input type="number" id="numDeliverables" class="field" min="1" max="50" value="3" required />
+
+        <!-- UGC fields -->
+        <div id="ugcFields" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label class="field-label" for="deliverableType">deliverable_type</label>
+            <select id="deliverableType" class="field">
+              <option value="video15">15-second video</option>
+              <option value="video30" selected>30-second video</option>
+              <option value="video60">60-second video</option>
+              <option value="photoSet">Photo set</option>
+              <option value="voiceover">Voiceover only</option>
+              <option value="grwm">GRWM video</option>
+              <option value="unboxing">Unboxing video</option>
+              <option value="testimonial">Testimonial video</option>
+              <option value="lifestyle">Lifestyle video</option>
+              <option value="adStyle">Ad-style video</option>
+            </select>
+          </div>
+          <div>
+            <label class="field-label" for="numDeliverables">number_of_deliverables</label>
+            <input type="number" id="numDeliverables" class="field" min="1" max="50" value="3" />
+          </div>
+          <div>
+            <label class="field-label" for="usageRights">usage_rights</label>
+            <select id="usageRights" class="field">
+              <option value="organic">Organic only</option>
+              <option value="paid30" selected>Paid social — 30 days</option>
+              <option value="paid90">Paid social — 90 days</option>
+              <option value="paid180">Paid social — 6 months</option>
+              <option value="paid365">Paid social — 1 year</option>
+              <option value="whitelisting">Whitelisting</option>
+              <option value="buyout">Full buyout</option>
+            </select>
+          </div>
+          <div>
+            <label class="field-label" for="turnaround">turnaround</label>
+            <select id="turnaround" class="field">
+              <option value="2weeks" selected>2 weeks</option>
+              <option value="1week">1 week</option>
+              <option value="3days">3 days</option>
+              <option value="rush">24-hour rush</option>
+            </select>
+          </div>
+          <div>
+            <label class="field-label" for="revisions">revisions_included</label>
+            <input type="number" id="revisions" class="field" min="0" max="10" value="1" />
+          </div>
+          <div>
+            <label class="field-label" for="concepts">hooks_concepts_requested</label>
+            <input type="number" id="concepts" class="field" min="1" max="10" value="2" />
+          </div>
+          <div>
+            <label class="field-label" for="experience">experience_tier</label>
+            <select id="experience" class="field">
+              <option value="new">New (under 6 months)</option>
+              <option value="growing" selected>Growing (6–18 months)</option>
+              <option value="established">Established (18+ months)</option>
+            </select>
+          </div>
+          <div>
+            <label class="field-label" for="brandSize">brand_size</label>
+            <select id="brandSize" class="field">
+              <option value="indie">Indie / early stage</option>
+              <option value="growing" selected>Growing DTC</option>
+              <option value="established">Established DTC</option>
+              <option value="enterprise">Enterprise</option>
+            </select>
+          </div>
         </div>
-        <div>
-          <label class="field-label" for="usageRights">usage_rights</label>
-          <select id="usageRights" class="field" required>
-            <option value="organic">Organic only</option>
-            <option value="paid30" selected>Paid social — 30 days</option>
-            <option value="paid90">Paid social — 90 days</option>
-            <option value="paid180">Paid social — 6 months</option>
-            <option value="paid365">Paid social — 1 year</option>
-            <option value="whitelisting">Whitelisting</option>
-            <option value="buyout">Full buyout</option>
-          </select>
+
+        <!-- Posting / Influencer fields -->
+        <div id="postingFields" class="hidden grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label class="field-label" for="inflPlatform">primary_platform</label>
+            <select id="inflPlatform" class="field">
+              <option value="tiktok">TikTok</option>
+              <option value="instagram" selected>Instagram</option>
+              <option value="youtube_shorts">YouTube Shorts</option>
+              <option value="multi">Multi-platform (all three)</option>
+            </select>
+          </div>
+          <div>
+            <label class="field-label" for="inflFollowers">follower_count</label>
+            <input type="number" id="inflFollowers" class="field" placeholder="e.g. 45000" min="100" />
+          </div>
+          <div class="md:col-span-2">
+            <label class="field-label" for="inflEngagement">engagement_rate · % · avg (likes + comments) ÷ followers × 100</label>
+            <input type="number" id="inflEngagement" class="field" placeholder="e.g. 4.2" min="0" max="100" step="0.1" />
+          </div>
         </div>
-        <div>
-          <label class="field-label" for="turnaround">turnaround</label>
-          <select id="turnaround" class="field" required>
-            <option value="2weeks" selected>2 weeks</option>
-            <option value="1week">1 week</option>
-            <option value="3days">3 days</option>
-            <option value="rush">24-hour rush</option>
-          </select>
+
+        <!-- Bundle UGC count (only for bundle) -->
+        <div id="bundleUGCRow" class="hidden">
+          <label class="field-label" for="inflUGCCount">ugc_videos_in_bundle · how many deliverables?</label>
+          <input type="number" id="inflUGCCount" class="field" value="3" min="1" max="20" />
         </div>
-        <div>
-          <label class="field-label" for="revisions">revisions_included</label>
-          <input type="number" id="revisions" class="field" min="0" max="10" value="1" required />
-        </div>
-        <div>
-          <label class="field-label" for="concepts">hooks_concepts_requested</label>
-          <input type="number" id="concepts" class="field" min="1" max="10" value="2" required />
-        </div>
-        <div>
-          <label class="field-label" for="experience">experience_tier</label>
-          <select id="experience" class="field" required>
-            <option value="new">New (under 6 months)</option>
-            <option value="growing" selected>Growing (6–18 months)</option>
-            <option value="established">Established (18+ months)</option>
-          </select>
-        </div>
-        <div>
-          <label class="field-label" for="brandSize">brand_size</label>
-          <select id="brandSize" class="field">
-            <option value="indie">Indie / early stage</option>
-            <option value="growing" selected>Growing DTC</option>
-            <option value="established">Established DTC</option>
-            <option value="enterprise">Enterprise</option>
-          </select>
-        </div>
-        <div class="md:col-span-2 flex flex-col sm:flex-row gap-4 items-center justify-center pt-4">
+
+        <div class="flex flex-col sm:flex-row gap-4 items-center justify-center pt-2">
           <button type="submit" class="btn-primary">→ Calculate my rate</button>
           <button type="button" id="resetBtn" class="text-ash text-sm font-mono underline hover:text-forest">reset()</button>
         </div>
@@ -186,28 +228,8 @@
             </div>
             <span class="text-xs text-cream/50">output.json</span>
           </div>
-          <div class="text-center mb-8">
-            <p class="text-cream/60 text-xs mb-3">&gt; calculated_rate_range:</p>
-            <p class="font-display text-5xl md:text-7xl font-bold tracking-tight text-cream" id="rateRange">—</p>
-            <p class="text-cream/60 text-xs mt-3" id="rateContext">for_this_scope</p>
-          </div>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-6">
-            <div class="border border-cream/20 rounded p-4">
-              <p class="text-xs text-cream/50 mb-2">per_deliverable</p>
-              <p class="font-display text-2xl font-bold text-cream" id="perDeliverable">—</p>
-            </div>
-            <div class="border border-cream/20 rounded p-4">
-              <p class="text-xs text-cream/50 mb-2">suggested_package</p>
-              <p class="font-display text-2xl font-bold text-cream" id="packagePrice">—</p>
-              <p class="text-xs text-cream/40 mt-1" id="packageNote"></p>
-            </div>
-            <div class="border border-cream/20 rounded p-4">
-              <p class="text-xs text-cream/50 mb-2">confidence</p>
-              <p class="font-display text-2xl font-bold text-cream" id="confidence">—</p>
-              <p class="text-xs text-cream/40 mt-1" id="confidenceNote"></p>
-            </div>
-          </div>
-          <div class="border border-cream/20 rounded p-5">
+          <div id="resultOutput" class="font-mono text-sm text-cream space-y-4"></div>
+          <div class="mt-6 border border-cream/20 rounded p-5" id="notesPanel">
             <p class="text-xs text-cream/50 mb-3">&gt; negotiation_notes:</p>
             <ul id="negotiationNotes" class="space-y-2 text-sm text-cream/90 leading-relaxed font-sans"></ul>
           </div>
@@ -344,71 +366,6 @@
   </div>
 </section>
 
-<!-- ============ INFLUENCER RATES ============ -->
-<section id="influencer-rates" class="border-b border-line bg-cream">
-  <div class="max-w-5xl mx-auto px-6 py-16">
-    <p class="font-mono text-xs text-moss mb-2">// tool_02b · influencer_rate_calculator</p>
-    <h2 class="font-display text-3xl lg:text-4xl font-bold text-forest mb-3">What should I charge for posting?</h2>
-    <p class="text-ash max-w-xl mb-2">If you post as well as create, your rate is different. This calculator handles posting-only, UGC-only, and bundle deals for creators who do both.</p>
-    <p class="text-sm text-moss font-mono mb-8">// bundle = UGC content + usage rights + posting on your channel. always worth more than either alone.</p>
-
-    <div class="bg-creamDeep border-2 border-forest rounded-sharp p-6 md:p-10">
-      <div class="flex items-center justify-between mb-8 pb-4 border-b border-line">
-        <span class="font-mono text-xs text-moss">influencer_rate.run()</span>
-        <span class="font-mono text-xs text-ash">posting · ugc · bundle</span>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-        <div>
-          <label class="field-label" for="inflPlatform">primary_platform</label>
-          <select id="inflPlatform" class="field">
-            <option value="tiktok">TikTok</option>
-            <option value="instagram" selected>Instagram</option>
-            <option value="youtube_shorts">YouTube Shorts</option>
-            <option value="multi">Multi-platform (all three)</option>
-          </select>
-        </div>
-        <div>
-          <label class="field-label" for="inflFollowers">follower_count</label>
-          <input type="number" id="inflFollowers" class="field" placeholder="e.g. 45000" min="100" />
-        </div>
-        <div>
-          <label class="field-label" for="inflEngagement">engagement_rate · % · avg likes+comments ÷ followers × 100</label>
-          <input type="number" id="inflEngagement" class="field" placeholder="e.g. 4.2" min="0" max="100" step="0.1" />
-        </div>
-        <div>
-          <label class="field-label" for="inflContent">content_type</label>
-          <select id="inflContent" class="field">
-            <option value="posting">Posting only (no UGC deliverable)</option>
-            <option value="ugc">UGC only (no posting on my channel)</option>
-            <option value="bundle" selected>Bundle — UGC content + posting on my channel</option>
-          </select>
-        </div>
-        <div id="inflUGCRow" class="md:col-span-2">
-          <label class="field-label" for="inflUGCCount">ugc_videos_in_bundle · how many deliverables?</label>
-          <input type="number" id="inflUGCCount" class="field" value="3" min="1" max="20" />
-        </div>
-      </div>
-
-      <button class="btn-primary" onclick="calculateInfluencerRate(this)">→ Calculate my rate</button>
-
-      <div id="inflResult" class="hidden mt-10 fade-in">
-        <div class="terminal p-6 md:p-8">
-          <div class="flex items-center justify-between mb-6 pb-3 border-b border-cream/20">
-            <div class="flex items-center gap-2">
-              <span class="w-2 h-2 rounded-full bg-cream/30"></span>
-              <span class="w-2 h-2 rounded-full bg-cream/30"></span>
-              <span class="w-2 h-2 rounded-full bg-moss"></span>
-            </div>
-            <span class="text-xs text-cream/50">influencer_rate.json</span>
-          </div>
-          <div id="inflOutput" class="font-mono text-sm text-cream space-y-4"></div>
-        </div>
-        <div class="mt-4 grid sm:grid-cols-2 gap-4" id="inflNotes"></div>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- ============ RATE BENCHMARKS ============ -->
 <section id="benchmarks" class="border-b border-line bg-creamDeep">
@@ -462,7 +419,7 @@
     <div class="mt-6 p-5 bg-cream border border-line rounded-sharp">
       <p class="font-mono text-xs text-moss mb-2">// want_to_go_deeper?</p>
       <p class="text-sm text-ash mb-3">Ran the calculator and your numbers feel scary? The Strategy Intensive is where we audit your specific rates against your specific clients — and figure out exactly where to raise.</p>
-      <a href="https://stan.store/mayacreativeco/p/strategy-intensive-g5nxk41l" target="_blank" class="font-mono text-xs text-forest border border-forest px-3 py-2 rounded-sharp hover:bg-forest hover:text-cream transition inline-block">→ 1:1 strategy intensive · $700</a>
+      <a href="https://stan.store/mayacreativeco/p/strategy-intensive-g5nxk41l" target="_blank" class="font-mono text-xs text-forest border border-forest px-3 py-2 rounded-sharp hover:bg-forest hover:text-cream transition inline-block">→ 1:1 strategy intensive</a>
     </div>
   </div>
 </section>
@@ -496,18 +453,32 @@
 </footer>
 
 <script>
+  // ─── Constants ───────────────────────────────────────────────────
   const BASE_RATES = { video15:190,video30:290,video60:385,photoSet:160,voiceover:95,grwm:255,unboxing:225,testimonial:255,lifestyle:225,adStyle:325 };
-  const DELIVERABLE_LABELS = { video15:'15-second video',video30:'30-second video',video60:'60-second video',photoSet:'photo set',voiceover:'voiceover',grwm:'GRWM video',unboxing:'unboxing video',testimonial:'testimonial video',lifestyle:'lifestyle video',adStyle:'ad-style video' };
+  const DELIVERABLE_LABELS = { video15:'15-sec video',video30:'30-sec video',video60:'60-sec video',photoSet:'photo set',voiceover:'voiceover',grwm:'GRWM video',unboxing:'unboxing video',testimonial:'testimonial video',lifestyle:'lifestyle video',adStyle:'ad-style video' };
   const USAGE_MULTIPLIERS = { organic:1.0,paid30:1.4,paid90:1.7,paid180:2.1,paid365:2.5,whitelisting:1.6,buyout:3.5 };
   const USAGE_LABELS = { organic:'organic only',paid30:'paid social for 30 days',paid90:'paid social for 90 days',paid180:'paid social for 6 months',paid365:'paid social for 1 year',whitelisting:'whitelisting',buyout:'a full buyout' };
   const TURNAROUND_MULTIPLIERS = { '2weeks':1.0,'1week':1.15,'3days':1.4,rush:1.75 };
   const TURNAROUND_LABELS = { '2weeks':'2-week','1week':'1-week','3days':'3-day',rush:'24-hour rush' };
   const EXPERIENCE_MULTIPLIERS = { new:0.9,growing:1.0,established:1.3 };
   const BRAND_MULTIPLIERS = { indie:0.9,growing:1.0,established:1.2,enterprise:1.4 };
+  const fmt = n => '$' + Math.round(n).toLocaleString('en-US');
 
-  function formatMoney(n) { return '$' + Math.round(n).toLocaleString('en-US'); }
+  // ─── Deal type switcher ───────────────────────────────────────────
+  document.querySelectorAll('.deal-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.deal-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const deal = btn.dataset.deal;
+      document.getElementById('dealType').value = deal;
+      document.getElementById('ugcFields').classList.toggle('hidden', deal === 'posting');
+      document.getElementById('postingFields').classList.toggle('hidden', deal === 'ugc');
+      document.getElementById('bundleUGCRow').classList.toggle('hidden', deal !== 'bundle');
+    });
+  });
 
-  function calculateRate(inputs) {
+  // ─── UGC calc ─────────────────────────────────────────────────────
+  function calcUGC(inputs) {
     const baseRate = BASE_RATES[inputs.deliverableType] * inputs.numDeliverables;
     const revisionAdd = inputs.revisions * 50;
     const conceptsAdd = Math.max(0, inputs.concepts - 1) * 75;
@@ -524,115 +495,10 @@
     return { low, high, mid, perDeliverable, usage, turn, exp, brand };
   }
 
-  function buildNegotiationNotes(inputs, calc) {
-    const notes = [];
-    if (calc.usage >= 2.1) {
-      notes.push(`<strong class="text-cream">Usage rights are doing the heavy lifting.</strong> You're licensing for ${USAGE_LABELS[inputs.usageRights]} — about ${Math.round(calc.usage * 100 - 100)}% above organic. If the brand pushes back, offer to halve the window for a 25% cut.`);
-    } else if (calc.usage >= 1.4) {
-      notes.push(`<strong class="text-cream">Usage is your biggest negotiation lever.</strong> ${USAGE_LABELS[inputs.usageRights].charAt(0).toUpperCase() + USAGE_LABELS[inputs.usageRights].slice(1)} adds ~${Math.round(calc.usage * 100 - 100)}% over organic. Expanding to a full year of paid? Your rate jumps another 40–60%.`);
-    } else {
-      notes.push(`<strong class="text-cream">Organic-only deal.</strong> Make sure the contract explicitly excludes paid social, whitelisting, and ads. If they ever want to run this as an ad, that's a separate fee.`);
-    }
-    if (calc.turn >= 1.4) {
-      notes.push(`<strong class="text-cream">Rush turnaround justifies a real premium.</strong> ${TURNAROUND_LABELS[inputs.turnaround]} adds ${Math.round(calc.turn * 100 - 100)}% to your base. Don't apologize for it — fast work is more valuable.`);
-    }
-    if (inputs.experience === 'new') {
-      notes.push(`<strong class="text-cream">You're early — that's fine.</strong> The calculator built in a 15% adjustment. Once you have 3 testimonials and 6 months of work, switch to "growing" and your floor jumps.`);
-    } else if (inputs.experience === 'established') {
-      notes.push(`<strong class="text-cream">You're past the proving stage.</strong> Don't anchor to what new creators charge. 18+ months of brand work earns you the right to defend bigger numbers.`);
-    }
-    if (inputs.concepts >= 3) {
-      notes.push(`<strong class="text-cream">${inputs.concepts} concepts is more work than most brands realize.</strong> Each unique hook is essentially a separate creative deliverable. Line-item it in the proposal.`);
-    }
-    if (inputs.brandSize === 'enterprise') {
-      notes.push(`<strong class="text-cream">Enterprise brands have budget.</strong> Don't undercharge them out of impostor syndrome — procurement teams are calibrated for higher numbers. Quoting low makes you look junior.`);
-    } else if (inputs.brandSize === 'indie') {
-      notes.push(`<strong class="text-cream">Indie brands have less budget but better relationships.</strong> Trade a 10–15% discount for stronger usage, a public testimonial, or a longer-term commitment.`);
-    }
-    notes.push(`<strong class="text-cream">Quote the high end first.</strong> Lead with $${calc.high.toLocaleString()}. The low end is your floor — not your starting point.`);
-    const floor = formatMoney(calc.low);
-    notes.push(`<strong class="text-cream">Before you send:</strong> Brands that pay under ${floor} are not your customers. Saying yes to them is saying no to the brands that would pay this number. Your floor is ${floor}. Below that, you're not pricing — you're auditioning. And auditions don't compound.`);
-    notes.push(`<strong class="text-cream">On payment terms:</strong> Push for prepay or net-15. Net-30 is the industry standard — acceptable. Net-45 should come with a clear reason (large brand with procurement process). Net-60 is a red flag on any deal under $5K — ask why before agreeing. Whatever you accept, get the terms confirmed in writing in the SOW. "We'll pay when the content goes live" is not a payment term.`);
-    return notes;
-  }
-
-  document.getElementById('rateForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const inputs = {
-      deliverableType: document.getElementById('deliverableType').value,
-      numDeliverables: parseInt(document.getElementById('numDeliverables').value, 10) || 1,
-      usageRights: document.getElementById('usageRights').value,
-      turnaround: document.getElementById('turnaround').value,
-      revisions: parseInt(document.getElementById('revisions').value, 10) || 0,
-      concepts: parseInt(document.getElementById('concepts').value, 10) || 1,
-      experience: document.getElementById('experience').value,
-      brandSize: document.getElementById('brandSize').value,
-    };
-    const calc = calculateRate(inputs);
-    const notes = buildNegotiationNotes(inputs, calc);
-    const panel = document.getElementById('resultPanel');
-    panel.classList.remove('hidden');
-    document.getElementById('rateRange').textContent = `${formatMoney(calc.low)} – ${formatMoney(calc.high)}`;
-    document.getElementById('rateContext').textContent = `${inputs.numDeliverables}x_${DELIVERABLE_LABELS[inputs.deliverableType].replace(/\s/g, '_')}_with_${USAGE_LABELS[inputs.usageRights].replace(/\s/g, '_')}`;
-    document.getElementById('perDeliverable').textContent = formatMoney(calc.perDeliverable);
-    document.getElementById('packagePrice').textContent = formatMoney(calc.mid);
-    document.getElementById('packageNote').textContent = `${inputs.numDeliverables} deliverables`;
-    let conf = 'solid', confNote = 'within market range';
-    if (calc.high > 8000) { conf = 'high-ticket'; confNote = 'quote with confidence'; }
-    if (calc.low < 500) { conf = 'entry-level'; confNote = 'protect your floor'; }
-    document.getElementById('confidence').textContent = conf;
-    document.getElementById('confidenceNote').textContent = confNote;
-    const ul = document.getElementById('negotiationNotes');
-    ul.innerHTML = '';
-    notes.forEach(note => {
-      const li = document.createElement('li');
-      li.innerHTML = `<span class="text-moss">→</span> ${note}`;
-      ul.appendChild(li);
-    });
-    setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
-  });
-
-  document.getElementById('resetBtn').addEventListener('click', function() {
-    document.getElementById('rateForm').reset();
-    document.getElementById('resultPanel').classList.add('hidden');
-  });
-
-  document.getElementById('copyBtn').addEventListener('click', function() {
-    const range = document.getElementById('rateRange').textContent;
-    const context = document.getElementById('rateContext').textContent;
-    const per = document.getElementById('perDeliverable').textContent;
-    const pkg = document.getElementById('packagePrice').textContent;
-    const notes = Array.from(document.querySelectorAll('#negotiationNotes li')).map(li => '• ' + li.textContent.replace(/^→\s*/, '')).join('\n\n');
-    const text = `MY UGC RATE\n${range}\n${context}\n\nPer deliverable: ${per}\nSuggested package: ${pkg}\n\nNEGOTIATION NOTES:\n${notes}\n\nCalculated inside the Booked Out Command Center`;
-    navigator.clipboard.writeText(text).then(() => {
-      const btn = document.getElementById('copyBtn');
-      const original = btn.textContent; btn.textContent = 'Copied ✓';
-      setTimeout(() => { btn.textContent = original; }, 2000);
-    });
-  });
-
-  // ─── Influencer Rate Calculator ──────────────────────────────────
-  document.getElementById('inflContent').addEventListener('change', function() {
-    document.getElementById('inflUGCRow').style.display = this.value === 'posting' ? 'none' : '';
-  });
-
-  function calculateInfluencerRate(btn) {
-    const platform   = document.getElementById('inflPlatform').value;
-    const followers  = parseInt(document.getElementById('inflFollowers').value, 10) || 0;
-    const engRate    = parseFloat(document.getElementById('inflEngagement').value) || 2.5;
-    const contentType = document.getElementById('inflContent').value;
-    const ugcCount   = parseInt(document.getElementById('inflUGCCount').value, 10) || 3;
-
-    if (!followers || followers < 100) {
-      alert('enter your follower count to calculate your rate.');
-      return;
-    }
-
-    // Platform factors
+  // ─── Posting / influencer calc ────────────────────────────────────
+  function calcPosting(followers, engRate, platform) {
     const PF = { tiktok:0.85, instagram:1.0, youtube_shorts:0.95, multi:1.2 };
     const pf = PF[platform] || 1.0;
-
-    // Tier-based posting rate ranges (organic, avg engagement)
     let postLow, postHigh, tier;
     if      (followers <  5000)   { postLow=30;    postHigh=100;   tier='nano (<5K)'; }
     else if (followers < 10000)   { postLow=75;    postHigh=200;   tier='nano (5K–10K)'; }
@@ -643,58 +509,140 @@
     else if (followers < 500000)  { postLow=2500;  postHigh=6000;  tier='mid-tier (250K–500K)'; }
     else if (followers < 1000000) { postLow=5000;  postHigh=12000; tier='macro (500K–1M)'; }
     else                          { postLow=12000; postHigh=30000; tier='mega (1M+)'; }
-
-    // Engagement rate adjustment
     let erMult = 1.0;
     if      (engRate >= 7)   erMult = 1.7;
     else if (engRate >= 5)   erMult = 1.4;
     else if (engRate >= 3.5) erMult = 1.15;
     else if (engRate < 1)    erMult = 0.65;
     else if (engRate < 1.5)  erMult = 0.8;
-
     postLow  = Math.round(postLow  * pf * erMult / 25) * 25;
     postHigh = Math.round(postHigh * pf * erMult / 25) * 25;
-
-    // UGC rate (separate creator fee, not tied to followers)
-    const ugcPerVideo = 260; // baseline per-video UGC rate
-    const ugcTotal = ugcPerVideo * ugcCount;
-
-    // Bundle: posting rate + UGC at 20% discount (efficiency for the brand)
-    const bundleLow  = postLow  + Math.round(ugcTotal * 0.80 / 25) * 25;
-    const bundleHigh = postHigh + Math.round(ugcTotal * 0.90 / 25) * 25;
-
-    const fmt = n => '$' + n.toLocaleString('en-US');
-
-    let html = `<div class="text-cream/50 text-xs mb-4">tier: <span class="text-moss">${tier}</span> · engagement: <span class="text-moss">${engRate}%</span> · platform: <span class="text-moss">${platform.replace('_',' ')}</span></div>`;
-
-    if (contentType === 'posting' || contentType === 'bundle') {
-      html += `<div class="mb-3"><span class="text-cream/50">posting_rate:</span> <span class="text-2xl font-bold text-cream">${fmt(postLow)} – ${fmt(postHigh)}</span> <span class="text-cream/40 text-xs">per post / per video</span></div>`;
-    }
-    if (contentType === 'ugc' || contentType === 'bundle') {
-      html += `<div class="mb-3"><span class="text-cream/50">ugc_rate (${ugcCount} video${ugcCount>1?'s':''}):</span> <span class="text-2xl font-bold text-cream">${fmt(ugcTotal)}</span> <span class="text-cream/40 text-xs">${fmt(ugcPerVideo)}/video · no posting</span></div>`;
-    }
-    if (contentType === 'bundle') {
-      html += `<div class="mt-2 pt-3 border-t border-cream/20"><span class="text-moss text-xs">bundle_total (posting + ugc × 0.85 discount):</span><br/><span class="text-3xl font-bold text-cream">${fmt(bundleLow)} – ${fmt(bundleHigh)}</span></div>`;
-    }
-
-    document.getElementById('inflOutput').innerHTML = html;
-
-    const notesHtml = [];
-    if (erMult > 1.1) notesHtml.push({ title: 'Above-average engagement is a real premium.', body: `Your ${engRate}% ER is above industry average (~2.5%). That adds real value — brands pay for attention that actually converts. Don't be shy about it.` });
-    if (erMult < 0.85) notesHtml.push({ title: 'Low engagement — lead with your UGC.', body: `Your engagement rate is below average, which softens the posting value. Lead with your UGC deliverable quality instead, and bundle the posting as an add-on rather than the anchor.` });
-    if (contentType === 'bundle') notesHtml.push({ title: 'Bundle = amplified value for them.', body: `When you post AND deliver UGC assets, the brand gets creator trust + licensed content in one deal. That's worth more than either alone. Quote the bundle rate as a complete package, not itemized.` });
-    notesHtml.push({ title: 'Posting rate ≠ UGC rate.', body: 'These are two separate fee structures. Your posting rate is based on your audience and influence. Your UGC rate is based on your creative skill and the licensed assets. When you do both, you charge for both — discounted slightly for efficiency, not charity.' });
-
-    const notesContainer = document.getElementById('inflNotes');
-    notesContainer.innerHTML = notesHtml.map(n => `
-      <div class="bg-creamDeep border border-line rounded-sharp p-4">
-        <p class="font-display font-bold text-forest text-sm mb-1">${n.title}</p>
-        <p class="text-xs text-ash">${n.body}</p>
-      </div>`).join('');
-
-    document.getElementById('inflResult').classList.remove('hidden');
-    document.getElementById('inflResult').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    return { postLow, postHigh, tier, erMult };
   }
+
+  // ─── Notes builder ────────────────────────────────────────────────
+  function buildNotes(dealType, inputs, ugcCalc, postCalc) {
+    const notes = [];
+    if (dealType === 'ugc' || dealType === 'bundle') {
+      if (ugcCalc.usage >= 2.1) {
+        notes.push(`<strong class="text-cream">Usage rights are doing the heavy lifting.</strong> You're licensing for ${USAGE_LABELS[inputs.usageRights]} — about ${Math.round(ugcCalc.usage * 100 - 100)}% above organic. If the brand pushes back, offer to halve the window for a 25% cut.`);
+      } else if (ugcCalc.usage >= 1.4) {
+        notes.push(`<strong class="text-cream">Usage is your biggest negotiation lever.</strong> ${USAGE_LABELS[inputs.usageRights].charAt(0).toUpperCase() + USAGE_LABELS[inputs.usageRights].slice(1)} adds ~${Math.round(ugcCalc.usage * 100 - 100)}% over organic. Expanding to a full year? Your rate jumps another 40–60%.`);
+      } else {
+        notes.push(`<strong class="text-cream">Organic-only deal.</strong> Make sure the contract explicitly excludes paid social, whitelisting, and ads. If they ever want to run this as an ad, that's a separate fee.`);
+      }
+      if (ugcCalc.turn >= 1.4) notes.push(`<strong class="text-cream">Rush turnaround justifies a real premium.</strong> ${TURNAROUND_LABELS[inputs.turnaround]} adds ${Math.round(ugcCalc.turn * 100 - 100)}% to your base. Don't apologize for it.`);
+      if (inputs.experience === 'new') notes.push(`<strong class="text-cream">You're early — that's fine.</strong> Once you have 3 testimonials and 6 months of work, switch to "growing" and your floor jumps.`);
+      if (inputs.experience === 'established') notes.push(`<strong class="text-cream">You're past the proving stage.</strong> Don't anchor to what new creators charge. 18+ months earns you the right to defend bigger numbers.`);
+      if (inputs.concepts >= 3) notes.push(`<strong class="text-cream">${inputs.concepts} concepts is more work than most brands realize.</strong> Each unique hook is essentially a separate creative deliverable — line-item it.`);
+      if (inputs.brandSize === 'enterprise') notes.push(`<strong class="text-cream">Enterprise brands have budget.</strong> Quoting low makes you look junior — procurement teams are calibrated for higher numbers.`);
+      if (inputs.brandSize === 'indie') notes.push(`<strong class="text-cream">Indie brands have less budget but better relationships.</strong> Trade a small discount for stronger usage, a public testimonial, or a longer-term commitment.`);
+    }
+    if (dealType === 'posting' || dealType === 'bundle') {
+      if (postCalc.erMult > 1.1) notes.push(`<strong class="text-cream">Above-average engagement is a real premium.</strong> Brands pay for attention that converts — don't be shy about quoting the high end.`);
+      if (postCalc.erMult < 0.85) notes.push(`<strong class="text-cream">Low engagement — lead with your UGC quality.</strong> Your creative skill is the value prop here. Bundle the posting as an add-on, not the anchor.`);
+    }
+    if (dealType === 'bundle') {
+      notes.push(`<strong class="text-cream">Bundle = amplified value for them.</strong> When you post AND deliver UGC assets, the brand gets creator trust + licensed content in one deal. Quote the bundle rate as a complete package, not itemized.`);
+      notes.push(`<strong class="text-cream">Posting rate ≠ UGC rate.</strong> These are two separate fee structures. Your posting rate is based on your audience. Your UGC rate is based on your creative skill. When you do both, you charge for both.`);
+    }
+    if (ugcCalc) {
+      notes.push(`<strong class="text-cream">Quote the high end first.</strong> Lead with ${fmt(ugcCalc.high)}. The low end is your floor — not your starting point.`);
+      notes.push(`<strong class="text-cream">Before you send:</strong> Brands that pay under ${fmt(ugcCalc.low)} are not your customers. Your floor is ${fmt(ugcCalc.low)}. Below that, you're not pricing — you're auditioning.`);
+    }
+    notes.push(`<strong class="text-cream">On payment terms:</strong> Push for prepay or net-15. Net-30 is acceptable. Net-45 needs a clear reason. Net-60 is a red flag on any deal under $5K — ask why before agreeing. Get terms confirmed in writing before you start.`);
+    return notes;
+  }
+
+  // ─── Form submit ──────────────────────────────────────────────────
+  document.getElementById('rateForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const dealType = document.getElementById('dealType').value;
+    const inputs = {
+      deliverableType: document.getElementById('deliverableType').value,
+      numDeliverables: parseInt(document.getElementById('numDeliverables').value, 10) || 1,
+      usageRights: document.getElementById('usageRights').value,
+      turnaround: document.getElementById('turnaround').value,
+      revisions: parseInt(document.getElementById('revisions').value, 10) || 0,
+      concepts: parseInt(document.getElementById('concepts').value, 10) || 1,
+      experience: document.getElementById('experience').value,
+      brandSize: document.getElementById('brandSize').value,
+    };
+    const followers = parseInt(document.getElementById('inflFollowers').value, 10) || 0;
+    const engRate   = parseFloat(document.getElementById('inflEngagement').value) || 2.5;
+    const platform  = document.getElementById('inflPlatform').value;
+    const ugcCount  = parseInt(document.getElementById('inflUGCCount').value, 10) || 3;
+
+    if ((dealType === 'posting' || dealType === 'bundle') && followers < 100) {
+      alert('Please enter your follower count for posting rate calculation.');
+      return;
+    }
+
+    let ugcCalc = null, postCalc = null;
+    if (dealType === 'ugc' || dealType === 'bundle') ugcCalc = calcUGC(inputs);
+    if (dealType === 'posting' || dealType === 'bundle') postCalc = calcPosting(followers, engRate, platform);
+
+    // ── Build output HTML ────────────────────────────────────────────
+    let html = '';
+    if (ugcCalc) {
+      const labelStr = `${inputs.numDeliverables}× ${DELIVERABLE_LABELS[inputs.deliverableType]}`;
+      html += `<div class="text-cream/50 text-xs mb-3">ugc · ${labelStr} · ${USAGE_LABELS[inputs.usageRights]}</div>`;
+      html += `<div class="text-center mb-6">
+        <p class="text-cream/60 text-xs mb-2">&gt; ugc_rate_range:</p>
+        <p class="font-display text-5xl md:text-6xl font-bold tracking-tight text-cream">${fmt(ugcCalc.low)} – ${fmt(ugcCalc.high)}</p>
+        <p class="text-cream/50 text-xs mt-2">${fmt(ugcCalc.perDeliverable)} / deliverable · suggested package: ${fmt(ugcCalc.mid)}</p>
+      </div>`;
+    }
+    if (postCalc) {
+      html += `<div class="text-cream/50 text-xs mb-3">posting · ${postCalc.tier} · ${platform.replace('_',' ')} · ${engRate}% engagement</div>`;
+      html += `<div class="text-center mb-6">
+        <p class="text-cream/60 text-xs mb-2">&gt; posting_rate_range:</p>
+        <p class="font-display text-5xl md:text-6xl font-bold tracking-tight text-cream">${fmt(postCalc.postLow)} – ${fmt(postCalc.postHigh)}</p>
+        <p class="text-cream/50 text-xs mt-2">per post / per video on your channel</p>
+      </div>`;
+    }
+    if (dealType === 'bundle' && ugcCalc && postCalc) {
+      const bundleLow  = postCalc.postLow  + Math.round(ugcCalc.low  * ugcCount / inputs.numDeliverables * 0.85 / 25) * 25;
+      const bundleHigh = postCalc.postHigh + Math.round(ugcCalc.high * ugcCount / inputs.numDeliverables * 0.90 / 25) * 25;
+      html += `<div class="pt-4 border-t border-cream/20 text-center">
+        <p class="text-cream/60 text-xs mb-2">&gt; bundle_total (posting + ugc at 85% of individual):</p>
+        <p class="font-display text-5xl md:text-6xl font-bold tracking-tight text-moss">${fmt(bundleLow)} – ${fmt(bundleHigh)}</p>
+      </div>`;
+    }
+
+    const notes = buildNotes(dealType, inputs, ugcCalc, postCalc);
+    document.getElementById('resultOutput').innerHTML = html;
+    const ul = document.getElementById('negotiationNotes');
+    ul.innerHTML = '';
+    notes.forEach(note => {
+      const li = document.createElement('li');
+      li.innerHTML = `<span class="text-moss">→</span> ${note}`;
+      ul.appendChild(li);
+    });
+    document.getElementById('resultPanel').classList.remove('hidden');
+    setTimeout(() => document.getElementById('resultPanel').scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+  });
+
+  document.getElementById('resetBtn').addEventListener('click', function() {
+    document.getElementById('rateForm').reset();
+    document.getElementById('resultPanel').classList.add('hidden');
+    document.getElementById('dealType').value = 'ugc';
+    document.querySelectorAll('.deal-btn').forEach((b,i) => b.classList.toggle('active', i===0));
+    document.getElementById('ugcFields').classList.remove('hidden');
+    document.getElementById('postingFields').classList.add('hidden');
+    document.getElementById('bundleUGCRow').classList.add('hidden');
+  });
+
+  document.getElementById('copyBtn').addEventListener('click', function() {
+    const output = document.getElementById('resultOutput').innerText || '';
+    const notes = Array.from(document.querySelectorAll('#negotiationNotes li')).map(li => '• ' + li.textContent.replace(/^→\s*/, '')).join('\n\n');
+    const text = `MY RATE\n${output}\n\nNEGOTIATION NOTES:\n${notes}\n\nCalculated inside the Booked Out Command Center`;
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.getElementById('copyBtn');
+      const original = btn.textContent; btn.textContent = 'Copied ✓';
+      setTimeout(() => { btn.textContent = original; }, 2000);
+    });
+  });
 </script>
 
 </body>

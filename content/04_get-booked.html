@@ -126,12 +126,27 @@
           <label class="field-label" for="yourName">your_first_name</label>
           <input type="text" id="yourName" class="field" placeholder="e.g. Maya" required />
         </div>
-        <div class="md:col-span-2">
+        <div>
+          <label class="field-label" for="niche">your_niche · how you'd introduce yourself</label>
+          <select id="niche" class="field" required>
+            <option value="beauty and skincare">Beauty &amp; Skincare</option>
+            <option value="health and wellness">Health &amp; Wellness</option>
+            <option value="fitness and active lifestyle">Fitness &amp; Active Lifestyle</option>
+            <option value="food and beverage">Food &amp; Beverage</option>
+            <option value="home and lifestyle">Home &amp; Lifestyle</option>
+            <option value="fashion and style">Fashion &amp; Style</option>
+            <option value="tech and gadgets">Tech &amp; Gadgets</option>
+            <option value="baby and parenting">Baby &amp; Parenting</option>
+            <option value="pet care">Pet Care</option>
+            <option value="finance and business">Finance &amp; Business</option>
+          </select>
+        </div>
+        <div>
           <label class="field-label" for="product">product_or_launch</label>
           <input type="text" id="product" class="field" placeholder="e.g. the new vitamin C serum" required />
         </div>
         <div class="md:col-span-2">
-          <label class="field-label" for="hook">why_you_love_it · 1_sentence</label>
+          <label class="field-label" for="hook">why_you_love_it · your honest 1-sentence take</label>
           <input type="text" id="hook" class="field" placeholder="e.g. I've been using it for two weeks and the texture is unreal" required />
         </div>
         <div class="md:col-span-2">
@@ -141,11 +156,16 @@
         <div>
           <label class="field-label" for="deliverable">deliverable</label>
           <select id="deliverable" class="field" required>
+            <option value="1 UGC video (30 seconds)">1 UGC video (30 seconds)</option>
+            <option value="1 UGC video (60 seconds)">1 UGC video (60 seconds)</option>
+            <option value="2 × 30-second vertical videos">2 × 30-second vertical videos</option>
             <option value="3 × 30-second vertical videos">3 × 30-second vertical videos</option>
             <option value="2 × 60-second vertical videos">2 × 60-second vertical videos</option>
             <option value="a 5-piece photo set + 1 hero video">a 5-piece photo set + 1 hero video</option>
             <option value="a 3-concept GRWM package">a 3-concept GRWM package</option>
             <option value="an unboxing + testimonial combo">an unboxing + testimonial combo</option>
+            <option value="a full review video (60–90 seconds)">a full review video (60–90 seconds)</option>
+            <option value="a photo set (5 images)">a photo set (5 images)</option>
           </select>
         </div>
         <div>
@@ -160,9 +180,9 @@
         <div class="md:col-span-2">
           <label class="field-label" for="tone">tone</label>
           <select id="tone" class="field">
-            <option value="warm">Warm and personal</option>
-            <option value="direct">Direct and professional</option>
-            <option value="confident">Confident and results-forward</option>
+            <option value="warm">Warm and personal — genuine connection, feels like a friend recommending it</option>
+            <option value="direct">Direct and professional — short, clear, respects their time</option>
+            <option value="confident">Confident and results-forward — leads with proof, not enthusiasm</option>
           </select>
         </div>
         <div class="md:col-span-2 flex flex-col sm:flex-row gap-4 items-center justify-center pt-4">
@@ -350,58 +370,98 @@
 <!-- ============ BRAND CONTACTS ============ -->
 <section id="brand-contacts" class="border-b border-line bg-creamDeep">
   <div class="max-w-5xl mx-auto px-6 py-16">
-    <p class="font-mono text-xs text-moss mb-2">// tool_03 · brand_contact_database</p>
-    <h2 class="font-display text-3xl font-bold text-forest mb-3">Where to find brands. Who to pitch.</h2>
-    <p class="text-ash max-w-2xl mb-8">A starter list of DTC brands that actively book UGC — plus the platforms and roles to target at each. Use this to build your outbound list before you even write a pitch.</p>
+    <p class="font-mono text-xs text-moss mb-2">// tool_03 · brand_sourcing_system</p>
+    <h2 class="font-display text-3xl font-bold text-forest mb-3">Where to find brands. How to fill your pipeline.</h2>
+    <p class="text-ash max-w-2xl mb-8">Two separate systems — inbound (brands come to you) and outbound (you go to them). Build both. Consistent bookings come from running both tracks at once, not just one.</p>
 
-    <div class="bg-cream border-2 border-forest rounded-sharp p-6 md:p-8">
-      <div class="flex items-center justify-between mb-5 pb-4 border-b border-line">
-        <span class="font-mono text-xs text-moss">brand_database.schema</span>
-        <span class="font-mono text-xs text-ash">pitch_strategy</span>
-      </div>
+    <div class="bg-cream border-2 border-forest rounded-sharp p-6 md:p-8 space-y-10">
 
-      <div class="grid md:grid-cols-2 gap-6 mb-6">
-        <div>
-          <p class="font-mono text-[11px] text-moss mb-3">// columns_to_track</p>
-          <ul class="space-y-2 text-sm text-ash">
-            <li>→ <strong class="text-forest">brand_name</strong></li>
-            <li>→ <strong class="text-forest">niche</strong> (beauty / wellness / food / lifestyle)</li>
-            <li>→ <strong class="text-forest">size_tier</strong> (indie / growing / established / enterprise)</li>
-            <li>→ <strong class="text-forest">ideal_role_to_pitch</strong></li>
-            <li>→ <strong class="text-forest">preferred_channel</strong> (email / IG DM / LinkedIn)</li>
-            <li>→ <strong class="text-forest">known_to_book_ugc</strong></li>
-            <li>→ <strong class="text-forest">typical_rate_tier</strong></li>
-          </ul>
+      <!-- INBOUND -->
+      <div>
+        <div class="flex items-center gap-3 mb-5 pb-4 border-b border-line">
+          <span class="font-mono text-xs text-moss">system_01 · inbound</span>
+          <span class="font-mono text-xs text-ash/60">brands come to you · set it up once and let it run</span>
         </div>
-        <div>
-          <p class="font-mono text-[11px] text-moss mb-3">// how_to_find_brands</p>
-          <ol class="space-y-2 text-sm text-ash list-decimal ml-4">
-            <li>Search TikTok / Reels for your niche + "ad" — if they're running paid content, they want UGC.</li>
-            <li>Check Meta Ad Library for brands in your category.</li>
-            <li>Use Cohley, Backstage, and Kale (creator platforms) to find brands actively running campaigns.</li>
-            <li>Look at other UGC creators in your niche — who are they tagging?</li>
-            <li>Search LinkedIn for "[brand name] social media manager" or "content marketing" — that's usually your contact.</li>
-          </ol>
-        </div>
-      </div>
-
-      <div class="border-t border-line pt-5">
-        <p class="font-mono text-[11px] text-moss mb-3">// platform_strategy</p>
-        <div class="grid sm:grid-cols-3 gap-4">
+        <p class="text-sm text-ash mb-5">Inbound is where brands discover you — your portfolio, your profiles, your presence on creator marketplaces. Your job is to exist in the right places with the right positioning.</p>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div class="bg-creamDeep border border-line rounded-sharp p-4">
+            <div class="font-display font-bold text-forest text-sm mb-1">LinkedIn</div>
+            <p class="text-xs text-ash">The highest-intent inbound channel. Post UGC content, share case studies, comment on brand posts. Social media managers and marketing leads use LinkedIn daily — your best shot at warm discovery.</p>
+          </div>
+          <div class="bg-creamDeep border border-line rounded-sharp p-4">
+            <div class="font-display font-bold text-forest text-sm mb-1">Instagram</div>
+            <p class="text-xs text-ash">Keep your portfolio highlight updated with recent work. Brands DM creators they've been watching. Tagging brands in relevant content is the easiest organic inbound trigger.</p>
+          </div>
+          <div class="bg-creamDeep border border-line rounded-sharp p-4">
+            <div class="font-display font-bold text-forest text-sm mb-1">Trend.io</div>
+            <p class="text-xs text-ash">High-quality brand campaigns posted directly by brands. Apply to briefs that fit. Competitive but deal sizes are solid. Good for building case studies fast.</p>
+          </div>
           <div class="bg-creamDeep border border-line rounded-sharp p-4">
             <div class="font-display font-bold text-forest text-sm mb-1">Cohley</div>
-            <p class="text-xs text-ash">Brand-side brief platform. Apply to campaigns brands post. Best for established creators with portfolio.</p>
+            <p class="text-xs text-ash">Brand-side brief platform. Brands post their campaigns and you apply. Best for established creators — portfolio quality matters here more than follower count.</p>
+          </div>
+          <div class="bg-creamDeep border border-line rounded-sharp p-4">
+            <div class="font-display font-bold text-forest text-sm mb-1">Aspire.io</div>
+            <p class="text-xs text-ash">Creator marketplace used by mid-to-large DTC brands. Strong in beauty, wellness, and lifestyle. Set your profile up properly and you'll get inbound briefs without lifting a finger.</p>
           </div>
           <div class="bg-creamDeep border border-line rounded-sharp p-4">
             <div class="font-display font-bold text-forest text-sm mb-1">Backstage</div>
-            <p class="text-xs text-ash">Creator marketplace. Brands search you. Strong for beauty, wellness, lifestyle. Keep your profile rate-current.</p>
+            <p class="text-xs text-ash">Creator directory where brands search by niche, style, and availability. Keep your profile active and rate-current. Strong for beauty, wellness, and lifestyle creators.</p>
           </div>
-          <div class="bg-creamDeep border border-line rounded-sharp p-4">
-            <div class="font-display font-bold text-forest text-sm mb-1">Kale</div>
-            <p class="text-xs text-ash">DTC-focused UGC platform. Growing fast. Food, bev, CPG brands. Often lower-ticket but volume is high.</p>
+          <div class="bg-creamDeep border border-line rounded-sharp p-4 sm:col-span-2 lg:col-span-3">
+            <div class="flex items-start gap-3">
+              <div class="flex-1">
+                <div class="font-display font-bold text-forest text-sm mb-1">Kale <span class="font-mono text-[10px] text-moss font-normal ml-1">// inbound only</span></div>
+                <p class="text-xs text-ash">DTC-focused UGC platform with a volume-heavy model. Brands post campaigns, you apply. Deal sizes tend to run lower than direct outbound, but volume and consistency are high. Good for building reps and testimonials early on.</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
+
+      <!-- OUTBOUND -->
+      <div>
+        <div class="flex items-center gap-3 mb-5 pb-4 border-b border-line">
+          <span class="font-mono text-xs text-moss">system_02 · outbound</span>
+          <span class="font-mono text-xs text-ash/60">you go to brands · your most controllable pipeline lever</span>
+        </div>
+        <p class="text-sm text-ash mb-2">Outbound is how you control your own pipeline. You identify the brands, you build the list, you send the pitch. The inbound system fills gaps — outbound fills your calendar.</p>
+        <p class="text-sm text-ash mb-5">Pick <strong class="text-forest">one</strong> outbound tool and commit to it. These platforms help you build targeted brand lists, find contact emails, and run follow-up sequences so nothing falls through. Don't use all four — pick the one that fits your budget and volume.</p>
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div class="bg-creamDeep border border-line rounded-sharp p-4">
+            <div class="font-display font-bold text-forest text-sm mb-1">Onbento</div>
+            <p class="text-xs text-ash mb-2">Built specifically for creators and UGC outreach. Find brand contacts by niche, build sequences, track open rates. The most creator-native option on this list.</p>
+            <p class="font-mono text-[10px] text-moss">best for: UGC creators new to outbound</p>
+          </div>
+          <div class="bg-creamDeep border border-line rounded-sharp p-4">
+            <div class="font-display font-bold text-forest text-sm mb-1">Apollo.io</div>
+            <p class="text-xs text-ash mb-2">Full-featured B2B prospecting tool. Find verified emails for social media managers and marketing leads at DTC brands. More powerful than Onbento, steeper learning curve.</p>
+            <p class="font-mono text-[10px] text-moss">best for: experienced creators who know their target brand profile</p>
+          </div>
+          <div class="bg-creamDeep border border-line rounded-sharp p-4">
+            <div class="font-display font-bold text-forest text-sm mb-1">Persona.space</div>
+            <p class="text-xs text-ash mb-2">Creator-focused CRM and outbound tool. Helps you manage your brand contacts, track conversations, and run follow-up sequences in one place.</p>
+            <p class="font-mono text-[10px] text-moss">best for: creators managing 20+ active brand relationships</p>
+          </div>
+          <div class="bg-creamDeep border border-line rounded-sharp p-4">
+            <div class="font-display font-bold text-forest text-sm mb-1">Lemlist</div>
+            <p class="text-xs text-ash mb-2">Email sequencing tool used by sales teams and freelancers. Strong personalization and deliverability features. Pair with Apollo for list-building + Lemlist for sending.</p>
+            <p class="font-mono text-[10px] text-moss">best for: creators sending 50+ personalized pitches per month</p>
+          </div>
+        </div>
+        <div class="mt-4 bg-forest/5 border border-line rounded-sharp p-4">
+          <p class="font-mono text-[11px] text-moss mb-2">// what to track in your outbound system</p>
+          <div class="grid sm:grid-cols-2 gap-x-6 gap-y-1 text-xs text-ash">
+            <p>→ <strong class="text-forest">brand_name</strong> + niche</p>
+            <p>→ <strong class="text-forest">contact_name</strong> + role + email</p>
+            <p>→ <strong class="text-forest">pitch_date</strong> + follow-up dates</p>
+            <p>→ <strong class="text-forest">status</strong> (sent / replied / closed / ghosted)</p>
+            <p>→ <strong class="text-forest">platform</strong> (where you found them)</p>
+            <p>→ <strong class="text-forest">deal_value</strong> if closed</p>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
@@ -514,7 +574,7 @@
     <div class="mt-6 p-5 bg-cream border border-line rounded-sharp">
       <p class="font-mono text-xs text-moss mb-2">// still stuck after 50 pitches?</p>
       <p class="text-sm text-ash mb-3">Bring your last 5 pitches to the Strategy Intensive. It's the fastest way to find the specific line that's losing deals — and fix it in one session.</p>
-      <a href="https://stan.store/mayacreativeco/p/strategy-intensive-g5nxk41l" target="_blank" class="font-mono text-xs text-forest border border-forest px-3 py-2 rounded-sharp hover:bg-forest hover:text-cream transition inline-block">→ 1:1 strategy intensive · $700</a>
+      <a href="https://stan.store/mayacreativeco/p/strategy-intensive-g5nxk41l" target="_blank" class="font-mono text-xs text-forest border border-forest px-3 py-2 rounded-sharp hover:bg-forest hover:text-cream transition inline-block">→ 1:1 strategy intensive</a>
     </div>
   </div>
 </section>
@@ -550,18 +610,19 @@
 <script>
   // Pitch generator
   function pitchFallback(ctx) {
+    const nicheIntro = ctx.niche ? `I'm a UGC creator in the ${ctx.niche} space` : `I'm a UGC creator`;
     const OPENERS = {
-      warm: `Hi ${ctx.contactName},\n\nI've been following ${ctx.brandName} for a while and ${ctx.hook.toLowerCase()}. It's genuinely the kind of product I'd pitch without being asked to — which is why I am.`,
-      direct: `Hi ${ctx.contactName},\n\nI'm a UGC creator and I think ${ctx.brandName} is a great fit for the kind of content I make. Quick pitch: ${ctx.hook}.`,
-      confident: `Hi ${ctx.contactName},\n\nI'm reaching out because ${ctx.brandName} is one of the brands my audience actually asks me about. ${ctx.hook} — and I can already see the hooks I'd build around it.`,
+      warm: `Hi ${ctx.contactName},\n\n${nicheIntro}, and I've been genuinely using ${ctx.product} for the past few weeks. ${ctx.hook}. It's the kind of product I'd tell friends about without being asked — which is why I'm reaching out.`,
+      direct: `Hi ${ctx.contactName},\n\n${nicheIntro} and I think ${ctx.brandName} is a strong fit for the content I make. Quick pitch: ${ctx.hook}.`,
+      confident: `Hi ${ctx.contactName},\n\n${nicheIntro}. I've been watching ${ctx.brandName} and I think there's a specific angle for ${ctx.product} that would convert — ${ctx.contentIdea}.`,
     };
     const CLOSERS = {
-      warm: `Would you be open to seeing a couple of concepts for ${ctx.quarter}? I can have them to you in 48 hours.\n\nEither way, big fan of what you're building.\n\n— ${ctx.yourName}`,
-      direct: `Can I send my portfolio and 2–3 concept directions built around ${ctx.product} for ${ctx.quarter}?\n\n— ${ctx.yourName}`,
-      confident: `If you want to see 2–3 concept directions built for ${ctx.quarter}, I can have them to you inside 48 hours. Want me to send them over?\n\n— ${ctx.yourName}`,
+      warm: `I had an angle in mind for ${ctx.quarter}: ${ctx.contentIdea}. Proposed deliverable: ${ctx.deliverable}.\n\nWould you be open to seeing a couple of concepts? I can have them to you in 48 hours.\n\n— ${ctx.yourName}`,
+      direct: `Angle I'd pitch for ${ctx.quarter}: ${ctx.contentIdea}. Deliverable: ${ctx.deliverable}.\n\nCan I send my portfolio over?\n\n— ${ctx.yourName}`,
+      confident: `I have 2–3 concept directions for ${ctx.quarter} already drafted. Proposed deliverable: ${ctx.deliverable}.\n\nWant me to send them over?\n\n— ${ctx.yourName}`,
     };
-    const body = `${OPENERS[ctx.tone] || OPENERS.warm}\n\nI had a specific angle in mind: ${ctx.contentIdea}. Proposed deliverable: ${ctx.deliverable}.\n\n${CLOSERS[ctx.tone] || CLOSERS.warm}`;
-    return { subject: `${ctx.quarter} idea for ${ctx.brandName} · from ${ctx.yourName}`, body };
+    const body = `${OPENERS[ctx.tone] || OPENERS.warm}\n\n${CLOSERS[ctx.tone] || CLOSERS.warm}`;
+    return { subject: `${ctx.quarter} content idea for ${ctx.brandName}`, body };
   }
 
   document.getElementById('pitchForm').addEventListener('submit', async function(e) {
@@ -570,6 +631,7 @@
       brandName: document.getElementById('brandName').value.trim(),
       contactName: document.getElementById('contactName').value.trim(),
       yourName: document.getElementById('yourName').value.trim(),
+      niche: document.getElementById('niche').value,
       product: document.getElementById('product').value.trim(),
       hook: document.getElementById('hook').value.trim(),
       contentIdea: document.getElementById('contentIdea').value.trim(),

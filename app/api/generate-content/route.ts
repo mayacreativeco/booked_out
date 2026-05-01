@@ -74,7 +74,31 @@ const AGE_CONTEXT: Record<string, {
   },
 };
 
-async function callClaude(prompt: string, apiKey: string, maxTokens = 1024): Promise<string> {
+const UGC_SYSTEM = `You are an expert UGC (user-generated content) scriptwriter for TikTok and Instagram Reels. You write hooks and scripts that feel personal, specific, and genuinely human — never like marketing copy or a template being filled in.
+
+STRICT writing rules you always follow:
+- ALL LOWERCASE — no capital letters anywhere except proper nouns and brand names
+- NO em dashes (—) — use commas, periods, ellipses, or line breaks instead
+- First person only ("i", "my", "me")
+- Diary-tone: sounds like someone talking to a close friend, not to an audience
+- Make it specific and personal to the product and pain — never generic filler phrases
+- Zero marketing speak: never write "revolutionary", "game-changing", "transform your", "amazing results", "life-changing", "incredible"
+- Integrate the product naturally — don't announce it like a brand placement
+- Write as if you're the creator describing their own real experience`;
+
+const PITCH_SYSTEM = `You are an expert cold email copywriter for UGC creators pitching brands. You write pitch emails that feel personal, specific, and like a real person wrote them — never like a template.
+
+STRICT writing rules you always follow:
+- Proper capitalization and punctuation throughout — this is a professional email
+- NO em dashes (—) — use commas, periods, or line breaks instead
+- First person ("I", "my", "me")
+- Short sentences. No fluff. Every line earns its place.
+- Zero marketing speak — never write "synergy", "leverage", "circle back", "touch base", "game-changing", "amazing opportunity"
+- Sound like a confident professional, not a fan or a salesperson
+- Always open with "Hi [name]," — never "Hey"
+- No rates, no pricing, no budget language anywhere in the email`;
+
+async function callClaude(prompt: string, apiKey: string, maxTokens = 1024, systemPrompt = UGC_SYSTEM): Promise<string> {
   const resp = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
     headers: {
@@ -85,17 +109,7 @@ async function callClaude(prompt: string, apiKey: string, maxTokens = 1024): Pro
     body: JSON.stringify({
       model: 'claude-haiku-4-5-20251001',
       max_tokens: maxTokens,
-      system: `You are an expert UGC (user-generated content) scriptwriter for TikTok and Instagram Reels. You write hooks and scripts that feel personal, specific, and genuinely human — never like marketing copy or a template being filled in.
-
-STRICT writing rules you always follow:
-- ALL LOWERCASE — no capital letters anywhere except proper nouns and brand names
-- NO em dashes (—) — use commas, periods, ellipses, or line breaks instead
-- First person only ("i", "my", "me")
-- Diary-tone: sounds like someone talking to a close friend, not to an audience
-- Make it specific and personal to the product and pain — never generic filler phrases
-- Zero marketing speak: never write "revolutionary", "game-changing", "transform your", "amazing results", "life-changing", "incredible"
-- Integrate the product naturally — don't announce it like a brand placement
-- Write as if you're the creator describing their own real experience`,
+      system: systemPrompt,
       messages: [{ role: 'user', content: prompt }],
     }),
   });
@@ -215,23 +229,42 @@ The script should sell the transformation (${result}), not the features of ${pro
 
     // ─── PITCH GENERATION ────────────────────────────────────────────
     } else if (type === 'pitch') {
-      const { brandName, contactName, yourName, product, hook, contentIdea, quarter, deliverable, tone } = body;
+      const { brandName, contactName, yourName, product, hook, contentIdea, quarter, deliverable, tone, niche } = body;
 
       const QUARTER_CONTEXT: Record<string, string> = {
-        Q1: 'Q1 (Jan–Mar): New Year/new goals energy, Valentine\'s Day, winter-to-spring transition, "new year new me" campaigns',
-        Q2: 'Q2 (Apr–Jun): Spring/summer launch season, Mother\'s Day, Memorial Day, graduation gifts',
-        Q3: 'Q3 (Jul–Sep): Summer peak, back-to-school, Labor Day, pre-holiday content build',
-        Q4: 'Q4 (Oct–Dec): Halloween, Black Friday / Cyber Monday, holiday gifting, Christmas, year-end urgency',
+        Q1: 'Q1 (Jan–Mar): New Year energy, Valentine\'s Day, winter-to-spring transition — "fresh start" messaging performs well',
+        Q2: 'Q2 (Apr–Jun): Spring/summer launches, Mother\'s Day, graduation gifting season — emotional and gifting angles work',
+        Q3: 'Q3 (Jul–Sep): Summer peak, back-to-school, pre-holiday content build — lifestyle and routine content performs',
+        Q4: 'Q4 (Oct–Dec): Halloween, Black Friday / Cyber Monday, holiday gifting, Christmas — highest spend season, urgency drives',
       };
 
       const TONE_GUIDE: Record<string, string> = {
-        warm: 'warm and personal — feels like you genuinely know and care about the brand. conversational but intentional. not fangirl-ish.',
-        direct: 'direct and professional — short sentences, clear value prop, no fluff. respects their inbox.',
-        confident: 'confident and results-forward — leads with what you can produce for them, not with compliments.',
+        warm: `WARM AND PERSONAL TONE:
+- Opens with a genuine, specific observation about the brand or product — not a generic compliment
+- Mentions your real connection to the product (you've used it, you follow them, something specific)
+- Feels like one person writing to another person, not a creator pitching a brand
+- Closes with a warm but confident CTA — "I'd love to share a couple of concepts" or "Can I send over my portfolio?"
+- The voice should feel like: a friend recommending something they actually love`,
+
+        direct: `DIRECT AND PROFESSIONAL TONE:
+- Opens by stating your niche and what you do immediately — no warm-up
+- Acknowledges the brand in one specific line, then moves to the pitch
+- Short paragraphs, declarative sentences, no hedging
+- CTA is clear and businesslike: "Can I send my portfolio over?" or "Would you be open to a quick concept deck?"
+- The voice should feel like: a professional who respects the reader's time and gets straight to the point`,
+
+        confident: `CONFIDENT AND RESULTS-FORWARD TONE:
+- Opens with proof first — a metric, a result, a specific outcome you've delivered for a comparable brand
+- Does NOT open with compliments about the brand — earns the conversation with what you've done
+- Frames the pitch around what you can produce for THEM, not why you love their product
+- Uses specific language: "I think there's a [hook type] angle here that would convert" rather than vague enthusiasm
+- CTA should feel like a business offer: "I have 2–3 concept directions ready — want me to send them?"
+- The voice should feel like: a creative partner who knows their value and makes it clear`,
       };
 
       const quarterCtx = QUARTER_CONTEXT[quarter] ?? '';
       const toneGuide = TONE_GUIDE[tone] ?? TONE_GUIDE.warm;
+      const nicheCtx = niche ? `- Creator's niche: ${niche} (weave this into the positioning intro naturally)` : '';
 
       const prompt = `Write a cold outreach pitch email from a UGC creator to a brand.
 
@@ -239,26 +272,29 @@ BRAND DETAILS:
 - Brand: ${brandName}
 - Contact first name: ${contactName}
 - Product or launch: ${product}
-- Why the creator genuinely loves it: ${hook}
+- Why the creator genuinely loves it / their honest take: ${hook}
 - Quarter they're pitching for: ${quarter} — ${quarterCtx}
 - Content concept / angle they want to pitch: ${contentIdea}
 - Proposed deliverable: ${deliverable}
 - Creator's first name: ${yourName}
+${nicheCtx}
 
-EMAIL TONE: ${toneGuide}
+${toneGuide}
 
 NON-NEGOTIABLE RULES — break any of these and the output is wrong:
-1. ZERO rates, prices, dollar amounts, or budget language anywhere in the email. None. The purpose of this email is to open a conversation and earn a reply, not to quote.
-2. The CTA must be soft and low-pressure — always portfolio or concept focused. Examples: "Would you be open to seeing a couple of concepts for ${quarter}?" / "Can I send my portfolio over?" / "I'd love to share 2–3 creative directions built around [product/quarter] — want me to send them over?"
-3. Tie the content idea and quarter context together naturally — make it feel timely and specific to this brand, not generic.
-4. Keep the body under 130 words. Short is more likely to get a reply.
-5. The subject line should be specific and curiosity-driving — never generic like "UGC collaboration" or "partnership opportunity."
-6. Write it like a real person wrote it — no template-ese.
+1. ZERO rates, prices, dollar amounts, or budget language. None. This email exists to earn a reply, not to quote.
+2. Always open with "Hi ${contactName}," — never "Hey"
+3. The CTA must be soft and low-pressure — portfolio or concept focused. Examples: "Would you be open to seeing a couple of concepts for ${quarter}?" / "Can I send my portfolio over?" / "I have 2–3 concept directions for ${quarter} — want me to send them over?"
+4. Tie the content idea and quarter context together naturally — make it feel timely and specific to this brand
+5. Keep the body under 130 words. Short emails get more replies.
+6. The subject line should be specific and curiosity-driving — never generic like "UGC collaboration" or "partnership opportunity"
+7. Proper capitalization and grammar throughout — this is a professional email
+8. Write it like a real person wrote it — no template-ese, no "I hope this email finds you well"
 
 Return ONLY this JSON, nothing else:
 {"subject": "subject line here", "body": "full email body here — use \\n for line breaks"}`;
 
-      const text = await callClaude(prompt, apiKey, 600);
+      const text = await callClaude(prompt, apiKey, 600, PITCH_SYSTEM);
       const jsonMatch = text.match(/\{[\s\S]*\}/);
       if (!jsonMatch) throw new Error('no JSON in pitch response');
       const parsed = JSON.parse(jsonMatch[0]);
