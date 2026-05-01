@@ -40,6 +40,23 @@
   details.acc>summary::-webkit-details-marker{display:none}
   details.acc[open]>summary .tog{transform:rotate(45deg)}
   .tog{transition:transform 0.2s;display:inline-block}
+  /* ── Contract Redline Detector ── */
+  textarea.audit-input{width:100%;background:#fff;border:1px solid #D8D0BE;border-radius:4px;padding:12px;font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.6;color:#0A1A12;resize:vertical;transition:border-color 0.15s}
+  textarea.audit-input:focus{outline:none;border-color:#1B3A2F;box-shadow:0 0 0 3px rgba(27,58,47,0.1)}
+  details.flag-card>summary{list-style:none;cursor:pointer}
+  details.flag-card>summary::-webkit-details-marker{display:none}
+  details.flag-card[open]>summary .ftog{transform:rotate(180deg)}
+  .ftog{transition:transform 0.2s;display:inline-block;line-height:1}
+  .stat-pill{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:4px;padding:12px 16px;text-align:center}
+  .badge-high{background:#FEE2E2;color:#DC2626;padding:2px 8px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;white-space:nowrap}
+  .badge-medium{background:#FEF3C7;color:#D97706;padding:2px 8px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;white-space:nowrap}
+  .badge-low{background:#D1FAE5;color:#059669;padding:2px 8px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;white-space:nowrap}
+  .btn-copy{display:inline-flex;align-items:center;gap:6px;background:transparent;color:#1B3A2F;padding:6px 12px;border:1px solid #1B3A2F;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:11px;cursor:pointer;transition:all 0.15s}
+  .btn-copy:hover{background:#1B3A2F;color:#F5F0E4}
+  .fade-in{animation:fadeIn 0.35s ease-out}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes progress-slide{0%{transform:translateX(-100%)}100%{transform:translateX(400%)}}
+  .audit-bar-anim{animation:progress-slide 1.6s ease-in-out infinite}
 </style>
 </head>
 <body class="bg-cream text-ink">
@@ -86,6 +103,7 @@
       <a href="#proposal" class="px-4 py-2 border border-line rounded-sharp font-mono text-xs text-forest hover:border-forest">→ proposal_template</a>
       <a href="#client-tracker" class="px-4 py-2 border border-line rounded-sharp font-mono text-xs text-forest hover:border-forest">→ client_tracker</a>
       <a href="#onboarding" class="px-4 py-2 border border-line rounded-sharp font-mono text-xs text-forest hover:border-forest">→ onboarding_workflow</a>
+      <a href="#contract-redline" class="px-4 py-2 border border-line rounded-sharp font-mono text-xs text-forest hover:border-forest">→ contract_redline_detector</a>
       <a href="#ceo-dashboard" class="px-4 py-2 border border-line rounded-sharp font-mono text-xs text-forest hover:border-forest">→ weekly_ceo_dashboard</a>
     </div>
   </div>
@@ -300,6 +318,100 @@
   </div>
 </section>
 
+<!-- ============ CONTRACT REDLINE DETECTOR ============ -->
+<section id="contract-redline" class="border-b border-line bg-creamDeep">
+  <div class="max-w-5xl mx-auto px-6 py-16">
+    <p class="font-mono text-xs text-moss mb-2">// tool_04 · contract_redline_detector</p>
+    <h2 class="font-display text-3xl lg:text-4xl font-bold text-forest mb-3">Don't sign that contract yet.</h2>
+    <p class="text-ash max-w-2xl mb-5">Paste the full contract text. The AI audits every clause against the 9 categories that quietly cost creators money, rights, and leverage — then writes the exact redlines to send back.</p>
+
+    <div class="flex items-start gap-3 bg-forest/5 border border-forest/20 rounded-sharp p-4 mb-8">
+      <span class="font-mono text-xs text-moss flex-shrink-0 pt-0.5">🔒</span>
+      <p class="font-mono text-xs text-ash"><strong class="text-forest">privacy:</strong> your contract is sent to the audit endpoint, processed once, and never logged or stored. nothing is saved between sessions.</p>
+    </div>
+
+    <div class="bg-cream border-2 border-forest rounded-sharp p-6 md:p-8">
+      <div class="flex items-center justify-between mb-5 pb-4 border-b border-line">
+        <span class="font-mono text-xs text-moss">contract_redline_detector.run()</span>
+        <span class="font-mono text-xs text-ash">ai_powered · claude</span>
+      </div>
+      <form id="auditForm">
+        <div class="mb-2">
+          <label class="block font-mono text-[11px] text-ash mb-2">paste_contract_text · full document only · minimum 200 characters</label>
+          <textarea id="contractInput" class="audit-input" rows="14" placeholder="Paste the full contract text here — all clauses, all headers, everything. The more complete the paste, the more accurate the audit."></textarea>
+        </div>
+        <div class="flex items-center justify-between mb-5">
+          <span class="font-mono text-[11px] text-ash" id="charCount">0 characters</span>
+        </div>
+        <div class="flex flex-wrap gap-3 items-center">
+          <button type="submit" id="auditRunBtn" class="btn-primary">→ Run the audit</button>
+          <button type="button" id="auditResetBtn" class="btn-ghost">reset()</button>
+          <button type="button" id="auditSampleBtn" class="font-mono text-xs text-moss border border-moss/40 px-4 py-2 rounded-sharp hover:border-moss hover:bg-moss/5 transition">load sample contract</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Loading state -->
+    <div id="auditLoading" class="hidden mt-5 bg-cream border border-line rounded-sharp p-5">
+      <div class="flex items-center gap-3 mb-3">
+        <span class="w-2 h-2 rounded-full bg-moss flex-shrink-0" style="animation:blink 1s step-end infinite"></span>
+        <span class="font-mono text-sm text-forest" id="auditLoadingText">// scanning_clauses...</span>
+      </div>
+      <div class="h-1 bg-creamDeep rounded overflow-hidden">
+        <div class="h-full w-1/3 bg-moss/50 rounded audit-bar-anim"></div>
+      </div>
+    </div>
+
+    <!-- Error state -->
+    <div id="auditError" class="hidden mt-5 bg-cream border border-line rounded-sharp p-5">
+      <p class="font-mono text-sm text-forest" id="auditErrorText"></p>
+    </div>
+
+    <!-- Output panel -->
+    <div id="auditOutput" class="hidden mt-8 space-y-6 fade-in">
+
+      <!-- Summary card -->
+      <div id="auditSummary"></div>
+
+      <!-- Per-flag cards -->
+      <div>
+        <p class="font-mono text-xs text-moss mb-3">// per_clause_redlines · sorted_by_severity</p>
+        <div id="auditFlags" class="space-y-3"></div>
+      </div>
+
+      <!-- Response email -->
+      <div id="auditEmail"></div>
+
+      <!-- Quick reference -->
+      <div class="bg-cream border border-line rounded-sharp p-6">
+        <p class="font-mono text-xs text-moss mb-4">// 5_rules_of_redlining</p>
+        <div class="space-y-4">
+          <div class="flex gap-4 text-sm text-ash">
+            <span class="font-mono text-moss flex-shrink-0 pt-0.5">01</span>
+            <p>Your redlines are not negotiating — they're correcting. Standard creator protections already exist. You're asking for what's normal. Don't apologize for it.</p>
+          </div>
+          <div class="flex gap-4 text-sm text-ash">
+            <span class="font-mono text-moss flex-shrink-0 pt-0.5">02</span>
+            <p>Send redlines fast. A contract sitting in your inbox unsigned is a deal that can dissolve for nothing. Get your notes back within 24 hours of receiving it.</p>
+          </div>
+          <div class="flex gap-4 text-sm text-ash">
+            <span class="font-mono text-moss flex-shrink-0 pt-0.5">03</span>
+            <p>Prioritize high severity first. If they reject a high-severity redline, that conversation has to happen before anything else moves forward. You need to make a call.</p>
+          </div>
+          <div class="flex gap-4 text-sm text-ash">
+            <span class="font-mono text-moss flex-shrink-0 pt-0.5">04</span>
+            <p>Don't explain your redlines — state them. "Here's the standard language for this clause." Not "I was wondering if maybe we could..." You know what you're asking for.</p>
+          </div>
+          <div class="flex gap-4 text-sm text-ash">
+            <span class="font-mono text-moss flex-shrink-0 pt-0.5">05</span>
+            <p>If they refuse all redlines on a high-severity clause, that's data. Walk, or sign with your eyes open — not both. You chose.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ============ WEEKLY CEO DASHBOARD ============ -->
 <section id="ceo-dashboard" class="border-b border-line bg-cream">
   <div class="max-w-5xl mx-auto px-6 py-16">
@@ -399,6 +511,260 @@
       const orig = this.textContent; this.textContent = 'Copied ✓';
       setTimeout(() => { this.textContent = orig; }, 2000);
     });
+  });
+
+  // ─── Contract Redline Detector ────────────────────────────────────────────
+  const AUDIT_MSGS = [
+    '// scanning_clauses...',
+    '// checking_usage_rights...',
+    '// reviewing_payment_terms...',
+    '// flagging_ip_clauses...',
+    '// analyzing_exclusivity...',
+    '// checking_indemnification...',
+    '// reviewing_revision_terms...',
+    '// building_redlines...',
+    '// drafting_response_email...',
+  ];
+
+  const SAMPLE_CONTRACT = `INFLUENCER CONTENT AGREEMENT
+
+This Influencer Content Agreement ("Agreement") is entered into between BrandCo Inc. ("Brand") and Creator ("Talent") on the date of signing.
+
+1. SCOPE OF WORK
+Talent agrees to produce three (3) thirty-second vertical videos featuring the Brand's product line. Deliverables shall be filmed and edited by Talent and provided to Brand in 9:16 format suitable for paid social media.
+
+2. USAGE RIGHTS
+Brand shall have the right to use the deliverables in any and all media, now known or hereafter developed, in perpetuity, on a worldwide basis. Brand may modify, edit, alter, or repurpose the content at its sole discretion. Brand shall be entitled to use Talent's name, image, and likeness in connection with the campaign and any future marketing efforts.
+
+3. EXCLUSIVITY
+Talent agrees not to create content for any directly or indirectly competing brand in the wellness category for the term of this agreement.
+
+4. INTELLECTUAL PROPERTY
+The deliverables shall be considered work made for hire under U.S. copyright law. All rights, title, and interest in the content shall be assigned to Brand upon delivery.
+
+5. REVISIONS
+Talent shall provide unlimited revisions until Brand is satisfied with the final deliverables. Brand approval is at Brand's sole discretion.
+
+6. PAYMENT TERMS
+Brand shall pay Talent the agreed-upon fee within sixty (60) days of final delivery, contingent upon Brand's use of the content. No advance or deposit shall be required.
+
+7. INDEMNIFICATION
+Talent agrees to indemnify and hold harmless Brand, its officers, directors, employees, agents, and affiliates from any and all claims, damages, losses, and expenses arising from or related to the deliverables.
+
+8. NON-DISPARAGEMENT
+Talent agrees not to publicly disparage, criticize, or speak negatively about Brand, its products, services, or affiliates.
+
+9. RIGHT OF FIRST REFUSAL
+Brand shall have the right of first refusal on any future content opportunities involving the wellness category for a period of twelve (12) months.
+
+10. AUTO-RENEWAL
+This agreement shall automatically renew for successive twelve-month terms unless either party provides written notice.
+
+11. TERMINATION
+Either party may terminate this agreement at any time with written notice. No kill fee or compensation for partial work shall be owed.
+
+12. GENERAL
+This agreement shall be governed by the laws of the State of Delaware. Any disputes shall be resolved in the courts of Delaware.
+
+By signing below, Talent acknowledges agreement to all terms.`;
+
+  let auditTimer = null;
+  let auditMsgIdx = 0;
+
+  function startAuditCycle() {
+    auditMsgIdx = 0;
+    const el = document.getElementById('auditLoadingText');
+    if (el) el.textContent = AUDIT_MSGS[0];
+    auditTimer = setInterval(() => {
+      auditMsgIdx = (auditMsgIdx + 1) % AUDIT_MSGS.length;
+      if (el) el.textContent = AUDIT_MSGS[auditMsgIdx];
+    }, 800);
+  }
+
+  function stopAuditCycle() {
+    if (auditTimer) { clearInterval(auditTimer); auditTimer = null; }
+  }
+
+  function auditCopyFlash(btn, text) {
+    navigator.clipboard.writeText(text).then(() => {
+      const orig = btn.textContent; btn.textContent = 'Copied ✓';
+      setTimeout(() => { btn.textContent = orig; }, 2000);
+    });
+  }
+
+  function escHtml(str) {
+    if (!str) return '';
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function showAuditError(type) {
+    const el = document.getElementById('auditError');
+    const msgs = {
+      not_contract: '// hmm — that doesn\'t look like a contract. paste the full text and try again.',
+      too_short: '// the input is too short. paste the full contract text (at least 200 characters) and try again.',
+      no_key: '// api key not configured. email <a href="mailto:support@mayaherring.com" class="underline">support@mayaherring.com</a>.',
+      api_error: '// audit failed — try once more. if it keeps failing, email <a href="mailto:support@mayaherring.com" class="underline">support@mayaherring.com</a> and i\'ll run it for you manually.',
+    };
+    document.getElementById('auditErrorText').innerHTML = msgs[type] || msgs.api_error;
+    el.classList.remove('hidden');
+  }
+
+  function renderAudit(data) {
+    const { summary, flags, response_email } = data;
+    const SEV_ORDER = { high: 0, medium: 1, low: 2 };
+    const sorted = [...flags].sort((a, b) => (SEV_ORDER[a.severity] ?? 2) - (SEV_ORDER[b.severity] ?? 2));
+
+    // ── Summary card ───────────────────────────────────────────────────────
+    const sevDot = summary.high_count > 0 ? '#DC2626' : summary.medium_count > 0 ? '#D97706' : '#4A7C59';
+    document.getElementById('auditSummary').innerHTML = `
+      <div class="bg-forestDeep rounded-sharp p-6 md:p-8 text-cream">
+        <div class="flex items-center justify-between mb-5 pb-4 border-b border-cream/10">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-cream/20"></span>
+            <span class="w-2 h-2 rounded-full bg-cream/20"></span>
+            <span class="w-2 h-2 rounded-full" style="background:${sevDot}"></span>
+          </div>
+          <span class="font-mono text-xs text-cream/40">audit.json</span>
+        </div>
+        <p class="font-display text-xl md:text-2xl font-bold text-cream mb-3">${escHtml(summary.headline)}</p>
+        <p class="text-cream/70 text-sm leading-relaxed mb-6">${escHtml(summary.narrative)}</p>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div class="stat-pill"><div class="font-display text-2xl font-bold text-cream">${summary.total_flags}</div><div class="text-xs text-cream/50 mt-1">total_flags</div></div>
+          <div class="stat-pill"><div class="font-display text-2xl font-bold" style="color:#DC2626">${summary.high_count}</div><div class="text-xs text-cream/50 mt-1">high</div></div>
+          <div class="stat-pill"><div class="font-display text-2xl font-bold" style="color:#D97706">${summary.medium_count}</div><div class="text-xs text-cream/50 mt-1">medium</div></div>
+          <div class="stat-pill"><div class="font-display text-2xl font-bold" style="color:#4A7C59">${summary.low_count}</div><div class="text-xs text-cream/50 mt-1">low</div></div>
+        </div>
+      </div>`;
+
+    // ── Per-flag accordion cards ───────────────────────────────────────────
+    const BORD = { high: '#DC2626', medium: '#D97706', low: '#4A7C59' };
+    document.getElementById('auditFlags').innerHTML = sorted.map((flag, idx) => {
+      const bc = BORD[flag.severity] || '#D8D0BE';
+      const badge = `<span class="badge-${flag.severity}">${flag.severity}</span>`;
+      const clauseBlock = flag.flagged_clause
+        ? `<div class="mb-4"><p class="font-mono text-[11px] text-moss mb-2">// flagged_clause</p><div class="bg-creamDeep border border-line rounded-sharp p-3 text-sm text-ink font-mono leading-relaxed">&ldquo;${escHtml(flag.flagged_clause)}&rdquo;</div></div>`
+        : `<div class="mb-4"><p class="font-mono text-[11px] text-ash mb-2">// missing_from_contract</p><div class="bg-creamDeep border border-line rounded-sharp p-3 text-sm text-ash font-mono italic">This clause is absent — that is the problem.</div></div>`;
+      const rwId = `rw-${idx}`;
+      return `<details class="flag-card rounded-sharp" style="background:#fff;border:1px solid #D8D0BE;border-left:4px solid ${bc}" ${idx === 0 ? 'open' : ''}>
+        <summary class="p-4 sm:p-5 flex justify-between items-start gap-3">
+          <div class="flex flex-wrap items-center gap-2 min-w-0">
+            ${badge}
+            <span class="font-mono text-[10px] text-ash">${escHtml(flag.category)}</span>
+            <span class="font-display font-bold text-forest text-sm">${escHtml(flag.label)}</span>
+          </div>
+          <span class="ftog text-ash text-base flex-shrink-0 mt-0.5">▾</span>
+        </summary>
+        <div class="px-4 sm:px-5 pb-5 pt-3 border-t border-line/40 space-y-4">
+          ${clauseBlock}
+          <div>
+            <p class="font-mono text-[11px] text-moss mb-2">// problem</p>
+            <p class="text-sm text-ash leading-relaxed">${escHtml(flag.problem)}</p>
+          </div>
+          <div>
+            <p class="font-mono text-[11px] text-moss mb-2">// suggested_redline</p>
+            <div class="bg-forestDeep text-cream rounded-sharp p-4 text-sm leading-relaxed font-mono whitespace-pre-wrap" id="${rwId}">${escHtml(flag.rewrite)}</div>
+            <button class="btn-copy mt-2" onclick="auditCopyFlash(this, document.getElementById('${rwId}').textContent)">Copy redline</button>
+          </div>
+          <div class="bg-creamDeep border border-line rounded-sharp p-3">
+            <span class="font-mono text-[10px] text-moss">// why_it_matters — </span><span class="text-xs text-ash">${escHtml(flag.why)}</span>
+          </div>
+        </div>
+      </details>`;
+    }).join('');
+
+    // ── Response email ─────────────────────────────────────────────────────
+    const eSubId = 'auditESubject', eBodyId = 'auditEBody';
+    document.getElementById('auditEmail').innerHTML = `
+      <div class="bg-cream border-2 border-forest rounded-sharp p-6 md:p-8">
+        <p class="font-mono text-xs text-moss mb-2">// response_email · ready_to_send</p>
+        <h3 class="font-display text-xl font-bold text-forest mb-5">Send this back with the redlines.</h3>
+        <div class="bg-forestDeep rounded-sharp p-5 md:p-6 text-cream">
+          <div class="flex items-center justify-between mb-5 pb-3 border-b border-cream/10">
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-cream/20"></span>
+              <span class="w-2 h-2 rounded-full bg-cream/20"></span>
+              <span class="w-2 h-2 rounded-full bg-moss"></span>
+            </div>
+            <span class="font-mono text-xs text-cream/40">reply.eml</span>
+          </div>
+          <div class="mb-4">
+            <p class="font-mono text-xs text-cream/40 mb-1">&gt; subject:</p>
+            <p class="text-cream font-mono text-sm" id="${eSubId}">${escHtml(response_email.subject)}</p>
+          </div>
+          <div>
+            <p class="font-mono text-xs text-cream/40 mb-1">&gt; body:</p>
+            <pre class="text-cream text-sm whitespace-pre-wrap leading-relaxed font-sans" id="${eBodyId}">${escHtml(response_email.body)}</pre>
+          </div>
+        </div>
+        <div class="flex flex-wrap gap-3 mt-4">
+          <button class="btn-ghost" onclick="auditCopyFlash(this, 'Subject: ' + document.getElementById('${eSubId}').textContent + '\\n\\n' + document.getElementById('${eBodyId}').textContent)">Copy email</button>
+          <button class="btn-ghost" onclick="auditCopyFlash(this, document.getElementById('${eSubId}').textContent)">Copy subject only</button>
+        </div>
+      </div>`;
+
+    document.getElementById('auditOutput').classList.remove('hidden');
+    setTimeout(() => document.getElementById('auditOutput').scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+  }
+
+  // Char counter
+  document.getElementById('contractInput').addEventListener('input', function() {
+    document.getElementById('charCount').textContent = this.value.length.toLocaleString() + ' characters';
+  });
+
+  // Form submit
+  document.getElementById('auditForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const contract = document.getElementById('contractInput').value.trim();
+    document.getElementById('auditError').classList.add('hidden');
+    document.getElementById('auditOutput').classList.add('hidden');
+
+    if (contract.length < 200) {
+      showAuditError('too_short');
+      return;
+    }
+
+    const btn = document.getElementById('auditRunBtn');
+    btn.disabled = true;
+    btn.textContent = '// auditing...';
+    document.getElementById('auditLoading').classList.remove('hidden');
+    startAuditCycle();
+
+    try {
+      const resp = await fetch('/api/audit-contract', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ contract }),
+      });
+      const data = await resp.json();
+      if (data.error === 'input_not_a_contract') { showAuditError('not_contract'); return; }
+      if (data.error === true && data.reason === 'no_key') { showAuditError('no_key'); return; }
+      if (data.error || !data.summary) { showAuditError('api_error'); return; }
+      renderAudit(data);
+    } catch {
+      showAuditError('api_error');
+    } finally {
+      stopAuditCycle();
+      document.getElementById('auditLoading').classList.add('hidden');
+      btn.disabled = false;
+      btn.textContent = '→ Run the audit';
+    }
+  });
+
+  // Reset
+  document.getElementById('auditResetBtn').addEventListener('click', function() {
+    document.getElementById('contractInput').value = '';
+    document.getElementById('charCount').textContent = '0 characters';
+    document.getElementById('auditError').classList.add('hidden');
+    document.getElementById('auditOutput').classList.add('hidden');
+    document.getElementById('auditLoading').classList.add('hidden');
+  });
+
+  // Load sample
+  document.getElementById('auditSampleBtn').addEventListener('click', function() {
+    document.getElementById('contractInput').value = SAMPLE_CONTRACT;
+    document.getElementById('charCount').textContent = SAMPLE_CONTRACT.length.toLocaleString() + ' characters';
+    document.getElementById('auditError').classList.add('hidden');
+    document.getElementById('auditOutput').classList.add('hidden');
   });
 </script>
 
