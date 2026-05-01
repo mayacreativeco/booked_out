@@ -105,7 +105,7 @@
   <div class="max-w-5xl mx-auto px-6 py-16">
     <p class="font-mono text-xs text-moss mb-2">// tool_01 · pitch_generator</p>
     <h2 class="font-display text-3xl lg:text-4xl font-bold text-forest mb-3">Write the outbound for me.</h2>
-    <p class="text-ash max-w-xl mb-8">Fill in six fields. Get a ready-to-send pitch email in your tone, with your rate already baked in.</p>
+    <p class="text-ash max-w-xl mb-8">Fill in the fields. Get a ready-to-send cold pitch — personalized to the brand, the product, and the quarter. No rates in the outbound. That conversation comes after.</p>
 
     <div class="bg-cream border-2 border-forest rounded-sharp p-6 md:p-10">
       <div class="flex items-center justify-between mb-8 pb-4 border-b border-line">
@@ -134,6 +134,10 @@
           <label class="field-label" for="hook">why_you_love_it · 1_sentence</label>
           <input type="text" id="hook" class="field" placeholder="e.g. I've been using it for two weeks and the texture is unreal" required />
         </div>
+        <div class="md:col-span-2">
+          <label class="field-label" for="contentIdea">content_idea · what angle would you pitch?</label>
+          <input type="text" id="contentIdea" class="field" placeholder="e.g. a GRWM hook built around the texture difference after 2 weeks" required />
+        </div>
         <div>
           <label class="field-label" for="deliverable">deliverable</label>
           <select id="deliverable" class="field" required>
@@ -145,8 +149,13 @@
           </select>
         </div>
         <div>
-          <label class="field-label" for="rate">starting_rate · $</label>
-          <input type="number" id="rate" class="field" placeholder="e.g. 1800" min="100" required />
+          <label class="field-label" for="quarter">quarter · for seasonal context</label>
+          <select id="quarter" class="field" required>
+            <option value="Q1">Q1 · Jan–Mar (New Year, Valentine's Day)</option>
+            <option value="Q2">Q2 · Apr–Jun (Spring/Summer, Mother's Day)</option>
+            <option value="Q3">Q3 · Jul–Sep (Summer, Back-to-School)</option>
+            <option value="Q4">Q4 · Oct–Dec (Black Friday, Holiday, Christmas)</option>
+          </select>
         </div>
         <div class="md:col-span-2">
           <label class="field-label" for="tone">tone</label>
@@ -215,7 +224,7 @@
             <span class="font-mono text-xs text-forest font-bold">cold_01 · the_product_lead</span>
             <span class="font-mono text-[11px] text-ash">when: you've used the product</span>
           </div>
-          <div class="script-block" id="cold-01">Hi <span class="ph">[FIRST NAME]</span>,<br/><br/>I'm a UGC creator in the <span class="ph">[NICHE]</span> space, and I've been using <span class="ph">[PRODUCT]</span> for the last few weeks. The <span class="ph">[1 SPECIFIC DETAIL YOU ACTUALLY NOTICED]</span> is unreal — and I already know the exact hook I'd build around it.<br/><br/>I've worked with brands like <span class="ph">[2-3 BRANDS, OR "similar DTC brands"]</span>, and my content typically drives <span class="ph">[ONE METRIC: engagement rate, CPA, click-through]</span>.<br/><br/>Would you be open to seeing a 2-concept mood-board for <span class="ph">[BRAND]</span>? I can have it to you inside 48 hours. Starting rate is $<span class="ph">[RATE]</span> for 3 × 30-second verticals with 30 days paid usage.<br/><br/>Either way, big fan of what you're building.<br/><br/>— <span class="ph">[YOUR NAME]</span></div>
+          <div class="script-block" id="cold-01">Hi <span class="ph">[FIRST NAME]</span>,<br/><br/>I'm a UGC creator in the <span class="ph">[NICHE]</span> space, and I've been using <span class="ph">[PRODUCT]</span> for the last few weeks. The <span class="ph">[1 SPECIFIC DETAIL YOU ACTUALLY NOTICED]</span> is unreal — and I already know the exact hook I'd build around it.<br/><br/>I've worked with brands like <span class="ph">[2-3 BRANDS, OR "similar DTC brands"]</span>, and my content typically drives <span class="ph">[ONE METRIC: engagement rate, CPA, click-through]</span>.<br/><br/>Would you be open to seeing a 2-concept mood-board for <span class="ph">[BRAND]</span>? I can have it to you inside 48 hours — no commitment, just a gut-check on whether it's a fit.<br/><br/>Either way, big fan of what you're building.<br/><br/>— <span class="ph">[YOUR NAME]</span></div>
           <div class="mt-4"><button class="btn-copy" data-copy="cold-01">Copy script</button></div>
         </div>
         <div class="bg-creamDeep border border-line rounded-sharp p-6">
@@ -223,7 +232,7 @@
             <span class="font-mono text-xs text-forest font-bold">cold_02 · the_specificity_lead</span>
             <span class="font-mono text-[11px] text-ash">when: you spotted an opportunity in their ads</span>
           </div>
-          <div class="script-block" id="cold-02">Hey <span class="ph">[FIRST NAME]</span>,<br/><br/>Saw your <span class="ph">[SPECIFIC AD / LAUNCH / CAMPAIGN]</span> running on <span class="ph">[PLATFORM]</span> — the <span class="ph">[WHAT'S WORKING]</span> angle is smart. I've been thinking about how a creator-led version would hit on TikTok, and I think there's a GRWM hook in here that would print.<br/><br/>I'm a UGC creator who's shot for <span class="ph">[2-3 SIMILAR BRANDS]</span>. Would you want me to send over 2 concept directions for free? No commitment — just a quick gut-check on whether it's worth building.<br/><br/>If you like what you see, my package starts at $<span class="ph">[RATE]</span> for a 3-video drop with 30 days paid usage.<br/><br/>— <span class="ph">[YOUR NAME]</span></div>
+          <div class="script-block" id="cold-02">Hey <span class="ph">[FIRST NAME]</span>,<br/><br/>Saw your <span class="ph">[SPECIFIC AD / LAUNCH / CAMPAIGN]</span> running on <span class="ph">[PLATFORM]</span> — the <span class="ph">[WHAT'S WORKING]</span> angle is smart. I've been thinking about how a creator-led version would hit on TikTok, and I think there's a GRWM hook in here that would print.<br/><br/>I'm a UGC creator who's shot for <span class="ph">[2-3 SIMILAR BRANDS]</span>. Would you want me to send over 2 concept directions? No commitment — just a quick gut-check on whether it's worth building.<br/><br/>Can I send my portfolio over so you can see the style first?<br/><br/>— <span class="ph">[YOUR NAME]</span></div>
           <div class="mt-4"><button class="btn-copy" data-copy="cold-02">Copy script</button></div>
         </div>
         <div class="bg-creamDeep border border-line rounded-sharp p-6">
@@ -231,7 +240,7 @@
             <span class="font-mono text-xs text-forest font-bold">cold_03 · the_results_lead</span>
             <span class="font-mono text-[11px] text-ash">when: you have real numbers to show</span>
           </div>
-          <div class="script-block" id="cold-03">Hi <span class="ph">[FIRST NAME]</span>,<br/><br/>Quick pitch — my recent UGC piece for <span class="ph">[COMPARABLE BRAND]</span> drove <span class="ph">[METRIC: e.g. 3.2x ROAS at $8 CPA / 2.4M organic views / 62% watch-through]</span>, and I think the same framework would land for <span class="ph">[BRAND]</span>, specifically for <span class="ph">[PRODUCT / LAUNCH]</span>.<br/><br/>I'd love to send you a 2-minute Loom breaking down the 3 concept directions I'd build. Takes 0 of your time to watch, and you'll know inside 2 minutes whether it's a fit.<br/><br/>If it lands, package starts at $<span class="ph">[RATE]</span>.<br/><br/>— <span class="ph">[YOUR NAME]</span></div>
+          <div class="script-block" id="cold-03">Hi <span class="ph">[FIRST NAME]</span>,<br/><br/>Quick pitch — my recent UGC piece for <span class="ph">[COMPARABLE BRAND]</span> drove <span class="ph">[METRIC: e.g. 3.2x ROAS at $8 CPA / 2.4M organic views / 62% watch-through]</span>, and I think the same framework would land for <span class="ph">[BRAND]</span>, specifically for <span class="ph">[PRODUCT / LAUNCH]</span>.<br/><br/>I'd love to send you a 2-minute Loom breaking down the 3 concept directions I'd build. Takes 0 of your time to watch, and you'll know inside 2 minutes whether it's a fit.<br/><br/>Want me to send it over?<br/><br/>— <span class="ph">[YOUR NAME]</span></div>
           <div class="mt-4"><button class="btn-copy" data-copy="cold-03">Copy script</button></div>
         </div>
       </div>
@@ -248,7 +257,7 @@
             <span class="font-mono text-xs text-forest font-bold">warm_01 · past_client_reactivation</span>
             <span class="font-mono text-[11px] text-ash">when: 60+ days since the last project</span>
           </div>
-          <div class="script-block" id="warm-01">Hey <span class="ph">[FIRST NAME]</span>,<br/><br/>Circling back because I've been sitting on a concept I think would be perfect for <span class="ph">[BRAND]</span> — especially after how well the <span class="ph">[PREVIOUS PROJECT]</span> performed.<br/><br/>Idea in one line: <span class="ph">[YOUR ONE-LINE CONCEPT]</span>.<br/><br/>I'm holding capacity for one more project in <span class="ph">[MONTH]</span> and wanted to offer you first look. Same package structure as last time ($<span class="ph">[RATE]</span>), same turnaround.<br/><br/>Want me to send a full brief?<br/><br/>— <span class="ph">[YOUR NAME]</span></div>
+          <div class="script-block" id="warm-01">Hey <span class="ph">[FIRST NAME]</span>,<br/><br/>Circling back because I've been sitting on a concept I think would be perfect for <span class="ph">[BRAND]</span> — especially after how well the <span class="ph">[PREVIOUS PROJECT]</span> performed.<br/><br/>Idea in one line: <span class="ph">[YOUR ONE-LINE CONCEPT]</span>.<br/><br/>I'm holding capacity for one more project in <span class="ph">[MONTH]</span> and wanted to offer you first look. Same deliverable format as last time, same turnaround.<br/><br/>Want me to send a full brief?<br/><br/>— <span class="ph">[YOUR NAME]</span></div>
           <div class="mt-4"><button class="btn-copy" data-copy="warm-01">Copy script</button></div>
         </div>
         <div class="bg-creamDeep border border-line rounded-sharp p-6">
@@ -540,18 +549,22 @@
 
 <script>
   // Pitch generator
-  const TONE_OPENERS = {
-    warm: ctx => `Hi ${ctx.contactName},\n\nI've been following ${ctx.brandName} for a while and ${ctx.hook.toLowerCase()}. It's genuinely the kind of product I'd pitch without being asked to — which is why I am.`,
-    direct: ctx => `Hi ${ctx.contactName},\n\nI'm a UGC creator and I think ${ctx.brandName} is a great fit for the kind of content I make. Quick version: ${ctx.hook}.`,
-    confident: ctx => `Hi ${ctx.contactName},\n\nI'm reaching out because ${ctx.brandName} is one of the brands my audience actually asks me about. ${ctx.hook} — and I can already see the hooks I'd build around it.`,
-  };
-  const TONE_CLOSERS = {
-    warm: "If this resonates, I'd love to send over a quick mood-board and get a kickoff on the calendar. Either way, big fan of what you're building.",
-    direct: "Let me know if you'd like to see concepts or references. Happy to send a short proposal either way.",
-    confident: "If you want to see a mood-board and 2–3 concept directions before committing, I can have them to you inside 48 hours.",
-  };
+  function pitchFallback(ctx) {
+    const OPENERS = {
+      warm: `Hi ${ctx.contactName},\n\nI've been following ${ctx.brandName} for a while and ${ctx.hook.toLowerCase()}. It's genuinely the kind of product I'd pitch without being asked to — which is why I am.`,
+      direct: `Hi ${ctx.contactName},\n\nI'm a UGC creator and I think ${ctx.brandName} is a great fit for the kind of content I make. Quick pitch: ${ctx.hook}.`,
+      confident: `Hi ${ctx.contactName},\n\nI'm reaching out because ${ctx.brandName} is one of the brands my audience actually asks me about. ${ctx.hook} — and I can already see the hooks I'd build around it.`,
+    };
+    const CLOSERS = {
+      warm: `Would you be open to seeing a couple of concepts for ${ctx.quarter}? I can have them to you in 48 hours.\n\nEither way, big fan of what you're building.\n\n— ${ctx.yourName}`,
+      direct: `Can I send my portfolio and 2–3 concept directions built around ${ctx.product} for ${ctx.quarter}?\n\n— ${ctx.yourName}`,
+      confident: `If you want to see 2–3 concept directions built for ${ctx.quarter}, I can have them to you inside 48 hours. Want me to send them over?\n\n— ${ctx.yourName}`,
+    };
+    const body = `${OPENERS[ctx.tone] || OPENERS.warm}\n\nI had a specific angle in mind: ${ctx.contentIdea}. Proposed deliverable: ${ctx.deliverable}.\n\n${CLOSERS[ctx.tone] || CLOSERS.warm}`;
+    return { subject: `${ctx.quarter} idea for ${ctx.brandName} · from ${ctx.yourName}`, body };
+  }
 
-  document.getElementById('pitchForm').addEventListener('submit', function(e) {
+  document.getElementById('pitchForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     const ctx = {
       brandName: document.getElementById('brandName').value.trim(),
@@ -559,14 +572,43 @@
       yourName: document.getElementById('yourName').value.trim(),
       product: document.getElementById('product').value.trim(),
       hook: document.getElementById('hook').value.trim(),
+      contentIdea: document.getElementById('contentIdea').value.trim(),
       deliverable: document.getElementById('deliverable').value,
-      rate: document.getElementById('rate').value,
+      quarter: document.getElementById('quarter').value,
       tone: document.getElementById('tone').value,
     };
-    const opener = TONE_OPENERS[ctx.tone](ctx);
-    const closer = TONE_CLOSERS[ctx.tone];
-    const body = `${opener}\n\nHere's what I'd propose for ${ctx.product}:\n\n→ Deliverable: ${ctx.deliverable}\n→ Usage: organic + 30 days paid social (adjustable)\n→ Turnaround: 2 weeks from greenlight\n→ Investment: starting at $${Number(ctx.rate).toLocaleString()}\n\n${closer}\n\n— ${ctx.yourName}`;
-    const subject = `UGC pitch · ${ctx.brandName} × ${ctx.yourName}`;
+    const submitBtn = this.querySelector('[type="submit"]');
+    const origText = submitBtn.textContent;
+    submitBtn.textContent = '// generating...';
+    submitBtn.disabled = true;
+
+    let subject, body;
+    try {
+      const resp = await fetch('/api/generate-content', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ type: 'pitch', ...ctx }),
+      });
+      if (resp.ok) {
+        const data = await resp.json();
+        if (data.subject && data.body) {
+          subject = data.subject;
+          body = data.body;
+        } else {
+          throw new Error('incomplete');
+        }
+      } else {
+        throw new Error('api error');
+      }
+    } catch {
+      const fb = pitchFallback(ctx);
+      subject = fb.subject;
+      body = fb.body;
+    } finally {
+      submitBtn.textContent = origText;
+      submitBtn.disabled = false;
+    }
+
     document.getElementById('pitchSubject').textContent = subject;
     document.getElementById('pitchBody').textContent = body;
     const panel = document.getElementById('pitchPanel');

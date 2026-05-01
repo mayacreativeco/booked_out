@@ -213,6 +213,58 @@ The script should sell the transformation (${result}), not the features of ${pro
       if (!script.trim()) throw new Error('empty script');
       return Response.json({ script });
 
+    // ─── PITCH GENERATION ────────────────────────────────────────────
+    } else if (type === 'pitch') {
+      const { brandName, contactName, yourName, product, hook, contentIdea, quarter, deliverable, tone } = body;
+
+      const QUARTER_CONTEXT: Record<string, string> = {
+        Q1: 'Q1 (Jan–Mar): New Year/new goals energy, Valentine\'s Day, winter-to-spring transition, "new year new me" campaigns',
+        Q2: 'Q2 (Apr–Jun): Spring/summer launch season, Mother\'s Day, Memorial Day, graduation gifts',
+        Q3: 'Q3 (Jul–Sep): Summer peak, back-to-school, Labor Day, pre-holiday content build',
+        Q4: 'Q4 (Oct–Dec): Halloween, Black Friday / Cyber Monday, holiday gifting, Christmas, year-end urgency',
+      };
+
+      const TONE_GUIDE: Record<string, string> = {
+        warm: 'warm and personal — feels like you genuinely know and care about the brand. conversational but intentional. not fangirl-ish.',
+        direct: 'direct and professional — short sentences, clear value prop, no fluff. respects their inbox.',
+        confident: 'confident and results-forward — leads with what you can produce for them, not with compliments.',
+      };
+
+      const quarterCtx = QUARTER_CONTEXT[quarter] ?? '';
+      const toneGuide = TONE_GUIDE[tone] ?? TONE_GUIDE.warm;
+
+      const prompt = `Write a cold outreach pitch email from a UGC creator to a brand.
+
+BRAND DETAILS:
+- Brand: ${brandName}
+- Contact first name: ${contactName}
+- Product or launch: ${product}
+- Why the creator genuinely loves it: ${hook}
+- Quarter they're pitching for: ${quarter} — ${quarterCtx}
+- Content concept / angle they want to pitch: ${contentIdea}
+- Proposed deliverable: ${deliverable}
+- Creator's first name: ${yourName}
+
+EMAIL TONE: ${toneGuide}
+
+NON-NEGOTIABLE RULES — break any of these and the output is wrong:
+1. ZERO rates, prices, dollar amounts, or budget language anywhere in the email. None. The purpose of this email is to open a conversation and earn a reply, not to quote.
+2. The CTA must be soft and low-pressure — always portfolio or concept focused. Examples: "Would you be open to seeing a couple of concepts for ${quarter}?" / "Can I send my portfolio over?" / "I'd love to share 2–3 creative directions built around [product/quarter] — want me to send them over?"
+3. Tie the content idea and quarter context together naturally — make it feel timely and specific to this brand, not generic.
+4. Keep the body under 130 words. Short is more likely to get a reply.
+5. The subject line should be specific and curiosity-driving — never generic like "UGC collaboration" or "partnership opportunity."
+6. Write it like a real person wrote it — no template-ese.
+
+Return ONLY this JSON, nothing else:
+{"subject": "subject line here", "body": "full email body here — use \\n for line breaks"}`;
+
+      const text = await callClaude(prompt, apiKey, 600);
+      const jsonMatch = text.match(/\{[\s\S]*\}/);
+      if (!jsonMatch) throw new Error('no JSON in pitch response');
+      const parsed = JSON.parse(jsonMatch[0]);
+      if (!parsed.subject || !parsed.body) throw new Error('incomplete pitch response');
+      return Response.json({ subject: parsed.subject, body: parsed.body });
+
     } else {
       return Response.json({ error: true }, { status: 400 });
     }
