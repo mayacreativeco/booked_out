@@ -121,23 +121,14 @@ export async function injectMemberstack(
 
   html = html.replace('<head>', `<head>\n<base href="${baseHref}">\n${msScript}\n${hideStyle}`);
 
-  // Server-side founding check for paywall/hub CTA rendering
-  const foundingAvailable = (isProtected || isHub) ? await checkFoundingAvailable() : false;
+  // Server-side founding check for hub CTA only
+  const foundingAvailable = isHub ? await checkFoundingAvailable() : false;
 
   const ids = getPlanIds();
 
   // Build page-specific paywall HTML (stringified for safe inline injection)
-  const paywallHtml = isProtected ? buildStagePaywall(filename, foundingAvailable, ids) : '';
+  const paywallHtml = isProtected ? buildStagePaywall(filename) : '';
   const paywallJson = isProtected ? JSON.stringify(paywallHtml) : 'null';
-
-  // Locked stage hrefs for hub lock icons
-  const lockedHrefs = JSON.stringify([
-    '01_get-clear.html', '02_get-visible.html', '03_get-paid.html',
-    '04_get-booked.html', '05_get-consistent.html', '06_scale-up.html', '06_bonus.html',
-  ]);
-
-  // Lock icon SVG (inline, no external deps)
-  const lockSvg = `<svg width="9" height="11" viewBox="0 0 18 22" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M15 8h-1V6A5 5 0 0 0 4 6v2H3a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V10a2 2 0 0 0-2-2zM9 17a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm3-9H6V6a3 3 0 1 1 6 0v2z"/></svg>`;
 
   const navScript = `<script>
 (function(){
@@ -178,31 +169,17 @@ export async function injectMemberstack(
         support.parentNode.insertBefore(a,support);
       }
 
-      // ---------- Hub extras for non-members ----------
+      // ---------- Hub: subscribe CTA for non-members ----------
       ${isHub ? `
-      if(!member){
-        // Add lock badges to stages 01-06
-        var locked=${lockedHrefs};
-        locked.forEach(function(href){
-          var tile=document.querySelector('a[href="'+href+'"]');
-          if(!tile||tile.querySelector('.ms-lock'))return;
-          tile.style.position='relative';
-          var badge=document.createElement('div');
-          badge.className='ms-lock';
-          badge.style.cssText='position:absolute;top:10px;right:10px;background:#1B3A2F;color:#F5F0E4;border-radius:3px;padding:3px 7px;display:flex;align-items:center;gap:4px;pointer-events:none;';
-          badge.innerHTML='${lockSvg}<span style="font-family:JetBrains Mono,monospace;font-size:9px;font-weight:600;letter-spacing:0.03em;">members only</span>';
-          tile.appendChild(badge);
-        });
-
-        // Subscribe CTA below the stage grid
+      if(!member&&!document.getElementById('ms-hub-cta')){
         var bonusTile=document.querySelector('a[href="06_bonus.html"]');
-        if(bonusTile&&!document.getElementById('ms-hub-cta')){
+        if(bonusTile){
           var grid=bonusTile.closest('.grid');
           if(grid){
             var cta=document.createElement('div');
             cta.id='ms-hub-cta';
             cta.style.cssText='margin-top:24px;border:2px solid #1B3A2F;border-radius:4px;background:#EDE5D2;padding:20px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;';
-            cta.innerHTML='<div><p style="font-family:JetBrains Mono,monospace;font-size:11px;color:#4A7C59;margin:0 0 6px;">// unlock_everything</p><p style="font-family:Space Grotesk,system-ui,sans-serif;font-size:18px;font-weight:700;color:#1B3A2F;margin:0 0 4px;">Stages 01–06 require a subscription.</p><p style="font-size:13px;color:#4A5C50;margin:0;">Subscribe to unlock every stage, tool, and template.</p></div><a href="/" style="font-family:JetBrains Mono,monospace;font-size:12px;font-weight:600;color:#F5F0E4;background:#1B3A2F;padding:12px 24px;border-radius:4px;text-decoration:none;white-space:nowrap;flex-shrink:0;">subscribe to unlock all stages \u2192</a>';
+            cta.innerHTML='<div><p style="font-family:JetBrains Mono,monospace;font-size:11px;color:#4A7C59;margin:0 0 6px;">// unlock_everything</p><p style="font-family:Space Grotesk,system-ui,sans-serif;font-size:18px;font-weight:700;color:#1B3A2F;margin:0 0 4px;">Stages 01\u201306 require a subscription.</p><p style="font-size:13px;color:#4A5C50;margin:0;">Subscribe to unlock every stage, tool, and template.</p></div><a href="/" style="font-family:JetBrains Mono,monospace;font-size:12px;font-weight:600;color:#F5F0E4;background:#1B3A2F;padding:12px 24px;border-radius:4px;text-decoration:none;white-space:nowrap;flex-shrink:0;">subscribe to unlock all stages \u2192</a>';
             grid.parentNode.insertBefore(cta,grid.nextSibling);
           }
         }
@@ -222,11 +199,7 @@ export async function injectMemberstack(
 // Stage-specific paywall
 // ---------------------------------------------------------------------------
 
-function buildStagePaywall(
-  filename: string,
-  foundingAvailable: boolean,
-  ids: ReturnType<typeof getPlanIds>,
-): string {
+function buildStagePaywall(filename: string): string {
   const info = STAGE_PAYWALL[filename] ?? {
     label: 'members only',
     title: 'This stage is for active members.',
@@ -235,26 +208,6 @@ function buildStagePaywall(
 
   const checkerboard = `background-image:linear-gradient(45deg,#1B3A2F 25%,transparent 25%),linear-gradient(-45deg,#1B3A2F 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#1B3A2F 75%),linear-gradient(-45deg,transparent 75%,#1B3A2F 75%);background-size:8px 8px;background-position:0 0,0 4px,4px -4px,-4px 0`;
   const checkerboardCream = `background-image:linear-gradient(45deg,#F5F0E4 25%,transparent 25%),linear-gradient(-45deg,#F5F0E4 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#F5F0E4 75%),linear-gradient(-45deg,transparent 75%,#F5F0E4 75%);background-size:12px 12px;background-position:0 0,0 6px,6px -6px,-6px 0`;
-
-  const btnBase = `cursor:pointer;font-family:'JetBrains Mono',monospace;border-radius:4px;transition:opacity 0.15s;`;
-
-  // Plan cards — Monthly primary, Founding secondary (Annual hidden during launch)
-  const monthlyCard = `
-    <div style="background:#EDE5D2;border:2px solid #1B3A2F;border-radius:4px;padding:22px 20px 18px;margin-bottom:10px;box-shadow:0 2px 8px rgba(27,58,47,0.10);">
-      <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#4A5C50;margin-bottom:5px;">// monthly</div>
-      <div style="font-family:'Space Grotesk',system-ui,sans-serif;font-size:26px;font-weight:700;color:#1B3A2F;margin-bottom:5px;">$49<span style="font-size:14px;font-weight:400">/mo</span></div>
-      <p style="font-size:12px;color:#4A5C50;margin:0 0 14px;">Flexible monthly billing. Cancel anytime.</p>
-      <button onclick="window.memberstack.purchasePlansWithCheckout({planId:'${ids.monthly}'})" style="${btnBase}font-size:12px;font-weight:600;color:#F5F0E4;background:#1B3A2F;padding:11px 24px;border:none;width:100%;">→ Subscribe monthly</button>
-    </div>`;
-
-  const foundingCard = foundingAvailable ? `
-    <div style="position:relative;background:#EDE5D2;border:2px solid #1B3A2F;border-radius:4px;padding:26px 20px 18px;margin-bottom:10px;box-shadow:0 2px 8px rgba(27,58,47,0.10);">
-      <div style="position:absolute;top:-1px;right:14px;background:#1B3A2F;color:#F5F0E4;font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:600;padding:3px 8px;border-radius:0 0 4px 4px;letter-spacing:0.04em;">LIMITED: FIRST 100 MEMBERS</div>
-      <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#4A7C59;margin-bottom:5px;">// founding_annual</div>
-      <div style="font-family:'Space Grotesk',system-ui,sans-serif;font-size:26px;font-weight:700;color:#1B3A2F;margin-bottom:5px;">$197<span style="font-size:14px;font-weight:400">/yr</span></div>
-      <p style="font-size:12px;color:#4A5C50;margin:0 0 14px;line-height:1.5;">Locked-in pricing for as long as you stay subscribed. First 100 creators only.</p>
-      <button onclick="window.memberstack.purchasePlansWithCheckout({planId:'${ids.founding}'})" style="${btnBase}font-size:12px;font-weight:600;color:#F5F0E4;background:#1B3A2F;padding:11px 24px;border:none;width:100%;">→ Claim founding spot</button>
-    </div>` : '';
 
   return `<div style="min-height:100vh;display:flex;flex-direction:column;background:#F5F0E4;font-family:'Inter',system-ui,sans-serif;">
 
@@ -275,21 +228,19 @@ function buildStagePaywall(
 </header>
 
 <main style="flex:1;display:flex;align-items:center;justify-content:center;padding:48px 24px;">
-  <div style="max-width:500px;width:100%;">
+  <div style="max-width:480px;width:100%;text-align:center;">
 
-    <div style="text-align:center;margin-bottom:28px;">
-      <p style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#4A7C59;margin:0 0 14px;">// ${info.label.toLowerCase().replace(/ /g,'_').replace(/·/g,'·')}</p>
-      <h2 style="font-family:'Space Grotesk',system-ui,sans-serif;font-size:clamp(24px,4vw,30px);font-weight:700;color:#1B3A2F;margin:0 0 12px;letter-spacing:-0.02em;">${info.title}</h2>
-      <p style="font-size:14px;color:#4A5C50;line-height:1.6;margin:0 0 10px;">${info.body}</p>
-      <p style="font-size:13px;color:#4A5C50;margin:0;">Already subscribed? <a href="/login.html" style="color:#1B3A2F;text-decoration:underline;">Log in here.</a></p>
+    <p style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#4A7C59;margin:0 0 14px;">// ${info.label.toLowerCase().replace(/ /g,'_').replace(/·/g,'·')}</p>
+    <h2 style="font-family:'Space Grotesk',system-ui,sans-serif;font-size:clamp(24px,4vw,30px);font-weight:700;color:#1B3A2F;margin:0 0 12px;letter-spacing:-0.02em;">${info.title}</h2>
+    <p style="font-size:14px;color:#4A5C50;line-height:1.6;margin:0 0 28px;">${info.body}</p>
+
+    <div style="background:#EDE5D2;border:2px solid #1B3A2F;border-radius:4px;padding:20px 24px;margin-bottom:16px;">
+      <p style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#4A5C50;margin:0 0 16px;">// you're on the free tier</p>
+      <a href="/" style="display:block;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:#F5F0E4;background:#1B3A2F;padding:13px 24px;border-radius:4px;text-decoration:none;">→ subscribe for access</a>
+      <p style="font-size:12px;color:#4A5C50;margin:14px 0 0;">Already subscribed? <a href="/login.html" style="color:#1B3A2F;text-decoration:underline;">Log in here.</a></p>
     </div>
 
-    ${monthlyCard}
-    ${foundingCard}
-
-    <div style="text-align:center;margin-top:16px;">
-      <a href="/dashboard/" style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#4A7C59;text-decoration:none;">← back to hub</a>
-    </div>
+    <a href="/dashboard/" style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#4A7C59;text-decoration:none;">← back to hub</a>
 
   </div>
 </main>
