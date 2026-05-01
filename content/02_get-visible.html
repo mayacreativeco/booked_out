@@ -115,7 +115,7 @@
           <label class="field-label">specific_pain_point · their actual problem</label>
           <input type="text" id="hookPain" class="field" placeholder="e.g. acne that won't clear up no matter what they try" />
         </div>
-        <div>
+        <div class="md:col-span-2">
           <label class="field-label">hook_style</label>
           <select id="hookStyle" class="field" onchange="updateHookGuide()">
             <option value="mid_thought">mid-thought entry — starts like you're already talking</option>
@@ -128,9 +128,9 @@
           </select>
           <div id="hookStyleGuide" class="mt-2 font-mono text-[11px] text-moss">// best when: you have personality on camera and want to drop viewers into the middle of a thought</div>
         </div>
-        <div class="flex items-end">
-          <button class="btn-primary w-full" onclick="generateHooks(this)">→ Generate hooks</button>
-        </div>
+      </div>
+      <div class="mb-6">
+        <button class="btn-primary w-full" onclick="generateHooks(this)">→ Generate hooks</button>
       </div>
 
       <div id="hookResults" class="hidden fade-in space-y-3">
