@@ -121,94 +121,46 @@ export default async function HomePage() {
           </div>
 
           {/* Plan cards */}
-          {foundingAvailable ? (
-            <>
-              {/* Founding — PRIMARY */}
-              <div style={{ position: 'relative', background: '#EDE5D2', border: '2px solid #1B3A2F', borderRadius: '4px', padding: '28px 24px 24px', marginBottom: '12px', boxShadow: '0 2px 12px rgba(27,58,47,0.10)' }}>
-                <div className="f-mono" style={{ position: 'absolute', top: '-1px', right: '16px', background: '#1B3A2F', color: '#F5F0E4', fontSize: '10px', fontWeight: 600, padding: '4px 10px', borderRadius: '0 0 4px 4px', letterSpacing: '0.04em' }}>
-                  LIMITED: FIRST 100 MEMBERS
-                </div>
-                <p className="f-mono" style={{ fontSize: '10px', color: '#4A7C59', marginBottom: '6px' }}>// founding_annual</p>
-                <div className="f-display" style={{ fontSize: '30px', fontWeight: 700, color: '#1B3A2F', marginBottom: '6px' }}>
-                  $197<span style={{ fontSize: '16px', fontWeight: 400 }}>/yr</span>
-                </div>
-                <p style={{ fontSize: '13px', color: '#4A5C50', lineHeight: 1.6, marginBottom: '18px' }}>
-                  Locked-in pricing for as long as you stay subscribed.<br />
-                  First 100 creators only — once filled, this offer disappears.
-                </p>
-                <button
-                  className="btn btn-forest"
-                  data-plan-id={ids.founding}
-                  style={{ fontSize: '13px', fontWeight: 600, padding: '13px 28px', borderRadius: '4px', width: '100%' }}
-                >
-                  → Claim founding spot
-                </button>
-              </div>
+          {/* Monthly — PRIMARY (top) */}
+          <div style={{ background: '#EDE5D2', border: '2px solid #1B3A2F', borderRadius: '4px', padding: '24px', marginBottom: '12px', boxShadow: '0 2px 12px rgba(27,58,47,0.10)' }}>
+            <p className="f-mono" style={{ fontSize: '10px', color: '#4A5C50', marginBottom: '6px' }}>// monthly</p>
+            <div className="f-display" style={{ fontSize: '30px', fontWeight: 700, color: '#1B3A2F', marginBottom: '6px' }}>
+              $49<span style={{ fontSize: '16px', fontWeight: 400 }}>/mo</span>
+            </div>
+            <p style={{ fontSize: '13px', color: '#4A5C50', lineHeight: 1.6, marginBottom: '18px' }}>
+              Flexible monthly billing. Cancel anytime.
+            </p>
+            <button
+              className="btn btn-forest"
+              data-plan-id={ids.monthly}
+              style={{ fontSize: '13px', fontWeight: 600, padding: '13px 28px', borderRadius: '4px', width: '100%' }}
+            >
+              → Subscribe monthly
+            </button>
+          </div>
 
-              {/* Annual — SECONDARY */}
-              <div style={{ background: '#F5F0E4', border: '1px solid #D8D0BE', borderRadius: '4px', padding: '18px 20px', marginBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
-                <div>
-                  <p className="f-mono" style={{ fontSize: '10px', color: '#4A5C50', marginBottom: '3px' }}>annual</p>
-                  <div className="f-display" style={{ fontSize: '20px', fontWeight: 700, color: '#1B3A2F' }}>
-                    $397<span style={{ fontSize: '12px', fontWeight: 400 }}>/yr</span>
-                  </div>
-                  <p style={{ fontSize: '12px', color: '#4A5C50', marginTop: '2px' }}>Save $191 vs. monthly. Standard pricing after the founding window closes.</p>
-                </div>
-                <button
-                  className="btn btn-ghost f-mono"
-                  data-plan-id={ids.annual}
-                  style={{ fontSize: '11px', padding: '9px 18px', borderRadius: '4px', whiteSpace: 'nowrap' }}
-                >
-                  Subscribe annually
-                </button>
+          {foundingAvailable && (
+            /* Founding Annual — PRIMARY (below monthly, limited offer) */
+            <div style={{ position: 'relative', background: '#EDE5D2', border: '2px solid #1B3A2F', borderRadius: '4px', padding: '28px 24px 24px', marginBottom: '12px', boxShadow: '0 2px 12px rgba(27,58,47,0.10)' }}>
+              <div className="f-mono" style={{ position: 'absolute', top: '-1px', right: '16px', background: '#1B3A2F', color: '#F5F0E4', fontSize: '10px', fontWeight: 600, padding: '4px 10px', borderRadius: '0 0 4px 4px', letterSpacing: '0.04em' }}>
+                LIMITED: FIRST 100 MEMBERS
               </div>
-
-              {/* Monthly — TERTIARY */}
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '8px', padding: '10px 4px' }}>
-                <p className="f-mono" style={{ fontSize: '11px', color: '#4A5C50' }}>
-                  monthly &nbsp;<span style={{ fontWeight: 600, color: '#1B3A2F' }}>$49/mo</span>&nbsp; · flexible billing
-                </p>
-                <button
-                  className="btn btn-subtle f-mono"
-                  data-plan-id={ids.monthly}
-                  style={{ fontSize: '11px', padding: '7px 14px', borderRadius: '4px' }}
-                >
-                  Subscribe monthly
-                </button>
+              <p className="f-mono" style={{ fontSize: '10px', color: '#4A7C59', marginBottom: '6px' }}>// founding_annual</p>
+              <div className="f-display" style={{ fontSize: '30px', fontWeight: 700, color: '#1B3A2F', marginBottom: '6px' }}>
+                $197<span style={{ fontSize: '16px', fontWeight: 400 }}>/yr</span>
               </div>
-            </>
-          ) : (
-            <>
-              {/* Annual — PRIMARY (founding full) */}
-              <div style={{ background: '#EDE5D2', border: '2px solid #1B3A2F', borderRadius: '4px', padding: '28px 24px 24px', marginBottom: '12px', boxShadow: '0 2px 12px rgba(27,58,47,0.10)' }}>
-                <p className="f-mono" style={{ fontSize: '10px', color: '#4A7C59', marginBottom: '6px' }}>// annual</p>
-                <div className="f-display" style={{ fontSize: '30px', fontWeight: 700, color: '#1B3A2F', marginBottom: '6px' }}>
-                  $397<span style={{ fontSize: '16px', fontWeight: 400 }}>/yr</span>
-                </div>
-                <p style={{ fontSize: '13px', color: '#4A5C50', lineHeight: 1.6, marginBottom: '18px' }}>Save $191 vs. monthly billing.</p>
-                <button
-                  className="btn btn-forest"
-                  data-plan-id={ids.annual}
-                  style={{ fontSize: '13px', fontWeight: 600, padding: '13px 28px', borderRadius: '4px', width: '100%' }}
-                >
-                  → Subscribe annually
-                </button>
-              </div>
-
-              {/* Monthly — SECONDARY */}
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '8px', padding: '10px 4px' }}>
-                <p className="f-mono" style={{ fontSize: '11px', color: '#4A5C50' }}>
-                  monthly &nbsp;<span style={{ fontWeight: 600, color: '#1B3A2F' }}>$49/mo</span>&nbsp; · flexible billing
-                </p>
-                <button
-                  className="btn btn-subtle f-mono"
-                  data-plan-id={ids.monthly}
-                  style={{ fontSize: '11px', padding: '7px 14px', borderRadius: '4px' }}
-                >
-                  Subscribe monthly
-                </button>
-              </div>
-            </>
+              <p style={{ fontSize: '13px', color: '#4A5C50', lineHeight: 1.6, marginBottom: '18px' }}>
+                Locked-in pricing for as long as you stay subscribed.<br />
+                First 100 creators only — once filled, this offer disappears.
+              </p>
+              <button
+                className="btn btn-forest"
+                data-plan-id={ids.founding}
+                style={{ fontSize: '13px', fontWeight: 600, padding: '13px 28px', borderRadius: '4px', width: '100%' }}
+              >
+                → Claim founding spot
+              </button>
+            </div>
           )}
 
           <div style={{ textAlign: 'center', marginTop: '24px' }}>
