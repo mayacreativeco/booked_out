@@ -1,10 +1,9 @@
-import { checkFoundingAvailable, getPlanIds, getPublicKey } from '../lib/memberstack-html';
+import { checkFoundingAvailable, getPublicKey } from '../lib/memberstack-html';
 
 export const dynamic = 'force-dynamic';
 
 export default async function HomePage() {
   const foundingAvailable = await checkFoundingAvailable();
-  const ids = getPlanIds();   // pln_* — used with openModal('signup', { plans: [{ planId }] })
   const publicKey = getPublicKey();
 
   const checkerboard: React.CSSProperties = {
@@ -48,26 +47,31 @@ export default async function HomePage() {
   ].join('');
   document.head.appendChild(s);
 
-  // Subscribe buttons — opens Memberstack signup modal with plan pre-selected
-  // openModal('signup', { plans: [{ planId }] }) handles new member signup + Stripe payment
+  // Subscribe buttons → POST to /api/create-checkout-session → redirect to Stripe Checkout
   document.addEventListener('click', function(e) {
-    var btn = e.target.closest('[data-plan-id]');
+    var btn = e.target.closest('[data-plan-type]');
     if (!btn) return;
-    var planId = btn.getAttribute('data-plan-id');
-    if (!planId) return;
-    var ms = window.memberstack;
-    if (!ms) {
-      alert('Still loading — please wait a moment and try again.');
-      return;
-    }
+    var planType = btn.getAttribute('data-plan-type');
+    if (!planType) return;
+    var origText = btn.textContent;
     btn.disabled = true;
-    ms.openModal('signup', { plans: [{ planId: planId }] })
-      .catch(function(err) {
-        console.error('Signup modal error:', err);
-        var msg = (err && (err.message || err.code || JSON.stringify(err))) || 'unknown error';
-        alert('Could not open checkout: ' + msg + '. Please refresh and try again or email support@mayaherring.com.');
+    btn.textContent = '// opening checkout...';
+    fetch('/api/create-checkout-session', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ planType: planType })
+    })
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (!data.url) throw new Error(data.error || 'No checkout URL returned');
+        window.location.href = data.url;
       })
-      .finally(function() { btn.disabled = false; });
+      .catch(function(err) {
+        console.error('Checkout error:', err);
+        alert('Checkout temporarily unavailable. Please refresh and try again, or email support@mayaherring.com.');
+        btn.disabled = false;
+        btn.textContent = origText;
+      });
   });
 
   // Typewriter on brand wordmark — starts immediately, loops every 60s
@@ -198,7 +202,7 @@ export default async function HomePage() {
                 </p>
                 <button
                   className="btn btn-forest"
-                  data-plan-id={ids.founding}
+                  data-plan-type="founding"
                   style={{ fontSize: '14px', fontWeight: 600, padding: '15px 28px', borderRadius: '4px', width: '100%', letterSpacing: '0.01em' }}
                 >
                   → Claim founding spot
@@ -216,7 +220,7 @@ export default async function HomePage() {
                 </p>
                 <button
                   className="btn btn-muted"
-                  data-plan-id={ids.monthly}
+                  data-plan-type="monthly"
                   style={{ fontSize: '12px', fontWeight: 600, padding: '11px 24px', borderRadius: '4px', width: '100%' }}
                 >
                   → Subscribe monthly
@@ -236,7 +240,7 @@ export default async function HomePage() {
                 </p>
                 <button
                   className="btn btn-forest"
-                  data-plan-id={ids.annual}
+                  data-plan-type="annual"
                   style={{ fontSize: '14px', fontWeight: 600, padding: '15px 28px', borderRadius: '4px', width: '100%', letterSpacing: '0.01em' }}
                 >
                   → Subscribe annually
@@ -254,7 +258,7 @@ export default async function HomePage() {
                 </p>
                 <button
                   className="btn btn-muted"
-                  data-plan-id={ids.monthly}
+                  data-plan-type="monthly"
                   style={{ fontSize: '12px', fontWeight: 600, padding: '11px 24px', borderRadius: '4px', width: '100%' }}
                 >
                   → Subscribe monthly
