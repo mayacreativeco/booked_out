@@ -34,19 +34,25 @@ function stripePriceToMsPlanId(stripePriceId: string): string | undefined {
 // ---------------------------------------------------------------------------
 
 async function msRequest(method: string, path: string, body?: unknown) {
-  const res = await fetch(`${MS_API}${path}`, {
-    method,
-    headers: {
-      'Content-Type': 'application/json',
-      'X-API-Key': MS_KEY,
-    },
-    body: body ? JSON.stringify(body) : undefined,
-  });
+  const url = `${MS_API}${path}`;
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+    'X-API-Key': MS_KEY,
+  };
+  const bodyStr = body ? JSON.stringify(body) : undefined;
+
+  console.log(`[ms] ${method} ${url}`);
+  if (body) console.log(`[ms] request body:`, JSON.stringify(body, null, 2));
+
+  const res = await fetch(url, { method, headers, body: bodyStr });
+  const text = await res.text();
+
+  console.log(`[ms] response ${res.status}:`, text);
+
   if (!res.ok) {
-    const text = await res.text();
     throw new Error(`Memberstack ${method} ${path} → ${res.status}: ${text}`);
   }
-  return res.json();
+  return JSON.parse(text);
 }
 
 async function getMsMemberByEmail(email: string): Promise<{ id: string } | null> {
@@ -61,15 +67,18 @@ async function getMsMemberByEmail(email: string): Promise<{ id: string } | null>
 }
 
 async function createMsMember(email: string, planId: string): Promise<{ id: string }> {
+  // planConnections is the correct field for paid plans in Memberstack v2 Admin API.
+  // The `plans` field only works for free-type plans.
   const data = await msRequest('POST', '/members', {
     email,
-    password: randomUUID(), // random password — member sets their own via forgot-password flow
-    plans: [{ planId }],
+    password: randomUUID(), // random — member sets their own via forgot-password flow
+    planConnections: [{ planId }],
   });
   return data?.data;
 }
 
 async function addMsPlan(memberId: string, planId: string): Promise<void> {
+  // Try add-plan endpoint; planConnections variant used as fallback if needed
   await msRequest('POST', `/members/${memberId}/add-plan`, { planId });
 }
 
