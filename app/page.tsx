@@ -1,10 +1,11 @@
-import { checkFoundingAvailable, getPlanIds } from '../lib/memberstack-html';
+import { checkFoundingAvailable, getPlanIds, getPublicKey } from '../lib/memberstack-html';
 
 export const dynamic = 'force-dynamic';
 
 export default async function HomePage() {
   const foundingAvailable = await checkFoundingAvailable();
   const ids = getPlanIds();
+  const publicKey = getPublicKey();
 
   const checkerboard: React.CSSProperties = {
     backgroundImage:
@@ -36,7 +37,7 @@ export default async function HomePage() {
   s.type = 'module';
   s.textContent = [
     "import memberstackDOM from 'https://esm.sh/@memberstack/dom';",
-    "window.memberstack = memberstackDOM.init({ domain: 'https://memberstack-client.mayacreativeco.com', publicKey: 'pk_c06d36f5d1fa05e0db79' });",
+    "window.memberstack = memberstackDOM.init({ domain: 'https://memberstack-client.mayacreativeco.com', publicKey: '${publicKey}' });",
     "var t = setInterval(function() {",
     "  if (!window.memberstack) return;",
     "  clearInterval(t);",
@@ -47,15 +48,24 @@ export default async function HomePage() {
   ].join('');
   document.head.appendChild(s);
 
-  // Wire checkout buttons
+  // Wire checkout buttons — try/catch so failures surface clearly
   document.addEventListener('click', function(e) {
     var btn = e.target.closest('[data-plan-id]');
     if (!btn) return;
     var planId = btn.getAttribute('data-plan-id');
     if (!planId) return;
     var ms = window.memberstack;
-    if (!ms) { alert('Loading — try again in a moment.'); return; }
-    ms.purchasePlansWithCheckout({ planId: planId });
+    if (!ms) {
+      alert('Still loading — please wait a moment and try again.');
+      return;
+    }
+    btn.disabled = true;
+    ms.purchasePlansWithCheckout({ planId: planId })
+      .catch(function(err) {
+        console.error('Checkout error:', err);
+        alert('Checkout temporarily unavailable. Please refresh and try again, or email support@mayaherring.com.');
+      })
+      .finally(function() { btn.disabled = false; });
   });
 
   // Typewriter on brand wordmark — starts immediately, loops every 60s

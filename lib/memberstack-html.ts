@@ -60,13 +60,18 @@ const STAGE_PAYWALL: Record<string, { label: string; title: string; body: string
   },
 };
 
-// Plan IDs from env vars (hardcoded fallbacks for safety)
+// Plan IDs — checks MS_PRICE_* first (set in Vercel), then MS_PLAN_* legacy, then hardcoded fallbacks
 export function getPlanIds() {
   return {
-    founding: process.env.MS_PLAN_FOUNDING ?? 'pln_booked-out-kit-founding-annual-qrar03w5',
-    annual: process.env.MS_PLAN_ANNUAL ?? 'pln_booked-out-kit-annual-1w3h0ueu',
-    monthly: process.env.MS_PLAN_MONTHLY ?? 'pln_booked-out-kit-monthly-t7am03so',
+    founding: process.env.MS_PRICE_FOUNDING || process.env.MS_PLAN_FOUNDING || 'pln_booked-out-kit-founding-annual-qrar03w5',
+    annual:   process.env.MS_PRICE_ANNUAL   || process.env.MS_PLAN_ANNUAL   || 'pln_booked-out-kit-annual-1w3h0ueu',
+    monthly:  process.env.MS_PRICE_MONTHLY  || process.env.MS_PLAN_MONTHLY  || 'pln_booked-out-kit-monthly-t7am03so',
   };
+}
+
+// Public key — checked once at module level
+export function getPublicKey() {
+  return process.env.MEMBERSTACK_PUBLIC_KEY || 'pk_c06d36f5d1fa05e0db79';
 }
 
 /**
@@ -112,7 +117,7 @@ export async function injectMemberstack(
   filename: string,
   baseHref: string,
 ): Promise<string> {
-  const publicKey = process.env.MEMBERSTACK_PUBLIC_KEY ?? 'pk_c06d36f5d1fa05e0db79';
+  const publicKey = getPublicKey();
   const isProtected = PROTECTED_PAGES.has(filename);
   const isHub = filename === 'index.html';
 
