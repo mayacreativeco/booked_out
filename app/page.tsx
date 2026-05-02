@@ -1,15 +1,11 @@
-import { checkFoundingAvailable, getPriceIds, getPublicKey, getAppId } from '../lib/memberstack-html';
+import { checkFoundingAvailable, getPlanIds, getPublicKey } from '../lib/memberstack-html';
 
 export const dynamic = 'force-dynamic';
 
 export default async function HomePage() {
   const foundingAvailable = await checkFoundingAvailable();
-  const ids = getPriceIds();
+  const ids = getPlanIds();   // pln_* — used with openModal('signup', { plans: [{ planId }] })
   const publicKey = getPublicKey();
-  const appId = getAppId();
-  const initConfig = appId
-    ? `{ domain: 'https://memberstack-client.mayacreativeco.com', publicKey: '${publicKey}', appId: '${appId}' }`
-    : `{ domain: 'https://memberstack-client.mayacreativeco.com', publicKey: '${publicKey}' }`;
 
   const checkerboard: React.CSSProperties = {
     backgroundImage:
@@ -52,23 +48,24 @@ export default async function HomePage() {
   ].join('');
   document.head.appendChild(s);
 
-  // Wire checkout buttons — purchasePlansWithCheckout requires priceId (prc_*)
+  // Subscribe buttons — opens Memberstack signup modal with plan pre-selected
+  // openModal('signup', { plans: [{ planId }] }) handles new member signup + Stripe payment
   document.addEventListener('click', function(e) {
-    var btn = e.target.closest('[data-price-id]');
+    var btn = e.target.closest('[data-plan-id]');
     if (!btn) return;
-    var priceId = btn.getAttribute('data-price-id');
-    if (!priceId) return;
+    var planId = btn.getAttribute('data-plan-id');
+    if (!planId) return;
     var ms = window.memberstack;
     if (!ms) {
       alert('Still loading — please wait a moment and try again.');
       return;
     }
     btn.disabled = true;
-    ms.purchasePlansWithCheckout({ priceId: priceId })
+    ms.openModal('signup', { plans: [{ planId: planId }] })
       .catch(function(err) {
-        console.error('Checkout error full:', err);
+        console.error('Signup modal error:', err);
         var msg = (err && (err.message || err.code || JSON.stringify(err))) || 'unknown error';
-        alert('Checkout error: ' + msg + '\\n\\nPrice ID: ' + priceId.slice(0,8) + '...');
+        alert('Could not open checkout: ' + msg + '. Please refresh and try again or email support@mayaherring.com.');
       })
       .finally(function() { btn.disabled = false; });
   });
@@ -201,7 +198,7 @@ export default async function HomePage() {
                 </p>
                 <button
                   className="btn btn-forest"
-                  data-price-id={ids.founding}
+                  data-plan-id={ids.founding}
                   style={{ fontSize: '14px', fontWeight: 600, padding: '15px 28px', borderRadius: '4px', width: '100%', letterSpacing: '0.01em' }}
                 >
                   → Claim founding spot
@@ -219,7 +216,7 @@ export default async function HomePage() {
                 </p>
                 <button
                   className="btn btn-muted"
-                  data-price-id={ids.monthly}
+                  data-plan-id={ids.monthly}
                   style={{ fontSize: '12px', fontWeight: 600, padding: '11px 24px', borderRadius: '4px', width: '100%' }}
                 >
                   → Subscribe monthly
@@ -239,7 +236,7 @@ export default async function HomePage() {
                 </p>
                 <button
                   className="btn btn-forest"
-                  data-price-id={ids.annual}
+                  data-plan-id={ids.annual}
                   style={{ fontSize: '14px', fontWeight: 600, padding: '15px 28px', borderRadius: '4px', width: '100%', letterSpacing: '0.01em' }}
                 >
                   → Subscribe annually
@@ -257,7 +254,7 @@ export default async function HomePage() {
                 </p>
                 <button
                   className="btn btn-muted"
-                  data-price-id={ids.monthly}
+                  data-plan-id={ids.monthly}
                   style={{ fontSize: '12px', fontWeight: 600, padding: '11px 24px', borderRadius: '4px', width: '100%' }}
                 >
                   → Subscribe monthly
