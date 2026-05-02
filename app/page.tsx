@@ -59,7 +59,7 @@ export default async function HomePage() {
   });
 
   // Typewriter on brand wordmark — types out, resets after 60s, loops
-  (function() {
+  function startTypewriter() {
     var full = 'Booked Out';
     var el = document.getElementById('brand-wordmark');
     if (!el) return;
@@ -73,7 +73,12 @@ export default async function HomePage() {
     }
     el.textContent = '';
     type(0);
-  })();
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', startTypewriter);
+  } else {
+    startTypewriter();
+  }
 })();
 `;
 
