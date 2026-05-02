@@ -58,8 +58,8 @@ export default async function HomePage() {
     ms.purchasePlansWithCheckout({ planId: planId });
   });
 
-  // Typewriter on brand wordmark — types out, resets after 60s, loops
-  function startTypewriter() {
+  // Typewriter on brand wordmark — starts immediately, loops every 60s
+  setTimeout(function() {
     var full = 'Booked Out';
     var el = document.getElementById('brand-wordmark');
     if (!el) return;
@@ -73,12 +73,7 @@ export default async function HomePage() {
     }
     el.textContent = '';
     type(0);
-  }
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', startTypewriter);
-  } else {
-    startTypewriter();
-  }
+  }, 0);
 })();
 `;
 
