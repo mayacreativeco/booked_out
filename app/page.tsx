@@ -41,7 +41,7 @@ export default async function HomePage() {
   s.type = 'module';
   s.textContent = [
     "import memberstackDOM from 'https://esm.sh/@memberstack/dom';",
-    "window.memberstack = memberstackDOM.init(${initConfig});",
+    "window.memberstack = memberstackDOM.init({ domain: 'https://memberstack-client.mayacreativeco.com', publicKey: '${publicKey}' });",
     "var t = setInterval(function() {",
     "  if (!window.memberstack) return;",
     "  clearInterval(t);",
@@ -66,8 +66,9 @@ export default async function HomePage() {
     btn.disabled = true;
     ms.purchasePlansWithCheckout({ priceId: priceId })
       .catch(function(err) {
-        console.error('Checkout error:', err);
-        alert('Checkout temporarily unavailable. Please refresh and try again, or email support@mayaherring.com.');
+        console.error('Checkout error full:', err);
+        var msg = (err && (err.message || err.code || JSON.stringify(err))) || 'unknown error';
+        alert('Checkout error: ' + msg + '\\n\\nPrice ID: ' + priceId.slice(0,8) + '...');
       })
       .finally(function() { btn.disabled = false; });
   });
