@@ -1,11 +1,15 @@
-import { checkFoundingAvailable, getPlanIds, getPublicKey } from '../lib/memberstack-html';
+import { checkFoundingAvailable, getPriceIds, getPublicKey, getAppId } from '../lib/memberstack-html';
 
 export const dynamic = 'force-dynamic';
 
 export default async function HomePage() {
   const foundingAvailable = await checkFoundingAvailable();
-  const ids = getPlanIds();
+  const ids = getPriceIds();
   const publicKey = getPublicKey();
+  const appId = getAppId();
+  const initConfig = appId
+    ? `{ domain: 'https://memberstack-client.mayacreativeco.com', publicKey: '${publicKey}', appId: '${appId}' }`
+    : `{ domain: 'https://memberstack-client.mayacreativeco.com', publicKey: '${publicKey}' }`;
 
   const checkerboard: React.CSSProperties = {
     backgroundImage:
@@ -37,7 +41,7 @@ export default async function HomePage() {
   s.type = 'module';
   s.textContent = [
     "import memberstackDOM from 'https://esm.sh/@memberstack/dom';",
-    "window.memberstack = memberstackDOM.init({ domain: 'https://memberstack-client.mayacreativeco.com', publicKey: '${publicKey}' });",
+    "window.memberstack = memberstackDOM.init(${initConfig});",
     "var t = setInterval(function() {",
     "  if (!window.memberstack) return;",
     "  clearInterval(t);",
@@ -48,19 +52,19 @@ export default async function HomePage() {
   ].join('');
   document.head.appendChild(s);
 
-  // Wire checkout buttons — try/catch so failures surface clearly
+  // Wire checkout buttons — purchasePlansWithCheckout requires priceId (prc_*)
   document.addEventListener('click', function(e) {
-    var btn = e.target.closest('[data-plan-id]');
+    var btn = e.target.closest('[data-price-id]');
     if (!btn) return;
-    var planId = btn.getAttribute('data-plan-id');
-    if (!planId) return;
+    var priceId = btn.getAttribute('data-price-id');
+    if (!priceId) return;
     var ms = window.memberstack;
     if (!ms) {
       alert('Still loading — please wait a moment and try again.');
       return;
     }
     btn.disabled = true;
-    ms.purchasePlansWithCheckout({ planId: planId })
+    ms.purchasePlansWithCheckout({ priceId: priceId })
       .catch(function(err) {
         console.error('Checkout error:', err);
         alert('Checkout temporarily unavailable. Please refresh and try again, or email support@mayaherring.com.');
@@ -196,7 +200,7 @@ export default async function HomePage() {
                 </p>
                 <button
                   className="btn btn-forest"
-                  data-plan-id={ids.founding}
+                  data-price-id={ids.founding}
                   style={{ fontSize: '14px', fontWeight: 600, padding: '15px 28px', borderRadius: '4px', width: '100%', letterSpacing: '0.01em' }}
                 >
                   → Claim founding spot
@@ -214,7 +218,7 @@ export default async function HomePage() {
                 </p>
                 <button
                   className="btn btn-muted"
-                  data-plan-id={ids.monthly}
+                  data-price-id={ids.monthly}
                   style={{ fontSize: '12px', fontWeight: 600, padding: '11px 24px', borderRadius: '4px', width: '100%' }}
                 >
                   → Subscribe monthly
@@ -234,7 +238,7 @@ export default async function HomePage() {
                 </p>
                 <button
                   className="btn btn-forest"
-                  data-plan-id={ids.annual}
+                  data-price-id={ids.annual}
                   style={{ fontSize: '14px', fontWeight: 600, padding: '15px 28px', borderRadius: '4px', width: '100%', letterSpacing: '0.01em' }}
                 >
                   → Subscribe annually
@@ -252,7 +256,7 @@ export default async function HomePage() {
                 </p>
                 <button
                   className="btn btn-muted"
-                  data-plan-id={ids.monthly}
+                  data-price-id={ids.monthly}
                   style={{ fontSize: '12px', fontWeight: 600, padding: '11px 24px', borderRadius: '4px', width: '100%' }}
                 >
                   → Subscribe monthly

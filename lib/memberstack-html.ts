@@ -60,18 +60,32 @@ const STAGE_PAYWALL: Record<string, { label: string; title: string; body: string
   },
 };
 
-// Plan IDs — checks MS_PRICE_* first (set in Vercel), then MS_PLAN_* legacy, then hardcoded fallbacks
+// Plan IDs (pln_*) — used only for Memberstack admin API calls (e.g. member count)
 export function getPlanIds() {
   return {
-    founding: process.env.MS_PRICE_FOUNDING || process.env.MS_PLAN_FOUNDING || 'pln_booked-out-kit-founding-annual-qrar03w5',
-    annual:   process.env.MS_PRICE_ANNUAL   || process.env.MS_PLAN_ANNUAL   || 'pln_booked-out-kit-annual-1w3h0ueu',
-    monthly:  process.env.MS_PRICE_MONTHLY  || process.env.MS_PLAN_MONTHLY  || 'pln_booked-out-kit-monthly-t7am03so',
+    founding: process.env.MS_PLAN_FOUNDING || 'pln_booked-out-kit-founding-annual-qrar03w5',
+    annual:   process.env.MS_PLAN_ANNUAL   || 'pln_booked-out-kit-annual-1w3h0ueu',
+    monthly:  process.env.MS_PLAN_MONTHLY  || 'pln_booked-out-kit-monthly-t7am03so',
   };
 }
 
-// Public key — checked once at module level
+// Price IDs (prc_*) — used for purchasePlansWithCheckout({ priceId })
+export function getPriceIds() {
+  return {
+    founding: process.env.MS_PRICE_FOUNDING || '',
+    annual:   process.env.MS_PRICE_ANNUAL   || '',
+    monthly:  process.env.MS_PRICE_MONTHLY  || '',
+  };
+}
+
+// Public key
 export function getPublicKey() {
   return process.env.MEMBERSTACK_PUBLIC_KEY || 'pk_c06d36f5d1fa05e0db79';
+}
+
+// App ID (optional, improves init reliability)
+export function getAppId() {
+  return process.env.MEMBERSTACK_APP_ID || '';
 }
 
 /**
@@ -118,10 +132,14 @@ export async function injectMemberstack(
   baseHref: string,
 ): Promise<string> {
   const publicKey = getPublicKey();
+  const appId = getAppId();
   const isProtected = PROTECTED_PAGES.has(filename);
   const isHub = filename === 'index.html';
 
-  const msScript = `<script type="module">import memberstackDOM from 'https://esm.sh/@memberstack/dom';window.memberstack=memberstackDOM.init({domain:'https://memberstack-client.mayacreativeco.com',publicKey:'${publicKey}'});</script>`;
+  const initConfig = appId
+    ? `{domain:'https://memberstack-client.mayacreativeco.com',publicKey:'${publicKey}',appId:'${appId}'}`
+    : `{domain:'https://memberstack-client.mayacreativeco.com',publicKey:'${publicKey}'}`;
+  const msScript = `<script type="module">import memberstackDOM from 'https://esm.sh/@memberstack/dom';window.memberstack=memberstackDOM.init(${initConfig});</script>`;
   const hideStyle = isProtected ? `<style id="ms-gate-hide">body{visibility:hidden}</style>` : '';
 
   html = html.replace('<head>', `<head>\n<base href="${baseHref}">\n${msScript}\n${hideStyle}`);
