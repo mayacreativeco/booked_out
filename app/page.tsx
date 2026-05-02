@@ -28,9 +28,10 @@ export default async function HomePage() {
     borderRadius: '4px',
   };
 
-  // Inline client script: Memberstack init, auth redirect, checkout button wiring
+  // Inline client script: Memberstack init, auth redirect, checkout wiring, typewriter
   const clientScript = `
 (function() {
+  // Memberstack init + auth redirect
   var s = document.createElement('script');
   s.type = 'module';
   s.textContent = [
@@ -56,8 +57,46 @@ export default async function HomePage() {
     if (!ms) { alert('Loading — try again in a moment.'); return; }
     ms.purchasePlansWithCheckout({ planId: planId });
   });
+
+  // Typewriter on brand wordmark — types out, resets after 60s, loops
+  (function() {
+    var full = 'Booked Out';
+    var el = document.getElementById('brand-wordmark');
+    if (!el) return;
+    function type(i) {
+      el.textContent = full.slice(0, i);
+      if (i < full.length) {
+        setTimeout(function() { type(i + 1); }, 75);
+      } else {
+        setTimeout(function() { type(0); }, 60000);
+      }
+    }
+    el.textContent = '';
+    type(0);
+  })();
 })();
 `;
+
+  // Primary card shared styles
+  const primaryCard: React.CSSProperties = {
+    position: 'relative',
+    background: '#EDE5D2',
+    border: '2px solid #1B3A2F',
+    borderRadius: '4px',
+    padding: '36px 28px 32px',
+    marginBottom: '12px',
+    boxShadow: '0 4px 20px rgba(27,58,47,0.13)',
+  };
+
+  // Secondary card shared styles
+  const secondaryCard: React.CSSProperties = {
+    background: '#EDE5D2',
+    border: '1.5px solid #C8C0AE',
+    borderRadius: '4px',
+    padding: '20px 22px 18px',
+    marginBottom: '12px',
+    boxShadow: '0 1px 6px rgba(27,58,47,0.06)',
+  };
 
   return (
     <>
@@ -71,8 +110,9 @@ export default async function HomePage() {
         .btn-forest:hover { background: #0F2620; }
         .btn-ghost { background: transparent; color: #1B3A2F; border: 1px solid #1B3A2F !important; }
         .btn-ghost:hover { background: #1B3A2F; color: #F5F0E4; }
-        .btn-subtle { background: transparent; color: #4A5C50; border: 1px solid #D8D0BE !important; }
-        .btn-subtle:hover { border-color: #1B3A2F !important; color: #1B3A2F; }
+        .btn-muted { background: transparent; color: #4A5C50; border: 1px solid #C8C0AE !important; }
+        .btn-muted:hover { border-color: #1B3A2F !important; color: #1B3A2F; }
+        #brand-wordmark { min-width: 1ch; display: inline-block; }
       `}</style>
 
       {/* Top bar */}
@@ -88,7 +128,9 @@ export default async function HomePage() {
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <div style={{ width: '32px', height: '32px', flexShrink: 0, ...checkerboard }} />
           <div style={{ lineHeight: 1.2 }}>
-            <div className="f-display" style={{ fontWeight: 700, color: '#1B3A2F', fontSize: '16px' }}>Booked Out</div>
+            <div className="f-display" style={{ fontWeight: 700, color: '#1B3A2F', fontSize: '16px' }}>
+              <span id="brand-wordmark">Booked Out</span>
+            </div>
             <div className="f-mono" style={{ fontSize: '10px', color: '#4A5C50' }}>command_center</div>
           </div>
         </div>
@@ -103,16 +145,20 @@ export default async function HomePage() {
 
       {/* Main */}
       <main style={{ minHeight: 'calc(100vh - 168px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '48px 24px' }}>
-        <div style={{ maxWidth: '520px', width: '100%' }}>
+        <div style={{ maxWidth: '540px', width: '100%' }}>
 
           {/* Heading */}
           <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-            <p className="f-mono" style={{ fontSize: '11px', color: '#4A7C59', marginBottom: '14px' }}>// subscriber_only</p>
-            <h1 className="f-display" style={{ fontSize: 'clamp(28px,5vw,38px)', fontWeight: 700, color: '#1B3A2F', marginBottom: '14px' }}>
+            <p className="f-mono" style={{ fontSize: '11px', color: '#4A7C59', marginBottom: '16px' }}>// subscriber_only</p>
+            <h1 className="f-display" style={{ fontSize: 'clamp(40px,6vw,72px)', fontWeight: 700, color: '#1B3A2F', marginBottom: '16px', lineHeight: 1.05 }}>
               Get booked out.
             </h1>
-            <p style={{ fontSize: '15px', color: '#4A5C50', lineHeight: 1.6, marginBottom: '10px' }}>
+            <p style={{ fontSize: '15px', color: '#4A5C50', lineHeight: 1.6, marginBottom: '18px' }}>
               The command center for UGC operators who want to stop chasing leads and start filling their calendar.
+            </p>
+            {/* Trust signal */}
+            <p className="f-mono" style={{ fontSize: '10px', color: '#4A5C50', letterSpacing: '0.03em', marginBottom: '10px', opacity: 0.8 }}>
+              390+ ad creatives shipped · 5+ yrs building for DTC · 267 brand clients
             </p>
             <p style={{ fontSize: '14px', color: '#4A5C50' }}>
               Already subscribed?{' '}
@@ -121,49 +167,91 @@ export default async function HomePage() {
           </div>
 
           {/* Plan cards */}
-          {/* Monthly — PRIMARY (top) */}
-          <div style={{ background: '#EDE5D2', border: '2px solid #1B3A2F', borderRadius: '4px', padding: '24px', marginBottom: '12px', boxShadow: '0 2px 12px rgba(27,58,47,0.10)' }}>
-            <p className="f-mono" style={{ fontSize: '10px', color: '#4A5C50', marginBottom: '6px' }}>// monthly</p>
-            <div className="f-display" style={{ fontSize: '30px', fontWeight: 700, color: '#1B3A2F', marginBottom: '6px' }}>
-              $49<span style={{ fontSize: '16px', fontWeight: 400 }}>/mo</span>
-            </div>
-            <p style={{ fontSize: '13px', color: '#4A5C50', lineHeight: 1.6, marginBottom: '18px' }}>
-              Flexible monthly billing. Cancel anytime.
-            </p>
-            <button
-              className="btn btn-forest"
-              data-plan-id={ids.monthly}
-              style={{ fontSize: '13px', fontWeight: 600, padding: '13px 28px', borderRadius: '4px', width: '100%' }}
-            >
-              → Subscribe monthly
-            </button>
-          </div>
+          {foundingAvailable ? (
+            <>
+              {/* Founding Annual — PRIMARY (top, large) */}
+              <div style={primaryCard}>
+                <div className="f-mono" style={{ position: 'absolute', top: '-1px', right: '16px', background: '#1B3A2F', color: '#F5F0E4', fontSize: '10px', fontWeight: 600, padding: '4px 10px', borderRadius: '0 0 4px 4px', letterSpacing: '0.04em' }}>
+                  LIMITED: FIRST 100 MEMBERS
+                </div>
+                <p className="f-mono" style={{ fontSize: '10px', color: '#4A7C59', marginBottom: '10px' }}>// founding_annual</p>
+                <div style={{ display: 'flex', alignItems: 'baseline', gap: '10px', marginBottom: '12px', flexWrap: 'wrap' }}>
+                  <div className="f-display" style={{ fontSize: '44px', fontWeight: 700, color: '#1B3A2F', lineHeight: 1 }}>
+                    $197<span style={{ fontSize: '20px', fontWeight: 400 }}>/yr</span>
+                  </div>
+                  <span className="f-mono" style={{ fontSize: '11px', color: '#4A5C50', opacity: 0.75 }}>(usually $397/yr)</span>
+                </div>
+                <p style={{ fontSize: '14px', color: '#4A5C50', lineHeight: 1.65, marginBottom: '24px' }}>
+                  First 100 creators only. Locked in at $197 for as long as you stay subscribed. After 100 members, this offer disappears and standard pricing ($397/yr) takes over.
+                </p>
+                <button
+                  className="btn btn-forest"
+                  data-plan-id={ids.founding}
+                  style={{ fontSize: '14px', fontWeight: 600, padding: '15px 28px', borderRadius: '4px', width: '100%', letterSpacing: '0.01em' }}
+                >
+                  → Claim founding spot
+                </button>
+              </div>
 
-          {foundingAvailable && (
-            /* Founding Annual — PRIMARY (below monthly, limited offer) */
-            <div style={{ position: 'relative', background: '#EDE5D2', border: '2px solid #1B3A2F', borderRadius: '4px', padding: '28px 24px 24px', marginBottom: '12px', boxShadow: '0 2px 12px rgba(27,58,47,0.10)' }}>
-              <div className="f-mono" style={{ position: 'absolute', top: '-1px', right: '16px', background: '#1B3A2F', color: '#F5F0E4', fontSize: '10px', fontWeight: 600, padding: '4px 10px', borderRadius: '0 0 4px 4px', letterSpacing: '0.04em' }}>
-                LIMITED: FIRST 100 MEMBERS
+              {/* Monthly — SECONDARY (below, smaller) */}
+              <div style={secondaryCard}>
+                <p className="f-mono" style={{ fontSize: '10px', color: '#4A5C50', marginBottom: '6px' }}>// monthly</p>
+                <div className="f-display" style={{ fontSize: '26px', fontWeight: 700, color: '#1B3A2F', marginBottom: '6px' }}>
+                  $49<span style={{ fontSize: '14px', fontWeight: 400 }}>/mo</span>
+                </div>
+                <p style={{ fontSize: '13px', color: '#4A5C50', lineHeight: 1.6, marginBottom: '14px' }}>
+                  Flexible monthly billing. Cancel anytime. No founding lock-in.
+                </p>
+                <button
+                  className="btn btn-muted"
+                  data-plan-id={ids.monthly}
+                  style={{ fontSize: '12px', fontWeight: 600, padding: '11px 24px', borderRadius: '4px', width: '100%' }}
+                >
+                  → Subscribe monthly
+                </button>
               </div>
-              <p className="f-mono" style={{ fontSize: '10px', color: '#4A7C59', marginBottom: '6px' }}>// founding_annual</p>
-              <div className="f-display" style={{ fontSize: '30px', fontWeight: 700, color: '#1B3A2F', marginBottom: '6px' }}>
-                $197<span style={{ fontSize: '16px', fontWeight: 400 }}>/yr</span>
+            </>
+          ) : (
+            <>
+              {/* Founding sold out — Annual $397 PRIMARY */}
+              <div style={primaryCard}>
+                <p className="f-mono" style={{ fontSize: '10px', color: '#4A5C50', marginBottom: '10px' }}>// annual</p>
+                <div className="f-display" style={{ fontSize: '44px', fontWeight: 700, color: '#1B3A2F', lineHeight: 1, marginBottom: '12px' }}>
+                  $397<span style={{ fontSize: '20px', fontWeight: 400 }}>/yr</span>
+                </div>
+                <p style={{ fontSize: '14px', color: '#4A5C50', lineHeight: 1.65, marginBottom: '24px' }}>
+                  Full access to every stage, tool, template, and script. Billed annually.
+                </p>
+                <button
+                  className="btn btn-forest"
+                  data-plan-id={ids.annual}
+                  style={{ fontSize: '14px', fontWeight: 600, padding: '15px 28px', borderRadius: '4px', width: '100%', letterSpacing: '0.01em' }}
+                >
+                  → Subscribe annually
+                </button>
               </div>
-              <p style={{ fontSize: '13px', color: '#4A5C50', lineHeight: 1.6, marginBottom: '18px' }}>
-                Locked-in pricing for as long as you stay subscribed.<br />
-                First 100 creators only — once filled, this offer disappears.
-              </p>
-              <button
-                className="btn btn-forest"
-                data-plan-id={ids.founding}
-                style={{ fontSize: '13px', fontWeight: 600, padding: '13px 28px', borderRadius: '4px', width: '100%' }}
-              >
-                → Claim founding spot
-              </button>
-            </div>
+
+              {/* Monthly — SECONDARY */}
+              <div style={secondaryCard}>
+                <p className="f-mono" style={{ fontSize: '10px', color: '#4A5C50', marginBottom: '6px' }}>// monthly</p>
+                <div className="f-display" style={{ fontSize: '26px', fontWeight: 700, color: '#1B3A2F', marginBottom: '6px' }}>
+                  $49<span style={{ fontSize: '14px', fontWeight: 400 }}>/mo</span>
+                </div>
+                <p style={{ fontSize: '13px', color: '#4A5C50', lineHeight: 1.6, marginBottom: '14px' }}>
+                  Flexible monthly billing. Cancel anytime.
+                </p>
+                <button
+                  className="btn btn-muted"
+                  data-plan-id={ids.monthly}
+                  style={{ fontSize: '12px', fontWeight: 600, padding: '11px 24px', borderRadius: '4px', width: '100%' }}
+                >
+                  → Subscribe monthly
+                </button>
+              </div>
+            </>
           )}
 
-          <div style={{ textAlign: 'center', marginTop: '24px' }}>
+          <div style={{ textAlign: 'center', marginTop: '20px' }}>
             <a href="/dashboard/00_start.html" className="f-mono" style={{ fontSize: '11px', color: '#4A7C59', textDecoration: 'none' }}>
               or access the free start guide →
             </a>
