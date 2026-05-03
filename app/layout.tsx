@@ -4,6 +4,10 @@ import './globals.css';
 export const metadata: Metadata = {
   title: 'Booked Out',
   description: 'Booked Out client portal',
+  icons: {
+    icon: '/favicon.svg',
+    shortcut: '/favicon.svg',
+  },
 };
 
 export default function RootLayout({
