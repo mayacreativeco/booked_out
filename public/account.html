@@ -92,14 +92,18 @@
           <span class="row-label">plan</span>
           <span class="row-value" id="memberPlan">—</span>
         </div>
-        <div class="row">
-          <span class="row-label">next_billing</span>
+        <div class="row" id="billingRow">
+          <span class="row-label" id="billingLabel">next_billing</span>
           <span class="row-value" id="memberBilling">—</span>
         </div>
         <div class="row">
           <span class="row-label">status</span>
           <span class="row-value" id="memberStatus">—</span>
         </div>
+      </div>
+      <!-- Cancellation notice — hidden until needed -->
+      <div id="cancelNotice" style="display:none" class="mt-4 p-3 bg-red-50 border border-red-200 rounded-sharp font-mono text-xs text-red-700">
+        // subscription cancelled — access continues until <span id="cancelAccessEnds"></span>
       </div>
     </div>
 
@@ -144,29 +148,54 @@
 
 <script>
 (function() {
-  var PLAN_LABELS = {
-    monthly: 'Monthly · $49/mo',
-    annual: 'Annual · $397/yr',
-    founding: 'Founding Member · $197/yr',
-  };
-
-  function fmt(dateStr) {
-    if (!dateStr) return '—';
-    try { return new Date(dateStr).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }); }
-    catch (e) { return dateStr; }
+  function badgeClass(status) {
+    if (status === 'active')    return 'font-mono text-xs badge-active';
+    if (status === 'cancelled') return 'font-mono text-xs badge-cancelled';
+    return 'font-mono text-xs badge-pastdue';
   }
 
-  function statusBadgeClass(status) {
-    if (status === 'active') return 'badge-active';
-    if (status === 'cancelled') return 'badge-cancelled';
-    return 'badge-pastdue';
+  function renderSubscription(email, sub) {
+    document.getElementById('memberEmail').textContent = email;
+    document.getElementById('topEmail').textContent = email;
+
+    if (sub.error) {
+      // No Stripe record found — show what we can
+      document.getElementById('memberPlan').textContent = '—';
+      document.getElementById('memberBilling').textContent = '—';
+      document.getElementById('memberStatus').textContent = '—';
+      return;
+    }
+
+    document.getElementById('memberPlan').textContent = sub.planLabel || '—';
+
+    var badge = document.getElementById('statusBadge');
+    badge.textContent = sub.status;
+    badge.className = badgeClass(sub.status);
+
+    if (sub.status === 'cancelled') {
+      // Show access_ends instead of next_billing
+      document.getElementById('billingLabel').textContent = 'access_ends';
+      document.getElementById('memberBilling').textContent = sub.accessEnds || '—';
+      document.getElementById('memberStatus').textContent = 'cancelled';
+      // Show cancellation banner
+      document.getElementById('cancelAccessEnds').textContent = sub.accessEnds || '—';
+      document.getElementById('cancelNotice').style.display = 'block';
+    } else if (sub.status === 'past_due') {
+      document.getElementById('billingLabel').textContent = 'next_billing';
+      document.getElementById('memberBilling').textContent = sub.nextBilling || '—';
+      document.getElementById('memberStatus').textContent = 'past_due';
+    } else {
+      document.getElementById('billingLabel').textContent = 'next_billing';
+      document.getElementById('memberBilling').textContent = sub.nextBilling || '—';
+      document.getElementById('memberStatus').textContent = 'active';
+    }
   }
 
   var checkMs = setInterval(function() {
     if (!window.memberstack) return;
     clearInterval(checkMs);
 
-    window.memberstack.getCurrentMember().then(function(result) {
+    window.memberstack.getCurrentMember().then(async function(result) {
       if (!result.data) {
         window.location.href = '/login.html';
         return;
@@ -174,32 +203,44 @@
 
       document.body.style.visibility = 'visible';
 
-      var member = result.data;
-      var meta = member.metaData || {};
-      var email = member.auth && member.auth.email ? member.auth.email : '—';
+      var email = (result.data.auth && result.data.auth.email) ? result.data.auth.email : '';
 
-      document.getElementById('topEmail').textContent = email;
-      document.getElementById('memberEmail').textContent = email;
-      document.getElementById('memberPlan').textContent = PLAN_LABELS[meta.planType] || (meta.planType || '—');
-      document.getElementById('memberBilling').textContent = fmt(meta.nextBillingDate);
-
-      var status = meta.status || 'active';
-      document.getElementById('memberStatus').textContent = status;
-      var badge = document.getElementById('statusBadge');
-      badge.textContent = status;
-      badge.className = 'font-mono text-xs ' + statusBadgeClass(status);
-
-      // Open Memberstack customer portal on click
-      document.getElementById('portalLink').addEventListener('click', async function(e) {
-        e.preventDefault();
-        try {
-          await window.memberstack.openCustomerPortal();
-        } catch (err) {
-          console.error('Could not open customer portal:', err);
-        }
-      });
+      // Fetch live subscription data from Stripe via our API
+      try {
+        var res = await fetch('/api/subscription-status?email=' + encodeURIComponent(email));
+        var sub = await res.json();
+        renderSubscription(email, sub);
+      } catch (e) {
+        console.error('[account] subscription fetch failed:', e);
+        renderSubscription(email, { error: true });
+      }
     });
   }, 50);
+
+  // Manage subscription → Stripe Customer Portal
+  document.getElementById('portalLink').addEventListener('click', async function(e) {
+    e.preventDefault();
+    var btn = this;
+    var orig = btn.textContent;
+    btn.textContent = '// opening portal...';
+
+    try {
+      var emailEl = document.getElementById('memberEmail');
+      var email = emailEl ? emailEl.textContent : '';
+      var res = await fetch('/api/create-portal-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+      var data = await res.json();
+      if (!data.url) throw new Error(data.error || 'no portal URL');
+      window.location.href = data.url;
+    } catch (err) {
+      console.error('[account] portal session failed:', err);
+      btn.textContent = orig;
+      alert('Could not open billing portal. Please email support@mayaherring.com.');
+    }
+  });
 
   document.getElementById('logoutBtn').addEventListener('click', async function() {
     await window.memberstack.logout();
