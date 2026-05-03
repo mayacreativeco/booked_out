@@ -16,6 +16,31 @@ function fmtDate(ts: number): string {
   });
 }
 
+// Find the Stripe customer that actually has a subscription — handles the
+// duplicate-customer problem where Memberstack creates an empty second customer.
+async function findCustomerWithSubscription(
+  stripe: Stripe,
+  email: string,
+): Promise<{ customerId: string; sub: Stripe.Subscription } | null> {
+  // Fetch up to 5 customers with this email (handles duplicates)
+  const customers = await stripe.customers.list({ email, limit: 5 });
+
+  for (const customer of customers.data) {
+    const subs = await stripe.subscriptions.list({
+      customer: customer.id,
+      limit: 1,
+      status: 'all',
+    });
+    if (subs.data.length > 0) {
+      console.log(`[subscription-status] found customer with subscription: ${customer.id} (${customer.email})`);
+      return { customerId: customer.id, sub: subs.data[0] };
+    }
+  }
+
+  console.log(`[subscription-status] no customer with subscription found for ${email} among ${customers.data.length} customer(s)`);
+  return null;
+}
+
 export async function GET(req: NextRequest) {
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
   const email = req.nextUrl.searchParams.get('email');
@@ -25,34 +50,23 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    // Find Stripe customer by email
-    const customers = await stripe.customers.list({ email, limit: 1 });
-    if (!customers.data.length) {
-      return Response.json({ error: 'no_customer' }, { status: 404 });
-    }
+    const result = await findCustomerWithSubscription(stripe, email);
 
-    const customerId = customers.data[0].id;
-
-    // Get their most recent subscription (active or cancelled)
-    const subscriptions = await stripe.subscriptions.list({
-      customer: customerId,
-      limit: 1,
-      status: 'all',
-    });
-
-    if (!subscriptions.data.length) {
+    if (!result) {
       return Response.json({ error: 'no_subscription' }, { status: 404 });
     }
 
-    const sub = subscriptions.data[0];
+    const { customerId, sub } = result;
     const item = sub.items.data[0];
     const priceId = item?.price?.id ?? '';
     const planLabel = PLAN_LABELS[priceId] ?? 'Unknown plan';
     const isCancelled = sub.cancel_at_period_end || sub.status === 'canceled';
+
     // current_period_end lives on the SubscriptionItem in this Stripe SDK version
-    const periodEnd: number = (item as typeof item & { current_period_end?: number }).current_period_end
-      ?? (sub as typeof sub & { current_period_end?: number }).current_period_end
-      ?? 0;
+    const periodEnd: number =
+      (item as typeof item & { current_period_end?: number }).current_period_end ??
+      (sub as typeof sub & { current_period_end?: number }).current_period_end ??
+      0;
 
     let status: 'active' | 'cancelled' | 'past_due';
     if (sub.status === 'past_due') {
@@ -66,9 +80,8 @@ export async function GET(req: NextRequest) {
     return Response.json({
       planLabel,
       status,
-      // next_billing shows next charge date for active subs; access_ends shows last day for cancelled
-      nextBilling:   isCancelled ? null : fmtDate(periodEnd),
-      accessEnds:    isCancelled ? fmtDate(periodEnd) : null,
+      nextBilling: isCancelled ? null : fmtDate(periodEnd),
+      accessEnds:  isCancelled ? fmtDate(periodEnd) : null,
       customerId,
     });
 

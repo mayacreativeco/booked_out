@@ -65,16 +65,23 @@ async function getMsMemberByEmail(email: string): Promise<{ id: string } | null>
   }
 }
 
-async function createMsMember(email: string, planId: string): Promise<{ id: string }> {
+async function createMsMember(email: string, planId: string, stripeCustomerId: string): Promise<{ id: string }> {
   // NOTE: Memberstack plans must be set to "Free" type in the dashboard.
   // Since Stripe handles all billing, Memberstack is used only for gating/auth.
-  // The planConnections field is used here (works for any plan type when using Admin API).
+  // We store the real Stripe customer ID in metaData so subscription-status lookups
+  // can always find the correct customer (avoids the duplicate-customer problem).
   const data = await msRequest('POST', '/members', {
     email,
     password: randomUUID(), // random — member sets their own via forgot-password flow
     planConnections: [{ planId }],
+    metaData: { stripeCustomerId },
   });
+  console.log(`[ms] created member response:`, JSON.stringify(data?.data, null, 2));
   return data?.data;
+}
+
+async function updateMsMetaData(memberId: string, metaData: Record<string, string>): Promise<void> {
+  await msRequest('PATCH', `/members/${memberId}`, { metaData });
 }
 
 async function addMsPlan(memberId: string, planId: string): Promise<void> {
@@ -215,6 +222,8 @@ export async function POST(req: NextRequest) {
         const session = event.data.object as Stripe.Checkout.Session;
         const email = session.customer_details?.email;
         const planType = session.metadata?.plan_type;
+        // session.customer is the real Stripe customer ID created during checkout
+        const stripeCustomerId = typeof session.customer === 'string' ? session.customer : '';
 
         if (!email || !planType) {
           throw new Error(`Missing email (${email}) or plan_type (${planType}) in session ${session.id}`);
@@ -225,14 +234,21 @@ export async function POST(req: NextRequest) {
           throw new Error(`No Memberstack plan ID for planType "${planType}"`);
         }
 
+        console.log(`[stripe-webhook] checkout complete — email: ${email}, planType: ${planType}, stripeCustomerId: ${stripeCustomerId}`);
+
         let member = await getMsMemberByEmail(email);
 
         if (member) {
           console.log(`[stripe-webhook] adding plan ${msPlanId} to existing member ${member.id}`);
           await addMsPlan(member.id, msPlanId);
+          // Store Stripe customer ID on existing member so account page can find the right customer
+          if (stripeCustomerId) {
+            await updateMsMetaData(member.id, { stripeCustomerId });
+            console.log(`[stripe-webhook] stored stripeCustomerId ${stripeCustomerId} on member ${member.id}`);
+          }
         } else {
           console.log(`[stripe-webhook] creating new member for ${email} with plan ${msPlanId}`);
-          member = await createMsMember(email, msPlanId);
+          member = await createMsMember(email, msPlanId, stripeCustomerId);
         }
 
         await sendWelcomeEmail(resend, email);
