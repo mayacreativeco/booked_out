@@ -12,14 +12,14 @@ const MS_KEY = process.env.MEMBERSTACK_SECRET_KEY ?? '';
 const SUPPORT_EMAIL = process.env.SUPPORT_EMAIL ?? 'support@mayaherring.com';
 const SITE_URL = 'https://booked-out.mayacreativeco.com';
 
-// Maps planType → Memberstack plan ID (MS_PRICE_* vars contain pln_* IDs despite the name)
+// Maps planType → Memberstack plan ID (MS_PRICE_* vars hold pln_* IDs despite the name)
 const MS_PLAN_MAP: Record<string, string | undefined> = {
   monthly:  process.env.MS_PRICE_MONTHLY,
   annual:   process.env.MS_PRICE_ANNUAL,
   founding: process.env.MS_PRICE_FOUNDING,
 };
 
-// Maps Stripe price ID → planType (for subscription.deleted lookup)
+// Maps Stripe price ID → Memberstack plan ID for subscription.deleted
 function stripePriceToMsPlanId(stripePriceId: string): string | undefined {
   const map: Record<string, string | undefined> = {
     [process.env.STRIPE_PRICE_MONTHLY  ?? '']: process.env.MS_PRICE_MONTHLY,
@@ -60,15 +60,15 @@ async function getMsMemberByEmail(email: string): Promise<{ id: string } | null>
     const data = await msRequest('GET', `/members/${encodeURIComponent(email)}`);
     return data?.data ?? null;
   } catch (err: unknown) {
-    // 404 = member doesn't exist
     if (err instanceof Error && err.message.includes('404')) return null;
     throw err;
   }
 }
 
 async function createMsMember(email: string, planId: string): Promise<{ id: string }> {
-  // planConnections is the correct field for paid plans in Memberstack v2 Admin API.
-  // The `plans` field only works for free-type plans.
+  // NOTE: Memberstack plans must be set to "Free" type in the dashboard.
+  // Since Stripe handles all billing, Memberstack is used only for gating/auth.
+  // The planConnections field is used here (works for any plan type when using Admin API).
   const data = await msRequest('POST', '/members', {
     email,
     password: randomUUID(), // random — member sets their own via forgot-password flow
@@ -78,12 +78,50 @@ async function createMsMember(email: string, planId: string): Promise<{ id: stri
 }
 
 async function addMsPlan(memberId: string, planId: string): Promise<void> {
-  // Try add-plan endpoint; planConnections variant used as fallback if needed
-  await msRequest('POST', `/members/${memberId}/add-plan`, { planId });
+  // First try the standard add-plan endpoint
+  try {
+    await msRequest('POST', `/members/${memberId}/add-plan`, { planId });
+    return;
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : String(err);
+    // If rejected because it's a paid-plan type, log clearly and re-throw
+    // so the outer handler knows provisioning failed
+    console.error(`[ms] add-plan failed for member ${memberId} plan ${planId}: ${msg}`);
+    console.error(`[ms] IMPORTANT: If error is "no valid plan" or "paid plan", change the plan type to "Free" in Memberstack dashboard → Plans → edit plan → Plan type: Free`);
+    throw err;
+  }
 }
 
 async function removeMsPlan(memberId: string, planId: string): Promise<void> {
-  await msRequest('POST', `/members/${memberId}/remove-plan`, { planId });
+  try {
+    await msRequest('POST', `/members/${memberId}/remove-plan`, { planId });
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : String(err);
+    // "no-plan-found" means the plan wasn't on the member — not an error worth alerting on.
+    // This happens if the original add-plan failed (paid-plan API restriction) or
+    // if a cancel event fires twice. Log and move on.
+    if (msg.includes('no-plan-found') || msg.includes('no plan found')) {
+      console.log(`[ms] plan ${planId} not found on member ${memberId} — already removed or never assigned. Skipping.`);
+      return;
+    }
+    throw err;
+  }
+}
+
+// Get the customer email from Stripe, handling deleted customers gracefully
+async function getCustomerEmail(stripe: Stripe, customerId: string): Promise<string | null> {
+  try {
+    const customer = await stripe.customers.retrieve(customerId);
+    // Stripe returns either Customer or DeletedCustomer — deleted ones have no email
+    if ('deleted' in customer && customer.deleted) {
+      console.error(`[stripe-webhook] customer ${customerId} is deleted in Stripe`);
+      return null;
+    }
+    return (customer as Stripe.Customer).email ?? null;
+  } catch (err) {
+    console.error(`[stripe-webhook] failed to retrieve customer ${customerId}:`, err);
+    return null;
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -197,50 +235,75 @@ export async function POST(req: NextRequest) {
           member = await createMsMember(email, msPlanId);
         }
 
-        // Send welcome email with password-set instructions
         await sendWelcomeEmail(resend, email);
         console.log(`[stripe-webhook] welcome email sent to ${email}`);
         break;
       }
 
       // ------------------------------------------------------------------
+      // customer.subscription.deleted fires when a subscription actually ends —
+      // either immediately cancelled, or at period end after cancel_at_period_end.
+      // This is when we revoke Memberstack access.
       case 'customer.subscription.deleted': {
         const sub = event.data.object as Stripe.Subscription;
         const customerId = sub.customer as string;
 
-        // Get email from Stripe customer record
-        const customer = await stripe.customers.retrieve(customerId);
-        const email = (customer as Stripe.Customer).email;
+        // Resolve customer email — handles deleted customers gracefully
+        const email = await getCustomerEmail(stripe, customerId);
 
         if (!email) {
-          console.error(`[stripe-webhook] no email for Stripe customer ${customerId}`);
+          // Can't proceed without email — log with customer ID for manual lookup
+          console.error(
+            `[stripe-webhook] subscription.deleted: could not resolve email for Stripe customer ${customerId}. ` +
+            `Subscription ${sub.id} ended. Manual Memberstack check needed.`
+          );
+          await sendSupportAlert(
+            resend,
+            `Action needed: subscription ended, email unknown`,
+            `Stripe customer ID: ${customerId}\nSubscription: ${sub.id}\n\nCould not resolve customer email — check Stripe dashboard and manually remove Memberstack plan if needed.`,
+          );
           break;
         }
+
+        console.log(`[stripe-webhook] subscription.deleted for ${email}, resolving Memberstack member`);
 
         const member = await getMsMemberByEmail(email);
         if (!member) {
-          console.log(`[stripe-webhook] no Memberstack member found for ${email} on subscription delete`);
+          console.log(`[stripe-webhook] no Memberstack member found for ${email} on subscription delete — nothing to remove`);
           break;
         }
 
-        // Map the Stripe price back to the Memberstack plan ID
         const stripePriceId = sub.items?.data?.[0]?.price?.id;
         const msPlanId = stripePriceId ? stripePriceToMsPlanId(stripePriceId) : undefined;
 
         if (msPlanId) {
-          console.log(`[stripe-webhook] removing plan ${msPlanId} from member ${member.id}`);
+          console.log(`[stripe-webhook] removing plan ${msPlanId} from member ${member.id} (${email})`);
           await removeMsPlan(member.id, msPlanId);
+          console.log(`[stripe-webhook] plan removal complete for ${email}`);
         } else {
-          console.error(`[stripe-webhook] could not map Stripe price ${stripePriceId} to a Memberstack plan`);
+          console.error(
+            `[stripe-webhook] could not map Stripe price ${stripePriceId} to a Memberstack plan — ` +
+            `check STRIPE_PRICE_* env vars match Stripe dashboard`
+          );
         }
         break;
       }
 
       // ------------------------------------------------------------------
+      // customer.subscription.updated fires when cancel_at_period_end is set.
+      // Access continues until period end — we do NOT remove plans here.
+      // Removal happens on subscription.deleted above.
       case 'customer.subscription.updated': {
-        // Log for visibility — full plan-change handling can be added here
         const sub = event.data.object as Stripe.Subscription;
-        console.log(`[stripe-webhook] subscription updated: ${sub.id} status=${sub.status}`);
+        const prev = event.data.previous_attributes as Partial<Stripe.Subscription> | undefined;
+        const cancelScheduled = sub.cancel_at_period_end && !prev?.cancel_at_period_end;
+        if (cancelScheduled) {
+          const periodEnd = (sub.items?.data?.[0] as (typeof sub.items.data[0] & { current_period_end?: number }))?.current_period_end;
+          const endsAt = periodEnd ? new Date(periodEnd * 1000).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : 'end of period';
+          console.log(`[stripe-webhook] subscription ${sub.id} scheduled to cancel — access continues until ${endsAt}`);
+        } else {
+          console.log(`[stripe-webhook] subscription updated: ${sub.id} status=${sub.status}`);
+        }
         break;
       }
 
@@ -252,14 +315,13 @@ export async function POST(req: NextRequest) {
         await sendSupportAlert(
           resend,
           `Payment failed for ${email}`,
-          `Invoice: ${invoice.id}\nCustomer email: ${email}\nAmount: ${invoice.amount_due}\nStripe event: ${event.id}`,
+          `Invoice: ${invoice.id}\nCustomer email: ${email}\nAmount due: ${invoice.amount_due}\nStripe event: ${event.id}`,
         );
         break;
       }
 
       // ------------------------------------------------------------------
       case 'invoice.payment_succeeded': {
-        // Defensive sync — plan should already be active via checkout.session.completed
         const invoice = event.data.object as Stripe.Invoice;
         console.log(`[stripe-webhook] payment succeeded for invoice ${invoice.id}`);
         break;
@@ -269,7 +331,7 @@ export async function POST(req: NextRequest) {
         console.log(`[stripe-webhook] unhandled event type: ${event.type}`);
     }
 
-    // Mark event as processed (24-hour TTL for idempotency window)
+    // Mark event as processed (24-hour TTL for idempotency)
     await redis.set(eventKey, '1', { ex: 86400 });
     return Response.json({ received: true });
 
@@ -288,7 +350,7 @@ export async function POST(req: NextRequest) {
       `Event type: ${event.type}\nEvent ID: ${event.id}\nEmail: ${email}\nPlan type: ${session?.metadata?.plan_type ?? 'unknown'}\n\nError: ${errMsg}\n\nAction needed: manually create/update member in Memberstack dashboard.`,
     );
 
-    // Return 200 so Stripe doesn't retry (we've already alerted support)
+    // Return 200 so Stripe doesn't keep retrying — we've alerted support
     return Response.json({ received: true, error: errMsg }, { status: 200 });
   }
 }
