@@ -129,9 +129,34 @@
       <a href="05_vault.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">05_vault</a>
       <a href="06_bonus.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">06_bonus</a>
     </nav>
-    <a href="mailto:hello@collegarestudio.com" class="hidden sm:inline-block text-xs font-mono text-forest border border-forest px-3 py-1.5 rounded-sharp hover:bg-forest hover:text-cream transition">support</a>
+      <div class="flex items-center gap-3">
+        <a href="mailto:support@mayaherring.com" class="hidden lg:inline-block text-xs font-mono text-forest border border-forest px-3 py-1.5 rounded-sharp hover:bg-forest hover:text-cream transition">support</a>
+        <button id="menuBtn" class="lg:hidden flex items-center justify-center w-9 h-9 rounded-sharp hover:bg-creamDeep transition" aria-label="Open menu" aria-expanded="false">
+          <svg id="menuIcon" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#1B3A2F" stroke-width="2" stroke-linecap="round">
+            <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+          </svg>
+        </button>
+      </div>
   </div>
 </header>
+
+<!-- Mobile nav -->
+<div id="mobileNav" class="hidden lg:hidden bg-forestDeep border-b-2 border-forest sticky top-[57px] z-30">
+  <div class="max-w-6xl mx-auto px-6 py-5">
+    <nav class="grid grid-cols-2 gap-y-1 gap-x-2 font-mono text-sm mb-4">
+      <a href="index.html" class="px-3 py-2.5 text-cream/80 hover:text-cream hover:bg-white/10 rounded-sharp transition">hub</a>
+      <a href="01_tools.html" class="px-3 py-2.5 text-cream/80 hover:text-cream hover:bg-white/10 rounded-sharp transition">01_tools</a>
+      <a href="02_templates.html" class="px-3 py-2.5 text-cream/80 hover:text-cream hover:bg-white/10 rounded-sharp transition">02_templates</a>
+      <a href="03_scripts.html" class="px-3 py-2.5 text-cream/80 hover:text-cream hover:bg-white/10 rounded-sharp transition">03_scripts</a>
+      <a href="04_videos.html" class="px-3 py-2.5 text-cream/80 hover:text-cream hover:bg-white/10 rounded-sharp transition">04_videos</a>
+      <a href="05_vault.html" class="px-3 py-2.5 text-cream/80 hover:text-cream hover:bg-white/10 rounded-sharp transition">05_vault</a>
+      <a href="06_bonus.html" class="col-span-2 px-3 py-2.5 text-cream/80 hover:text-cream hover:bg-white/10 rounded-sharp transition">06_bonus</a>
+    </nav>
+    <div class="border-t border-white/10 pt-3">
+      <a href="mailto:support@mayaherring.com" class="font-mono text-xs text-cream/50 hover:text-cream transition">support@mayaherring.com</a>
+    </div>
+  </div>
+</div>
 
 <!-- Section header -->
 <section class="border-b border-line bg-cream">
@@ -365,5 +390,30 @@
   </div>
 </footer>
 
+
+<!-- Hamburger toggle -->
+<script>
+(function() {
+  var btn = document.getElementById('menuBtn');
+  var nav = document.getElementById('mobileNav');
+  if (!btn || !nav) return;
+  var ICON_OPEN  = '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#1B3A2F" stroke-width="2" stroke-linecap="round"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>';
+  var ICON_CLOSE = '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#1B3A2F" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg>';
+  btn.addEventListener('click', function() {
+    var nowHidden = nav.classList.toggle('hidden');
+    var isOpen = !nowHidden;
+    btn.setAttribute('aria-expanded', String(isOpen));
+    btn.innerHTML = isOpen ? ICON_CLOSE : ICON_OPEN;
+  });
+  // Close when navigating
+  nav.querySelectorAll('a').forEach(function(a) {
+    a.addEventListener('click', function() {
+      nav.classList.add('hidden');
+      btn.setAttribute('aria-expanded', 'false');
+      btn.innerHTML = ICON_OPEN;
+    });
+  });
+})();
+</script>
 </body>
 </html>
