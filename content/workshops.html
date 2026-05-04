@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Workshops — Booked Out Command Center</title>
+<meta name="robots" content="noindex, nofollow" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = { theme: { extend: {
+    fontFamily: { display: ['Space Grotesk','system-ui','sans-serif'], sans: ['Inter','system-ui','sans-serif'], mono: ['JetBrains Mono','monospace'] },
+    colors: { cream:'#F5F0E4', creamDeep:'#EDE5D2', forest:'#1B3A2F', forestDeep:'#0F2620', forestLight:'#2D5742', moss:'#4A7C59', ink:'#0A1A12', ash:'#4A5C50', line:'#D8D0BE' },
+  }}}
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', system-ui, sans-serif; background-color: #F5F0E4; color: #0A1A12; }
+  .font-display { font-family: 'Space Grotesk', system-ui, sans-serif; letter-spacing: -0.02em; }
+  .font-mono { font-family: 'JetBrains Mono', monospace; }
+  .display-balance { text-wrap: balance; }
+  .checkerboard-mini {
+    background-image: linear-gradient(45deg,#1B3A2F 25%,transparent 25%),linear-gradient(-45deg,#1B3A2F 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#1B3A2F 75%),linear-gradient(-45deg,transparent 75%,#1B3A2F 75%);
+    background-size: 8px 8px; background-position: 0 0, 0 4px, 4px -4px, -4px 0;
+  }
+  .checkerboard-cream {
+    background-image: linear-gradient(45deg,#F5F0E4 25%,transparent 25%),linear-gradient(-45deg,#F5F0E4 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#F5F0E4 75%),linear-gradient(-45deg,transparent 75%,#F5F0E4 75%);
+    background-size: 12px 12px; background-position: 0 0, 0 6px, 6px -6px, -6px 0;
+  }
+  .rounded-sharp { border-radius: 4px; }
+  .video-wrap { position: relative; width: 100%; padding-top: 56.25%; background: #0F2620; border-radius: 4px 4px 0 0; overflow: hidden; }
+  .video-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .video-placeholder { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; }
+  .video-placeholder-grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(45deg,rgba(74,124,89,0.08) 25%,transparent 25%),linear-gradient(-45deg,rgba(74,124,89,0.08) 25%,transparent 25%);
+    background-size: 24px 24px;
+  }
+  .play-btn { position: relative; width: 56px; height: 56px; border-radius: 50%; background: rgba(245,240,228,0.08); border: 1.5px solid rgba(245,240,228,0.2); display: flex; align-items: center; justify-content: center; }
+</style>
+</head>
+<body class="bg-cream text-ink">
+
+<!-- Operator bar -->
+<div class="bg-forestDeep text-cream border-b border-forest">
+  <div class="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between text-xs font-mono">
+    <div class="flex items-center gap-4"><span class="text-moss">●</span><span>Maya_Creative_Co / booked_out</span></div>
+    <div class="hidden sm:flex items-center gap-4 text-cream/60"><span>section: workshops</span><span>access: active</span></div>
+  </div>
+</div>
+
+<!-- Header -->
+<header class="border-b border-line bg-cream sticky top-0 z-40">
+  <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="index.html" class="flex items-center gap-3">
+      <div class="w-8 h-8 checkerboard-mini rounded-sharp"></div>
+      <div class="leading-tight">
+        <div class="font-display font-bold text-forest text-base">Booked Out</div>
+        <div class="font-mono text-[10px] text-ash">command_center.v2</div>
+      </div>
+    </a>
+    <nav class="hidden lg:flex items-center gap-1 font-mono text-xs">
+      <a href="index.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">hub</a>
+      <a href="00_start.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">start</a>
+      <a href="01_get-clear.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">01_clear</a>
+      <a href="02_get-visible.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">02_visible</a>
+      <a href="03_get-paid.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">03_paid</a>
+      <a href="04_get-booked.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">04_booked</a>
+      <a href="05_get-consistent.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">05_consistent</a>
+      <a href="06_scale-up.html" class="px-3 py-1.5 rounded-sharp text-forest hover:bg-creamDeep">06_scale</a>
+      <a href="workshops.html" class="px-3 py-1.5 rounded-sharp bg-forest text-cream">workshops</a>
+    </nav>
+    <div class="flex items-center gap-3">
+      <a href="mailto:support@mayaherring.com" class="hidden lg:inline-block text-xs font-mono text-forest border border-forest px-3 py-1.5 rounded-sharp hover:bg-forest hover:text-cream transition">support</a>
+      <button id="menuBtn" class="lg:hidden flex items-center justify-center w-9 h-9 rounded-sharp hover:bg-creamDeep transition" aria-label="Open menu" aria-expanded="false">
+        <svg id="menuIcon" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#1B3A2F" stroke-width="2" stroke-linecap="round">
+          <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile nav -->
+<div id="mobileNav" class="hidden lg:hidden bg-forestDeep border-b-2 border-forest sticky top-[57px] z-30">
+  <div class="max-w-6xl mx-auto px-6 py-5">
+    <nav class="grid grid-cols-2 gap-y-1 gap-x-2 font-mono text-sm mb-4">
+      <a href="index.html" class="px-3 py-2.5 text-cream/80 hover:text-cream hover:bg-white/10 rounded-sharp transition">hub</a>
+      <a href="00_start.html" class="px-3 py-2.5 text-cream/80 hover:text-cream hover:bg-white/10 rounded-sharp transition">start</a>
+      <a href="01_get-clear.html" class="px-3 py-2.5 text-cream/80 hover:text-cream hover:bg-white/10 rounded-sharp transition">01_clear</a>
+      <a href="02_get-visible.html" class="px-3 py-2.5 text-cream/80 hover:text-cream hover:bg-white/10 rounded-sharp transition">02_visible</a>
+      <a href="03_get-paid.html" class="px-3 py-2.5 text-cream/80 hover:text-cream hover:bg-white/10 rounded-sharp transition">03_paid</a>
+      <a href="04_get-booked.html" class="px-3 py-2.5 text-cream/80 hover:text-cream hover:bg-white/10 rounded-sharp transition">04_booked</a>
+      <a href="05_get-consistent.html" class="px-3 py-2.5 text-cream/80 hover:text-cream hover:bg-white/10 rounded-sharp transition">05_consistent</a>
+      <a href="06_scale-up.html" class="px-3 py-2.5 text-cream/80 hover:text-cream hover:bg-white/10 rounded-sharp transition">06_scale</a>
+      <a href="workshops.html" class="col-span-2 px-3 py-2.5 text-cream bg-white/10 hover:bg-white/20 rounded-sharp transition font-semibold">workshops</a>
+    </nav>
+    <div class="border-t border-white/10 pt-3">
+      <a href="mailto:support@mayaherring.com" class="font-mono text-xs text-cream/50 hover:text-cream transition">support@mayaherring.com</a>
+    </div>
+  </div>
+</div>
+
+<!-- Hero -->
+<section class="border-b border-line bg-cream">
+  <div class="max-w-6xl mx-auto px-6 py-14 lg:py-20">
+    <p class="font-mono text-xs text-moss mb-4">// workshops · members_only</p>
+    <h1 class="font-display text-4xl lg:text-6xl font-bold text-forest leading-tight display-balance mb-4">In-depth workshops.</h1>
+    <p class="text-lg text-ash max-w-2xl">Real walkthroughs on the business-critical stuff nobody teaches — portfolio, taxes, systems. Watch at your own pace, come back whenever.</p>
+  </div>
+</section>
+
+<!-- Workshop 01 -->
+<section class="border-b border-line bg-cream">
+  <div class="max-w-6xl mx-auto px-6 py-14 lg:py-16">
+    <div class="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+      <div class="lg:col-span-7">
+        <div class="video-wrap border-2 border-line rounded-sharp overflow-hidden">
+          <!-- To embed: replace the placeholder div below with an <iframe> like:
+               <iframe src="https://www.youtube.com/embed/VIDEO_ID" allowfullscreen></iframe>
+               or for Vimeo:
+               <iframe src="https://player.vimeo.com/video/VIDEO_ID" allowfullscreen></iframe>
+          -->
+          <div class="video-placeholder">
+            <div class="video-placeholder-grid"></div>
+            <div class="play-btn relative z-10">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="#F5F0E4" opacity="0.6"><polygon points="6,4 18,10 6,16"/></svg>
+            </div>
+            <span class="relative z-10 font-mono text-[11px] text-cream/40">video_01 · uploading_soon</span>
+          </div>
+        </div>
+      </div>
+      <div class="lg:col-span-5 lg:pt-2">
+        <div class="font-mono text-xs text-moss mb-3">// workshop_01</div>
+        <h2 class="font-display text-2xl lg:text-3xl font-bold text-forest mb-4 display-balance">Building a Booked Out Portfolio</h2>
+        <p class="text-ash mb-5">What to film, how to structure it, and how to make brands DM you first. Full walkthrough from blank page to a portfolio that converts — including the exact framing Maya uses for her own work.</p>
+        <div class="space-y-2 font-mono text-xs text-ash">
+          <div class="flex items-center gap-2"><span class="text-moss">→</span> What every portfolio page needs</div>
+          <div class="flex items-center gap-2"><span class="text-moss">→</span> How to shoot when you have nothing yet</div>
+          <div class="flex items-center gap-2"><span class="text-moss">→</span> The exact structure that gets responses</div>
+          <div class="flex items-center gap-2"><span class="text-moss">→</span> Where to host it (and what to avoid)</div>
+        </div>
+        <div class="mt-6 pt-5 border-t border-line">
+          <span class="inline-flex items-center gap-2 font-mono text-[11px] text-amber-700 bg-amber-50 border border-amber-200 px-3 py-1.5 rounded-sharp">
+            <span class="w-1.5 h-1.5 rounded-full bg-amber-500 inline-block animate-pulse"></span>dropping soon
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Workshop 02 -->
+<section class="border-b border-line bg-creamDeep">
+  <div class="max-w-6xl mx-auto px-6 py-14 lg:py-16">
+    <div class="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+      <div class="lg:col-span-7 lg:order-2">
+        <div class="video-wrap border-2 border-line rounded-sharp overflow-hidden">
+          <!-- To embed: replace the placeholder div below with an <iframe> like:
+               <iframe src="https://www.youtube.com/embed/VIDEO_ID" allowfullscreen></iframe>
+               or for Vimeo:
+               <iframe src="https://player.vimeo.com/video/VIDEO_ID" allowfullscreen></iframe>
+          -->
+          <div class="video-placeholder">
+            <div class="video-placeholder-grid"></div>
+            <div class="play-btn relative z-10">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="#F5F0E4" opacity="0.6"><polygon points="6,4 18,10 6,16"/></svg>
+            </div>
+            <span class="relative z-10 font-mono text-[11px] text-cream/40">video_02 · uploading_soon</span>
+          </div>
+        </div>
+      </div>
+      <div class="lg:col-span-5 lg:order-1 lg:pt-2">
+        <div class="font-mono text-xs text-moss mb-3">// workshop_02</div>
+        <h2 class="font-display text-2xl lg:text-3xl font-bold text-forest mb-4 display-balance">Let's Talk Taxes</h2>
+        <p class="text-ash mb-5">What to track, what to write off, when to pay quarterly, and how to stop panicking every April. Built specifically for freelance UGC creators running their business as a sole prop or LLC.</p>
+        <div class="space-y-2 font-mono text-xs text-ash">
+          <div class="flex items-center gap-2"><span class="text-moss">→</span> What counts as a business expense</div>
+          <div class="flex items-center gap-2"><span class="text-moss">→</span> Quarterly estimated taxes — simplified</div>
+          <div class="flex items-center gap-2"><span class="text-moss">→</span> The tracking system that takes 5 min/week</div>
+          <div class="flex items-center gap-2"><span class="text-moss">→</span> When you need an accountant (and when you don't)</div>
+        </div>
+        <div class="mt-6 pt-5 border-t border-line">
+          <span class="inline-flex items-center gap-2 font-mono text-[11px] text-amber-700 bg-amber-50 border border-amber-200 px-3 py-1.5 rounded-sharp">
+            <span class="w-1.5 h-1.5 rounded-full bg-amber-500 inline-block animate-pulse"></span>dropping soon
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Workshop 03 -->
+<section class="border-b border-line bg-cream">
+  <div class="max-w-6xl mx-auto px-6 py-14 lg:py-16">
+    <div class="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+      <div class="lg:col-span-7">
+        <div class="video-wrap border-2 border-line rounded-sharp overflow-hidden">
+          <!-- To embed: replace the placeholder div below with an <iframe> like:
+               <iframe src="https://www.youtube.com/embed/VIDEO_ID" allowfullscreen></iframe>
+               or for Vimeo:
+               <iframe src="https://player.vimeo.com/video/VIDEO_ID" allowfullscreen></iframe>
+          -->
+          <div class="video-placeholder">
+            <div class="video-placeholder-grid"></div>
+            <div class="play-btn relative z-10">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="#F5F0E4" opacity="0.6"><polygon points="6,4 18,10 6,16"/></svg>
+            </div>
+            <span class="relative z-10 font-mono text-[11px] text-cream/40">video_03 · uploading_soon</span>
+          </div>
+        </div>
+      </div>
+      <div class="lg:col-span-5 lg:pt-2">
+        <div class="font-mono text-xs text-moss mb-3">// workshop_03</div>
+        <h2 class="font-display text-2xl lg:text-3xl font-bold text-forest mb-4 display-balance">How to Set Up Your Gmail</h2>
+        <p class="text-ash mb-5">Professional email setup, folders, filters, and canned responses so you never miss a brand inquiry — and never look like an amateur. The exact system used to manage 267+ client relationships.</p>
+        <div class="space-y-2 font-mono text-xs text-ash">
+          <div class="flex items-center gap-2"><span class="text-moss">→</span> Custom domain email (free method)</div>
+          <div class="flex items-center gap-2"><span class="text-moss">→</span> Folder + label system for brand emails</div>
+          <div class="flex items-center gap-2"><span class="text-moss">→</span> Canned reply templates that convert</div>
+          <div class="flex items-center gap-2"><span class="text-moss">→</span> Filters that auto-sort and never miss a deal</div>
+        </div>
+        <div class="mt-6 pt-5 border-t border-line">
+          <span class="inline-flex items-center gap-2 font-mono text-[11px] text-amber-700 bg-amber-50 border border-amber-200 px-3 py-1.5 rounded-sharp">
+            <span class="w-1.5 h-1.5 rounded-full bg-amber-500 inline-block animate-pulse"></span>dropping soon
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer note -->
+<section class="bg-creamDeep">
+  <div class="max-w-6xl mx-auto px-6 py-10">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div>
+        <p class="font-mono text-xs text-moss mb-1">// more_dropping</p>
+        <p class="text-sm text-ash">New workshops added as the product grows. Check back monthly.</p>
+      </div>
+      <a href="mailto:support@mayaherring.com" class="inline-block font-mono text-xs text-forest border border-forest px-4 py-2 rounded-sharp hover:bg-forest hover:text-cream transition self-start sm:self-auto">request a topic →</a>
+    </div>
+  </div>
+</section>
+
+<!-- Hamburger toggle -->
+<script>
+(function() {
+  var btn = document.getElementById('menuBtn');
+  var nav = document.getElementById('mobileNav');
+  if (!btn || !nav) return;
+  var ICON_OPEN  = '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#1B3A2F" stroke-width="2" stroke-linecap="round"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>';
+  var ICON_CLOSE = '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#1B3A2F" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg>';
+  btn.addEventListener('click', function() {
+    var nowHidden = nav.classList.toggle('hidden');
+    var isOpen = !nowHidden;
+    btn.setAttribute('aria-expanded', String(isOpen));
+    btn.innerHTML = isOpen ? ICON_CLOSE : ICON_OPEN;
+  });
+  nav.querySelectorAll('a').forEach(function(a) {
+    a.addEventListener('click', function() {
+      nav.classList.add('hidden');
+      btn.setAttribute('aria-expanded', 'false');
+      btn.innerHTML = ICON_OPEN;
+    });
+  });
+})();
+</script>
+</body>
+</html>

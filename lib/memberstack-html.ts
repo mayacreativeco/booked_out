@@ -19,6 +19,7 @@ export const PROTECTED_PAGES = new Set([
   '05_get-consistent.html',
   '06_scale-up.html',
   '06_bonus.html',
+  'workshops.html',
 ]);
 
 // Stage-specific paywall copy
@@ -57,6 +58,11 @@ const STAGE_PAYWALL: Record<string, { label: string; title: string; body: string
     label: 'bonus · Workshop Replay',
     title: 'The Workshop Replay is for active members.',
     body: 'The full $4K deal walkthrough unlocks with a Booked Out subscription.',
+  },
+  'workshops.html': {
+    label: 'workshops',
+    title: 'Workshops are for active members.',
+    body: 'The in-depth video workshops — portfolio, taxes, Gmail setup — unlock with a Booked Out subscription.',
   },
 };
 
